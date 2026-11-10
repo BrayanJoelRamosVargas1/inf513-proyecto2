@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GovernanceController;
+use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\PortalController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,13 @@ Route::post('/login', [PortalController::class, 'login'])->middleware('throttle:
 Route::get('/registro', [PortalController::class, 'registerForm']);
 Route::post('/registro', [PortalController::class, 'register'])->middleware('throttle:6,1');
 Route::middleware('auth')->group(function () {
+    Route::get('/adjudicaciones', [ParticipationController::class, 'awards']);
+    Route::get('/postulaciones/{id}/procesos', [ParticipationController::class, 'show']);
+    Route::post('/postulaciones/{id}/subsanaciones', [ParticipationController::class, 'open']);
+    Route::post('/subsanaciones/{id}/{action}', [ParticipationController::class, 'amendment'])->whereIn('action', ['archivo', 'enviar', 'revisar', 'vencer']);
+    Route::post('/postulaciones/{id}/participacion', [ParticipationController::class, 'request']);
+    Route::post('/participacion/{id}/decision', [ParticipationController::class, 'decide']);
+    Route::post('/postulaciones/{id}/aceptacion', [ParticipationController::class, 'choose']);
     Route::get('/', [PortalController::class, 'home']);
     Route::post('/salir', [PortalController::class, 'logout']);
     Route::get('/convocatorias/{id}', [PortalController::class, 'call']);

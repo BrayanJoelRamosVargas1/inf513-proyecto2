@@ -33,7 +33,10 @@ final class Selection
         // Serializa operaciones sensibles de la misma convocatoria para una DEMO de volumen facultativo.
         $call = self::row('calls', $offer->call_id, true);
 
-        return [self::row('applications', $id, true), $offer, $call];
+        $current = self::row('applications', $id, true);
+        Participation::active($current);
+
+        return [$current, $offer, $call];
     }
 
     public static function audit(User $u, ?int $call, string $action, string $entity, mixed $before = null, mixed $after = null, ?string $reason = null): void
@@ -135,6 +138,9 @@ final class Selection
             $allowed = ['draft' => 'published', 'published' => 'closed', 'closed' => 'evaluation', 'evaluation' => 'results', 'results' => 'archived'];
             if (($allowed[$call->status] ?? null) !== $next) {
                 Scores::fail('Transición de convocatoria inválida.');
+            }
+            if (in_array($next, ['evaluation', 'results', 'archived']) && (DB::table('amendments')->join('applications', 'applications.id', '=', 'amendments.application_id')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->whereIn('amendments.status', ['open', 'submitted'])->exists() || DB::table('participation_requests')->join('applications', 'applications.id', '=', 'participation_requests.application_id')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->where('participation_requests.status', 'pending')->exists())) {
+                Scores::fail('Resuelva subsanaciones y solicitudes de participación antes de cerrar la etapa.');
             }
             if ($next === 'published') {
                 if (CarbonImmutable::parse($call->closes_at)->lte(CarbonImmutable::parse($call->opens_at)) || CarbonImmutable::parse($call->exam_at)->lte(CarbonImmutable::parse($call->closes_at))) {
@@ -239,6 +245,7 @@ final class Selection
                 Scores::fail('Faltan documentos obligatorios.');
             }
             DB::table('applications')->where('id', $id)->update(['status' => 'submitted', 'updated_at' => now()]);
+            Participation::snapshot($id, 1, 'submitted', $u->id);
             self::audit($u, $call->id, 'application.submitted', 'application:'.$id, ['status' => 'draft'], ['status' => 'submitted']);
         });
     }
@@ -248,6 +255,7 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $decisions, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
+            Participation::legacyReview($id);
             self::demo($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('La revisión no está abierta.');
@@ -272,6 +280,7 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $enable, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
+            Participation::legacyReview($id);
             self::demo($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('Decisión de habilitación no disponible.');
@@ -295,6 +304,7 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $score, $reference) {
             [$app,$o,$c] = self::lockedApplication($id);
             Access::require($u, $c->id, ['reviewer']);
+            Participation::noAmendment($id);
             self::demo($c);
             if (! in_array($c->status, ['published', 'closed', 'evaluation']) || $app->status !== 'submitted' || $app->merit !== null) {
                 Scores::fail('El mérito confirmado requiere rectificación documentada; esta operación es solo registro inicial.');
@@ -416,19 +426,19 @@ final class Selection
     public function ranking(int $offerId): array
     {
         $offer = self::row('offers', $offerId);
-        $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->select('applications.*', 'users.name')->get();
+        $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
         if ($all->contains(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))) {
             Scores::fail('Hay revisiones o resultados pendientes en esta oferta.');
         }
         $rank = $all->where('eligibility', 'enabled')->sort(fn ($a, $b) => bccomp($b->final, $a->final, 2))->values()->all();
         $tied = [];
-        $cut = $offer->seats;
+        $cut = $offer->seats - $offer->held_vacancies;
         if ($cut > 0 && count($rank) > $cut && bccomp($rank[$cut - 1]->final, $rank[$cut]->final, 2) === 0) {
             $score = $rank[$cut]->final;
             $tied = array_values(array_map(fn ($a) => $a->id, array_filter($rank, fn ($a) => bccomp($a->final, $score, 2) === 0)));
         }
 
-        return ['rank' => $rank, 'tied' => $tied, 'seats' => $cut, 'vacancies' => max(0, $cut - count($rank))];
+        return ['rank' => $rank, 'tied' => $tied, 'seats' => $cut, 'held_vacancies' => $offer->held_vacancies, 'vacancies' => max($offer->held_vacancies, $offer->seats - count($rank))];
     }
 
     public function openTie(User $u, int $offerId, array $d): int
@@ -484,7 +494,7 @@ final class Selection
             }
             $r = $this->ranking($o->id);
             $above = count(array_filter($r['rank'], fn ($a) => ! in_array($a->id, $participants) && bccomp($a->final, self::row('applications', $participants[0])->final, 2) > 0));
-            if (count($winners) !== max(0, $o->seats - $above)) {
+            if (count($winners) !== max(0, $o->seats - $o->held_vacancies - $above)) {
                 Scores::fail('La decisión debe respetar las plazas en disputa. Si persiste empate, mantenga pendiente y registre el procedimiento institucional.');
             }
             DB::table('tie_exams')->where('id', $id)->update(['status' => 'resolved', 'results' => json_encode($results), 'winners' => json_encode(array_map('intval', $winners)), 'minutes' => $minutes, 'updated_at' => now()]);
@@ -540,8 +550,11 @@ final class Selection
             if (DB::table('correction_requests')->join('applications', 'applications.id', '=', 'correction_requests.application_id')->where('applications.offer_id', $offerId)->where('correction_requests.status', 'pending')->exists()) {
                 Scores::fail('Resuelva las rectificaciones pendientes.');
             }
+            if (DB::table('participation_requests')->join('applications', 'applications.id', '=', 'participation_requests.application_id')->where('applications.offer_id', $offerId)->where('participation_requests.status', 'pending')->exists() || DB::table('amendments')->join('applications', 'applications.id', '=', 'amendments.application_id')->where('applications.offer_id', $offerId)->whereIn('amendments.status', ['open', 'submitted'])->exists()) {
+                Scores::fail('Resuelva solicitudes y subsanaciones antes de publicar.');
+            }
             $r = $this->ranking($offerId);
-            $winners = array_map(fn ($a) => $a->id, array_slice($r['rank'], 0, $o->seats));
+            $winners = array_map(fn ($a) => $a->id, array_slice($r['rank'], 0, $o->seats - $o->held_vacancies));
             if ($r['tied']) {
                 $tie = DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->where('status', 'resolved')->first();
                 if (! $tie) {
@@ -550,7 +563,7 @@ final class Selection
                 $winners = array_values(array_diff($winners, $r['tied']));
                 $winners = array_merge($winners, self::json($tie->winners));
             }
-            if (count($winners) > $o->seats) {
+            if (count($winners) > $o->seats - $o->held_vacancies) {
                 Scores::fail('La selección excede las plazas.');
             }
             foreach ($r['rank'] as $a) {

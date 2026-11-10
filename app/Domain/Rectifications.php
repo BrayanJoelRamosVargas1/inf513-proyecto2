@@ -15,7 +15,7 @@ final class Rectifications
             return app(Selection::class)->ranking($offer) + ['incomplete' => false];
         } catch (ValidationException $e) {
             $o = Selection::row('offers', $offer);
-            $entries = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('offer_id', $offer)->where('applications.status', 'submitted')->select('applications.*', 'users.name')->get();
+            $entries = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('offer_id', $offer)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
 
             return ['rank' => $entries->where('eligibility', 'enabled')->whereNotNull('final')->sortByDesc('final')->values()->all(), 'tied' => [], 'seats' => $o->seats, 'incomplete' => true, 'pending' => $entries->filter(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))->pluck('id')->all()];
         }
@@ -30,6 +30,7 @@ final class Rectifications
     {
         return Access::transaction($u, function () use ($u, $app, $grade, $score, $reason, $evidence) {
             $a = Selection::row('applications', $app);
+            Participation::active($a);
             $o = Selection::row('offers', $a->offer_id);
             $c = Selection::row('calls', $o->call_id, true);
             if ($c->mode !== 'DEMO' || ! in_array($c->status, ['evaluation', 'results'])) {
@@ -69,6 +70,7 @@ final class Rectifications
         Access::transaction($u, function () use ($u, $id, $approve, $reason) {
             $request = Selection::row('correction_requests', $id);
             $a = Selection::row('applications', $request->application_id);
+            Participation::active($a);
             $o = Selection::row('offers', $a->offer_id);
             $c = Selection::row('calls', $o->call_id, true);
             $a = Selection::row('applications', $a->id, true);
@@ -104,7 +106,7 @@ final class Rectifications
                 $complete = $merit !== null && ! array_diff(array_keys(Selection::json($o->weights)), array_keys($notes));
                 $exam = $complete ? Scores::exam(Selection::json($o->weights), $notes) : null;
                 DB::table('applications')->where('id', $a->id)->update(['exam' => $exam, 'final' => $complete ? bcadd($merit, $exam, 2) : null, 'updated_at' => now()]);
-                DB::table('applications')->where('offer_id', $o->id)->where('eligibility', 'enabled')->update(['selection' => 'under_review']);
+                DB::table('applications')->where('offer_id', $o->id)->where('participation', 'active')->where('eligibility', 'enabled')->update(['selection' => 'under_review']);
                 $after = $this->snapshot($o->id);
                 $changes = [];
                 foreach ($after['rank'] as $i => $entry) {

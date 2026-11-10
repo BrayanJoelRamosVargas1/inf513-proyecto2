@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "database": "ficct_clean03_20261110144532",
+  "new_directory": true,
+  "new_vendor_install": true,
+  "domain_migrations": 4,
+  "synthetic_journey_publications": 1,
+  "governance_tables": 4,
+  "participation_tables": 6,
+  "immutable_triggers": 9,
+  "commands_passed": 7,
+  "scope": "Instalaci\u00f3n independiente en este equipo; no prueba de m\u00e1quina sin herramientas."
+}

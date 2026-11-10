@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::share('label', static fn ($s) => [
             'draft' => 'Borrador', 'published' => 'Recepción publicada', 'closed' => 'Recepción cerrada', 'evaluation' => 'Evaluación', 'results' => 'Resultados', 'archived' => 'Archivada',
+            'active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'withdrawal' => 'Retiro de postulación', 'renunciation' => 'Renuncia a plaza', 'open' => 'Ventana abierta', 'reviewed' => 'Revisada', 'expired' => 'Vencida', 'cancelled' => 'Cancelada por retiro/renuncia', 'accept' => 'Aceptación DEMO', 'defer' => 'Decisión diferida', 'baseline_at_migration' => 'Estado conocido al migrar', 'pre_amendment_review' => 'Revisión anterior a subsanar',
             'under_review' => 'En revisión: requiere nueva publicación', 'continued' => 'Empate persistente: nueva ronda', 'approved' => 'Aprobada', 'rejected' => 'Rechazada',
             'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo',
             'meets' => 'Cumple', 'fails' => 'No cumple', 'observed' => 'Observado', 'not_applicable' => 'No aplica', 'confirmed' => 'Confirmada', 'corrected' => 'Rectificada', 'scheduled' => 'Examen programado', 'resolved' => 'Resuelto con acta',

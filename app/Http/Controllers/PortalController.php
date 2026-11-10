@@ -195,7 +195,12 @@ final class PortalController extends Controller
         $assignments = DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get();
         $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->where('grades.user_id', $u->id))->select('grades.*', 'assignments.area')->get();
 
-        return view('application', compact('app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
+        $hasAmendmentHistory = DB::table('amendments')->where('application_id', $id)->exists();
+        $pendingAmendment = DB::table('amendments')->where('application_id', $id)->whereIn('status', ['open', 'submitted'])->exists();
+        $currentSnapshot = DB::table('dossier_snapshots')->where('application_id', $id)->orderByDesc('id')->first();
+        $effectiveDocuments = $currentSnapshot ? $documents->whereIn('id', array_column(Selection::json($currentSnapshot->snapshot)['documents'], 'id')) : $documents->whereNull('amendment_id');
+
+        return view('application', compact('hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
     }
 
     public function action(Request $r, int $id, string $action)
@@ -302,12 +307,12 @@ final class PortalController extends Controller
     {
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
-        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review']);
-        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente'];
-        $labels = ['under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
+        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review', 'applications.participation', 'offers.held_vacancies']);
+        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
+        $labels = ['active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
         foreach ($rows as $row) {
             $row->needs_publication_review = $row->needs_publication_review ? 'Sí: sin reasignación automática' : 'No';
-            foreach (['status', 'eligibility', 'selection'] as $field) {
+            foreach (['status', 'eligibility', 'selection', 'participation'] as $field) {
                 $row->$field = $labels[$row->$field] ?? $row->$field;
             }
         }
@@ -330,10 +335,10 @@ final class PortalController extends Controller
                 $page->setCellValueExplicit([$col++, $i + 4], (string) ($value ?? 'Pendiente'), DataType::TYPE_STRING);
             }
         }
-        foreach (range('A', 'K') as $col) {
+        foreach (range('A', 'M') as $col) {
             $page->getColumnDimension($col)->setAutoSize(true);
-        }$page->getStyle('A3:K3')->getFont()->setBold(true);
-        $page->setAutoFilter('A3:K'.max(3, $rows->count() + 3));
+        }$page->getStyle('A3:M3')->getFont()->setBold(true);
+        $page->setAutoFilter('A3:M'.max(3, $rows->count() + 3));
 
         return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), 'reporte-demo.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
     }

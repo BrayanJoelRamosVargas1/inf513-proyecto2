@@ -1,6 +1,6 @@
 # Sistema de Selección de Auxiliares FICCT / UAGRM · Grupo #09
 
-DEMO 0.2 — Integridad, permisos y rectificaciones. Continúa la aplicación 0.1 y conserva sus datos; incorpora una migración incremental, administración de perfiles/permisos temporales y correcciones con aprobación separada. Conserva los 8 CU y los 30 RF en `docs/CU_Y_RF_CANONICOS.md`. Incluye código de aplicación, base de datos real, pantallas, pruebas y evidencia. No es una implantación institucional ni un cierre total del contrato.
+DEMO 0.3 — Expedientes y participación. Continúa DEMO 0.2 conservando sus datos e integridad; agrega subsanaciones versionadas, retiros y renuncias con decisión separada, vacantes retenidas y manifestaciones sobre múltiples adjudicaciones. Los procedimientos nuevos son técnicos DEMO, sujetos a validación institucional. Conserva los 8 CU y los 30 RF en `docs/CU_Y_RF_CANONICOS.md`. Incluye código de aplicación, base de datos real, pantallas, pruebas y evidencia. No es una implantación institucional ni un cierre total del contrato.
 
 ## Abrir la aplicación en este equipo
 
@@ -39,6 +39,7 @@ En Linux o con PostgreSQL administrado: crear bases nuevas `ficct_demo` y `ficct
 python scripts/test.py
 python scripts/concurrency.py
 python scripts/governance_concurrency.py
+python scripts/participation_concurrency.py
 python scripts/verify_restore.py ficct_test
 python scripts/verify_restore.py
 php vendor/bin/pint --test
@@ -54,13 +55,13 @@ Resultados y salidas en `evidence/`; capturas reales en `evidence/screenshots/`;
 
 Acceso con sesión real; alta de usuarios/permisos por convocatoria; tipos configurables; borrador/publicación/cierre/evaluación; ofertas/cupos y pesos por convocatoria; postulación múltiple; archivos privados versionados; envío con documentos obligatorios; checklist de requisitos; habilitación; registro manual de CPD/méritos; docentes asignados y notas confirmadas; cálculo decimal por postulación; ranking; nuevo examen exclusivo de desempate; decisión y aprobación DEMO; snapshot; auditoría; PDF/XLSX. Históricos 01/02 mantienen diferencias de ofertas y el conflicto cronológico de la fuente.
 
-## Alcance y límites de DEMO 0.2
+## Alcance y límites de DEMO 0.3
 
 Los borradores conservan versiones y se congelan al publicar. La administración permite editar perfiles, activar/desactivar, conceder/renovar permisos por convocatoria con inicio y vencimiento, revocarlos y consultar su historia. Cambiar permisos invalida sesiones. Las responsabilidades se reasignan con motivo sin atribuir las notas anteriores al nuevo evaluador.
 
 Las rectificaciones de méritos/exámenes exigen motivo, referencia de evidencia y decisión de otra autoridad. Conservan versiones, recalculan con decimales exactos, generan una revisión del ranking y requieren aprobar una nueva publicación. Los snapshots previos, revisiones, versiones de notas y auditoría tienen protección de inmutabilidad en PostgreSQL. Las rondas sucesivas de desempate conservan cada examen, sin fórmula ni ganador automáticos.
 
-Ver `docs/DEMO_0_2_CAMBIOS_Y_VALIDACION.md` para migración, pruebas, decisiones técnicas y pendientes clasificados. Subsanaciones, retiros/renuncias y administración de varias plazas ganadas siguen pendientes; las rondas sucesivas DEMO ya funcionan. La evidencia de corrección se registra mediante referencia, no mediante un nuevo repositorio de actas firmadas.
+Ver `docs/DEMO_0_3_CAMBIOS_Y_VALIDACION.md` y `docs/03-CONTRASTE_NORMATIVO_DEMO_0_3.md`. Las subsanaciones, retiros/renuncias y manifestaciones sobre varias plazas ya funcionan como DEMO. No se presumen incompatibilidades ni se cubren vacantes automáticamente. Los plazos de subsanación se configuran expresamente por ventana. Las confirmaciones institucionales, firmas y procedimientos de reemplazo siguen pendientes. Los originales PDF/fotografías no están disponibles en las rutas consultadas: el contraste directo continúa NOT_VERIFIED.
 
 OFICIAL e históricos están bloqueados para operaciones. El nuevo examen existe como subflujo, pero condiciones, resultados y acta son registro explícito de la comisión DEMO, sin firma institucional. No hay conexión CPD. No se automatiza una fórmula de áreas × escrito/práctico. El servidor de PHP y el usuario del cluster local no son una configuración de producción. Se requiere validación institucional, operación, política de datos, firmas y endurecimiento antes de otro uso.
 

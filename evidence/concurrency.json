@@ -5,37 +5,37 @@
   "races": {
     "apply": [
       {
-        "exit": 0,
-        "stdout": "ACCEPTED",
+        "exit": 2,
+        "stdout": "REJECTED",
         "stderr": ""
       },
       {
-        "exit": 2,
-        "stdout": "REJECTED",
+        "exit": 0,
+        "stdout": "ACCEPTED",
         "stderr": ""
       }
     ],
     "grade": [
       {
-        "exit": 2,
-        "stdout": "REJECTED",
+        "exit": 0,
+        "stdout": "ACCEPTED",
         "stderr": ""
       },
       {
-        "exit": 0,
-        "stdout": "ACCEPTED",
+        "exit": 2,
+        "stdout": "REJECTED",
         "stderr": ""
       }
     ],
     "approve": [
       {
-        "exit": 2,
-        "stdout": "REJECTED",
+        "exit": 0,
+        "stdout": "ACCEPTED",
         "stderr": ""
       },
       {
-        "exit": 0,
-        "stdout": "ACCEPTED",
+        "exit": 2,
+        "stdout": "REJECTED",
         "stderr": ""
       }
     ]

@@ -1,0 +1,30 @@
+{
+  "release": "DEMO 0.2",
+  "verified_at_utc": "2026-11-10T14:17:08.629611+00:00",
+  "baseline_commit": "32524fa",
+  "tests": 70,
+  "assertions": 229,
+  "baseline_tests_retained": 39,
+  "new_tests": 31,
+  "failures": 0,
+  "canonical_contract_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "canonical_contract_unchanged": true,
+  "composer_validate": "PASS",
+  "composer_audit": {
+    "advisories": [],
+    "abandoned": []
+  },
+  "pint": "PASS",
+  "browser_viewports": {
+    "desktop": {
+      "viewport": 1280,
+      "document": 1265
+    },
+    "mobile": {
+      "viewport": 390,
+      "document": 375
+    }
+  },
+  "pdf_visual_review": "PASS: one page, 11 columns, no clipping",
+  "institutional_use_authorized": false
+}

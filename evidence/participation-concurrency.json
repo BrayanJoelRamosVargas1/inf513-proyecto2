@@ -1,0 +1,77 @@
+{
+  "result": "PASS",
+  "database": "ficct_test",
+  "independent_processes": true,
+  "races": {
+    "double_submission": [
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      },
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      }
+    ],
+    "double_review": [
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      },
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      }
+    ],
+    "double_renunciation": [
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      },
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      }
+    ],
+    "conflicting_acceptance": [
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      },
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      }
+    ],
+    "upload_vs_seal": [
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      },
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      }
+    ]
+  },
+  "invariants": {
+    "dossier_version": 3,
+    "sealed_document_is_latest_accepted": true,
+    "renunciation_decisions": 1,
+    "vacancy_events": 1,
+    "held_vacancies": 1,
+    "old_publication_preserved": true,
+    "no_replacement": true,
+    "award_choice_versions": 1
+  }
+}

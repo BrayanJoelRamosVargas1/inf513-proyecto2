@@ -1,0 +1,36 @@
+{
+  "release": "DEMO 0.3",
+  "verified_at_utc": "2026-11-10T14:57:25.634282+00:00",
+  "baseline_commit": "2211f50",
+  "tests": 102,
+  "assertions": 311,
+  "baseline_tests_retained": 70,
+  "new_tests": 32,
+  "failure_count": 0,
+  "test_classes": {
+    "Tests\\Feature\\ExampleTest": 1,
+    "Tests\\Feature\\GovernanceTest": 31,
+    "Tests\\Feature\\ParticipationTest": 32,
+    "Tests\\Feature\\SelectionTest": 38
+  },
+  "php_syntax_files": 65,
+  "php_syntax": "PASS",
+  "pint": "PASS",
+  "composer_validate": "PASS",
+  "composer_audit": {
+    "advisories": [],
+    "abandoned": []
+  },
+  "canonical_contract_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "canonical_contract_unchanged": true,
+  "independent_process_races": 11,
+  "restore_tables": 21,
+  "immutable_triggers": 9,
+  "browser_mobile": {
+    "viewport": 390,
+    "document": 375
+  },
+  "pdf_visual_review": "PASS: one page, 13 columns, no clipping",
+  "normative_originals_direct_verification": "NOT_VERIFIED",
+  "institutional_use_authorized": false
+}

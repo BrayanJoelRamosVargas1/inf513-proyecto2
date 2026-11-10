@@ -1,49 +1,48 @@
-# Estado y continuidad — DEMO 0.2
+# Estado y continuidad — DEMO 0.3
 
-Fecha: 10/11/2026. **Incremento ejecutable verificado; sistema integral y uso institucional pendientes.** Continúa DEMO 0.1 sin reconstruirla. El estado anterior está en `HISTORICO_ESTADO_DEMO_0_1.md`.
+Fecha: 10/11/2026. **Incremento técnico ejecutado y probado; no constituye implementación institucional validada.** Continúa DEMO 0.2, commit base `2211f50`. El estado anterior completo está en `HISTORICO_ESTADO_DEMO_0_2.md`.
 
-## Implementado
+## Hecho en 0.3
 
-- Perfiles, activación/desactivación, permisos por convocatoria temporales, renovación, revocación individual, permisos efectivos e historial; invalidación de sesiones nuevas y antiguas.
-- Control de autoelevación, último administrador activo, edición optimista y reasignación autorizada, conservando autor de notas anteriores.
-- Solicitudes de rectificación de méritos/exámenes con motivo, evidencia por referencia, responsable y decisión separada; versiones inmutables y cálculo exacto.
-- Revisión identificable de rankings, comparación de posiciones/valores, nuevos empates, selección bajo revisión y aprobación explícita de una nueva publicación con acta. Publicaciones anteriores inmutables.
-- Consistencia mediante cerrojo transaccional común, versiones y restricciones PostgreSQL. Desempates vinculados a revisión y rondas sucesivas DEMO.
-- Interfaz administrativa, cola de solicitudes, historial de calificaciones/resultados y reportes PDF/XLSX con revisión y alerta de publicación pendiente.
+- Subsanaciones antes de evaluación: observación registrada, documentos autorizados, plazo explícito DEMO, cargas privadas anexadas, nuevo envío congelado y revisión completa por responsable distinto del propietario. Los documentos enviados y sus revisiones se conservan en snapshots.
+- Cierre explícito de ventanas vencidas con motivo, conservación de cargas y posibilidad de otra ventana. Las cargas pendientes o vencidas no se convierten en expediente vigente.
+- Retiros de postulaciones y renuncias a plazas adjudicadas con solicitud, motivo/evidencia y decisión de otra autoridad. Historial de expedientes y calificaciones conservado.
+- Revisiones de resultados por retiro/renuncia y nueva aprobación de publicación. Las publicaciones anteriores no se sobrescriben. Las renuncias retienen vacantes; no se adjudican reemplazantes automáticamente, tampoco al aprobar la nueva publicación.
+- Detección de múltiples adjudicaciones visibles y manifestaciones de aceptar/diferir por propietario, publicación y versión. No se presume incompatibilidad ni se certifica aceptación institucional.
+- Nuevas pantallas, estados en bandeja, reportes PDF/XLSX con participación/vacantes y migración incremental 000004. Se conservan permisos y controles de 0.2.
 
-## Evidencias ejecutadas
+## Verificado ahora
 
-| Control | Resultado | Evidencia |
-|---|---|---|
-| Línea de base nueva antes de cambios | 39 pruebas / 139 aserciones | `evidence/baseline-01/` |
-| Regresión y pruebas nuevas finales | 70 pruebas / 229 aserciones, cero fallos; 39 anteriores conservadas + 31 nuevas | `evidence/tests.txt`, `phpunit.xml` |
-| Concurrencia original | Tres carreras con procesos independientes: cupos de postulación, nota y publicación | `evidence/concurrency.json` |
-| Concurrencia 0.2 | Correcciones incompatibles, revocación/nota, renovación simultánea | `evidence/governance-concurrency.json` |
-| Migración incremental aplicada | Huellas de once tablas originales idénticas antes/después | `evidence/migration-preservation.json` |
-| Restauración de DEMO y documentos | Quince tablas idénticas, 12 archivos SHA-256 y cuatro triggers | `evidence/restore.json` |
-| Restauración con rectificaciones | Solicitudes, cinco versiones de calificaciones y una revisión conservadas; triggers restaurados | `evidence/governance-restore.json` |
-| HTTP real, sesión y CSRF | Siete controles de seguridad originales repetidos; administración/cola/versiones y exportación ampliada verificadas | `evidence/security-http.json`, `governance-http.json` |
-| PDF/XLSX ampliados | PDF de una página renderizado e inspeccionado; Excel con 11 columnas y celdas de texto | `evidence/reporte-demo-02.pdf/.xlsx`, `screenshots-02/reporte-02.png` |
-| Navegador | Administración y rectificaciones en escritorio/móvil 390px sin desbordamiento global | `evidence/screenshots-02/` |
-| Instalación independiente | Carpeta y dependencias nuevas, otra base, migraciones, seed, recorrido, vistas y rutas | `evidence/clean-install-02.json` |
-| Calidad y dependencias | Pint pasó; Composer válido, sin avisos ni paquetes abandonados reportados en la consulta | `evidence/release-02.json` |
+| Control | Resultado / evidencia |
+|---|---|
+| Base 0.2 antes de cambiar | 70 pruebas / 229 aserciones y restauración: `evidence/baseline-02/`. |
+| Regresión y pruebas finales 0.3 | **102 pruebas / 311 aserciones, cero fallos**. Las 70 anteriores más 32 de participación: `evidence/tests.txt`, `phpunit.xml`, `release-03.json`. |
+| Concurrencia | Once carreras con procesos separados: tres originales, tres de gobernanza y cinco de participación. Ver los tres informes de concurrencia. |
+| Migración incremental aplicada | Quince tablas originales idénticas en filas/columnas previas: `migration-03-preservation.json`. |
+| Restauración con nuevos flujos | Veintiuna tablas y archivos idénticos, nueve triggers; incluye subsanaciones, decisiones, vacante y manifestación: `participation-restore.json`. |
+| Restauración de DEMO | Veintiuna tablas idénticas, doce documentos SHA-256 y nueve triggers: `restore.json`. |
+| HTTP real | Seguridad/CSRF y lectura de procesos/adjudicaciones/exportaciones: `security-http.json`, `participation-http.json`. |
+| Exportaciones | PDF de una página, trece columnas sin recortes, Excel con valores como texto: reportes 03 y `screenshots-03/reporte-03.png`. |
+| Navegador | Expediente y adjudicaciones; móvil 390px sin desbordamiento global: `screenshots-03/`. |
+| Instalación separada | Carpeta/dependencias/base nuevas en este equipo; migraciones, seed, recorrido, vistas y rutas: `clean-install-03.json`. |
+| Calidad | Pint, sintaxis PHP, contrato canónico y dependencias: `release-03.json`. |
 
-Los resultados no constituyen auditoría independiente ni pruebas exhaustivas de carga o accesibilidad. Las exportaciones/capturas/instalación con nombres anteriores a 0.2 siguen conservadas como antecedentes; no se cuentan como validaciones nuevas. Las decisiones sobre notas se ensayaron en `ficct_test`; la DEMO conserva sus calificaciones/publicación 0.1.
+Las pruebas de modificaciones de expedientes/notas/selecciones se ejecutaron en `ficct_test`. La DEMO existente conserva las calificaciones y adjudicación de 0.2; solo recibe metadatos/snapshots de conservación y auditoría de accesos/exportaciones. No se afirma auditoría externa, carga institucional, accesibilidad certificada ni pruebas en una máquina sin herramientas.
 
-## Conservación y ejecución
+## Contraste normativo y límite institucional
 
-Los ocho CU y treinta RF canónicos siguen intactos. No se modificaron matrices, fechas ni textos de fuentes históricas. La migración agrega tablas/metadatos y backfill conservador, sin inventar versiones pasadas o responsables desconocidos. Hay protección de PostgreSQL para publicaciones, versiones, revisiones y auditoría; no protege frente a un operador de infraestructura que desactive esa protección.
+**Originales: NOT_VERIFIED en esta continuación.** No están en las rutas consultadas los cuatro PDF ni las tres fotografías. Se revisaron la auditoría heredada, el inventario y fuentes públicas relacionadas, sin usarlas para inventar un procedimiento general. Ver `03-CONTRASTE_NORMATIVO_DEMO_0_3.md`.
 
-Iniciar con `INICIAR_DEMO.ps1`; portal `http://127.0.0.1:8099`. Credenciales sintéticas privadas en `.local/ACCESOS_DEMO.txt`. El ZIP no contiene `.env`, contraseñas, documentos privados, respaldos ni dependencias locales. Pruebas exclusivamente con `scripts/test.py` y `ficct_test`. No ejecutar `migrate:fresh` sobre la DEMO.
+Siguen pendientes plazos y autoridades formales, subsanación posterior a evaluar, recursos, efectos de retirar sobre límites, compatibilidades, aceptación institucional, efectos de renunciar, cobertura de vacantes y firmas. Las decisiones técnicas DEMO están identificadas. Se conservan el nuevo examen de desempate, las matrices por convocatoria y los calendarios originales, con sus limitaciones previas.
 
-Detalles de migración, decisiones de bloqueo, alcance, pruebas, errores corregidos y recorrido: `DEMO_0_2_CAMBIOS_Y_VALIDACION.md`. Trazabilidad actualizada: `02-TRAZABILIDAD.md`.
+Ocho CU y treinta RF intactos; SHA-256 canónico: `fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2`.
 
-## Siguiente incremento
+## Continuar y entregar
 
-Subsanaciones tras envío; retiros/renuncias; aceptación e incompatibilidades de varias plazas ganadas; reclamos; actas adjuntas y firmas; estadísticas/plantillas institucionales; clonación asistida; accesibilidad, carga y seguridad independiente. Están clasificados por impacto, dependencia y complejidad en el informe 0.2. Las rondas sucesivas de desempate y las alertas de revisión de reportes ya se implementaron.
+Iniciar `INICIAR_DEMO.ps1`; portal `http://127.0.0.1:8099`. Credenciales sintéticas privadas: `.local/ACCESOS_DEMO.txt`. No se incluyen contraseñas, `.env`, archivos privados, respaldos o dependencias locales en el ZIP. Pruebas únicamente con `scripts/test.py` y `ficct_test`; nunca `migrate:fresh` sobre la DEMO.
 
-## Validación institucional pendiente
+Migración, decisiones técnicas, pruebas y recorrido: `DEMO_0_3_CAMBIOS_Y_VALIDACION.md`. Trazabilidad: `02-TRAZABILIDAD.md`. Archivos: `ARCHIVOS_CAMBIADOS_0_3.md`.
 
-Vigencia/autenticidad de fuentes; reglamento complementario; CPD real y formularios; composición de áreas/componentes, escala, redondeo y agregación multievaluador; condiciones de cada nuevo examen; autoridades/firmas; reclamos; datos, retención e infraestructura. La aprobación separada de correcciones y las rondas sucesivas son procedimientos técnicos DEMO, no normativa inventada.
+Siguiente trabajo: recuperar y contrastar originales; confirmar procedimientos institucionales; implementar recursos, firmas y cobertura de vacantes únicamente según decisiones confirmadas; pruebas independientes de carga, accesibilidad, seguridad e infraestructura. No ampliar hacia pagos, becas o gestión laboral posterior.
 
-OFICIAL y las convocatorias históricas permanecen bloqueados para escrituras del dominio. **No se declara el sistema oficial, completo para toda operación institucional ni listo para producción.**
+**No se declara el sistema oficial, íntegramente terminado para toda operación universitaria ni apto para despliegue institucional.**

@@ -122,3 +122,9 @@ GovernanceController utiliza Administration y Rectifications. Las escrituras de 
 correction_requests conserva propuestas y decisiones; score_versions conserva cada nota confirmada y corrección; result_revisions captura ranking anterior/nuevo y las versiones de entrada. Las publicaciones encadenan revisión y publicación anterior. Triggers PostgreSQL bloquean UPDATE/DELETE de estos históricos y de audit_events. Las proyecciones actuales de nota y postulación cambian únicamente en transacciones controladas; una corrección deja la selección under_review hasta republicar.
 
 El cerrojo común simplifica el orden y evita revocar concurrentemente con una nota todavía autorizada; es deliberadamente conservador para DEMO. No se ha validado su rendimiento a volumen institucional. Detalles y limitaciones en DEMO_0_2_CAMBIOS_Y_VALIDACION.md.
+
+## Extensión DEMO 0.3
+
+ParticipationController utiliza Participation y el mismo cerrojo de Access::transaction. Las proyecciones de participación y versión de expediente se agregan sin borrar estados anteriores. dossier_snapshots conserva documentos/revisiones; amendments gobierna entrega y revisión; participation_requests/decisions separa petición y decisión; vacancy_events conserva el origen de una plaza retenida; award_choices conserva manifestaciones por publicación/versiones. Documentos y cuatro tablas históricas adicionales tienen triggers de inmutabilidad (nueve en total).
+
+El ranking solo incluye participación activa y respeta seats - held_vacancies para evitar cubrir renuncias. result_revisions admite un origen por rectificación o por solicitud de participación; no se modifica una publicación anterior. El documento de contraste distingue reglas heredadas, consultas actuales y políticas técnicas DEMO.

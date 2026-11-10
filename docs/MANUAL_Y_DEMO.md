@@ -34,3 +34,9 @@ Subsanación tras envío, renuncias, reclamos, revisión de comisión con firmas
 ## Continuación DEMO 0.2
 
 El recorrido original sigue disponible y no se reescribe. Para usuarios, temporalidad, revocación, reasignación y rectificaciones con decisión separada, seguir DEMO_0_2_CAMBIOS_Y_VALIDACION.md, sección Inicio y demostración. La cola está en /rectificaciones; cada expediente enlaza solicitudes y versiones. La evidencia se registra por referencia a un respaldo custodiado, sin firma institucional. Las plazas no se reasignan al aprobar una rectificación: requieren revisar y aprobar una nueva publicación.
+
+## Continuación DEMO 0.3
+
+Desde cada expediente, abrir Expediente y participación. Un expediente observado antes de evaluar permite al responsable autorizar una ventana con documentos y vencimiento explícitos. El propietario carga y envía; el revisor repite todos los criterios. Las cargas vencidas o pendientes quedan en historial, no reemplazan el expediente enviado.
+
+El propietario solicita retiro si no tiene adjudicación vigente o renuncia si la tiene. Otra autoridad decide. Una renuncia deja vacante retenida, sin asignar reemplazos, y exige revisar la publicación. En Adjudicaciones se registran manifestaciones de aceptar/diferir por publicación; varias plazas no generan una prohibición automática. Véanse DEMO_0_3_CAMBIOS_Y_VALIDACION.md y 03-CONTRASTE_NORMATIVO_DEMO_0_3.md.
