@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "database_source": "ficct_demo",
+  "database_restored": "ficct_restore_20261110051141",
+  "counts_match": {
+    "users": 7,
+    "calls": 4,
+    "offers": 13,
+    "applications": 3,
+    "documents": 12,
+    "grades": 6,
+    "tie_exams": 1,
+    "publications": 1,
+    "audit_events": 71
+  },
+  "private_files_restored_and_verified": 12,
+  "dump_sha256": "46a47b628afe0bb2d3979233ab205086574c142a926f0ab2bb8cee1d4ef59938",
+  "note": "Respaldo privado en .local/backups; no se distribuyen cuentas ni hashes de contrase\u00f1a."
+}

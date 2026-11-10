@@ -1,0 +1,80 @@
+[
+  {
+    "archivo": "CU_Y_RF_CANONICOS.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "MATRIZ_CU_RF_PRUEBAS.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "REFERENCIAS_VERIFICADAS_Y_PENDIENTES.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "SUPERPROMPT_IMPLEMENTACION.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "LEEME_PRIMERO.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "PAQUETE_ANTERIOR_SOLO_REFERENCIA.zip",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "etapas/CONTINUACION_EN_CADA_FASE.md",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Foto_apuntes_01.png",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Foto_apuntes_02.png",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Convocatoria_FICCT_02_2026.pdf",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Convocatoria_FICCT_01_2026.pdf",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Analisis_Actualizado_FICCT.pdf",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "fuentes/Foto_apuntes_03.png",
+    "hash_correcto": true,
+    "bytes_correctos": true
+  },
+  {
+    "archivo": "Downloads/SUPERPROMPT_IMPLEMENTACION.md",
+    "igual_a_zip": true
+  },
+  {
+    "archivo": "Downloads/REFERENCIAS_VERIFICADAS_Y_PENDIENTES.md",
+    "igual_a_zip": true
+  }
+]

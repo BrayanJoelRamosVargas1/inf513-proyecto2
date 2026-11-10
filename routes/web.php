@@ -1,0 +1,34 @@
+<?php
+
+use App\Http\Controllers\PortalController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/login', [PortalController::class, 'loginForm'])->name('login');
+Route::post('/login', [PortalController::class, 'login'])->middleware('throttle:6,1');
+Route::get('/registro', [PortalController::class, 'registerForm']);
+Route::post('/registro', [PortalController::class, 'register'])->middleware('throttle:6,1');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [PortalController::class, 'home']);
+    Route::post('/salir', [PortalController::class, 'logout']);
+    Route::get('/convocatorias/{id}', [PortalController::class, 'call']);
+    Route::post('/convocatorias', [PortalController::class, 'createCall']);
+    Route::post('/convocatorias/{id}/estado', [PortalController::class, 'transition']);
+    Route::post('/convocatorias/{id}/editar', [PortalController::class, 'editCall']);
+    Route::post('/convocatorias/{id}/ofertas', [PortalController::class, 'saveOffer']);
+    Route::post('/ofertas/{id}/postular', [PortalController::class, 'apply']);
+    Route::get('/postulaciones/{id}', [PortalController::class, 'application']);
+    Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
+    Route::get('/documentos/{id}', [PortalController::class, 'download']);
+    Route::post('/ofertas/{id}/asignar', [PortalController::class, 'assign']);
+    Route::post('/notas/{id}/rectificar', [PortalController::class, 'correct']);
+    Route::get('/ofertas/{id}/resultados', [PortalController::class, 'results']);
+    Route::post('/ofertas/{id}/desempate', [PortalController::class, 'openTie']);
+    Route::post('/desempates/{id}/resolver', [PortalController::class, 'resolveTie']);
+    Route::post('/ofertas/{id}/aprobar', [PortalController::class, 'approve']);
+    Route::get('/convocatorias/{id}/auditoria', [PortalController::class, 'audit']);
+    Route::get('/convocatorias/{id}/reporte/{format}', [PortalController::class, 'report'])->whereIn('format', ['pdf', 'xlsx']);
+    Route::get('/usuarios', [PortalController::class, 'users']);
+    Route::post('/usuarios', [PortalController::class, 'saveUser']);
+    Route::post('/permisos', [PortalController::class, 'membership']);
+    Route::post('/categorias', [PortalController::class, 'category']);
+});
