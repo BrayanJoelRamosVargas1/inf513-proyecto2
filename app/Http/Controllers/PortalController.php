@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Access;
+use App\Domain\Administration;
 use App\Domain\Scores;
 use App\Domain\Selection;
 use App\Models\User;
@@ -38,6 +39,7 @@ final class PortalController extends Controller
             return back()->withErrors(['email' => 'No se pudo iniciar sesión con esas credenciales.'])->onlyInput('email');
         }
         $r->session()->regenerate();
+        $r->session()->put('security_version', $r->user()->security_version);
         Selection::audit($r->user(), null, 'session.login', 'user:'.$r->user()->id);
 
         return redirect('/');
@@ -67,6 +69,7 @@ final class PortalController extends Controller
         });
         Auth::login($user);
         $r->session()->regenerate();
+        $r->session()->put('security_version', $r->user()->security_version);
 
         return redirect('/');
     }
@@ -74,7 +77,7 @@ final class PortalController extends Controller
     public function home(Request $r)
     {
         $u = $r->user();
-        $ids = DB::table('memberships')->where('user_id', $u->id)->pluck('call_id');
+        $ids = Access::effective(DB::table('memberships')->where('user_id', $u->id))->pluck('call_id');
         $calls = DB::table('calls')->when($u->role !== 'admin', fn ($q) => $q->where(fn ($q) => $q->where('status', '!=', 'draft')->orWhereIn('id', $ids)))->orderByDesc('id')->get();
         $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->select('applications.*', 'offers.title')->get();
 
@@ -99,7 +102,7 @@ final class PortalController extends Controller
             }))
             ->select('applications.*', 'offers.title', 'users.name')->orderBy('applications.id')->paginate(30);
         $categories = DB::table('categories')->where('active', true)->get();
-        $teachers = User::whereIn('id', DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator')->pluck('user_id'))->where('active', true)->get();
+        $teachers = User::whereIn('id', Access::effective(DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator'))->pluck('user_id'))->where('active', true)->get();
 
         $editOffer = null;
         if ($authority && $call->status === 'draft' && $r->filled('editar_oferta')) {
@@ -240,14 +243,6 @@ final class PortalController extends Controller
         return back()->with('success', 'Responsable asignado.');
     }
 
-    public function correct(Request $r, int $id)
-    {
-        $d = $r->validate(['score' => 'required|string', 'reason' => 'required|string|min:10|max:3000']);
-        $this->service->correct($r->user(), $id, $d['score'], $d['reason']);
-
-        return back()->with('success', 'Rectificación registrada. Vuelva a calcular el resultado.');
-    }
-
     public function results(Request $r, int $id)
     {
         $offer = Selection::row('offers', $id);
@@ -260,10 +255,13 @@ final class PortalController extends Controller
         } catch (ValidationException $e) {
             $warning = $e->validator->errors()->first();
         }
-        $ties = DB::table('tie_exams')->where('offer_id', $id)->get();
+        $ties = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', $offer->result_revision)->get();
         $publications = DB::table('publications')->where('offer_id', $id)->get();
 
-        return view('results', compact('offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
+        $revisions = DB::table('result_revisions')->where('offer_id', $id)->orderByDesc('revision')->get();
+        $oldTies = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', '!=', $offer->result_revision)->get();
+
+        return view('results', compact('revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
     }
 
     public function openTie(Request $r, int $id)
@@ -304,10 +302,11 @@ final class PortalController extends Controller
     {
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
-        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection']);
-        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección'];
-        $labels = ['draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
+        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review']);
+        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente'];
+        $labels = ['under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
         foreach ($rows as $row) {
+            $row->needs_publication_review = $row->needs_publication_review ? 'Sí: sin reasignación automática' : 'No';
             foreach (['status', 'eligibility', 'selection'] as $field) {
                 $row->$field = $labels[$row->$field] ?? $row->$field;
             }
@@ -331,10 +330,10 @@ final class PortalController extends Controller
                 $page->setCellValueExplicit([$col++, $i + 4], (string) ($value ?? 'Pendiente'), DataType::TYPE_STRING);
             }
         }
-        foreach (range('A', 'I') as $col) {
+        foreach (range('A', 'K') as $col) {
             $page->getColumnDimension($col)->setAutoSize(true);
-        }$page->getStyle('A3:I3')->getFont()->setBold(true);
-        $page->setAutoFilter('A3:I'.max(3, $rows->count() + 3));
+        }$page->getStyle('A3:K3')->getFont()->setBold(true);
+        $page->setAutoFilter('A3:K'.max(3, $rows->count() + 3));
 
         return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), 'reporte-demo.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
     }
@@ -343,14 +342,15 @@ final class PortalController extends Controller
     {
         abort_unless($r->user()->role === 'admin', 403);
 
-        return view('users', ['users' => User::orderBy('id')->get(), 'calls' => DB::table('calls')->get(), 'memberships' => DB::table('memberships')->get(), 'categories' => DB::table('categories')->get()]);
+        return view('users', ['users' => User::orderBy('id')->get(), 'calls' => DB::table('calls')->get(), 'memberships' => DB::table('memberships')->get(), 'history' => DB::table('audit_events')->whereIn('action', ['permission.granted', 'permission.revoked', 'user.profile_changed', 'assignment.reassigned'])->orderByDesc('id')->limit(100)->get(), 'categories' => DB::table('categories')->get()]);
     }
 
     public function saveUser(Request $r)
     {
         abort_unless($r->user()->role === 'admin', 403);
         $d = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|unique:users|max:150', 'password' => 'required|string|min:12', 'role' => ['required', Rule::in(['student', 'staff', 'authority'])], 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80']);
-        DB::transaction(function () use ($r, $d) {
+        Access::transaction($r->user(), function () use ($r, $d) {
+            abort_unless($r->user()->role === 'admin', 403);
             $u = new User;
             foreach ($d as $key => $v) {
                 $u->$key = $v;
@@ -368,10 +368,8 @@ final class PortalController extends Controller
         if ((int) $d['user_id'] === $r->user()->id) {
             Scores::fail('No puede elevar sus propios permisos. Otro administrador debe asignar el ámbito.');
         }
-        DB::transaction(function () use ($r, $d) {
-            DB::table('memberships')->updateOrInsert($d, []);
-            Selection::audit($r->user(), (int) $d['call_id'], 'permission.assigned', 'user:'.$d['user_id'], null, $d);
-        });
+        $extra = $r->validate(['starts_at' => 'nullable|date', 'expires_at' => 'nullable|date', 'reason' => 'required|string|min:10|max:3000', 'version' => 'nullable|integer']);
+        app(Administration::class)->grant($r->user(), (int) $d['call_id'], (int) $d['user_id'], $d['role'], $extra['starts_at'] ?? null, $extra['expires_at'] ?? null, $extra['reason'], isset($extra['version']) ? (int) $extra['version'] : null);
 
         return back()->with('success', 'Permiso asignado en el ámbito indicado.');
     }
@@ -380,11 +378,12 @@ final class PortalController extends Controller
     {
         abort_unless($r->user()->role === 'admin', 403);
         $d = $r->validate(['name' => 'required|string|max:100|unique:categories', 'regime' => ['required', Rule::in(['docencia', 'laboratorio'])], 'active' => 'nullable|boolean']);
-        DB::transaction(function () use ($r, $d) {
+        Access::transaction($r->user(), function () use ($r, $d) {
+            abort_unless($r->user()->role === 'admin', 403);
             $id = DB::table('categories')->insertGetId($d + ['created_at' => now(), 'updated_at' => now()]);
             Selection::audit($r->user(), null, 'category.created', 'category:'.$id, null, $d);
         });
 
-        return back()->with('success','Tipo de auxiliatura registrado para configuración.');
+        return back()->with('success', 'Tipo de auxiliatura registrado para configuración.');
     }
 }

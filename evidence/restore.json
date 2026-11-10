@@ -1,19 +1,43 @@
 {
   "status": "PASS",
   "database_source": "ficct_demo",
-  "database_restored": "ficct_restore_20261110051141",
+  "all_table_contents_match": {
+    "users": true,
+    "calls": true,
+    "offers": true,
+    "applications": true,
+    "documents": true,
+    "reviews": true,
+    "memberships": true,
+    "assignments": true,
+    "grades": true,
+    "tie_exams": true,
+    "publications": true,
+    "audit_events": true,
+    "correction_requests": true,
+    "score_versions": true,
+    "result_revisions": true
+  },
+  "immutable_triggers_restored": 4,
+  "database_restored": "ficct_restore_20261110140235",
   "counts_match": {
     "users": 7,
     "calls": 4,
     "offers": 13,
     "applications": 3,
     "documents": 12,
+    "reviews": 16,
+    "memberships": 6,
+    "assignments": 11,
     "grades": 6,
     "tie_exams": 1,
     "publications": 1,
-    "audit_events": 71
+    "audit_events": 78,
+    "correction_requests": 0,
+    "score_versions": 8,
+    "result_revisions": 0
   },
   "private_files_restored_and_verified": 12,
-  "dump_sha256": "46a47b628afe0bb2d3979233ab205086574c142a926f0ab2bb8cee1d4ef59938",
+  "dump_sha256": "09fc6316c28e630159ebace9506d5b64c88bc07948b9cdc0c431010a6d5f5537",
   "note": "Respaldo privado en .local/backups; no se distribuyen cuentas ni hashes de contrase\u00f1a."
 }

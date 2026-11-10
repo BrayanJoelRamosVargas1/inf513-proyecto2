@@ -3,7 +3,8 @@
 <body>
 <a class="skip" href="#contenido">Ir al contenido</a>
 @auth
-<aside class="sidebar"><a class="brand" href="/">FICCT<span>Selección de auxiliares</span></a><div class="side-section">ESPACIO DE TRABAJO</div><nav><a href="/" class="{{ request()->is('/')?'current':'' }}">Panel principal</a><a href="/#convocatorias">Convocatorias</a>@if(auth()->user()->role==='admin')<a href="/usuarios">Usuarios y permisos</a>@endif</nav><div class="side-footer"><span class="demo-dot"></span> Entorno de demostración<br><small>Grupo #09 · Tecnología Web<br>Datos sintéticos · UAGRM</small></div></aside>
+<aside class="sidebar"><a class="brand" href="/">FICCT<span>Selección de auxiliares</span></a><div class="side-section">ESPACIO DE TRABAJO</div><nav><a href="/" class="{{ request()->is('/')?'current':'' }}">Panel principal</a><a href="/#convocatorias">Convocatorias</a>@if(\App\Domain\Access::effective(\Illuminate\Support\Facades\DB::table('memberships')->where('user_id',auth()->id()))->exists())<a href="/rectificaciones">Rectificaciones</a>@endif
+@if(auth()->user()->role==='admin')<a href="/usuarios">Usuarios y permisos</a>@endif</nav><div class="side-footer"><span class="demo-dot"></span> Entorno de demostración<br><small>Grupo #09 · Tecnología Web<br>Datos sintéticos · UAGRM</small></div></aside>
 @endauth
 <div class="shell {{ auth()->check()?'':'guest' }}">
 <header class="topbar"><span>FICCT <span class="divider">/</span> Gestión académica</span><div class="account">@auth<span>{{ auth()->user()->name }}</span><form method="post" action="/salir">@csrf<button class="text-button">Cerrar sesión</button></form>@else<span class="badge">DEMO ACADÉMICA</span>@endauth</div></header>

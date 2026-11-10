@@ -1,4 +1,4 @@
-# Trazabilidad de la primera versión ejecutable
+# Trazabilidad — DEMO 0.2 (contrato canónico preservado)
 
 Catálogo contractual intacto en `CU_Y_RF_CANONICOS.md`. Mapeo principal CU↔RF propuesto por contenido, sin renumerar. CU7 y CU8 son transversales. Rxx remite a `01-AUDITORIA-FUENTES.md`.
 
@@ -6,7 +6,7 @@ Se ejecutó un escenario base por RF: **PASS no implica cierre integral de todos
 
 | RF / nombre canónico | CU | Pantalla / módulo | Endpoint | Tabla | Regla | Prueba ejecutada | Alcance restante |
 |---|---|---|---|---|---|---|---|
-| RF-01 · Gestión de usuarios y roles | CU1 | Usuarios y permisos | GET/POST /usuarios; POST /permisos | users/memberships | R05/R17 | T-01 / test_t01_register_login_and_reject_privilege_escalation (tests/Feature/SelectionTest.php:105) · PASS | Gestión base: alta y asignación; revocación/asignación temporal y editor completo de perfiles aún pendientes. |
+| RF-01 · Gestión de usuarios y roles | CU1 | Usuarios y permisos | GET/POST /usuarios; POST /permisos | users/memberships | R05/R17 | T-01 / test_t01_register_login_and_reject_privilege_escalation (tests/Feature/SelectionTest.php:105) · PASS | G01–G11, G25 y G31: perfiles, vigencia, revocación, sesiones, versiones y reasignación probados; validación de perfiles académicos institucionales pendiente. |
 | RF-02 · Gestión de convocatorias | CU2 | Convocatorias | POST /convocatorias; POST /convocatorias/{id}/editar; POST /convocatorias/{id}/estado | calls | R13 | T-02 / test_t02_valid_transition_freezes_configuration (tests/Feature/SelectionTest.php:115) · PASS | Edición de borradores y congelación probadas; clonación asistida de configuración futura pendiente. |
 | RF-03 · Gestión de tipos de auxiliares | CU2 | Tipos | POST /categorias | categories | R09 | T-03 / test_t03_category_registration_is_admin_only (tests/Feature/SelectionTest.php:123) · PASS | Alta y activación DEMO; catálogo institucional y vigencia se validan externamente. |
 | RF-04 · Gestión de plazas ofertadas | CU2 | Ofertas/cupos | POST /convocatorias/{id}/ofertas | offers/applications | R10/R11/R12 | T-04 / test_t04_seats_are_nonnegative_and_scoped_by_offer (tests/Feature/SelectionTest.php:131) · PASS | Cupos y no sobreasignación probados; renuncias/cambios posteriores de cupo requieren procedimiento. |
@@ -32,10 +32,10 @@ Se ejecutó un escenario base por RF: **PASS no implica cierre integral de todos
 | RF-24 · Cálculo por categoría de postulación | CU5 | Cálculo por oferta | POST /postulaciones/{id}/calcular | applications | R20 | T-24 / test_t24_independent_results_by_application (tests/Feature/SelectionTest.php:326) · PASS | Base DEMO probada; vigencia, escala y autoridades para uso real pendientes según auditoría. |
 | RF-25 · Generación de clasificación de postulantes | CU6 | Ranking | GET /ofertas/{id}/resultados | applications/offers | R06 | T-25 / test_t25_ranking_descending_and_offer_isolation (tests/Feature/SelectionTest.php:340) · PASS | Base DEMO probada; vigencia, escala y autoridades para uso real pendientes según auditoría. |
 | RF-26 · Determinación de seleccionados según plazas | CU6 | Selección | POST /ofertas/{id}/aprobar | applications/publications | R06/R22 | T-26 / test_t26_approval_cannot_exceed_seats_or_repeat (tests/Feature/SelectionTest.php:352) · PASS | Aprobación DEMO con cupos; no nombramiento formal. |
-| RF-27 · Detección de empates | CU6 | Nuevo examen de desempate | POST /ofertas/{id}/desempate; POST /desempates/{id}/resolver | tie_exams | R04 | T-27 / test_t27_tie_requires_new_exam_participants_results_and_commission (tests/Feature/SelectionTest.php:366) · PASS | Nuevo examen exclusivo con condiciones, resultados y acta; nueva ronda si persiste empate y firmas formales pendientes. |
+| RF-27 · Detección de empates | CU6 | Nuevo examen de desempate | POST /ofertas/{id}/desempate; POST /desempates/{id}/resolver | tie_exams | R04 | T-27 / test_t27_tie_requires_new_exam_participants_results_and_commission (tests/Feature/SelectionTest.php:366) · PASS | Nuevo examen exclusivo con condiciones, resultados y acta; rondas sucesivas DEMO probadas en G28; firmas formales pendientes. |
 | RF-28 · Consulta consolidada de resultados | CU8 | Consolidado | GET /ofertas/{id}/resultados | applications/publications | R06/R17 | T-28 / test_t28_consolidated_results_require_authority (tests/Feature/SelectionTest.php:383) · PASS | Consolidado por ámbito; distribución formal de responsabilidades institucionales pendiente. |
 | RF-29 · Generación de reportes del proceso | CU8 | Reportes | GET /convocatorias/{id}/reporte/{pdf/xlsx} | applications/offers | R06/R17 | T-29 / test_t29_real_pdf_and_xlsx_export_with_permissions (tests/Feature/SelectionTest.php:392) · PASS | PDF/XLSX reales verificados; formato oficial CPD y reportes avanzados pendientes. |
-| RF-30 · Auditoría y trazabilidad de calificaciones | CU7 | Auditoría | GET /convocatorias/{id}/auditoria; POST /notas/{id}/rectificar | audit_events | R17 | T-30 / test_t30_correction_keeps_original_actor_before_after_and_reason (tests/Feature/SelectionTest.php:402) · PASS | Append-only desde la aplicación; no inmutabilidad frente a administradores de infraestructura. |
+| RF-30 · Auditoría y trazabilidad de calificaciones | CU7 | Auditoría | GET /convocatorias/{id}/auditoria; POST /postulaciones/{id}/rectificaciones; POST /rectificaciones/{id}/decision | audit_events/score_versions/correction_requests/result_revisions | R17 | T-30 / test_t30_correction_keeps_original_actor_before_after_and_reason (tests/Feature/SelectionTest.php:402) · PASS | G12–G24/G26–G31: versiones y snapshots protegidos por triggers; administradores de infraestructura siguen siendo privilegiados. |
 
 ## Equivalencia con el análisis antecedente
 
@@ -46,3 +46,17 @@ PDF de análisis, pp.9–10: RF-01 y RF-02 antiguos → RF-01 canónico; RF-03 a
 Los métodos test_t_x01..test_t_x08 verifican flujo HTTP, modo OFICIAL/calendario/cuenta inactiva, faltantes y snapshot, administrador sin acceso implícito, nota borrador/confirmada, edición versionada, bloqueo de autoelevación, XSS escapado y fórmulas XLSX como texto. Se añaden siete pruebas HTTP contra el servidor real (incluido CSRF), tres carreras de concurrencia con dos procesos, restauración de BD+archivos y exportaciones descargadas desde navegador.
 
 Las evidencias detalladas están en `evidence/`. No se afirma prueba exhaustiva, auditoría externa de seguridad ni autorización institucional.
+
+## Extensión verificada en 0.2
+
+El contrato de 8 CU y RF-01..RF-30 no cambió. SHA-256 de CU_Y_RF_CANONICOS.md: `fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2`.
+
+| CU y RF ampliados | Evidencia ejecutable adicional |
+|---|---|
+| CU1/CU7, RF-01/RF-30 | GovernanceTest G01–G11, G25, G31: permisos efectivos, sesiones activas/antiguas, perfiles, último administrador, reasignación y versiones. |
+| CU5, RF-16..RF-23/RF-30 | G07/G11/G12..G20/G27/G29: autor original, méritos y examen, aprobación separada, rechazo, decimales, faltantes y versiones. |
+| CU6/CU7, RF-24..RF-28/RF-30 | G17..G21/G26/G28/G30: rankings, nuevo empate, nueva publicación, conservación y rondas sucesivas. |
+| CU8, RF-28/RF-29 | G22/G29 y regresiones T28/T29: consolidados, solicitudes y reportes PDF/XLSX con revisión y alerta de publicación pendiente. |
+| Integridad transversal | governance_concurrency.py: correcciones incompatibles, revocación/nota y renovación simultánea en procesos separados. verify_restore.py ficct_test: restauración con correcciones y versiones. |
+
+Resultado final: 70 pruebas/229 aserciones, de las que 39 son las anteriores; además seis carreras entre procesos (tres originales y tres nuevas), controles HTTP y restauraciones. Véase evidence/tests.txt, phpunit.xml y los informes JSON. Las evidencias visuales y exportaciones 0.1 se conservan como antecedentes; no se presentan como una revisión visual nueva de todos los módulos.

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GovernanceController;
 use App\Http\Controllers\PortalController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,13 +21,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
     Route::get('/documentos/{id}', [PortalController::class, 'download']);
     Route::post('/ofertas/{id}/asignar', [PortalController::class, 'assign']);
-    Route::post('/notas/{id}/rectificar', [PortalController::class, 'correct']);
+
     Route::get('/ofertas/{id}/resultados', [PortalController::class, 'results']);
     Route::post('/ofertas/{id}/desempate', [PortalController::class, 'openTie']);
+    Route::post('/desempates/{id}/continuar', [GovernanceController::class, 'continueTie']);
     Route::post('/desempates/{id}/resolver', [PortalController::class, 'resolveTie']);
     Route::post('/ofertas/{id}/aprobar', [PortalController::class, 'approve']);
     Route::get('/convocatorias/{id}/auditoria', [PortalController::class, 'audit']);
     Route::get('/convocatorias/{id}/reporte/{format}', [PortalController::class, 'report'])->whereIn('format', ['pdf', 'xlsx']);
+    Route::get('/rectificaciones', [GovernanceController::class, 'queue']);
+    Route::post('/usuarios/{id}/perfil', [GovernanceController::class, 'profile']);
+    Route::post('/permisos/{id}/revocar', [GovernanceController::class, 'revoke']);
+    Route::post('/asignaciones/{id}/reasignar', [GovernanceController::class, 'reassign']);
+    Route::get('/postulaciones/{id}/rectificaciones', [GovernanceController::class, 'corrections']);
+    Route::post('/postulaciones/{id}/rectificaciones', [GovernanceController::class, 'requestCorrection']);
+    Route::post('/rectificaciones/{id}/decision', [GovernanceController::class, 'decide']);
     Route::get('/usuarios', [PortalController::class, 'users']);
     Route::post('/usuarios', [PortalController::class, 'saveUser']);
     Route::post('/permisos', [PortalController::class, 'membership']);

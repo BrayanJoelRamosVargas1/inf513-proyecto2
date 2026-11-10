@@ -60,7 +60,8 @@ final class Selection
     {
         abort_unless($u->active && in_array($u->role, ['admin', 'authority']), 403);
 
-        return DB::transaction(function () use ($u, $d) {
+        return Access::transaction($u, function () use ($u, $d) {
+            abort_unless(in_array($u->role, ['admin', 'authority']), 403);
             $id = DB::table('calls')->insertGetId(array_merge($d, ['mode' => 'DEMO', 'status' => 'draft', 'created_at' => now(), 'updated_at' => now()]));
             if ($u->role === 'authority') {
                 DB::table('memberships')->insert(['call_id' => $id, 'user_id' => $u->id, 'role' => 'authority']);
@@ -73,7 +74,7 @@ final class Selection
 
     public function editCall(User $u, int $callId, array $d): void
     {
-        DB::transaction(function () use ($u, $callId, $d) {
+        Access::transaction($u, function () use ($u, $callId, $d) {
             $call = self::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
             self::demo($call);
@@ -87,7 +88,7 @@ final class Selection
 
     public function saveOffer(User $u, int $callId, array $d, ?int $offerId = null): int
     {
-        return DB::transaction(function () use ($u, $callId, $d, $offerId) {
+        return Access::transaction($u, function () use ($u, $callId, $d, $offerId) {
             $call = self::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
             self::demo($call);
@@ -127,7 +128,7 @@ final class Selection
 
     public function transition(User $u, int $callId, string $next): void
     {
-        DB::transaction(function () use ($u, $callId, $next) {
+        Access::transaction($u, function () use ($u, $callId, $next) {
             $call = self::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
             self::demo($call);
@@ -147,6 +148,9 @@ final class Selection
                     Scores::weights(self::json($o->weights));
                 }
             }
+            if (in_array($next, ['results', 'archived']) && DB::table('offers')->where('call_id', $callId)->where('needs_publication_review', true)->exists()) {
+                Scores::fail('Existen revisiones pendientes de publicación.');
+            }
             if ($next === 'results') {
                 foreach (DB::table('offers')->where('call_id', $callId)->get() as $o) {
                     if (! DB::table('publications')->where('offer_id', $o->id)->exists()) {
@@ -163,7 +167,8 @@ final class Selection
     {
         abort_unless($u->active && $u->role === 'student', 403);
 
-        return DB::transaction(function () use ($u, $offerId) {
+        return Access::transaction($u, function () use ($u, $offerId) {
+            abort_unless($u->role === 'student', 403);
             $o = self::row('offers', $offerId);
             $call = self::row('calls', $o->call_id, true);
             self::receiving($call);
@@ -191,7 +196,7 @@ final class Selection
     {
         $stored = null;
         try {
-            return DB::transaction(function () use ($u, $appId, $kind, $file, &$stored) {
+            return Access::transaction($u, function () use ($u, $appId, $kind, $file, &$stored) {
                 [$app,$offer,$call] = self::lockedApplication($appId);
                 abort_unless($u->active && $app->user_id === $u->id, 403);
                 self::receiving($call);
@@ -222,7 +227,7 @@ final class Selection
 
     public function submit(User $u, int $id): void
     {
-        DB::transaction(function () use ($u, $id) {
+        Access::transaction($u, function () use ($u, $id) {
             [$app,$offer,$call] = self::lockedApplication($id);
             abort_unless($u->active && $app->user_id === $u->id, 403);
             self::receiving($call);
@@ -240,7 +245,7 @@ final class Selection
 
     public function review(User $u, int $id, array $decisions, string $reason): void
     {
-        DB::transaction(function () use ($u, $id, $decisions, $reason) {
+        Access::transaction($u, function () use ($u, $id, $decisions, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
             self::demo($call);
@@ -264,7 +269,7 @@ final class Selection
 
     public function eligibility(User $u, int $id, bool $enable, string $reason): void
     {
-        DB::transaction(function () use ($u, $id, $enable, $reason) {
+        Access::transaction($u, function () use ($u, $id, $enable, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
             self::demo($call);
@@ -287,7 +292,7 @@ final class Selection
 
     public function merit(User $u, int $id, string $score, string $reference): void
     {
-        DB::transaction(function () use ($u, $id, $score, $reference) {
+        Access::transaction($u, function () use ($u, $id, $score, $reference) {
             [$app,$o,$c] = self::lockedApplication($id);
             Access::require($u, $c->id, ['reviewer']);
             self::demo($c);
@@ -298,14 +303,15 @@ final class Selection
                 Scores::fail('Adjunte el formulario CPD de respaldo.');
             }
             $score = Scores::value($score, '40');
-            DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'updated_at' => now()]);
+            DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'merit_version' => 1, 'updated_at' => now()]);
+            Rectifications::version($id, null, 1, $score, $u->id);
             self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference]);
         });
     }
 
     public function assign(User $u, int $offerId, int $teacher, string $area): void
     {
-        DB::transaction(function () use ($u, $offerId, $teacher, $area) {
+        Access::transaction($u, function () use ($u, $offerId, $teacher, $area) {
             $o = self::row('offers', $offerId);
             $c = self::row('calls', $o->call_id, true);
             $o = self::row('offers', $offerId, true);
@@ -328,7 +334,7 @@ final class Selection
 
     public function grade(User $u, int $appId, int $assignmentId, string $score, bool $confirmed = true): void
     {
-        DB::transaction(function () use ($u, $appId, $assignmentId, $score, $confirmed) {
+        Access::transaction($u, function () use ($u, $appId, $assignmentId, $score, $confirmed) {
             [$a,$o,$c] = self::lockedApplication($appId);
             $as = self::row('assignments', $assignmentId);
             Access::require($u, $c->id, ['evaluator']);
@@ -345,12 +351,15 @@ final class Selection
                 Scores::fail('Nota confirmada: use rectificación autorizada.');
             }
             $score = Scores::value($score);
-            $data = ['score' => $score, 'status' => $confirmed ? 'confirmed' : 'draft', 'updated_at' => now()];
+            $data = ['user_id' => $u->id, 'score' => $score, 'status' => $confirmed ? 'confirmed' : 'draft', 'updated_at' => now()];
             if ($before) {
                 $id = $before->id;
                 DB::table('grades')->where('id', $id)->update($data);
             } else {
                 $id = DB::table('grades')->insertGetId($data + ['application_id' => $appId, 'assignment_id' => $assignmentId, 'user_id' => $u->id, 'created_at' => now()]);
+            }
+            if ($confirmed) {
+                Rectifications::version($appId, $id, 1, $score, $u->id);
             }
             self::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data);
         });
@@ -358,7 +367,7 @@ final class Selection
 
     public function correct(User $u, int $gradeId, string $score, string $reason): void
     {
-        DB::transaction(function () use ($u, $gradeId, $score, $reason) {
+        Access::transaction($u, function () use ($u, $gradeId, $score, $reason) {
             $g = self::row('grades', $gradeId);
             [$a,$o,$c] = self::lockedApplication($g->application_id);
             $g = self::row('grades', $gradeId, true);
@@ -374,15 +383,16 @@ final class Selection
                 Scores::fail('Explique la autorización y motivo de rectificación.');
             }
             $score = Scores::value($score);
-            DB::table('grades')->where('id', $gradeId)->update(['score' => $score, 'status' => 'corrected', 'updated_at' => now()]);
+            DB::table('grades')->where('id', $gradeId)->update(['score' => $score, 'status' => 'corrected', 'version' => $g->version + 1, 'updated_at' => now()]);
             DB::table('applications')->where('id', $a->id)->update(['exam' => null, 'final' => null, 'updated_at' => now()]);
+            Rectifications::version($a->id, $gradeId, $g->version + 1, $score, $u->id);
             self::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score], $reason);
         });
     }
 
     public function calculate(User $u, int $id): void
     {
-        DB::transaction(function () use ($u, $id) {
+        Access::transaction($u, function () use ($u, $id) {
             [$a,$o,$c] = self::lockedApplication($id);
             Access::require($u, $c->id, ['authority']);
             self::demo($c);
@@ -423,20 +433,20 @@ final class Selection
 
     public function openTie(User $u, int $offerId, array $d): int
     {
-        return DB::transaction(function () use ($u, $offerId, $d) {
+        return Access::transaction($u, function () use ($u, $offerId, $d) {
             $o = self::row('offers', $offerId);
             $c = self::row('calls', $o->call_id, true);
             $o = self::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
             self::demo($c);
-            if ($c->status !== 'evaluation' || DB::table('publications')->where('offer_id', $offerId)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->exists()) {
+            if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('No se puede abrir otro desempate en este estado.');
             }
             $r = $this->ranking($offerId);
             if (! $r['tied']) {
                 Scores::fail('No hay empate que afecte el corte de plazas.');
             }
-            $id = DB::table('tie_exams')->insertGetId(['offer_id' => $offerId, 'status' => 'scheduled', 'participants' => json_encode($r['tied']), 'commission' => json_encode($d['commission']), 'conditions' => $d['conditions'], 'scheduled_at' => $d['scheduled_at'], 'created_at' => now(), 'updated_at' => now()]);
+            $id = DB::table('tie_exams')->insertGetId(['offer_id' => $offerId, 'result_revision' => $o->result_revision, 'status' => 'scheduled', 'participants' => json_encode($r['tied']), 'commission' => json_encode($d['commission']), 'conditions' => $d['conditions'], 'scheduled_at' => $d['scheduled_at'], 'created_at' => now(), 'updated_at' => now()]);
             self::audit($u, $c->id, 'tie.exam_scheduled', 'tie:'.$id, null, ['participants' => $r['tied'], 'conditions' => $d['conditions'], 'commission' => $d['commission']]);
 
             return $id;
@@ -445,7 +455,7 @@ final class Selection
 
     public function resolveTie(User $u, int $id, array $results, array $winners, string $minutes): void
     {
-        DB::transaction(function () use ($u, $id, $results, $winners, $minutes) {
+        Access::transaction($u, function () use ($u, $id, $results, $winners, $minutes) {
             $t = self::row('tie_exams', $id);
             $o = self::row('offers', $t->offer_id);
             $c = self::row('calls', $o->call_id, true);
@@ -453,7 +463,7 @@ final class Selection
             $t = self::row('tie_exams', $id, true);
             Access::require($u, $c->id, ['authority']);
             self::demo($c);
-            if ($t->status !== 'scheduled' || $c->status !== 'evaluation') {
+            if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision) {
                 Scores::fail('El nuevo examen no está pendiente.');
             }
             if (now()->lt($t->scheduled_at)) {
@@ -482,21 +492,58 @@ final class Selection
         });
     }
 
+    public function continueTie(User $u, int $id, array $results, array $d): int
+    {
+        return Access::transaction($u, function () use ($u, $id, $results, $d) {
+            $t = self::row('tie_exams', $id);
+            $o = self::row('offers', $t->offer_id);
+            $c = self::row('calls', $o->call_id, true);
+            Access::require($u, $c->id, ['authority']);
+            self::demo($c);
+            if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision || now()->lt($t->scheduled_at)) {
+                Scores::fail('La ronda no admite continuidad en este estado.');
+            }
+            $participants = self::json($t->participants);
+            $expected = $participants;
+            sort($expected);
+            $keys = array_map('intval', array_keys($results));
+            sort($keys);
+            if ($keys !== $expected || count(array_filter($results, fn ($v) => ! is_string($v) || ! trim($v) || mb_strlen($v) > 1000))) {
+                Scores::fail('Registre el resultado de cada participante.');
+            }
+            if (mb_strlen(trim($d['minutes'] ?? '')) < 20 || mb_strlen(trim($d['conditions'] ?? '')) < 20 || empty($d['commission']) || CarbonImmutable::parse($d['scheduled_at'])->lte(CarbonImmutable::parse($t->scheduled_at))) {
+                Scores::fail('Documente la persistencia, nueva comisión/condiciones y fecha posterior.');
+            }
+            DB::table('tie_exams')->where('id', $id)->update(['status' => 'continued', 'results' => json_encode($results), 'minutes' => $d['minutes'], 'updated_at' => now()]);
+            // La comisión declara persistencia; el sistema no inventa una fórmula ni elimina aspirantes.
+            $new = DB::table('tie_exams')->insertGetId(['offer_id' => $o->id, 'result_revision' => $o->result_revision, 'round' => $t->round + 1, 'previous_tie_id' => $id, 'status' => 'scheduled', 'participants' => json_encode($participants), 'commission' => json_encode($d['commission']), 'conditions' => $d['conditions'], 'scheduled_at' => $d['scheduled_at'], 'created_at' => now(), 'updated_at' => now()]);
+            self::audit($u, $c->id, 'tie.continued', 'tie:'.$id, ['status' => $t->status], ['next_tie' => $new, 'results' => $results], $d['minutes']);
+
+            return $new;
+        });
+    }
+
     public function approve(User $u, int $offerId, string $minutes): void
     {
-        DB::transaction(function () use ($u, $offerId, $minutes) {
+        Access::transaction($u, function () use ($u, $offerId, $minutes) {
             $o = self::row('offers', $offerId);
             $c = self::row('calls', $o->call_id, true);
             $o = self::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
             self::demo($c);
-            if ($c->status !== 'evaluation' || DB::table('publications')->where('offer_id', $offerId)->exists()) {
+            if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('La oferta no admite otra aprobación silenciosa.');
+            }
+            if (mb_strlen(trim($minutes)) < 10) {
+                Scores::fail('Se requiere acta de aprobación DEMO.');
+            }
+            if (DB::table('correction_requests')->join('applications', 'applications.id', '=', 'correction_requests.application_id')->where('applications.offer_id', $offerId)->where('correction_requests.status', 'pending')->exists()) {
+                Scores::fail('Resuelva las rectificaciones pendientes.');
             }
             $r = $this->ranking($offerId);
             $winners = array_map(fn ($a) => $a->id, array_slice($r['rank'], 0, $o->seats));
             if ($r['tied']) {
-                $tie = DB::table('tie_exams')->where('offer_id', $offerId)->where('status', 'resolved')->first();
+                $tie = DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->where('status', 'resolved')->first();
                 if (! $tie) {
                     Scores::fail('Se requiere nuevo examen de desempate y acta de comisión.');
                 }
@@ -510,7 +557,8 @@ final class Selection
                 DB::table('applications')->where('id', $a->id)->update(['selection' => in_array($a->id, $winners) ? 'selected' : 'not_selected', 'updated_at' => now()]);
             }
             $snapshot = ['mode' => 'DEMO', 'offer' => (array) $o, 'ranking' => $this->ranking($offerId)['rank'], 'selected' => $winners, 'approved_at' => now()->toIso8601String()];
-            DB::table('publications')->insert(['offer_id' => $offerId, 'version' => 1, 'snapshot' => json_encode($snapshot), 'minutes' => $minutes, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
+            DB::table('publications')->insert(['offer_id' => $offerId, 'version' => (DB::table('publications')->where('offer_id', $offerId)->max('version') ?? 0) + 1, 'result_revision' => $o->result_revision, 'previous_publication_id' => DB::table('publications')->where('offer_id', $offerId)->orderByDesc('version')->value('id'), 'snapshot' => json_encode($snapshot), 'minutes' => $minutes, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
+            DB::table('offers')->where('id', $offerId)->update(['needs_publication_review' => false]);
             self::audit($u, $c->id, 'result.approved', 'offer:'.$offerId, null, ['selected' => $winners], $minutes);
         });
     }

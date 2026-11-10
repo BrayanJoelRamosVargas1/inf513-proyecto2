@@ -17,13 +17,13 @@
     ],
     "grade": [
       {
-        "exit": 0,
-        "stdout": "ACCEPTED",
+        "exit": 2,
+        "stdout": "REJECTED",
         "stderr": ""
       },
       {
-        "exit": 2,
-        "stdout": "REJECTED",
+        "exit": 0,
+        "stdout": "ACCEPTED",
         "stderr": ""
       }
     ],

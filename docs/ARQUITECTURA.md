@@ -114,3 +114,11 @@ sequenceDiagram
  Portal->>Dominio: approve
  Dominio->>DB: Lock, validar cupos, snapshot y auditoría
 ```
+
+## Extensión transaccional DEMO 0.2
+
+GovernanceController utiliza Administration y Rectifications. Las escrituras de Selection y de ambos servicios pasan por Access::transaction: cerrojo común de permisos, identidad actual, convocatoria y entidad. Las lecturas autorizadas usan membresía vigente y cuenta activa. SecureResponse compara security_version de sesión y usuario; revocar, renovar o cambiar perfil invalida las sesiones existentes.
+
+correction_requests conserva propuestas y decisiones; score_versions conserva cada nota confirmada y corrección; result_revisions captura ranking anterior/nuevo y las versiones de entrada. Las publicaciones encadenan revisión y publicación anterior. Triggers PostgreSQL bloquean UPDATE/DELETE de estos históricos y de audit_events. Las proyecciones actuales de nota y postulación cambian únicamente en transacciones controladas; una corrección deja la selección under_review hasta republicar.
+
+El cerrojo común simplifica el orden y evita revocar concurrentemente con una nota todavía autorizada; es deliberadamente conservador para DEMO. No se ha validado su rendimiento a volumen institucional. Detalles y limitaciones en DEMO_0_2_CAMBIOS_Y_VALIDACION.md.

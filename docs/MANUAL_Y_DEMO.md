@@ -30,3 +30,7 @@ Docente (`docente@ficct.test`): abrir convocatoria asignada → expediente habil
 OFICIAL e históricos, fechas incoherentes para publicación operativa, composición de examen pendiente, faltantes convertidos a cero, acceso ajeno, duplicados, notas confirmadas editadas silenciosamente, aprobación con empate sin nuevo examen/acta y exceso de plazas.
 
 Subsanación tras envío, renuncias, reclamos, revisión de comisión con firmas formales y recálculo después de publicar requieren completar su procedimiento y validación; no se anuncian como resueltos.
+
+## Continuación DEMO 0.2
+
+El recorrido original sigue disponible y no se reescribe. Para usuarios, temporalidad, revocación, reasignación y rectificaciones con decisión separada, seguir DEMO_0_2_CAMBIOS_Y_VALIDACION.md, sección Inicio y demostración. La cola está en /rectificaciones; cada expediente enlaza solicitudes y versiones. La evidencia se registra por referencia a un respaldo custodiado, sin firma institucional. Las plazas no se reasignan al aprobar una rectificación: requieren revisar y aprobar una nueva publicación.

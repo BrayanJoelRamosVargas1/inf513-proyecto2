@@ -1,6 +1,6 @@
 # Sistema de Selección de Auxiliares FICCT / UAGRM · Grupo #09
 
-Primera versión ejecutable DEMO 0.1, construida a partir del paquete v2 y sus fuentes. Conserva los 8 CU y los 30 RF en `docs/CU_Y_RF_CANONICOS.md`. Incluye código de aplicación, base de datos real, pantallas, pruebas y evidencia. No es una implantación institucional ni un cierre total del contrato.
+DEMO 0.2 — Integridad, permisos y rectificaciones. Continúa la aplicación 0.1 y conserva sus datos; incorpora una migración incremental, administración de perfiles/permisos temporales y correcciones con aprobación separada. Conserva los 8 CU y los 30 RF en `docs/CU_Y_RF_CANONICOS.md`. Incluye código de aplicación, base de datos real, pantallas, pruebas y evidencia. No es una implantación institucional ni un cierre total del contrato.
 
 ## Abrir la aplicación en este equipo
 
@@ -38,6 +38,8 @@ En Linux o con PostgreSQL administrado: crear bases nuevas `ficct_demo` y `ficct
 ```powershell
 python scripts/test.py
 python scripts/concurrency.py
+python scripts/governance_concurrency.py
+python scripts/verify_restore.py ficct_test
 python scripts/verify_restore.py
 php vendor/bin/pint --test
 composer validate --no-check-publish
@@ -52,9 +54,13 @@ Resultados y salidas en `evidence/`; capturas reales en `evidence/screenshots/`;
 
 Acceso con sesión real; alta de usuarios/permisos por convocatoria; tipos configurables; borrador/publicación/cierre/evaluación; ofertas/cupos y pesos por convocatoria; postulación múltiple; archivos privados versionados; envío con documentos obligatorios; checklist de requisitos; habilitación; registro manual de CPD/méritos; docentes asignados y notas confirmadas; cálculo decimal por postulación; ranking; nuevo examen exclusivo de desempate; decisión y aprobación DEMO; snapshot; auditoría; PDF/XLSX. Históricos 01/02 mantienen diferencias de ofertas y el conflicto cronológico de la fuente.
 
-## Límites de esta primera entrega
+## Alcance y límites de DEMO 0.2
 
-Los borradores de convocatorias y ofertas se editan con versiones y auditoría, y la configuración se congela al publicar. Las calificaciones admiten borrador y confirmación; solo las confirmadas participan del cálculo. Clonación asistida de reglas, reasignación de docente con aprobación, corrección de méritos y publicación rectificada requieren siguientes incrementos. Subsanación tras envío, retiros/renuncias, reclamos y nuevas rondas si persiste empate no se simulan como resueltos. La matriz marca cobertura base y pendientes; no se declara cumplimiento integral por tener un test por RF.
+Los borradores conservan versiones y se congelan al publicar. La administración permite editar perfiles, activar/desactivar, conceder/renovar permisos por convocatoria con inicio y vencimiento, revocarlos y consultar su historia. Cambiar permisos invalida sesiones. Las responsabilidades se reasignan con motivo sin atribuir las notas anteriores al nuevo evaluador.
+
+Las rectificaciones de méritos/exámenes exigen motivo, referencia de evidencia y decisión de otra autoridad. Conservan versiones, recalculan con decimales exactos, generan una revisión del ranking y requieren aprobar una nueva publicación. Los snapshots previos, revisiones, versiones de notas y auditoría tienen protección de inmutabilidad en PostgreSQL. Las rondas sucesivas de desempate conservan cada examen, sin fórmula ni ganador automáticos.
+
+Ver `docs/DEMO_0_2_CAMBIOS_Y_VALIDACION.md` para migración, pruebas, decisiones técnicas y pendientes clasificados. Subsanaciones, retiros/renuncias y administración de varias plazas ganadas siguen pendientes; las rondas sucesivas DEMO ya funcionan. La evidencia de corrección se registra mediante referencia, no mediante un nuevo repositorio de actas firmadas.
 
 OFICIAL e históricos están bloqueados para operaciones. El nuevo examen existe como subflujo, pero condiciones, resultados y acta son registro explícito de la comisión DEMO, sin firma institucional. No hay conexión CPD. No se automatiza una fórmula de áreas × escrito/práctico. El servidor de PHP y el usuario del cluster local no son una configuración de producción. Se requiere validación institucional, operación, política de datos, firmas y endurecimiento antes de otro uso.
 

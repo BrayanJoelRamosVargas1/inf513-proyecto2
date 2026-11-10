@@ -1,0 +1,61 @@
+# Archivos modificados y agregados — DEMO 0.2
+
+Respecto del commit base `32524fa`. El manifiesto SHA-256 se regenera al empaquetar. No se incluyen dependencias, credenciales, respaldos ni archivos privados.
+
+| Archivo | Cambio |
+|---|---|
+| `README.md` | Modificado |
+| `app/Domain/Access.php` | Modificado |
+| `app/Domain/Administration.php` | Agregado |
+| `app/Domain/Rectifications.php` | Agregado |
+| `app/Domain/Selection.php` | Modificado |
+| `app/Http/Controllers/GovernanceController.php` | Agregado |
+| `app/Http/Controllers/PortalController.php` | Modificado |
+| `app/Http/Middleware/SecureResponse.php` | Modificado |
+| `app/Providers/AppServiceProvider.php` | Modificado |
+| `database/migrations/2026_11_10_000003_add_governance.php` | Agregado |
+| `docs/02-TRAZABILIDAD.md` | Modificado |
+| `docs/ARCHIVOS_CAMBIADOS_0_2.md` | Agregado |
+| `docs/ARQUITECTURA.md` | Modificado |
+| `docs/DEMO_0_2_CAMBIOS_Y_VALIDACION.md` | Agregado |
+| `docs/ESTADO_PROYECTO.md` | Modificado |
+| `docs/HISTORICO_ESTADO_DEMO_0_1.md` | Agregado |
+| `docs/MANUAL_Y_DEMO.md` | Modificado |
+| `evidence/baseline-01/concurrency.json` | Agregado |
+| `evidence/baseline-01/phpunit.xml` | Agregado |
+| `evidence/baseline-01/restore.json` | Agregado |
+| `evidence/baseline-01/tests.txt` | Agregado |
+| `evidence/clean-install-02.json` | Agregado |
+| `evidence/concurrency.json` | Modificado |
+| `evidence/governance-concurrency.json` | Agregado |
+| `evidence/governance-http.json` | Agregado |
+| `evidence/governance-restore.json` | Agregado |
+| `evidence/migration-preservation.json` | Agregado |
+| `evidence/phpunit.xml` | Modificado |
+| `evidence/release-02.json` | Agregado |
+| `evidence/reporte-demo-02.pdf` | Agregado |
+| `evidence/reporte-demo-02.xlsx` | Agregado |
+| `evidence/restore.json` | Modificado |
+| `evidence/screenshots-02/permisos-desktop.png` | Agregado |
+| `evidence/screenshots-02/permisos-mobile.png` | Agregado |
+| `evidence/screenshots-02/rectificaciones-desktop.png` | Agregado |
+| `evidence/screenshots-02/rectificaciones-mobile.png` | Agregado |
+| `evidence/screenshots-02/reporte-02.png` | Agregado |
+| `evidence/tests.txt` | Modificado |
+| `resources/views/application.blade.php` | Modificado |
+| `resources/views/call.blade.php` | Modificado |
+| `resources/views/correction-queue.blade.php` | Agregado |
+| `resources/views/corrections.blade.php` | Agregado |
+| `resources/views/governance-users.blade.php` | Agregado |
+| `resources/views/layout.blade.php` | Modificado |
+| `resources/views/results.blade.php` | Modificado |
+| `resources/views/users.blade.php` | Modificado |
+| `routes/web.php` | Modificado |
+| `scripts/governance_concurrency.py` | Agregado |
+| `scripts/governance_http.py` | Agregado |
+| `scripts/governance_race.php` | Agregado |
+| `scripts/package.py` | Modificado |
+| `scripts/preservation.py` | Agregado |
+| `scripts/verify_clean_install.py` | Agregado |
+| `scripts/verify_restore.py` | Modificado |
+| `tests/Feature/GovernanceTest.php` | Agregado |

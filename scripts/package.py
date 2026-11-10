@@ -12,7 +12,7 @@ for name in names:
     assert not name.endswith('.dump'),name
 manifest={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in names}
 (root/'MANIFIESTO_SHA256.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-target=root.parent/'SISTEMA_FICCT_GRUPO09_DEMO_0_1.zip'
+target=root.parent/'SISTEMA_FICCT_GRUPO09_DEMO_0_2.zip'
 with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED)as z:
     for name in names+['MANIFIESTO_SHA256.json']:z.write(root/name,'sistema/'+name)
 with zipfile.ZipFile(target)as z:

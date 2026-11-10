@@ -1,50 +1,49 @@
-# Estado y continuidad — versión ejecutable DEMO 0.1
+# Estado y continuidad — DEMO 0.2
 
-Fecha: 10/11/2026. Encargo: auditar fuentes y comenzar una primera fase ejecutable del sistema. **Ya existe aplicación real; el cierre integral del contrato y el uso institucional continúan pendientes.**
+Fecha: 10/11/2026. **Incremento ejecutable verificado; sistema integral y uso institucional pendientes.** Continúa DEMO 0.1 sin reconstruirla. El estado anterior está en `HISTORICO_ESTADO_DEMO_0_1.md`.
 
-## Hecho
+## Implementado
 
-- Auditoría del entorno y de cuatro PDF/57 páginas y tres fotografías, con hashes, referencias y conflictos específicos. Contrato íntegro de ocho CU y 30 RF preservado.
-- Aplicación Laravel/PHP, PostgreSQL real aislado, migraciones, seed sintético, sesiones, roles y permisos por convocatoria, interfaz responsive en español.
-- Convocatorias y ofertas editables en borrador, versiones y congelación al publicar; históricos 01/02 separados; calendario incoherente no se autocorrige.
-- Postulación múltiple con límite/duplicados, expediente privado versionado, envío con documentos, revisión por criterio y habilitación; CPD manual con respaldo.
-- Evaluadores por área, borrador/confirmación de notas, rectificación autorizada y auditada antes de publicación, cálculo decimal por postulación.
-- Ranking, cupos, nuevo examen exclusivo de empatados con comisión/condiciones/resultados/acta, aprobación DEMO y snapshot; auditoría y exportaciones PDF/XLSX reales.
-- Recorrido sintético ejecutado hasta selección tras un nuevo examen, conservado separado de una convocatoria todavía abierta.
+- Perfiles, activación/desactivación, permisos por convocatoria temporales, renovación, revocación individual, permisos efectivos e historial; invalidación de sesiones nuevas y antiguas.
+- Control de autoelevación, último administrador activo, edición optimista y reasignación autorizada, conservando autor de notas anteriores.
+- Solicitudes de rectificación de méritos/exámenes con motivo, evidencia por referencia, responsable y decisión separada; versiones inmutables y cálculo exacto.
+- Revisión identificable de rankings, comparación de posiciones/valores, nuevos empates, selección bajo revisión y aprobación explícita de una nueva publicación con acta. Publicaciones anteriores inmutables.
+- Consistencia mediante cerrojo transaccional común, versiones y restricciones PostgreSQL. Desempates vinculados a revisión y rondas sucesivas DEMO.
+- Interfaz administrativa, cola de solicitudes, historial de calificaciones/resultados y reportes PDF/XLSX con revisión y alerta de publicación pendiente.
 
-## Comprobado
+## Evidencias ejecutadas
 
-| Verificación | Resultado | Evidencia |
+| Control | Resultado | Evidencia |
 |---|---|---|
-| PHPUnit sobre PostgreSQL separado | 39 PASS, 139 aserciones, 0 FAIL | evidence/tests.txt y phpunit.xml |
-| Tres carreras con dos procesos/conexiones independientes | PASS: límite de postulaciones, nota y aprobación de última plaza | evidence/concurrency.json |
-| Siete controles HTTP contra servidor real | PASS: acceso, cabeceras, CSRF, sesión, permisos y .env no expuesto | evidence/security-http.json |
-| Restauración en otra base + archivos privados | PASS: conteos iguales y 12 documentos con SHA-256 | evidence/restore.json |
-| PDF/XLSX descargados desde navegador | PASS: contenido, dos filas, valores, celdas de texto y render PDF inspeccionado | evidence/exports.json, reporte-demo.pdf/.xlsx |
-| Navegación y diseño | Acceso y pantallas reales; escritorio y viewport móvil 390px sin desbordamiento global | evidence/screenshots/ |
-| Dependencias | composer validate válido; audit sin avisos publicados en la ejecución | evidence/composer-audit.json |
-| Estilo PHP | Pint --test pasó | evidence/calidad.json |
-| Instalación en copia limpia | PASS: dependencias nuevas, otra BD, migraciones, seed, recorrido y vistas | evidence/clean-install.json y clean-install.txt |
+| Línea de base nueva antes de cambios | 39 pruebas / 139 aserciones | `evidence/baseline-01/` |
+| Regresión y pruebas nuevas finales | 70 pruebas / 229 aserciones, cero fallos; 39 anteriores conservadas + 31 nuevas | `evidence/tests.txt`, `phpunit.xml` |
+| Concurrencia original | Tres carreras con procesos independientes: cupos de postulación, nota y publicación | `evidence/concurrency.json` |
+| Concurrencia 0.2 | Correcciones incompatibles, revocación/nota, renovación simultánea | `evidence/governance-concurrency.json` |
+| Migración incremental aplicada | Huellas de once tablas originales idénticas antes/después | `evidence/migration-preservation.json` |
+| Restauración de DEMO y documentos | Quince tablas idénticas, 12 archivos SHA-256 y cuatro triggers | `evidence/restore.json` |
+| Restauración con rectificaciones | Solicitudes, cinco versiones de calificaciones y una revisión conservadas; triggers restaurados | `evidence/governance-restore.json` |
+| HTTP real, sesión y CSRF | Siete controles de seguridad originales repetidos; administración/cola/versiones y exportación ampliada verificadas | `evidence/security-http.json`, `governance-http.json` |
+| PDF/XLSX ampliados | PDF de una página renderizado e inspeccionado; Excel con 11 columnas y celdas de texto | `evidence/reporte-demo-02.pdf/.xlsx`, `screenshots-02/reporte-02.png` |
+| Navegador | Administración y rectificaciones en escritorio/móvil 390px sin desbordamiento global | `evidence/screenshots-02/` |
+| Instalación independiente | Carpeta y dependencias nuevas, otra base, migraciones, seed, recorrido, vistas y rutas | `evidence/clean-install-02.json` |
+| Calidad y dependencias | Pint pasó; Composer válido, sin avisos ni paquetes abandonados reportados en la consulta | `evidence/release-02.json` |
 
-La instalación limpia se ejecutó en este equipo con los binarios PostgreSQL existentes, nuevas dependencias y otra base independiente. No se afirma una prueba en una máquina sin herramientas instaladas. Las evidencias documentales del paquete anterior no se contabilizan como pruebas de esta aplicación.
+Los resultados no constituyen auditoría independiente ni pruebas exhaustivas de carga o accesibilidad. Las exportaciones/capturas/instalación con nombres anteriores a 0.2 siguen conservadas como antecedentes; no se cuentan como validaciones nuevas. Las decisiones sobre notas se ensayaron en `ficct_test`; la DEMO conserva sus calificaciones/publicación 0.1.
 
-## Pendiente técnico (no presentar como bloqueado por normativa)
+## Conservación y ejecución
 
-1. Administración completa de perfiles y revocación/temporalidad de permisos desde UI; actualmente existen altas y asignaciones, además de control de cuenta inactiva en backend.
-2. Reasignación de docentes con autorización e historia, rectificación de méritos y recálculo/versionado de publicaciones posteriores a aprobar. Actualmente esos cambios se bloquean para preservar evidencia.
-3. Subsanación tras envío, retiros/renuncias, gestión de reclamos y de varias ofertas ganadas; configurar procedimientos DEMO explícitos sin hacerlos pasar por reglas institucionales.
-4. Nuevas rondas cuando persista el empate, actas estructuradas/adjuntas y circuito de firmas; la primera ronda y su resolución documentada funcionan.
-5. Formularios y reportes institucionales exactos, filtros/estadísticas más extensos, plantillas exhaustivas de requisitos por régimen y clonación asistida de una convocatoria.
-6. Ampliar pruebas de navegador por todos los perfiles y pantallas, accesibilidad formal, volúmenes/carga y revisión de seguridad independiente. Las pruebas actuales son iniciales y significativas, no exhaustivas.
+Los ocho CU y treinta RF canónicos siguen intactos. No se modificaron matrices, fechas ni textos de fuentes históricas. La migración agrega tablas/metadatos y backfill conservador, sin inventar versiones pasadas o responsables desconocidos. Hay protección de PostgreSQL para publicaciones, versiones, revisiones y auditoría; no protege frente a un operador de infraestructura que desactive esa protección.
 
-## Pendiente institucional (bloqueos localizados)
+Iniciar con `INICIAR_DEMO.ps1`; portal `http://127.0.0.1:8099`. Credenciales sintéticas privadas en `.local/ACCESOS_DEMO.txt`. El ZIP no contiene `.env`, contraseñas, documentos privados, respaldos ni dependencias locales. Pruebas exclusivamente con `scripts/test.py` y `ficct_test`. No ejecutar `migrate:fresh` sobre la DEMO.
 
-Vigencia/autenticidad/rectificaciones; reglamento FICCT adicional; formularios y validación CPD; composición áreas↔escrito/práctico, escala/redondeo y agregación multievaluador; condiciones de cada nuevo examen; firmas/autoridades definitivas; reclamos/cotejo físico; datos/retención e infraestructura. El stack docente no está confirmado.
+Detalles de migración, decisiones de bloqueo, alcance, pruebas, errores corregidos y recorrido: `DEMO_0_2_CAMBIOS_Y_VALIDACION.md`. Trazabilidad actualizada: `02-TRAZABILIDAD.md`.
 
-OFICIAL y la operación sobre históricos permanecen bloqueados. No se inventa normativa, no se usa CPD real, no se anuncia un nombramiento y no se incorporan datos reales a la DEMO.
+## Siguiente incremento
 
-## Continuar sin rehacer
+Subsanaciones tras envío; retiros/renuncias; aceptación e incompatibilidades de varias plazas ganadas; reclamos; actas adjuntas y firmas; estadísticas/plantillas institucionales; clonación asistida; accesibilidad, carga y seguridad independiente. Están clasificados por impacto, dependencia y complejidad en el informe 0.2. Las rondas sucesivas de desempate y las alertas de revisión de reportes ya se implementaron.
 
-Leer este estado, `01-AUDITORIA-FUENTES.md`, `02-TRAZABILIDAD.md` y el contrato canónico. Conservar repositorio, BD y archivos privados existentes. Iniciar con `INICIAR_DEMO.ps1`; credenciales en `.local/ACCESOS_DEMO.txt`. Pruebas solo con `scripts/test.py` y base `ficct_test`. No ejecutar migrate:fresh sobre la DEMO. La siguiente implementación prioritaria es administración/revocación de permisos y rectificaciones versionadas con sus pruebas, antes de ampliar reportes.
+## Validación institucional pendiente
 
-Dictamen: **primera fase ejecutable demostrada; cobertura base de ocho CU/30 RF; sistema completo aún no declarado terminado; uso institucional no autorizado.**
+Vigencia/autenticidad de fuentes; reglamento complementario; CPD real y formularios; composición de áreas/componentes, escala, redondeo y agregación multievaluador; condiciones de cada nuevo examen; autoridades/firmas; reclamos; datos, retención e infraestructura. La aprobación separada de correcciones y las rondas sucesivas son procedimientos técnicos DEMO, no normativa inventada.
+
+OFICIAL y las convocatorias históricas permanecen bloqueados para escrituras del dominio. **No se declara el sistema oficial, completo para toda operación institucional ni listo para producción.**
