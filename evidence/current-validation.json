@@ -1,0 +1,6 @@
+{
+  "junit": "evidence/inf513-p2/phpunit.xml",
+  "tests": 182,
+  "assertions": 970,
+  "scope": "Reconversión académica INF513 P2; PostgreSQL aislado; sin autorización institucional"
+}
