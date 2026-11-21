@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\SecureResponse;
+use App\Http\Middleware\SubpathLinks;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->web(append: [SecureResponse::class]);
+        $middleware->web(append: [SecureResponse::class, SubpathLinks::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(fn (Response $response) => SecureResponse::secure($response));

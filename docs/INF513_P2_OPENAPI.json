@@ -8,6 +8,9 @@
   "servers": [
     {
       "url": "http://127.0.0.1:8116"
+    },
+    {
+      "url": "https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2"
     }
   ],
   "paths": {
@@ -2528,6 +2531,45 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/sandbox/report": {
+      "get": {
+        "summary": "SandboxController@report",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."

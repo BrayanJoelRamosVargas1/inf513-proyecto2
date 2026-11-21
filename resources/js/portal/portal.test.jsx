@@ -9,6 +9,8 @@ describe('Mensajes y protección del cliente',()=>{
  it('muestra todos los errores 422 sin ocultar campos',()=>{expect(message({response:{status:422,data:{errors:{email:['Correo obligatorio'],password:['Contraseña obligatoria']}}}})).toBe('Correo obligatorio Contraseña obligatoria');});
  it('no filtra errores internos del servidor',()=>{expect(message({response:{status:500,data:{message:'password=secreto sql internals'}}})).not.toContain('secreto');});
  it('explica una sesión revocada',()=>{expect(message({response:{status:401}})).toContain('permisos');});
+ it.each([[403,'permiso'],[404,'disponibles'],[429,'solicitudes']])('explica en español el estado %s', (status,word)=>{expect(message({response:{status,data:{message:'Internal English detail'}}})).toContain(word);});
+ it('traduce decisiones y oculta incluso errores internos por campo',()=>{expect(label('renunciation')).toBe('Renuncia a plaza');expect(label('approved')).toBe('Aprobada');expect(label('expired_window_12')).toBe('Cierre de ventana vencida');expect(message({response:{status:500,data:{errors:{db:['SQL password=privado']}}}})).not.toContain('privado');});
  it('presenta el error con un rol accesible',()=>{render(<Alert text="Archivo no disponible"/>);expect(screen.getByRole('alert').textContent).toBe('Archivo no disponible');});
  it('no muestra un aviso vacío',()=>{render(<Alert text=""/>);expect(screen.queryByRole('alert')).toBeNull();});
  it('conserva el contenido cuando no hay fallo de render',()=>{render(<ErrorBoundary><p>Contenido disponible</p></ErrorBoundary>);expect(screen.getByText('Contenido disponible')).toBeTruthy();});

@@ -64,6 +64,7 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
         Route::post('participation-requests/{id}/decision', [ProcessController::class, 'mutate'])->defaults('operation', 'participation-decision');
         Route::post('applications/{id}/choices', [ProcessController::class, 'mutate'])->defaults('operation', 'choice');
         Route::get('sandbox', [SandboxController::class, 'index']);
+        Route::get('sandbox/report', [SandboxController::class, 'report']);
         Route::post('sandbox/methods', [SandboxController::class, 'method']);
         Route::delete('sandbox/methods/{id}', [SandboxController::class, 'remove']);
         Route::post('sandbox/payments', [SandboxController::class, 'pay']);

@@ -12,5 +12,5 @@ return [
 'decimal'=>'El campo :attribute debe tener hasta dos decimales.',
 'min'=>['string'=>'El campo :attribute requiere al menos :min caracteres.','numeric'=>'El campo :attribute debe ser al menos :min.','array'=>'Selecciona al menos :min elementos.','file'=>'El archivo es demasiado pequeño.'],
 'max'=>['string'=>'El campo :attribute admite hasta :max caracteres.','numeric'=>'El campo :attribute no puede superar :max.','array'=>'Demasiados elementos en :attribute.','file'=>'El archivo es demasiado grande.'],
-'attributes'=>['email'=>'correo','password'=>'contraseña','name'=>'nombre','amount'=>'importe','total'=>'total','count'=>'cuotas','confirmed'=>'la simulación','q'=>'búsqueda','file'=>'archivo','faculty'=>'facultad','career'=>'carrera'],
+'attributes'=>['from'=>'desde','to'=>'hasta','call_id'=>'convocatoria','page'=>'página','email'=>'correo','password'=>'contraseña','name'=>'nombre','amount'=>'importe','total'=>'total','count'=>'cuotas','confirmed'=>'la simulación','q'=>'búsqueda','file'=>'archivo','faculty'=>'facultad','career'=>'carrera'],
 ];

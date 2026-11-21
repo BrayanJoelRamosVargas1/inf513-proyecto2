@@ -17,8 +17,28 @@ final class SandboxController extends Controller
         $u = $r->user()->id;
         $plans = DB::table('sandbox_payment_plans')->where('user_id', $u)->orderByDesc('id')->get();
         $installments = DB::table('sandbox_installments')->whereIn('plan_id', $plans->pluck('id'))->orderBy('number')->get();
+        $payments = DB::table('sandbox_payments')->where('user_id', $u)->orderByDesc('id')->get();
+        $pending = $installments->reject(fn ($i) => $payments->contains(fn ($payment) => $payment->installment_id === $i->id && $payment->status === 'paid'));
+        $sum = fn ($items) => $items->reduce(fn ($total, $item) => bcadd($total, $item->amount, 2), '0.00');
 
-        return response()->json(['notice' => 'Simulación académica — no se procesa dinero real', 'methods' => DB::table('sandbox_payment_methods')->where('user_id', $u)->get(), 'payments' => DB::table('sandbox_payments')->where('user_id', $u)->orderByDesc('id')->get(), 'plans' => $plans, 'installments' => $installments]);
+        return response()->json(['notice' => 'Simulación académica — no se procesa dinero real', 'methods' => DB::table('sandbox_payment_methods')->where('user_id', $u)->get(), 'payments' => $payments, 'plans' => $plans, 'installments' => $installments,
+            'summary' => ['paid' => $sum($payments->where('status', 'paid')), 'failed' => $sum($payments->where('status', 'failed')), 'pending_installments' => $sum($pending)]]);
+    }
+
+    public function report(Request $r)
+    {
+        $rows = DB::table('sandbox_payments')->where('user_id', $r->user()->id)->orderBy('id')->get(['id', 'amount', 'status', 'installment_id', 'created_at']);
+
+        return response()->streamDownload(function () use ($rows) {
+            $stream = fopen('php://output', 'w');
+            fwrite($stream, "\xEF\xBB\xBF");
+            fputcsv($stream, ['Simulación académica — no se procesa dinero real'], ',', '"', '');
+            fputcsv($stream, ['Registro', 'Importe ficticio Bs', 'Resultado', 'Cuota', 'Fecha'], ',', '"', '');
+            foreach ($rows as $row) {
+                fputcsv($stream, [$row->id, $row->amount, $row->status === 'paid' ? 'Éxito simulado' : 'Fallo simulado', $row->installment_id, $row->created_at], ',', '"', '');
+            }
+            fclose($stream);
+        }, 'simulacion-pagos.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 
     public function method(Request $r)

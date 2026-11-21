@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Access;
 use App\Domain\Workspace;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\ReadModels\PortalScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,23 +56,52 @@ final class WorkspaceController extends Controller
         $term = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $d['q']).'%';
         $calls = PortalScope::calls($r->user());
         $items = $calls->where('title', 'ilike', $term)->orderByDesc('id')->paginate(10, ['id', 'title', 'status']);
-        $offers = DB::table('offers')->whereIn('call_id', PortalScope::calls($r->user())->select('id'))->where('title', 'ilike', $term)
-            ->when($r->user()->role === 'staff' && ! in_array('reviewer', Workspace::roles($r->user())) && ! in_array('authority', Workspace::roles($r->user())), fn ($q) => $q->whereIn('id', DB::table('assignments')->where('user_id', $r->user()->id)->select('offer_id')))
-            ->orderBy('id')->limit(20)->get(['id', 'title', 'call_id']);
+        $visibleOffers = DB::table('offers')->whereIn('call_id', PortalScope::calls($r->user())->select('id'));
+        if (! in_array($r->user()->role, ['student', 'admin'])) {
+            $memberships = fn (array $roles) => Access::effective(DB::table('memberships')->where('user_id', $r->user()->id)->whereIn('role', $roles))->select('call_id');
+            $visibleOffers->where(fn ($q) => $q->whereIn('call_id', $memberships(['authority', 'reviewer']))
+                ->orWhere(fn ($s) => $s->whereIn('call_id', $memberships(['evaluator']))->whereIn('id', DB::table('assignments')->where('user_id', $r->user()->id)->select('offer_id')))
+                ->orWhereIn('id', DB::table('applications')->where('user_id', $r->user()->id)->select('offer_id')));
+        }
+        $offers = (clone $visibleOffers)->where(fn ($q) => $q->where('title', 'ilike', $term)->orWhereIn('category_id', DB::table('categories')->where('name', 'ilike', $term)->select('id')))->orderBy('id')->paginate(10, ['id', 'title', 'call_id']);
+        $types = DB::table('categories')->where('name', 'ilike', $term)
+            ->whereIn('id', (clone $visibleOffers)->select('category_id'))->orderBy('id')->paginate(10, ['id', 'name']);
+        $lastPage = max($items->lastPage(), $offers->lastPage(), $types->lastPage());
+        abort_if($items->currentPage() > $lastPage, 404, 'La página solicitada no existe. Vuelve a la primera página de la búsqueda.');
 
-        return response()->json(['calls' => $items, 'offers' => $offers]);
+        return response()->json(['calls' => $items, 'offers' => $offers->items(), 'types' => $types->items(),
+            'pagination' => ['page' => $items->currentPage(), 'last_page' => $lastPage, 'total' => $items->total() + $offers->total() + $types->total()]]);
     }
 
     public function metrics(Request $r)
     {
         $r->validate(['from' => 'nullable|date', 'to' => 'nullable|date|after_or_equal:from', 'call_id' => 'nullable|integer|min:1']);
-        $apps = PortalScope::applications($r->user())->when($r->filled('call_id'), fn ($q) => $q->where('offers.call_id', $r->integer('call_id')));
+        $visibleCalls = PortalScope::calls($r->user());
+        if ($r->filled('call_id')) {
+            abort_unless((clone $visibleCalls)->where('id', $r->integer('call_id'))->exists(), 403);
+        }
+        $apps = PortalScope::applications($r->user())->when($r->filled('call_id'), fn ($q) => $q->where('offers.call_id', $r->integer('call_id')))
+            ->when($r->filled('from'), fn ($q) => $q->where('applications.created_at', '>=', $r->date('from')->startOfDay()))
+            ->when($r->filled('to'), fn ($q) => $q->where('applications.created_at', '<=', $r->date('to')->endOfDay()));
         $groups = (clone $apps)->select('applications.eligibility')->selectRaw('count(*) as total')->groupBy('applications.eligibility')->get();
+        $ids = (clone $apps)->select('applications.id');
+        $authorityCalls = Access::effective(DB::table('memberships')->where('user_id', $r->user()->id)->where('role', 'authority'))->select('call_id');
+        $exams = DB::table('grades')->join('applications as a', 'a.id', '=', 'grades.application_id')->join('offers as o', 'o.id', '=', 'a.offer_id')
+            ->whereIn('grades.application_id', clone $ids)->where('grades.status', 'confirmed')
+            ->where(fn ($q) => $q->where('a.user_id', $r->user()->id)->orWhereIn('o.call_id', $authorityCalls)->orWhereIn('grades.assignment_id', DB::table('assignments')->where('user_id', $r->user()->id)->select('id')))->count();
         $traffic = DB::table('access_events')->when($r->user()->role !== 'admin', fn ($q) => $q->where('user_id', $r->user()->id))
             ->when($r->filled('from'), fn ($q) => $q->where('created_at', '>=', $r->date('from')->startOfDay()))
             ->when($r->filled('to'), fn ($q) => $q->where('created_at', '<=', $r->date('to')->endOfDay()));
         $popular = (clone $traffic)->where('event', 'page.view')->select('resource')->selectRaw('count(*) as total')->groupBy('resource')->orderByDesc('total')->limit(10)->get();
+        $series = (clone $traffic)->selectRaw("to_char(created_at AT TIME ZONE 'America/La_Paz', 'YYYY-MM-DD') as day, count(*) as total")->groupBy('day')->orderByDesc('day')->limit(90)->get()->sortBy('day')->values();
 
-        return response()->json(['applications' => (clone $apps)->count(), 'eligibility' => $groups, 'traffic_scope' => $r->user()->role === 'admin' ? 'Instalación completa' : 'Mi actividad', 'popular' => $popular, 'login_success' => (clone $traffic)->where('event', 'login.success')->count(), 'login_failed' => (clone $traffic)->where('event', 'login.failed')->count()]);
+        return response()->json(['applications' => (clone $apps)->count(), 'eligibility' => $groups,
+            'calls' => (clone $visibleCalls)->when($r->filled('call_id'), fn ($q) => $q->where('id', $r->integer('call_id')))->count(),
+            'documents' => DB::table('documents')->whereIn('application_id', clone $ids)->count(), 'confirmed_exams' => $exams,
+            'active_awards' => (clone $apps)->where('applications.selection', 'selected')->where('applications.participation', 'active')->count(),
+            'registered_users' => $r->user()->role === 'admin' ? User::count() : null,
+            'call_options' => (clone $visibleCalls)->orderByDesc('id')->get(['id', 'title']), 'series' => $series,
+            'traffic_scope' => $r->user()->role === 'admin' ? 'Instalación completa' : 'Mi actividad', 'popular' => $popular,
+            'login_success' => (clone $traffic)->where('event', 'login.success')->count(), 'login_failed' => (clone $traffic)->where('event', 'login.failed')->count()]);
     }
 }

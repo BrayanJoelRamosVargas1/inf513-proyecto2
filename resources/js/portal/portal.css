@@ -3,3 +3,4 @@
 [data-theme=ninos][data-mode=noche]{--brand:#d5b6fa;--accent:#352643}[data-theme=jovenes][data-mode=noche]{--brand:#a5ded1;--accent:#193a38}
 
 body{overflow-wrap:anywhere}input,select,textarea{min-width:0}button,.button{max-width:100%;white-space:normal;overflow-wrap:anywhere}header form{width:min(100%,32rem);min-width:0}header>div{min-width:0}section,article{min-width:0}
+.shell nav a:hover,.shell nav a[aria-current]{background:var(--accent);color:var(--brand)}

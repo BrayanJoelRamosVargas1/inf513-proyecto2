@@ -4,11 +4,13 @@
 
 Interfaz React en `/p2`, API Laravel con sesión y PostgreSQL. Se conserva la interfaz anterior para comparación y continuidad. Se mantienen intactos el contrato de 8 CU / 30 RF y los registros históricos. La reconversión académica no constituye autorización institucional.
 
-La ejecución actual de PHPUnit registra 182 pruebas y 970 aserciones. Las verificaciones nuevas cubren sesión, permisos, navegación desde PostgreSQL, postulación y evaluación, preferencias, búsqueda, métricas, visitas, pagos ficticios, configuración, administración, subsanación versionada, retiro aprobado, publicación, manifestación DEMO y rectificación sin sobrescribir publicaciones. Las ejecuciones anteriores son antecedentes; no deben sumarse como pruebas adicionales.
+La ejecución actual de PHPUnit registra 189 pruebas y 1026 aserciones. Las verificaciones nuevas cubren sesión, permisos, navegación desde PostgreSQL, postulación y evaluación, preferencias, búsqueda, métricas, visitas, pagos ficticios, configuración, administración, subsanación versionada, retiro aprobado, publicación, manifestación DEMO y rectificación sin sobrescribir publicaciones. Las ejecuciones anteriores son antecedentes; no deben sumarse como pruebas adicionales.
 
-Verificación independiente desde una copia del código publicable: Composer y npm instalados desde sus archivos de bloqueo; PHPUnit 182/970; React 9/9; compilación de producción correcta. Recorrido de navegador: 21 comprobaciones, incluidos descargas PDF/Excel reales y rechazo CSRF sin token. Seis combinaciones de tema/modo y contraste con letra al 200 % revisados con axe y pantalla de 320 píxeles. Restauración en otra base: 41 tablas idénticas y nueve triggers. El análisis automático de accesibilidad no sustituye una evaluación completa con personas usuarias.
+Verificación independiente desde una copia del código publicable: Composer y npm instalados desde sus archivos de bloqueo; PHPUnit 189/1026; React 18/18; compilación de producción correcta. Recorrido de navegador: 21 comprobaciones, incluidos descargas PDF/Excel reales y rechazo CSRF sin token. Seis combinaciones de tema/modo y contraste con letra al 200 % revisados con axe y pantalla de 320 píxeles. Restauración en otra base: 41 tablas idénticas y nueve triggers. La QA remota adicional completó 11 comprobaciones de permisos, cargas rechazadas, privacidad, estadísticas, ayuda, cookies y enlaces; sus capturas esperan la navegación cargada. El análisis automático de accesibilidad no sustituye una evaluación completa con personas usuarias.
 
 ## Arquitectura
+
+[Guía de defensa](GUIA_DEFENSA_CAMBIOS_EN_VIVO.md) · [Respaldo e incidentes](RUNBOOK_BD_INCIDENTES.md)
 
 React → HTTP JSON `/api/v1` → controladores Laravel → servicios de dominio → PostgreSQL y almacenamiento privado.
 
@@ -61,14 +63,31 @@ Pruebas: utilizar una base exclusiva `ficct_test` y las salvaguardas de `scripts
 
 ## Alojamiento y entrega
 
-Repositorio creado: https://github.com/BrayanJoelRamosVargas1/inf513-proyecto2 . La creación del repositorio no demuestra que el código esté publicado ni desplegado.
+Repositorio publicado: https://github.com/BrayanJoelRamosVargas1/inf513-proyecto2 .
 
-Ruta docente prevista: `https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2`. El sondeo inicial devolvió 404. SSH, FTP y el servidor PostgreSQL respondieron; esto no confirma autenticación ni versiones del alojamiento. Falta verificar el usuario asignado, acceso real, directorio público, versión PHP, extensiones, base autorizada, rewrite y permisos. No se han aplicado migraciones remotas.
+Aplicación desplegada: https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2/p2 .
+Se ejecutó un recorrido real de 22 comprobaciones: administración, autoridad, revisor, evaluador y estudiante; carga de cinco PDF, habilitación, méritos, notas, resultado 68, publicación, manifestación DEMO, exportaciones PDF/Excel y pagos ficticios. Las capturas y registros corresponden a datos sintéticos. Las verificaciones locales anteriores de 21 comprobaciones son antecedentes distintos.
 
-Para un subdirectorio, compilar con `VITE_ASSET_BASE=/inf513/grupo09sa/proyecto2/build/`, configurar `APP_URL` con la URL real y comprobar cookies, rutas de React, API y archivos desde red externa. `APP_DEBUG=false`, HTTPS, `.env` fuera del directorio público. Estas instrucciones requieren prueba en el servidor antes de declarar entrega lista.
+Servidor comprobado: PHP 8.4.28, PostgreSQL mediante PDO, esquema exclusivo ficct_p2 (41 tablas y nueve triggers). No se modificaron los esquemas de otros proyectos. El servidor carece de BCMath nativo: composer.lock incorpora phpseclib/bcmath_compat; se verificó la suma decimal en el servidor y se repitieron las 189 pruebas / 1026 aserciones con el motor de compatibilidad en el entorno aislado.
+
+La raíz pública contiene únicamente el punto de entrada y recursos; aplicación, dependencias y configuración están en una carpeta privada protegida. HTTPS, cookies Secure/HttpOnly/SameSite=Lax y ruta exclusiva de Proyecto 2. Se comprobaron respuestas 403/404 al intentar leer archivos privados. Las credenciales aleatorias están fuera del repositorio y los paquetes.
+
+La compilación para el servidor utiliza VITE_ASSET_BASE=/inf513/grupo09sa/proyecto2/build/. APP_URL y SESSION_PATH deben corresponder a la instalación; APP_DEBUG=false. La interfaz conservada también ajusta sus enlaces a la subruta. No ejecutar generadores exclusivos del entorno local en producción.
 
 No incluir `.env`, accesos DEMO locales, dumps, archivos privados de postulantes, `vendor` ni `node_modules` en el repositorio público. Conservar fuentes normativas y evidencias históricas en los paquetes privados originales cuando no corresponda publicarlas.
 
 ## Pendientes institucionales
 
 Puntaje mínimo aprobatorio, discrepancia de rúbrica de laboratorio, composición oficial de exámenes y reglas institucionales de subsanación, renuncia y compatibilidad de plazas. Los desempates requieren examen y decisión de comisión; no se inventa fórmula ganadora. La configuración de áreas es por convocatoria. Las decisiones DEMO se identifican como tales.
+
+## Detalles de operación y límites técnicos
+
+Las estadísticas filtran postulaciones y accesos por fecha; la convocatoria filtra los datos académicos. Documentos, notas y adjudicaciones corresponden a postulaciones autorizadas. Solo el administrador obtiene el conteo global de usuarios. Las series muestran hasta 90 fechas en hora de Bolivia. La búsqueda incluye tipos, convocatorias y ofertas, mantiene la consulta al paginar y rechaza páginas inexistentes. Un permiso en una convocatoria no abre los documentos de otra.
+
+La retención de telemetría es una política técnica DEMO de 90 días configurable en config/portal.php. ficct:telemetry-prune solo informa por defecto; --apply elimina eventos antiguos de acceso. No elimina expedientes, auditoría, publicaciones, contadores ni recibos idempotentes. No hay una tarea automática programada; la institución debe aprobar su política de conservación.
+
+Los reportes CSV de pagos son privados del propietario y se identifican como simulaciones. Un pago sin plan no reduce el saldo de cuotas. No se procesan tarjetas ni dinero real.
+
+La ayuda de Cuenta distingue cada responsabilidad efectiva; solo el postulante obtiene las seis muestras PDF A4, identificadas como MUESTRA. No son documentos institucionales válidos. Un evaluador recibe la guía de evaluación, sin detalle reservado del expediente.
+
+Las pruebas automatizadas, axe y recorridos sintéticos no constituyen un pentest exhaustivo, una prueba formal de carga ni validación de accesibilidad con usuarios. Tampoco certifican vigencia normativa, aprobación docente o autorización para concursos reales. Deben resolverse las decisiones institucionales indicadas antes de uso institucional.

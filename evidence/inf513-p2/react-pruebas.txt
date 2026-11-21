@@ -1,0 +1,12 @@
+
+> test
+> vitest run --run
+
+
+ RUN  v5.1.1 C:/Users/ElCremosasWee/Documents/ChatGPT/tecnoproyectoCABa/sistema
+
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  19:28:43
+   Duration  1.52s (environment 60%, import 26%, tests 11%, transform 3%)

@@ -69,6 +69,7 @@ final class ProcessController extends Controller
         $v = app(ParticipationController::class)->awards($r)->getData();
         $v['awards'] = $v['awards']->map(function ($a) {
             $call = Selection::row('calls', $a->call_id);
+            $a->publication = collect((array) $a->publication)->only(['id', 'version', 'created_at']);
 
             return collect((array) $a)->only(['id', 'user_id', 'name', 'title', 'call_id', 'participation', 'selection', 'publication', 'choice', 'choices'])->put('can_choose', $call->mode === 'DEMO' && in_array($call->status, ['results', 'evaluation']));
         })->values();
