@@ -1,0 +1,2 @@
+<div class="form-grid"><label>Gestión (año, si está confirmada)<input name="management_year" type="number" min="1000" max="9999" value="{{ old('management_year',$identificationCall->management_year??'') }}"></label><label>Número de convocatoria (si está confirmado)<input name="call_number" maxlength="40" value="{{ old('call_number',$identificationCall->call_number??'') }}"></label></div>
+<p class="muted">Son datos explícitos de identificación. Dejarlos vacíos conserva el estado no registrado; no se deducen de los títulos ni se certifica su carácter oficial.</p>

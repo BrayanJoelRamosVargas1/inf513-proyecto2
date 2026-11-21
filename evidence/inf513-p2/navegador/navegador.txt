@@ -1,0 +1,22 @@
+React inicia y obtiene menú de PostgreSQL: admin
+React inicia y obtiene menú de PostgreSQL: autoridad
+React inicia y obtiene menú de PostgreSQL: revisor
+React inicia y obtiene menú de PostgreSQL: docente
+Administrador crea un tipo por API sin acceder a decisiones académicas
+Autoridad crea convocatoria y oferta configurables desde React
+Registro React mantiene sesión y perfil postulante
+Postulación React carga cinco PDF y confirma envío por API
+Descargas del expediente entregan archivos PDF reales
+Revisor React revisa, habilita y registra CPD
+Autoridad React conduce etapas por API
+Evaluador React confirma únicamente sus áreas sin archivos privados
+Resultado React: mérito 20 + examen 48 = 68
+Autoridad aprueba publicación conservada mediante React
+Reportes PDF y Excel son archivos binarios válidos por API
+Postulante registra aceptación DEMO vinculada a publicación
+Pago único y plan con una cuota simulada funcionan desde React
+Tres temas, día/noche, alto contraste y fuente 200% persisten
+Buscador destacado consulta ofertas autorizadas por API
+Estadísticas y contador persistente se muestran en React
+Servidor real rechaza mutación sin CSRF y acepta token válido
+RECORRIDO_REACT_PASS

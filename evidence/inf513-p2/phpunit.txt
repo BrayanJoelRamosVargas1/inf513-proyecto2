@@ -1,0 +1,12 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.30
+Configuration: C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\phpunit.xml
+
+...............................................................  63 / 182 ( 34%)
+............................................................... 126 / 182 ( 69%)
+........................................................        182 / 182 (100%)
+
+Time: 00:29.493, Memory: 102.00 MB
+
+OK (182 tests, 970 assertions)

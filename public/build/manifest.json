@@ -1,0 +1,11 @@
+{
+  "resources/js/portal/main.jsx": {
+    "file": "assets/main-CpB8oCYZ.js",
+    "name": "main",
+    "src": "resources/js/portal/main.jsx",
+    "isEntry": true,
+    "css": [
+      "assets/main-CW3w4HdY.css"
+    ]
+  }
+}
