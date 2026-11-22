@@ -2,20 +2,78 @@
 
 use App\Domain\DemoJourney;
 use App\Domain\DocumentaryJourney;
+use App\Domain\DocumentProcessor;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 Artisan::command('ficct:scan-institutional-source {source_id}', function () {
     $id = filter_var($this->argument('source_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-    if ($id === false || ! \Illuminate\Support\Facades\DB::table('institutional_sources')->where('id', $id)->exists()) {
+    if ($id === false || ! DB::table('institutional_sources')->where('id', $id)->exists()) {
         $this->error('Fuente inexistente o identificador inválido.');
+
         return 1;
     }
-    $result = app(\App\Domain\DocumentSafety::class)->scan($id);
+    $processor = app(DocumentProcessor::class);
+    $task = $processor->enqueue($id);
+    $processor->recover(true);
+    $result = $processor->runOne($task);
     $this->line(json_encode($result, JSON_UNESCAPED_UNICODE));
+
     return $result['state'] === 'clean' ? 0 : 1;
 })->purpose('Analizar una fuente institucional privada; sin opciones de aprobación manual');
-use Illuminate\Support\Facades\DB;
+
+Artisan::command('ficct:scan-enqueue {source_id}', function () {
+    $id = filter_var($this->argument('source_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($id === false || ! DB::table('institutional_sources')->where('id', $id)->exists()) {
+        $this->error('Fuente inexistente o identificador inválido.');
+
+        return 1;
+    }
+    $this->line(json_encode(['task_id' => app(DocumentProcessor::class)->enqueue($id), 'state' => 'queued']));
+
+    return 0;
+})->purpose('Conservar una solicitud de análisis pendiente en PostgreSQL');
+
+Artisan::command('ficct:scan-worker {--once} {--max-jobs=20} {--max-seconds=300}', function () {
+    $jobs = filter_var($this->option('max-jobs'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 1000]]);
+    $seconds = filter_var($this->option('max-seconds'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 3600]]);
+    if ($jobs === false || $seconds === false) {
+        $this->error('Límites de trabajador inválidos.');
+
+        return 1;
+    }
+    $processor = app(DocumentProcessor::class);
+    $start = microtime(true);
+    $processor->cleanup(true);
+    for ($i = 0; $i < $jobs && microtime(true) - $start < $seconds; $i++) {
+        $processor->recover(true);
+        $processor->recoverUnmanaged(true);
+        $result = $processor->runOne();
+        $this->line(json_encode($result));
+        if ($this->option('once') || $result['state'] === 'idle') {
+            break;
+        }
+    }
+
+    return 0;
+})->purpose('Procesar tareas con reserva temporal y recuperación, sin aprobar resultados manualmente');
+
+Artisan::command('ficct:scan-maintain {--apply}', function () {
+    $p = app(DocumentProcessor::class);
+    $apply = (bool) $this->option('apply');
+    $this->line(json_encode(['apply' => $apply, 'leases' => $p->recover($apply),
+        'unmanaged' => $p->recoverUnmanaged($apply), 'temporaries' => $p->cleanup($apply)]));
+
+    return 0;
+})->purpose('Inspeccionar recuperación y temporales; requiere --apply para cambiar datos');
+
+Artisan::command('ficct:scan-queue-status', function () {
+    $this->line(json_encode(['tasks' => DB::table('institutional_scan_tasks')
+        ->selectRaw('state, count(*) as total')->groupBy('state')->orderBy('state')->get(),
+        'expired_leases' => DB::table('institutional_scan_tasks')
+            ->where('state', 'leased')->where('lease_until', '<=', now())->count()]));
+})->purpose('Consultar estado agregado del procesador sin revelar expedientes');
 
 Artisan::command('ficct:telemetry-prune {--apply : Aplicar eliminación únicamente a telemetría vencida}', function () {
     $days = config('portal.telemetry_retention_days', 90);

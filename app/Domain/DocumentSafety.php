@@ -5,6 +5,7 @@ namespace App\Domain;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FilesystemException;
 
 final class DocumentSafety
 {
@@ -39,7 +40,7 @@ final class DocumentSafety
             $stream = $disk->readStream($source->path);
             abort_unless(is_resource($stream), 409, 'La fuente no está disponible para comprobar su integridad.');
             $bytes = stream_get_contents($stream, 15728641);
-        } catch (\League\Flysystem\FilesystemException) {
+        } catch (FilesystemException) {
             abort(409, 'La fuente no está disponible para comprobar su integridad.');
         } finally {
             if (is_resource($stream)) {
@@ -82,15 +83,42 @@ final class DocumentSafety
 
             return [$source, $job];
         });
+        $result = $this->analyse($job);
+        DB::table('institutional_scan_results')->insertOrIgnore(['job_id' => $job, 'state' => $result['state'], 'engine' => $result['engine'], 'reason' => $result['reason'], 'finished_at' => now()]);
+
+        $persisted = DB::table('institutional_scan_results')->where('job_id', $job)->first();
+
+        return ['source_id' => $sourceId, 'job_id' => $job, 'state' => $persisted->state, 'reason' => $persisted->reason];
+    }
+
+    /** Run I/O only; the processor fences completion with its persisted lease. */
+    public function analyse(int $job): array
+    {
+        $record = Selection::row('institutional_scan_jobs', $job);
+        $source = Selection::row('institutional_sources', $record->source_id);
+        if ($record->policy_hash !== self::policyHash() || $record->sha256 !== $source->sha256) {
+            return ['state' => 'error', 'engine' => 'unavailable', 'reason' => 'policy_or_source_changed'];
+        }
         $temp = null;
+        $guard = null;
         try {
             $bytes = $this->bytes($source);
-            $directory = Storage::disk('local')->path('institutional-scan-work');
+            $directory = Storage::disk('local')->path('institutional-scan-work/job-'.$job);
             if (! is_dir($directory) && ! mkdir($directory, 0700, true) && ! is_dir($directory)) {
                 throw new \RuntimeException('scan_workspace_unavailable');
             }
-            $temp = tempnam($directory, 'scan-');
-            if ($temp === false || file_put_contents($temp, $bytes) !== strlen($bytes)) {
+            $base = Storage::disk('local')->path('institutional-scan-work');
+            if (is_link($base) || is_link($directory) || dirname(realpath($base)) !== realpath(Storage::disk('local')->path(''))
+                || dirname(realpath($directory)) !== realpath($base)
+                || is_link($directory.'/.lock') || is_link($directory.'/payload.bin')) {
+                throw new \RuntimeException('scan_workspace_unsafe');
+            }
+            $guard = fopen($directory.'/.lock', 'c+b');
+            if (! is_resource($guard) || ! flock($guard, LOCK_EX | LOCK_NB)) {
+                throw new \RuntimeException('scan_workspace_busy');
+            }
+            $temp = $directory.'/payload.bin';
+            if (file_put_contents($temp, $bytes) !== strlen($bytes)) {
                 throw new \RuntimeException('scan_snapshot_unavailable');
             }
             chmod($temp, 0600);
@@ -104,11 +132,14 @@ final class DocumentSafety
             $result = ['state' => 'error', 'engine' => 'unavailable', 'reason' => 'integrity_or_scanner_failure'];
         } finally {
             if (is_string($temp) && is_file($temp)) {
-                unlink($temp);
+                @unlink($temp);
+            }
+            if (is_resource($guard)) {
+                flock($guard, LOCK_UN);
+                fclose($guard);
             }
         }
-        DB::table('institutional_scan_results')->insert(['job_id' => $job, 'state' => $result['state'], 'engine' => $result['engine'], 'reason' => $result['reason'], 'finished_at' => now()]);
 
-        return ['source_id' => $sourceId, 'job_id' => $job, 'state' => $result['state'], 'reason' => $result['reason']];
+        return $result;
     }
 }

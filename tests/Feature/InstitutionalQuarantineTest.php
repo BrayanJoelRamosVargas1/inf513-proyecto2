@@ -86,7 +86,7 @@ final class InstitutionalQuarantineTest extends TestCase
             $this->assertSame($state, app(DocumentSafety::class)->scan($this->source)['state']);
             $this->download($state === 'clean' ? 200 : 423);
         }
-        $this->assertDatabaseCount('institutional_scan_jobs', 3);
+        $this->assertDatabaseCount('institutional_scan_jobs', 4); // Includes durable upload request.
         $this->assertDatabaseCount('institutional_scan_results', 3);
     }
 

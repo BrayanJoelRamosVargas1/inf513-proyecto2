@@ -71,6 +71,7 @@ final class InstitutionalPreparation
                 abort_unless(is_string($path), 500, 'No se pudo conservar la fuente.');
                 unset($data['expected_version']);
                 $source = DB::table('institutional_sources')->insertGetId($data + ['dossier_id' => $id, 'created_by' => $user->id, 'version' => $version, 'path' => $path, 'sha256' => $sha, 'mime' => $file->getMimeType(), 'bytes' => $file->getSize(), 'created_at' => now()]);
+                app(DocumentProcessor::class)->enqueue($source);
                 DB::table('institutional_dossiers')->where('id', $id)->update(['version' => $d->version + 1, 'updated_at' => now()]);
                 Selection::audit($user, $d->call_id, 'institutional.source.recorded', 'institutional-source:'.$source, null, ['sha256' => $sha, 'version' => $version, 'verification' => 'UNVERIFIED']);
 

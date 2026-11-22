@@ -1,9 +1,16 @@
 {
-  "junit": "evidence/integrity-transitions/phpunit.xml",
-  "tests": 213,
-  "assertions": 1223,
-  "concurrency": "Dos procesos reales; bloqueo observado por PostgreSQL",
-  "clamav_real_adapter": "PASS_LIMITED_SCOPE: cuatro casos",
+  "junit": "evidence/document-processor/instalacion-phpunit.xml",
+  "tests": 227,
+  "assertions": 1332,
+  "previous_test_identifiers_preserved": 213,
+  "new_tests": 14,
+  "process_recovery": "PASS: interrupción real, reserva compartida, rechazo tardío y supervisor reiniciado",
+  "event_sequence": "evidence/document-processor/secuencia-eventos.json",
+  "restore": "49 tablas, 15 triggers y 39 archivos privados, incluidos marcadores vacíos",
+  "clamav_real_adapter": "PASS_LIMITED_SCOPE histórico; nuevo reintento limpio ejecutado con motor real",
   "eicar": "NOT_VERIFIED",
-  "scope": "Integridad en envío y revisión; local, sin activación ni despliegue oficial"
+  "applicant_documents": "PENDING: esta cola solo protege fuentes institucionales",
+  "scope": "Ampliación local; NO_GO_INSTITUCIONAL; sin despliegue remoto ni servicio automático instalado",
+  "clean_delivery_execution": "PASS: 227 pruebas / 1332 aserciones",
+  "php_syntax_files": 111
 }
