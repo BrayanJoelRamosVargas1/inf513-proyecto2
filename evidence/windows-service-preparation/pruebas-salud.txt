@@ -1,0 +1,13 @@
+test_console_does_not_confirm_scm (__main__.ServiceHealthTest.test_console_does_not_confirm_scm) ... ok
+test_fresh_running_status (__main__.ServiceHealthTest.test_fresh_running_status) ... ok
+test_future_timestamp_is_not_fresh (__main__.ServiceHealthTest.test_future_timestamp_is_not_fresh) ... ok
+test_invalid_or_dead_process_identity (__main__.ServiceHealthTest.test_invalid_or_dead_process_identity) ... ok
+test_no_paths_credentials_or_pids_in_report (__main__.ServiceHealthTest.test_no_paths_credentials_or_pids_in_report) ... ok
+test_stale_host_even_with_running_process (__main__.ServiceHealthTest.test_stale_host_even_with_running_process) ... ok
+test_worker_failure_even_if_host_is_alive (__main__.ServiceHealthTest.test_worker_failure_even_if_host_is_alive) ... ok
+test_worker_stale_even_if_host_heartbeat_is_fresh (__main__.ServiceHealthTest.test_worker_stale_even_if_host_heartbeat_is_fresh) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.170s
+
+OK

@@ -1,0 +1,59 @@
+{
+  "resultado": "PASS_EN_ALCANCE_DE_CONSOLA",
+  "checks": [
+    {
+      "control": "arranque_real_host_supervisor_y_trabajador_PHP",
+      "resultado": "PASS",
+      "modo": "console-test",
+      "base": "copia aislada"
+    },
+    {
+      "control": "segunda_instancia_rechazada_sin_afectar_la_primera",
+      "resultado": "PASS"
+    },
+    {
+      "control": "monitor_distingue_consola_de_servicio_SCM",
+      "resultado": "PASS"
+    },
+    {
+      "control": "caida_supervisor_recuperada_y_descendientes_anteriores_terminados",
+      "resultado": "PASS",
+      "sin_terminar_procesos_ajenos": true
+    },
+    {
+      "control": "parada_controlada_sin_procesos_huerfanos",
+      "resultado": "PASS"
+    },
+    {
+      "control": "reinicio_del_host_con_marcador_anterior_sin_duplicados",
+      "resultado": "PASS"
+    },
+    {
+      "control": "caida_abrupta_host_cierra_JobObject_y_su_arbol",
+      "resultado": "PASS"
+    },
+    {
+      "control": "monitor_detecta_host_caido_aunque_el_ultimo_latido_sea_reciente",
+      "resultado": "PASS"
+    },
+    {
+      "control": "configuracion_incompleta_rechazada",
+      "resultado": "PASS"
+    },
+    {
+      "control": "instalador_detecta_sesion_sin_administrador_sin_mutaciones",
+      "resultado": "PASS"
+    },
+    {
+      "control": "preservacion_base_operativa_y_documentos",
+      "resultado": "PASS",
+      "tablas": 49,
+      "archivos_privados": 35
+    }
+  ],
+  "servicio_SCM_instalado": false,
+  "arranque_tras_reinicio_Windows": "NOT_VERIFIED",
+  "limitacion": "La sesión carece de token administrativo; no se elevó, no se reinició Windows y no se cambió el supervisor operativo anterior.",
+  "NO_GO_INSTITUCIONAL": true,
+  "fecha_utc": "2026-11-22T15:05:34.153529+00:00"
+}

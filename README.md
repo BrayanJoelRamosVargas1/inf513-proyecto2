@@ -1,3 +1,7 @@
+# Operación documental de Windows — instalación pendiente
+
+Adaptador de servicio y diagnóstico implementados; ciclo de vida probado con procesos reales en consola. SCM y arranque tras reinicio siguen sin verificar porque esta sesión no es administrativa. Instrucciones: [OPERACION_SERVICIO_DOCUMENTAL_WINDOWS.md](docs/OPERACION_SERVICIO_DOCUMENTAL_WINDOWS.md). El supervisor local anterior continúa activo; NO_GO_INSTITUCIONAL. Las pruebas PHP/React citadas a continuación corresponden a DOC-21 y no se reejecutaron en esta intervención operativa.
+
 # Actualización local DOC-21
 
 La vigencia documental se comprueba antes de nuevas evaluaciones, sin revocar habilitaciones ni resultados históricos. Validación: 270 pruebas PHP / 1.675 aserciones y 31 pruebas React. Detalles y pendientes: [DOC21_VIGENCIA_DOCUMENTAL.md](docs/DOC21_VIGENCIA_DOCUMENTAL.md). Se mantiene NO_GO_INSTITUCIONAL.

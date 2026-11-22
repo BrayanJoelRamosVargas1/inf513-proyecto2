@@ -1,0 +1,16 @@
+{
+  "result": "PASS_CONSOLE_SCOPE",
+  "checks": [
+    "host_supervisor_y_PHP_reales_iniciados",
+    "instancia_duplicada_rechazada",
+    "consola_no_se_declara_servicio_instalado",
+    "supervisor_recuperado_y_descendientes_anteriores_cerrados",
+    "parada_controlada_sin_huerfanos",
+    "reinicio_controlado",
+    "caida_host_cierra_su_JobObject",
+    "monitor_detecta_caida_sin_esperar_latido_vencido"
+  ],
+  "SCM_installed": false,
+  "reboot": "NOT_VERIFIED",
+  "NO_GO_INSTITUCIONAL": true
+}

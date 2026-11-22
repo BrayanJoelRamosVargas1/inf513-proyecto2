@@ -14,5 +14,21 @@
   "academic_decisions": "Conservadas; validación técnica calculada independiente",
   "local_worker": "Proceso local activo; no es servicio permanente",
   "eicar": "NOT_VERIFIED",
-  "scope": "Solo local; NO_GO_INSTITUCIONAL; sin despliegue remoto"
+  "scope": "Preparación de servicio local; no instalado; sin despliegue remoto; NO_GO_INSTITUCIONAL",
+  "php_reexecuted_this_intervention": false,
+  "react_reexecuted_this_intervention": false,
+  "windows_service": {
+    "source_implemented": true,
+    "real_process_lifecycle_console": "PASS: once controles; ocho controles del comprobador portable",
+    "health_classifier_tests": 8,
+    "SCM_installed": false,
+    "Windows_reboot": "NOT_VERIFIED",
+    "blockers": [
+      "Administrative token unavailable",
+      "Runtime permissions for per-service SID unverified",
+      "Isolated PostgreSQL startup not prepared"
+    ],
+    "evidence": "evidence/windows-service-preparation/ciclo-de-vida.json",
+    "external_alert_delivery": false
+  }
 }
