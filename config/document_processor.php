@@ -7,4 +7,5 @@ return [
     'retry_seconds' => 30,
     'orphan_seconds' => 300,
     'cleanup_seconds' => 3600,
+    'backlog_seconds' => 300,
 ];

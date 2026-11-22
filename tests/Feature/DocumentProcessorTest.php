@@ -299,4 +299,141 @@ final class DocumentProcessorTest extends TestCase
         $this->assertDatabaseCount('institutional_scan_results', 0);
         $this->assertDatabaseCount('institutional_scan_events', 1);
     }
+
+    private function supersededLegacy(string $laterState): array
+    {
+        $this->scanner('clean');
+        $this->processor()->runOne();
+        $source = DB::table('institutional_sources')->find($this->source);
+        $old = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        $this->travel(301)->seconds();
+        $new = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        if ($laterState !== 'pending') {
+            DB::table('institutional_scan_results')->insert(['job_id' => $new, 'state' => $laterState, 'engine' => 'TEST-ONLY', 'reason' => 'fixture', 'finished_at' => now()]);
+        }
+
+        return [$old, $new];
+    }
+
+    public function test_p15_superseded_legacy_attempt_does_not_invalidate_a_newer_clean_scan(): void
+    {
+        [$old, $new] = $this->supersededLegacy('clean');
+        $before = DB::table('institutional_scan_results')->where('job_id', $new)->first();
+        $jobs = DB::table('institutional_scan_jobs')->count();
+        $this->processor()->recoverUnmanaged(true);
+        $this->assertSame('clean', app(DocumentSafety::class)->status($this->source)['state']);
+        $this->assertDatabaseCount('institutional_scan_jobs', $jobs);
+        $this->assertDatabaseCount('institutional_scan_tasks', 1);
+        $this->assertEquals($before, DB::table('institutional_scan_results')->where('job_id', $new)->first());
+        $this->assertDatabaseHas('institutional_scan_results', ['job_id' => $old, 'state' => 'error', 'reason' => 'unmanaged_attempt_superseded']);
+        $this->assertDatabaseHas('institutional_scan_events', ['job_id' => $old, 'action' => 'unmanaged_superseded']);
+        $this->getJson('/api/v1/institutional/sources/'.$this->source.'/download')->assertOk();
+    }
+
+    public function test_p16_superseded_legacy_attempt_preserves_a_newer_blocked_result(): void
+    {
+        [$old, $new] = $this->supersededLegacy('blocked');
+        $r = $this->processor()->recoverUnmanaged(true);
+        $this->assertSame(0, $r['recovered']);
+        $this->assertSame(1, $r['superseded']);
+        $this->assertSame('blocked', app(DocumentSafety::class)->status($this->source)['state']);
+        $this->assertEquals($new, app(DocumentSafety::class)->status($this->source)['job_id']);
+        $this->assertDatabaseCount('institutional_scan_jobs', 3);
+        $this->getJson('/api/v1/institutional/sources/'.$this->source.'/download')->assertStatus(423);
+    }
+
+    public function test_p17_superseded_legacy_attempt_does_not_duplicate_a_newer_pending_job(): void
+    {
+        [$old, $new] = $this->supersededLegacy('pending');
+        $this->processor()->recoverUnmanaged(true);
+        $this->assertSame('pending', app(DocumentSafety::class)->status($this->source)['state']);
+        $this->assertEquals($new, app(DocumentSafety::class)->status($this->source)['job_id']);
+        $this->assertDatabaseCount('institutional_scan_jobs', 3);
+        $this->assertDatabaseCount('institutional_scan_results', 2);
+        $this->assertDatabaseCount('institutional_scan_tasks', 1);
+    }
+
+    public function test_p18_superseded_recovery_dry_run_is_read_only_and_application_is_idempotent(): void
+    {
+        $this->supersededLegacy('clean');
+        $before = DB::table('institutional_scan_events')->get()->toJson();
+        $p = $this->processor();
+        $this->assertSame(1, $p->recoverUnmanaged()['unmanaged_pending']);
+        $this->assertSame($before, DB::table('institutional_scan_events')->get()->toJson());
+        $this->assertDatabaseCount('institutional_scan_results', 2);
+        $this->assertSame(1, $p->recoverUnmanaged(true)['superseded']);
+        $this->assertSame(0, $p->recoverUnmanaged(true)['superseded']);
+        $this->assertDatabaseCount('institutional_scan_events', 4);
+        $this->assertDatabaseCount('institutional_scan_results', 3);
+    }
+
+    public function test_p19_queue_health_distinguishes_overdue_ready_from_scheduled_retries_without_private_data(): void
+    {
+        $p = $this->processor();
+        $this->travel(301)->seconds();
+        $s = $p->queueStatus();
+        $this->assertSame(1, $s['ready']);
+        $this->assertSame(0, $s['delayed']);
+        $this->assertGreaterThanOrEqual(301, $s['oldest_ready_seconds']);
+        $this->assertContains('QUEUE_OVERDUE', $s['warnings']);
+        $lease = $p->claim();
+        $this->assertNotContains('QUEUE_OVERDUE', $p->queueStatus()['warnings']);
+        $this->travel(121)->seconds();
+        $this->assertContains('LEASES_EXPIRED', $p->queueStatus()['warnings']);
+        $p->recover(true);
+        $s = $p->queueStatus();
+        $this->assertSame(1, $s['delayed']);
+        $this->assertSame(0, $s['oldest_ready_seconds']);
+        $this->assertSame('ok', $s['health']);
+        $json = json_encode($s);
+        foreach ([$lease->lease_token, $this->author->email, $this->author->name, 'institutional-quarantine/', 'sha256'] as $private) {
+            $this->assertStringNotContainsString($private, $json);
+        }
+    }
+
+    public function test_p20_queue_health_does_not_keep_alerting_about_superseded_historical_failures(): void
+    {
+        $this->scanner('error');
+        $p = $this->processor();
+        for ($i = 0; $i < 3; $i++) {
+            $p->runOne();
+            $this->travel(61)->seconds();
+        }
+        $this->assertSame(1, $p->queueStatus()['failed_current']);
+        $this->assertContains('CURRENT_TASKS_FAILED', $p->queueStatus()['warnings']);
+        $p->enqueue($this->source);
+        $this->assertSame(0, $p->queueStatus()['failed_current']);
+        $this->assertSame('ok', $p->queueStatus()['health']);
+        $this->assertDatabaseHas('institutional_scan_tasks', ['state' => 'failed']);
+        $this->scanner('clean');
+        $p->runOne();
+        $this->assertSame('ok', $p->queueStatus()['health']);
+        $this->assertDatabaseCount('institutional_scan_results', 4);
+    }
+
+    public function test_p21_unmanaged_health_ignores_obsolete_pending_attempts_but_reports_a_current_abandoned_one(): void
+    {
+        $this->supersededLegacy('pending');
+        $p = $this->processor();
+        $this->assertSame(0, $p->queueStatus()['unmanaged_current']);
+        $this->travel(301)->seconds();
+        $this->assertSame(1, $p->queueStatus()['unmanaged_current']);
+        $this->assertContains('UNMANAGED_CURRENT_PENDING', $p->queueStatus()['warnings']);
+        $p->recoverUnmanaged(true);
+        $this->assertSame(0, $p->queueStatus()['unmanaged_current']);
+        $this->assertDatabaseCount('institutional_scan_jobs', 4);
+    }
+
+    public function test_p22_queue_health_cli_check_signals_attention_without_changing_queue_or_evidence(): void
+    {
+        $this->artisan('ficct:scan-queue-status --check')->expectsOutputToContain('"health":"ok"')->assertSuccessful();
+        $this->travel(301)->seconds();
+        $before = DB::table('institutional_scan_tasks')->get()->toJson();
+        $this->artisan('ficct:scan-queue-status --check')->expectsOutputToContain('QUEUE_OVERDUE')->assertExitCode(1);
+        $this->artisan('ficct:scan-queue-status')->expectsOutputToContain('QUEUE_OVERDUE')->assertSuccessful();
+        $this->assertSame($before, DB::table('institutional_scan_tasks')->get()->toJson());
+        $this->assertDatabaseCount('institutional_scan_jobs', 1);
+        $this->assertDatabaseCount('institutional_scan_results', 0);
+        $this->assertDatabaseCount('institutional_scan_events', 1);
+    }
 }

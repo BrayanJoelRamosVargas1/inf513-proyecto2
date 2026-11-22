@@ -68,11 +68,11 @@ Artisan::command('ficct:scan-maintain {--apply}', function () {
     return 0;
 })->purpose('Inspeccionar recuperación y temporales; requiere --apply para cambiar datos');
 
-Artisan::command('ficct:scan-queue-status', function () {
-    $this->line(json_encode(['tasks' => DB::table('institutional_scan_tasks')
-        ->selectRaw('state, count(*) as total')->groupBy('state')->orderBy('state')->get(),
-        'expired_leases' => DB::table('institutional_scan_tasks')
-            ->where('state', 'leased')->where('lease_until', '<=', now())->count()]));
+Artisan::command('ficct:scan-queue-status {--check : Devolver código 1 si hay alertas operativas}', function () {
+    $status = app(DocumentProcessor::class)->queueStatus();
+    $this->line(json_encode($status));
+
+    return $this->option('check') && $status['health'] !== 'ok' ? 1 : 0;
 })->purpose('Consultar estado agregado del procesador sin revelar expedientes');
 
 Artisan::command('ficct:telemetry-prune {--apply : Aplicar eliminación únicamente a telemetría vencida}', function () {

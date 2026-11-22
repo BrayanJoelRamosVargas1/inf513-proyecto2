@@ -1,0 +1,21 @@
+{
+  "resultado": "PASS",
+  "codigo_fuente_y_copia_identicos": 4,
+  "http_local": [
+    {
+      "ruta": "/login",
+      "status": 200
+    },
+    {
+      "ruta": "/p2",
+      "status": 200
+    }
+  ],
+  "sintaxis_php": 111,
+  "pruebas_copia_independiente": 235,
+  "aserciones": 1402,
+  "proc01": "REPRODUCED_AND_FIXED",
+  "reproduccion_anterior_con_fallo": "Conservada y separada de la batería final",
+  "activacion": "NO_GO_INSTITUCIONAL",
+  "despliegue_remoto": "No realizado"
+}

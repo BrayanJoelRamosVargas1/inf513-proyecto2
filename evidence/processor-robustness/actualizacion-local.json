@@ -1,0 +1,15 @@
+{
+  "resultado": "PASS",
+  "archivos_actualizados": [
+    "app/Domain/DocumentProcessor.php",
+    "config/document_processor.php",
+    "routes/console.php",
+    "tests/Feature/DocumentProcessorTest.php"
+  ],
+  "tablas_preservadas": 49,
+  "archivos_privados_preservados": 35,
+  "migraciones_ejecutadas": false,
+  "base_y_archivos_identicos": true,
+  "respaldo_previo_privado": true,
+  "diagnostico_cola_sin_escrituras": "PASS"
+}

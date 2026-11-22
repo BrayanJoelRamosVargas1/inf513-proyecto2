@@ -1,10 +1,10 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
-**Estado local actual:** procesador persistente y supervisado para análisis de fuentes institucionales. 227 pruebas Laravel y 1332 aserciones; 213 identificadores anteriores conservados. Interrupción real, recuperación, rechazo de resultados tardíos, limpieza limitada de temporales y reinicio del supervisor verificados en una copia aislada. [Operación, evidencias y límites](docs/PROCESADOR_DOCUMENTAL_SUPERVISADO.md).
+**Estado local actual:** PROC-01 reproducido y corregido; diagnóstico de colas atrasadas y pruebas adicionales de concurrencia y restauración. 235 pruebas Laravel y 1402 aserciones, conservando los 227 identificadores anteriores. [Resultados, operación y límites](docs/ROBUSTEZ_PROCESADOR_PROC01.md).
 
-Se mantiene **NO_GO_INSTITUCIONAL**. No se ha desplegado este refuerzo en el sitio remoto ni instalado un servicio automático. La extensión a documentos de postulantes, EICAR y las decisiones institucionales siguen pendientes.
+Se mantiene **NO_GO_INSTITUCIONAL**. Este cierre conserva el procesador anterior y su historial. Siguen pendientes los documentos de postulantes, EICAR, la operación permanente y las aprobaciones institucionales. No se desplegó al sitio remoto.
 
-Antecedentes conservados: [integridad en transiciones y ClamAV](docs/INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md), [cuarentena](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md) y [preparación institucional](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). Sus registros tienen el alcance y la fecha de esas entregas.
+Antecedentes conservados: [procesador supervisado](docs/PROCESADOR_DOCUMENTAL_SUPERVISADO.md), [integridad en transiciones y ClamAV](docs/INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md), [cuarentena](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md) y [preparación institucional](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). Sus registros tienen el alcance y la fecha de esas entregas.
 
 Sistema académico de selección de auxiliares FICCT: React, API Laravel y PostgreSQL.
 
