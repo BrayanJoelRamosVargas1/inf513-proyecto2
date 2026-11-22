@@ -14,11 +14,11 @@ final class DocumentSafety
         return hash('sha256', json_encode(['adapter' => 'clamav-v1', 'config' => config('document_safety')], JSON_THROW_ON_ERROR));
     }
 
-    public function status(int $sourceId): array
+    public function status(int $sourceId, string $kind = 'institutional'): array
     {
         // Select the newest started job, not the latest completion. A slow older scan
         // must never release a file after a newer scan has blocked or quarantined it.
-        $job = DB::table('institutional_scan_jobs')->where('source_id', $sourceId)->orderByDesc('id')->first();
+        $job = (new DocumentTarget($sourceId, $kind))->jobs()->orderByDesc('id')->first();
         $result = $job ? DB::table('institutional_scan_results')->where('job_id', $job->id)->first() : null;
         $state = $result?->state ?? 'pending';
         if ($job && $job->policy_hash !== self::policyHash()) {
@@ -75,11 +75,12 @@ final class DocumentSafety
         return $checks;
     }
 
-    public function scan(int $sourceId): array
+    public function scan(int $sourceId, string $kind = 'institutional'): array
     {
-        [$source, $job] = DB::transaction(function () use ($sourceId) {
-            $source = Selection::row('institutional_sources', $sourceId, true);
-            $job = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $sourceId, 'sha256' => $source->sha256, 'policy_hash' => self::policyHash(), 'created_at' => now()]);
+        [$source, $job] = DB::transaction(function () use ($sourceId, $kind) {
+            $target = new DocumentTarget($sourceId, $kind);
+            $source = $target->row(true);
+            $job = DB::table('institutional_scan_jobs')->insertGetId([...$target->fields(), 'sha256' => $source->sha256, 'policy_hash' => self::policyHash(), 'created_at' => now()]);
 
             return [$source, $job];
         });
@@ -88,14 +89,14 @@ final class DocumentSafety
 
         $persisted = DB::table('institutional_scan_results')->where('job_id', $job)->first();
 
-        return ['source_id' => $sourceId, 'job_id' => $job, 'state' => $persisted->state, 'reason' => $persisted->reason];
+        return [...(new DocumentTarget($sourceId, $kind))->fields(), 'job_id' => $job, 'state' => $persisted->state, 'reason' => $persisted->reason];
     }
 
     /** Run I/O only; the processor fences completion with its persisted lease. */
     public function analyse(int $job): array
     {
         $record = Selection::row('institutional_scan_jobs', $job);
-        $source = Selection::row('institutional_sources', $record->source_id);
+        $source = DocumentTarget::fromRow($record)->row();
         if ($record->policy_hash !== self::policyHash() || $record->sha256 !== $source->sha256) {
             return ['state' => 'error', 'engine' => 'unavailable', 'reason' => 'policy_or_source_changed'];
         }

@@ -35,7 +35,9 @@ final class DocumentaryJourney
                 $student = User::where('email', ($phase === 'recepcion' ? 'carla' : 'estudiante').'@ficct.test')->firstOrFail();
                 $id = $s->apply($student, $offer);
                 foreach (['carta', 'cpd', 'ci', 'academico', 'autonomia', 'cv'] as $kind) {
-                    $s->upload($student, $id, $kind, new UploadedFile(resource_path('demo-documents/'.$kind.'.pdf'), 'MUESTRA-'.$kind.'.pdf', 'application/pdf', null, true));
+                    $document = $s->upload($student, $id, $kind, new UploadedFile(resource_path('demo-documents/'.$kind.'.pdf'), 'MUESTRA-'.$kind.'.pdf', 'application/pdf', null, true));
+                    $task = app(DocumentProcessor::class)->enqueue($document, 'applicant');
+                    app(DocumentProcessor::class)->runOne($task);
                 }
                 $s->submit($student, $id);
                 if ($phase === 'recepcion') {

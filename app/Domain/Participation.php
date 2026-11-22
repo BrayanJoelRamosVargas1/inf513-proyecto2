@@ -107,9 +107,10 @@ final class Participation
                 if (! in_array($file->getMimeType(), ['application/pdf', 'image/png', 'image/jpeg'])) {
                     Scores::fail('Formato no permitido.');
                 }
-                $stored = $file->store('expedientes', 'local');
+                $stored = $file->store('applicant-quarantine', 'local');
                 $version = (DB::table('documents')->where('application_id', $a->id)->where('kind', $kind)->max('version') ?? 0) + 1;
                 $doc = DB::table('documents')->insertGetId(['application_id' => $a->id, 'amendment_id' => $id, 'kind' => $kind, 'version' => $version, 'path' => $stored, 'name' => basename($file->getClientOriginalName()), 'mime' => $file->getMimeType(), 'sha256' => hash_file('sha256', $file->getRealPath()), 'created_at' => now(), 'updated_at' => now()]);
+                app(DocumentProcessor::class)->enqueue($doc, 'applicant');
                 Selection::audit($u, $c->id, 'amendment.document_uploaded', 'document:'.$doc, null, ['amendment' => $id, 'version' => $version, 'kind' => $kind]);
 
                 return $doc;
@@ -165,6 +166,7 @@ final class Participation
             if (array_diff($keys, array_keys($decisions)) || array_diff(array_keys($decisions), $keys) || array_diff(array_values($decisions), ['meets', 'fails', 'observed'])) {
                 Scores::fail('Repita la revisión completa de documentos y requisitos.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertDecisions($a->id, $decisions);
             $before = DB::table('reviews')->where('application_id', $a->id)->get();
             foreach ($decisions as $key => $value) {
                 DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
@@ -174,7 +176,7 @@ final class Participation
             DB::table('amendments')->where('id', $id)->update(['status' => 'reviewed', 'updated_at' => now()]);
             $snap = DB::table('dossier_snapshots')->where('application_id', $a->id)->orderByDesc('id')->first();
             self::snapshot($a->id, $a->dossier_version, 'reviewed', $u->id, Selection::json($snap->snapshot)['documents']);
-            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, ['decisions' => $decisions, 'eligibility' => $enabled ? 'enabled' : 'disabled', 'version' => $a->dossier_version], $reason);
+            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, ['decisions' => $decisions, 'eligibility' => $enabled ? 'enabled' : 'disabled', 'version' => $a->dossier_version, 'document_checks' => $documentChecks], $reason);
         });
     }
 

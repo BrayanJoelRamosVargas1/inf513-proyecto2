@@ -60,6 +60,7 @@ final class ParticipationTest extends TestCase
     {
         foreach (['cpd', 'ci'] as $kind) {
             $this->s->upload($u ?? $this->student, $id, $kind, UploadedFile::fake()->image($kind.'.png'));
+            $this->scanApplicantFixtures();
         }
     }
 
@@ -121,6 +122,7 @@ final class ParticipationTest extends TestCase
     private function seal(int $window): void
     {
         app(Participation::class)->upload($this->student, $window, 'ci', UploadedFile::fake()->image('ci-nueva.png'));
+        $this->scanApplicantFixtures();
         app(Participation::class)->submit($this->student, $window);
     }
 
@@ -209,6 +211,7 @@ final class ParticipationTest extends TestCase
         $id = $this->observed();
         $m = $this->window($id);
         app(Participation::class)->upload($this->student, $m, 'ci', UploadedFile::fake()->image('ci.png'));
+        $this->scanApplicantFixtures();
         $this->travel(2)->hours();
         $this->rejects(fn () => app(Participation::class)->submit($this->student, $m));
         $this->assertDatabaseHas('applications', ['id' => $id, 'dossier_version' => 1]);
@@ -220,6 +223,7 @@ final class ParticipationTest extends TestCase
         $m = $this->window($id);
         $this->expectException(HttpException::class);
         app(Participation::class)->upload(User::factory()->create(), $m, 'ci', UploadedFile::fake()->image('ci.png'));
+        $this->scanApplicantFixtures();
     }
 
     public function test_p08_only_authorized_kinds_and_complete_submission(): void
@@ -229,6 +233,7 @@ final class ParticipationTest extends TestCase
         $s = app(Participation::class);
         $this->rejects(fn () => $s->upload($this->student, $m, 'cv', UploadedFile::fake()->image('cv.png')));
         $s->upload($this->student, $m, 'ci', UploadedFile::fake()->image('ci.png'));
+        $this->scanApplicantFixtures();
         $this->rejects(fn () => $s->submit($this->student, $m));
     }
 
@@ -258,6 +263,7 @@ final class ParticipationTest extends TestCase
         $m = $this->window($id, ['ci', 'cpd']);
         $s = app(Participation::class);
         $unused = $s->upload($this->student, $m, 'cpd', UploadedFile::fake()->image('descartada.png'));
+        $this->scanApplicantFixtures();
         $this->travel(2)->hours();
         $s->expire($this->reviewer, $m, 'Cierre DEMO documentado sin entrega completa.');
         $this->assertDatabaseHas('applications', ['id' => $id, 'eligibility' => 'disabled']);
@@ -577,6 +583,7 @@ final class ParticipationTest extends TestCase
         $this->s->transition($this->authority, $call, 'published');
         $b = $this->s->apply($this->student, $offer);
         $this->s->upload($this->student, $b, 'cpd', UploadedFile::fake()->image('cpd.png'));
+        $this->scanApplicantFixtures();
         $this->s->submit($this->student, $b);
         $this->s->review($this->reviewer, $b, ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Evidencia sintética de otra convocatoria.');
         $this->s->eligibility($this->reviewer, $b, true, 'Revisión completa sintética de prueba.');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Access;
+use App\Domain\ApplicantDocuments;
 use App\Domain\Selection;
 use App\Domain\Workspace;
 use App\Http\Controllers\Controller;
@@ -67,7 +68,7 @@ final class SelectionController extends Controller
 
         return response()->json(['application' => $data, 'student' => ['name' => $v['student']->name], 'offer' => ['id' => $offer->id, 'title' => $offer->title, 'documents' => Selection::json($offer->documents), 'weights' => Selection::json($offer->weights)], 'call' => collect((array) $v['call'])->only(['id', 'title', 'status', 'mode']),
             'owner' => $v['owner'], 'reviewer' => $v['reviewer'], 'authority' => $v['authority'], 'criteria' => $v['owner'] || $v['reviewer'] || $v['authority'] ? $criteria : [],
-            'documents' => $v['effectiveDocuments']->map(fn ($doc) => collect((array) $doc)->only(['id', 'kind', 'name', 'mime', 'version', 'created_at']))->values(),
+            'documents' => $v['effectiveDocuments']->map(fn ($doc) => collect((array) $doc)->only(['id', 'kind', 'name', 'mime', 'version', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($doc->id)))->values(),
             'reviews' => $v['reviews']->values(), 'grades' => $v['grades'], 'assignments' => $v['assignments'],
             'can_upload' => $active && $v['owner'] && $app->status === 'draft' && Workspace::receiving($v['call']),
             'can_review' => $active && $v['reviewer'] && ! $v['owner'] && ! $v['hasAmendmentHistory'] && $app->status === 'submitted' && $app->eligibility === 'pending' && in_array($v['call']->status, ['published', 'closed']),

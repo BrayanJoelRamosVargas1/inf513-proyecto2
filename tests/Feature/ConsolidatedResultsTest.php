@@ -65,6 +65,7 @@ final class ConsolidatedResultsTest extends TestCase
     {
         $id = $this->s->apply($u, $this->offer);
         $this->s->upload($u, $id, 'cpd', UploadedFile::fake()->image('cpd.png'));
+        $this->scanApplicantFixtures();
         $this->s->submit($u, $id);
         $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Revisión sintética completa.');
         $this->s->eligibility($this->reviewer, $id, true, 'Revisión de todos los criterios.');
@@ -208,11 +209,13 @@ final class ConsolidatedResultsTest extends TestCase
         $u = User::factory()->create();
         $id = $this->s->apply($u, $this->offer);
         $this->s->upload($u, $id, 'cpd', UploadedFile::fake()->image('original.png'));
+        $this->scanApplicantFixtures();
         $this->s->submit($u, $id);
         $this->s->review($this->reviewer, $id, ['doc:cpd' => 'observed', 'activo' => 'meets'], 'Observación sintética del documento.');
         $p = app(Participation::class);
         $window = $p->open($this->reviewer, $id, ['cpd'], now()->addHour()->toIso8601String(), 'Subsanación sintética autorizada.', 'Referencia de observación sintética.');
         $p->upload($u, $window, 'cpd', UploadedFile::fake()->image('nuevo.png'));
+        $this->scanApplicantFixtures();
         $row = collect($this->read()['groups'][0]['rows'])->firstWhere('id', $id);
         $this->assertSame(1, $row['documents'][0]['version']);
         $p->submit($u, $window);

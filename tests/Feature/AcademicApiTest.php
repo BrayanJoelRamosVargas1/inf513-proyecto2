@@ -80,6 +80,7 @@ final class AcademicApiTest extends TestCase
         $id = $this->actingAs($this->student)->postJson('/api/v1/offers/'.$this->offer.'/applications')->assertCreated()->json('id');
         $this->postJson('/api/v1/applications/'.$id.'/enviar')->assertUnprocessable();
         $this->post('/api/v1/applications/'.$id.'/archivo', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('cpd.png')], ['Accept' => 'application/json'])->assertOk();
+        $this->scanApplicantFixtures();
         $this->postJson('/api/v1/applications/'.$id.'/enviar')->assertOk();
         $r = $this->getJson('/api/v1/applications/'.$id)->assertOk()->assertJsonPath('can_upload', false);
         $this->assertArrayNotHasKey('path', $r->json('documents.0'));
@@ -226,6 +227,7 @@ final class AcademicApiTest extends TestCase
         $s = app(Selection::class);
         $id = $s->apply($this->student, $this->offer);
         $s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('original.png'));
+        $this->scanApplicantFixtures();
         $s->submit($this->student, $id);
         $s->review($this->reviewer, $id, ['doc:cpd' => 'observed', 'activo' => 'meets'], 'CPD observado en prueba sintética');
         $data = ['kinds' => ['cpd'], 'deadline' => now()->addHours(2)->toDateTimeString(), 'reason' => 'Subsanación DEMO autorizada', 'evidence' => 'Acta sintética para la prueba'];
@@ -234,6 +236,7 @@ final class AcademicApiTest extends TestCase
         $window = DB::table('amendments')->value('id');
         $this->actingAs(User::factory()->create())->post('/api/v1/amendments/'.$window.'/documents', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('ajeno.png')], ['Accept' => 'application/json'])->assertForbidden();
         $this->actingAs($this->student)->post('/api/v1/amendments/'.$window.'/documents', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('corregido.png')], ['Accept' => 'application/json'])->assertOk();
+        $this->scanApplicantFixtures();
         $this->postJson('/api/v1/amendments/'.$window.'/submission')->assertOk();
         $this->actingAs($this->reviewer)->postJson('/api/v1/amendments/'.$window.'/review', ['decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'], 'reason' => 'Nueva revisión completa sintética'])->assertOk();
         $response = $this->getJson('/api/v1/applications/'.$id.'/participation')->assertOk()->assertJsonPath('app.dossier_version', 2)->assertJsonCount(2, 'documents');
@@ -261,6 +264,7 @@ final class AcademicApiTest extends TestCase
         $s = app(Selection::class);
         $id = $s->apply($this->student, $this->offer);
         $s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('cpd.png'));
+        $this->scanApplicantFixtures();
         $s->submit($this->student, $id);
         $s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Revisión sintética satisfactoria');
         $s->eligibility($this->reviewer, $id, true, 'Todos los requisitos cumplen');
@@ -317,6 +321,7 @@ final class AcademicApiTest extends TestCase
         $s = app(Selection::class);
         $id = $s->apply($this->student, $this->offer);
         $s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('cpd.png'));
+        $this->scanApplicantFixtures();
         DB::table('applications')->where('id', $id)->update(['created_at' => now()->subDays(10)]);
         $this->actingAs($this->student)->postJson('/api/v1/visits', ['path' => '/cuenta', 'key' => (string) Str::uuid()])->assertOk();
         $this->getJson('/api/v1/metrics')->assertOk()->assertJsonPath('documents', 1)->assertJsonPath('registered_users', null)->assertJsonPath('series.0.total', 1)->assertJsonPath('confirmed_exams', 0);

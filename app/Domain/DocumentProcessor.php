@@ -9,38 +9,40 @@ use Illuminate\Support\Str;
 
 final class DocumentProcessor
 {
-    private function event(?object $task, int $source, ?int $job, string $action, array $details = []): void
+    private function event(?object $task, ?int $source, ?int $job, string $action, array $details = [], ?int $document = null): void
     {
         DB::table('institutional_scan_events')->insert([
-            'task_id' => $task?->id, 'source_id' => $source, 'job_id' => $job,
+            'task_id' => $task?->id, 'source_id' => $source, 'document_id' => $task?->document_id ?? $document, 'job_id' => $job,
             'action' => $action, 'attempt' => $task?->attempts ?? 0,
             'details' => json_encode($details, JSON_THROW_ON_ERROR), 'created_at' => now(),
         ]);
     }
 
-    private function newJob(object $source): int
+    private function newJob(object $source, ?int $document = null): int
     {
         return DB::table('institutional_scan_jobs')->insertGetId([
-            'source_id' => $source->id, 'sha256' => $source->sha256,
+            'source_id' => $document === null ? $source->id : null, 'document_id' => $document, 'sha256' => $source->sha256,
             'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now(),
         ]);
     }
 
-    public function enqueue(int $sourceId): int
+    public function enqueue(int $sourceId, string $kind = 'institutional'): int
     {
-        return DB::transaction(function () use ($sourceId) {
-            $source = Selection::row('institutional_sources', $sourceId, true);
-            $active = DB::table('institutional_scan_tasks')->where('source_id', $sourceId)->whereIn('state', ['queued', 'leased'])->lockForUpdate()->first();
+        return DB::transaction(function () use ($sourceId, $kind) {
+            $target = new DocumentTarget($sourceId, $kind);
+            $source = $target->row(true);
+            $active = DB::table('institutional_scan_tasks')->where($target->column(), $sourceId)->whereIn('state', ['queued', 'leased'])->lockForUpdate()->first();
             if ($active) {
                 return $active->id;
             }
-            $job = $this->newJob($source);
+            $job = $this->newJob($source, $kind === 'applicant' ? $sourceId : null);
             $id = DB::table('institutional_scan_tasks')->insertGetId([
-                'source_id' => $sourceId, 'job_id' => $job, 'state' => 'queued',
+                ...$target->fields(), 'job_id' => $job, 'state' => 'queued',
                 'max_attempts' => max(1, min(10, (int) config('document_processor.max_attempts'))),
                 'available_at' => now(), 'created_at' => now(), 'updated_at' => now(),
             ]);
-            $this->event(Selection::row('institutional_scan_tasks', $id), $sourceId, $job, 'queued');
+            $task = Selection::row('institutional_scan_tasks', $id);
+            $this->event($task, $task->source_id, $job, 'queued');
 
             return $id;
         });
@@ -53,11 +55,11 @@ final class DocumentProcessor
             throw new \LogicException('Worker lease must exceed scanner and version timeouts.');
         }
         $candidates = DB::table('institutional_scan_tasks')->where('state', 'queued')->where('available_at', '<=', now())
-            ->when($id, fn ($q) => $q->where('id', $id))->orderBy('id')->limit(50)->get(['id', 'source_id']);
+            ->when($id, fn ($q) => $q->where('id', $id))->orderBy('id')->limit(50)->get(['id', 'source_id', 'document_id']);
         foreach ($candidates as $candidate) {
             $claimed = DB::transaction(function () use ($candidate, $seconds) {
                 // Same order as decisions/enqueue/recovery: source, then task.
-                $source = DB::table('institutional_sources')->where('id', $candidate->source_id)->lock('FOR UPDATE SKIP LOCKED')->first();
+                $source = DocumentTarget::fromRow($candidate)->skipLocked();
                 if (! $source) {
                     return null;
                 }
@@ -65,10 +67,10 @@ final class DocumentProcessor
                 if ($task->state !== 'queued' || CarbonImmutable::parse($task->available_at)->gt(now())) {
                     return null;
                 }
-                $latest = DB::table('institutional_scan_jobs')->where('source_id', $source->id)->max('id');
+                $latest = DocumentTarget::fromRow($task)->jobs()->max('id');
                 if ($task->attempts > 0 || (int) $latest !== (int) $task->job_id) {
                     $this->closeInterrupted($task->job_id, 'superseded_or_retry');
-                    $task->job_id = $this->newJob($source);
+                    $task->job_id = $this->newJob($source, $task->document_id);
                 }
                 $task->attempts++;
                 $task->lease_token = (string) Str::uuid();
@@ -101,7 +103,7 @@ final class DocumentProcessor
     public function finish(object $lease, array $result): array
     {
         return DB::transaction(function () use ($lease, $result) {
-            Selection::row('institutional_sources', $lease->source_id, true);
+            DocumentTarget::fromRow($lease)->row(true);
             $task = Selection::row('institutional_scan_tasks', $lease->id, true);
             if ($task->state !== 'leased' || $task->lease_token !== $lease->lease_token || CarbonImmutable::parse($task->lease_until)->lte(now())) {
                 $this->event($lease, $task->source_id, $lease->job_id, 'late_completion_ignored', ['reported_state' => $result['state']]);
@@ -121,7 +123,7 @@ final class DocumentProcessor
             $this->event($task, $task->source_id, $task->job_id, $retry ? 'retry_scheduled' : 'finished',
                 ['result' => $result['state'], 'reason' => $result['reason'], 'task_state' => $state, 'available_at' => $available->toIso8601String()]);
 
-            return ['task_id' => $task->id, 'source_id' => $task->source_id, 'job_id' => $task->job_id, 'state' => $result['state'], 'task_state' => $state, 'reason' => $result['reason']];
+            return ['task_id' => $task->id, ...DocumentTarget::fromRow($task)->fields(), 'job_id' => $task->job_id, 'state' => $result['state'], 'task_state' => $state, 'reason' => $result['reason']];
         });
     }
 
@@ -150,7 +152,8 @@ final class DocumentProcessor
                 continue;
             }
             DB::transaction(function () use ($row, &$recovered) {
-                Selection::row('institutional_sources', $row->source_id, true);
+                $target = DocumentTarget::fromRow($row);
+                $target->row(true);
                 $task = Selection::row('institutional_scan_tasks', $row->id, true);
                 if ($task->state !== 'leased' || CarbonImmutable::parse($task->lease_until)->gt(now())) {
                     return;
@@ -176,30 +179,31 @@ final class DocumentProcessor
             ->where('j.created_at', '<=', now()->subSeconds(config('document_processor.orphan_seconds')))
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_results as r')->whereColumn('r.job_id', 'j.id'))
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_events as e')->whereColumn('e.job_id', 'j.id'))
-            ->orderBy('j.id')->limit(100)->get(['j.id', 'j.source_id']);
+            ->orderBy('j.id')->limit(100)->get(['j.id', 'j.source_id', 'j.document_id']);
         $count = $superseded = 0;
         foreach ($old as $row) {
             if (! $apply || $this->workspaceBusy($row->id)) {
                 continue;
             }
             DB::transaction(function () use ($row, &$count, &$superseded) {
-                Selection::row('institutional_sources', $row->source_id, true);
+                $target = DocumentTarget::fromRow($row);
+                $target->row(true);
                 if (DB::table('institutional_scan_results')->where('job_id', $row->id)->exists() || $this->workspaceBusy($row->id)) {
                     return;
                 }
                 // Scan starts take this same source lock. Never invalidate a
                 // newer scan when closing an obsolete legacy attempt.
-                $latest = DB::table('institutional_scan_jobs')->where('source_id', $row->source_id)->max('id');
+                $latest = $target->jobs()->max('id');
                 if ((int) $latest !== (int) $row->id) {
                     $this->closeInterrupted($row->id, 'unmanaged_attempt_superseded');
-                    $this->event(null, $row->source_id, $row->id, 'unmanaged_superseded', ['superseded_by_job_id' => $latest]);
+                    $this->event(null, $row->source_id, $row->id, 'unmanaged_superseded', ['superseded_by_job_id' => $latest], $row->document_id);
                     $superseded++;
 
                     return;
                 }
                 $this->closeInterrupted($row->id, 'unmanaged_attempt_abandoned');
-                $id = $this->enqueue($row->source_id);
-                $this->event(Selection::row('institutional_scan_tasks', $id), $row->source_id, $row->id, 'unmanaged_recovered');
+                $id = $this->enqueue($target->id, $target->kind);
+                $this->event(Selection::row('institutional_scan_tasks', $id), $row->source_id, $row->id, 'unmanaged_recovered', [], $row->document_id);
                 $count++;
             });
         }
@@ -217,11 +221,11 @@ final class DocumentProcessor
         $expired = DB::table('institutional_scan_tasks')->where('state', 'leased')->where('lease_until', '<=', $now)->count();
         $failed = DB::table('institutional_scan_tasks as t')->where('state', 'failed')
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_jobs as j')
-                ->whereColumn('j.source_id', 't.source_id')->whereColumn('j.id', '>', 't.job_id'))->count();
+                ->whereRaw('(j.source_id = t.source_id OR j.document_id = t.document_id)')->whereColumn('j.id', '>', 't.job_id'))->count();
         $unmanaged = DB::table('institutional_scan_jobs as j')
             ->where('j.created_at', '<=', $now->subSeconds(config('document_processor.orphan_seconds')))
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_jobs as n')
-                ->whereColumn('n.source_id', 'j.source_id')->whereColumn('n.id', '>', 'j.id'))
+                ->whereRaw('(n.source_id = j.source_id OR n.document_id = j.document_id)')->whereColumn('n.id', '>', 'j.id'))
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_results as r')->whereColumn('r.job_id', 'j.id'))
             ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_events as e')->whereColumn('e.job_id', 'j.id'))->count();
         $threshold = max(1, (int) config('document_processor.backlog_seconds'));
@@ -338,7 +342,7 @@ final class DocumentProcessor
                         continue;
                     }
                     // Keep the locked marker until after the payload is gone.
-                    $this->event(null, $job->source_id, $job->id, 'temporary_payload_cleaned');
+                    $this->event(null, $job->source_id, $job->id, 'temporary_payload_cleaned', [], $job->document_id);
                     $removed++;
                 }
             } finally {

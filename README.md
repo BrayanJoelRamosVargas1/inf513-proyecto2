@@ -1,10 +1,10 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
-**Estado local actual:** PROC-01 reproducido y corregido; diagnóstico de colas atrasadas y pruebas adicionales de concurrencia y restauración. 235 pruebas Laravel y 1402 aserciones, conservando los 227 identificadores anteriores. [Resultados, operación y límites](docs/ROBUSTEZ_PROCESADOR_PROC01.md).
+**Estado local actual:** seguridad documental de postulantes y subsanaciones con la cola compartida. 255 pruebas Laravel / 1496 aserciones y 28 pruebas React. Recorrido con ClamAV real, privacidad por roles, conservación de versiones, concurrencia y restauración verificados en copia aislada. [Operación, resultados y límites](docs/FASE2_SEGURIDAD_DOCUMENTAL_POSTULANTES.md).
 
-Se mantiene **NO_GO_INSTITUCIONAL**. Este cierre conserva el procesador anterior y su historial. Siguen pendientes los documentos de postulantes, EICAR, la operación permanente y las aprobaciones institucionales. No se desplegó al sitio remoto.
+La DEMO local tiene un trabajador para las nuevas cargas. Los documentos heredados permanecen bloqueados hasta su análisis explícito. Se mantiene **NO_GO_INSTITUCIONAL**; siguen pendientes EICAR, la operación permanente y la aceptación institucional. Esta ampliación no se desplegó al sitio remoto.
 
-Antecedentes conservados: [procesador supervisado](docs/PROCESADOR_DOCUMENTAL_SUPERVISADO.md), [integridad en transiciones y ClamAV](docs/INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md), [cuarentena](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md) y [preparación institucional](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). Sus registros tienen el alcance y la fecha de esas entregas.
+Antecedentes conservados: [cierre PROC-01](docs/ROBUSTEZ_PROCESADOR_PROC01.md), [procesador supervisado](docs/PROCESADOR_DOCUMENTAL_SUPERVISADO.md), [integridad en transiciones y ClamAV](docs/INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md), [cuarentena](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md) y [preparación institucional](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). Sus registros tienen el alcance y la fecha de esas entregas.
 
 Sistema académico de selección de auxiliares FICCT: React, API Laravel y PostgreSQL.
 

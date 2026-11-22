@@ -10,7 +10,7 @@ export function message(error) {
     401:'Tu sesión terminó o cambiaron tus permisos. Inicia sesión nuevamente.',
     403:'No tienes permiso para realizar esta acción en este ámbito.',
     404:'El recurso o la página solicitada no están disponibles.',
-    423:'La fuente está en cuarentena y no puede descargarse.',
+    423:'El archivo está en cuarentena y no puede descargarse.',
     413:'El archivo o la solicitud supera el tamaño permitido.',
     419:'La sesión de seguridad venció. Recarga e inicia sesión.',
     429:'Demasiadas solicitudes. Espera un momento y vuelve a intentar.'

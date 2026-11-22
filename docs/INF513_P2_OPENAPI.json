@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "FICCT INF513 P2 — inventario de API",
-    "version": "0.2.0-local-preparation",
-    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales."
+    "version": "0.3.0-local-document-safety",
+    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales. La Fase 2 local reutiliza la cola para documentos de postulantes; un estado limpio no habilita académicamente ni amplía permisos."
   },
   "servers": [
     {
@@ -1452,7 +1452,7 @@
     "/api/v1/documents/{id}": {
       "get": {
         "summary": "DocumentController@preview",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Original privado: solo propietario activo o revisor con permiso vigente en la convocatoria; exige análisis limpio vigente e integridad de bytes.",
         "parameters": [
           {
             "name": "id",
@@ -1465,7 +1465,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Bytes originales PDF/JPEG/PNG, sin transformación."
           },
           "201": {
             "description": "Creación registrada."
@@ -1483,7 +1483,7 @@
             "description": "Recurso inexistente."
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Integridad del archivo distinta de su huella registrada."
           },
           "419": {
             "description": "CSRF inválido."
@@ -1493,6 +1493,9 @@
           },
           "429": {
             "description": "Límite de solicitudes."
+          },
+          "423": {
+            "description": "Análisis pendiente, bloqueado, fallido, vencido o cambiado durante la descarga."
           }
         }
       }

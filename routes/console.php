@@ -35,6 +35,16 @@ Artisan::command('ficct:scan-enqueue {source_id}', function () {
     return 0;
 })->purpose('Conservar una solicitud de análisis pendiente en PostgreSQL');
 
+Artisan::command('ficct:scan-enqueue-document {document_id}', function () {
+    $id = filter_var($this->argument('document_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($id === false || ! DB::table('documents')->where('id', $id)->exists()) {
+        return 1;
+    }
+    $this->line(json_encode(['task_id' => app(DocumentProcessor::class)->enqueue($id, 'applicant')]));
+
+    return 0;
+})->purpose('Encolar análisis de una versión documental de postulante; sin liberación manual');
+
 Artisan::command('ficct:scan-worker {--once} {--max-jobs=20} {--max-seconds=300}', function () {
     $jobs = filter_var($this->option('max-jobs'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 1000]]);
     $seconds = filter_var($this->option('max-seconds'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 3600]]);

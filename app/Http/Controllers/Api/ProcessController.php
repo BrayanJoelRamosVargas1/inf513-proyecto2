@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Access;
+use App\Domain\ApplicantDocuments;
 use App\Domain\Selection;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GovernanceController;
@@ -54,7 +55,7 @@ final class ProcessController extends Controller
     {
         $v = app(ParticipationController::class)->show($r, $id)->getData();
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'status', 'participation', 'dossier_version', 'eligibility']);
-        $v['documents'] = ($v['owner'] || $v['reviewer']) ? $v['documents']->map(fn ($d) => collect((array) $d)->only(['id', 'name', 'kind', 'version', 'amendment_id', 'created_at'])) : [];
+        $v['documents'] = ($v['owner'] || $v['reviewer']) ? $v['documents']->map(fn ($d) => collect((array) $d)->only(['id', 'name', 'kind', 'version', 'amendment_id', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($d->id))) : [];
         $v['snapshots'] = $v['snapshots']->map(function ($snapshot) {
             $snapshot->snapshot = ['documents' => collect(Selection::json($snapshot->snapshot)['documents'])->map(fn ($d) => collect((array) $d)->only(['id', 'kind', 'version']))->values()];
 

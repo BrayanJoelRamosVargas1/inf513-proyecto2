@@ -50,6 +50,7 @@ final class RoleWorkflowTest extends TestCase
     {
         $id = $this->s->apply($this->student, $this->offer);
         $this->s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('cpd.png'));
+        $this->scanApplicantFixtures();
         $this->s->submit($this->student, $id);
 
         return $id;

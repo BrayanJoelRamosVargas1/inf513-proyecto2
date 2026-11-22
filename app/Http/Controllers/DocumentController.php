@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Access;
+use App\Domain\ApplicantDocuments;
+use App\Domain\DocumentSafety;
 use App\Domain\Selection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,8 +17,13 @@ final class DocumentController extends Controller
         $document = Selection::row('documents', $id);
         $application = Selection::row('applications', $document->application_id);
         Access::privateFile($request->user(), $application);
+        $safety = app(DocumentSafety::class);
+        $before = $safety->status($id, 'applicant');
+        abort_unless($before['download_allowed'], 423, 'Documento en cuarentena: análisis pendiente, vencido, fallido o bloqueado.');
         abort_unless(Storage::disk('local')->exists($document->path), 404, 'Archivo no disponible. Contacte al responsable; no vuelva a enviarlo sin revisión.');
-        $bytes = Storage::disk('local')->get($document->path);
+        $bytes = $safety->bytes($document);
+        $after = $safety->status($id, 'applicant');
+        abort_unless($after['download_allowed'] && $after['job_id'] === $before['job_id'], 423, 'El análisis cambió; descarga bloqueada.');
         abort_unless(hash_equals($document->sha256, hash('sha256', $bytes)), 409, 'La integridad del archivo no coincide con su registro. Descarga bloqueada.');
         $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($bytes);
         abort_unless(in_array($mime, ['application/pdf', 'image/png', 'image/jpeg']), 415, 'Formato de archivo no admitido.');
@@ -26,11 +33,17 @@ final class DocumentController extends Controller
 
     public function show(Request $request, int $id)
     {
+        $document = Selection::row('documents', $id);
+        Access::privateFile($request->user(), Selection::row('applications', $document->application_id));
+        $security = app(ApplicantDocuments::class)->status($id);
+        if (! $security['download_allowed']) {
+            return view('document', ['document' => $document, 'security' => $security, 'mime' => $document->mime, 'bytes' => 0, 'dimensions' => false, 'smallImage' => false]);
+        }
         [$document, $bytes, $mime] = $this->document($request, $id);
         $dimensions = str_starts_with($mime, 'image/') ? @getimagesizefromstring($bytes) : false;
         $smallImage = $dimensions && ($dimensions[0] < 100 || $dimensions[1] < 100);
 
-        return view('document', ['document' => $document, 'mime' => $mime, 'bytes' => strlen($bytes), 'dimensions' => $dimensions, 'smallImage' => $smallImage]);
+        return view('document', ['document' => $document, 'mime' => $mime, 'bytes' => strlen($bytes), 'dimensions' => $dimensions, 'smallImage' => $smallImage, 'security' => $security]);
     }
 
     public function download(Request $request, int $id)

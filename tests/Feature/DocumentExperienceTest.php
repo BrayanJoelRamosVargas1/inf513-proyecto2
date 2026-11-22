@@ -51,6 +51,7 @@ final class DocumentExperienceTest extends TestCase
         $s->transition($this->authority, $this->call, 'published');
         $this->application = $s->apply($this->student, $this->offer);
         $this->document = $s->upload($this->student, $this->application, 'cpd', new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'respaldo.pdf', 'application/pdf', null, true));
+        $this->scanApplicantFixtures();
     }
 
     public function test_e01_pdf_download_and_inline_preview_preserve_bytes_and_mime(): void
@@ -95,6 +96,7 @@ final class DocumentExperienceTest extends TestCase
     {
         $s = app(Selection::class);
         $id = $s->upload($this->student, $this->application, 'cpd', UploadedFile::fake()->image('pequena.png', 1, 1));
+        $this->scanApplicantFixtures();
         $doc = DB::table('documents')->find($id);
         $this->actingAs($this->student)->get('/documentos/'.$id.'/detalle')->assertSee('Imagen de tamaño reducido')->assertSee('1 × 1');
         $r = $this->get('/documentos/'.$id)->assertHeader('Content-Type', 'image/png');
@@ -177,6 +179,7 @@ final class DocumentExperienceTest extends TestCase
         $environment = app()->environment();
         app()->detectEnvironment(fn () => 'local');
         try {
+            $this->useApplicantFixtureScanner();
             $first = app(DocumentaryJourney::class)->run();
             $counts = [DB::table('calls')->count(), DB::table('documents')->count(), DB::table('audit_events')->count()];
             $this->assertSame($first, app(DocumentaryJourney::class)->run());

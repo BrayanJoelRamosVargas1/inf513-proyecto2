@@ -217,9 +217,10 @@ final class Selection
                 if (! in_array($mime, ['application/pdf', 'image/png', 'image/jpeg'])) {
                     Scores::fail('Tipo de archivo no permitido.');
                 }
-                $stored = $file->store('expedientes', 'local');
+                $stored = $file->store('applicant-quarantine', 'local');
                 $version = (DB::table('documents')->where('application_id', $appId)->where('kind', $kind)->max('version') ?? 0) + 1;
                 $id = DB::table('documents')->insertGetId(['application_id' => $appId, 'kind' => $kind, 'version' => $version, 'path' => $stored, 'name' => basename($file->getClientOriginalName()), 'mime' => $mime, 'sha256' => hash_file('sha256', $file->getRealPath()), 'created_at' => now(), 'updated_at' => now()]);
+                app(DocumentProcessor::class)->enqueue($id, 'applicant');
                 self::audit($u, $call->id, 'document.upload', 'document:'.$id, null, ['kind' => $kind, 'version' => $version]);
 
                 return $id;
@@ -261,6 +262,7 @@ final class Selection
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('La revisión no está abierta.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertDecisions($id, $decisions);
             $criteria = array_merge(array_fill_keys(array_map(fn ($x) => 'doc:'.$x, array_keys(self::json($offer->documents))), ''), self::json($offer->requirements));
             foreach ($decisions as $key => $decision) {
                 if (! array_key_exists($key, $criteria) || ! in_array($decision, ['meets', 'fails', 'observed', 'not_applicable'])) {
@@ -271,7 +273,7 @@ final class Selection
                 }
                 $before = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->first();
                 DB::table('reviews')->updateOrInsert(['application_id' => $id, 'criterion' => $key], ['decision' => $decision, 'reason' => $reason, 'user_id' => $u->id, 'updated_at' => now(), 'created_at' => $before?->created_at ?? now()]);
-                self::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, ['criterion' => $key, 'decision' => $decision], $reason);
+                self::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, ['criterion' => $key, 'decision' => $decision, 'document_checks' => $documentChecks], $reason);
             }
         });
     }
@@ -287,7 +289,9 @@ final class Selection
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('Decisión de habilitación no disponible.');
             }
+            $documentChecks = [];
             if ($enable) {
+                $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
                 $keys = array_merge(array_map(fn ($x) => 'doc:'.$x, array_keys(self::json($offer->documents))), array_keys(self::json($offer->requirements)));
                 foreach ($keys as $key) {
                     if (! DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->where('decision', 'meets')->exists()) {
@@ -297,7 +301,7 @@ final class Selection
             }
             $next = $enable ? 'enabled' : 'disabled';
             DB::table('applications')->where('id', $id)->update(['eligibility' => $next, 'eligibility_reason' => $reason, 'updated_at' => now()]);
-            self::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], ['eligibility' => $next], $reason);
+            self::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], ['eligibility' => $next, 'document_checks' => $documentChecks], $reason);
         });
     }
 

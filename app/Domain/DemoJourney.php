@@ -34,7 +34,9 @@ final class DemoJourney
             $id = $s->apply($student, $offer);
             $apps[] = $id;
             foreach (['carta', 'cpd', 'ci', 'academico', 'autonomia', 'cv'] as $kind) {
-                $s->upload($student, $id, $kind, new UploadedFile(resource_path('demo-documents/'.$kind.'.pdf'), 'MUESTRA-'.$kind.'.pdf', 'application/pdf', null, true));
+                $document = $s->upload($student, $id, $kind, new UploadedFile(resource_path('demo-documents/'.$kind.'.pdf'), 'MUESTRA-'.$kind.'.pdf', 'application/pdf', null, true));
+                $task = app(DocumentProcessor::class)->enqueue($document, 'applicant');
+                app(DocumentProcessor::class)->runOne($task);
             }
             $s->submit($student, $id);
             $criteria = array_fill_keys(['doc:carta', 'doc:cpd', 'doc:ci', 'doc:academico', 'doc:autonomia', 'doc:cv', 'activo', 'regimen'], 'meets');
