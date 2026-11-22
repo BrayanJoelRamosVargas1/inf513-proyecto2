@@ -1,0 +1,10 @@
+{
+  "resultado": "PASS",
+  "tablas_identicas": 38,
+  "tablas_con_ampliaciones_previstas": [
+    "migrations",
+    "navigation_items",
+    "navigation_roles"
+  ],
+  "archivos_privados_identicos": 35
+}

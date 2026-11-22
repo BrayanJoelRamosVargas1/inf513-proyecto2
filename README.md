@@ -1,5 +1,7 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
+**Ampliación local: preparación institucional, fase 1.** [Uso, arquitectura y pendientes](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). 199 pruebas Laravel / 1123 aserciones, 21 pruebas React y seis comprobaciones de navegador. Sin activación oficial ni despliegue de esta ampliación. Las cifras siguientes describen la entrega académica anterior.
+
 Sistema académico de selección de auxiliares FICCT: React, API Laravel y PostgreSQL.
 
 [Aplicación publicada](https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2/p2) · [Arquitectura e instalación](docs/INF513_P2_IMPLEMENTACION.md) · [Guía de defensa](docs/GUIA_DEFENSA_CAMBIOS_EN_VIVO.md) · [Respaldo e incidentes](docs/RUNBOOK_BD_INCIDENTES.md) · [Inventario de rutas API](docs/INF513_P2_OPENAPI.json).

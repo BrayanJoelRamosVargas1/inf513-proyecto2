@@ -2,15 +2,12 @@
   "openapi": "3.1.0",
   "info": {
     "title": "FICCT INF513 P2 — inventario de API",
-    "version": "0.1.0",
-    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas."
+    "version": "0.2.0-local-preparation",
+    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales."
   },
   "servers": [
     {
       "url": "http://127.0.0.1:8116"
-    },
-    {
-      "url": "https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2"
     }
   ],
   "paths": {
@@ -1455,6 +1452,411 @@
     "/api/v1/documents/{id}": {
       "get": {
         "summary": "DocumentController@preview",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers": {
+      "get": {
+        "summary": "InstitutionalController@index",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      },
+      "post": {
+        "summary": "InstitutionalController@create",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers/{id}": {
+      "get": {
+        "summary": "InstitutionalController@show",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers/{id}/activation": {
+      "post": {
+        "summary": "InstitutionalController@activation",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers/{id}/review": {
+      "post": {
+        "summary": "InstitutionalController@review",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers/{id}/sources": {
+      "post": {
+        "summary": "InstitutionalController@source",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/dossiers/{id}/submission": {
+      "post": {
+        "summary": "InstitutionalController@submit",
+        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+          },
+          "201": {
+            "description": "Creación registrada."
+          },
+          "204": {
+            "description": "Operación sin cuerpo."
+          },
+          "401": {
+            "description": "Sesión ausente o revocada."
+          },
+          "403": {
+            "description": "Fuera del ámbito autorizado."
+          },
+          "404": {
+            "description": "Recurso inexistente."
+          },
+          "409": {
+            "description": "Conflicto de idempotencia."
+          },
+          "419": {
+            "description": "CSRF inválido."
+          },
+          "422": {
+            "description": "Validación o regla del dominio."
+          },
+          "429": {
+            "description": "Límite de solicitudes."
+          }
+        }
+      }
+    },
+    "/api/v1/institutional/sources/{id}/download": {
+      "get": {
+        "summary": "InstitutionalController@download",
         "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
         "parameters": [
           {

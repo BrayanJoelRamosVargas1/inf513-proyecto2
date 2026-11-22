@@ -33,7 +33,7 @@ final class WorkspaceController extends Controller
 
     public function visit(Request $r)
     {
-        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones)?$~'], 'key' => 'required|uuid']);
+        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones)?$~'], 'key' => 'required|uuid']);
         $result = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('visit_receipts')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             abort_if($existing && $existing->path !== $d['path'], 409, 'El identificador de visita ya corresponde a otra página.');

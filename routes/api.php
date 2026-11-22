@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ProcessController;
+use App\Http\Controllers\Api\InstitutionalController;
 use App\Http\Controllers\Api\SandboxController;
 use App\Http\Controllers\Api\SelectionController;
 use App\Http\Controllers\Api\SessionController;
@@ -16,6 +17,14 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
     Route::post('register', [SessionController::class, 'register'])->middleware('throttle:6,1');
     Route::middleware('auth')->group(function () {
         Route::get('me', [SessionController::class, 'me']);
+        Route::get('institutional/dossiers', [InstitutionalController::class, 'index']);
+        Route::post('institutional/dossiers', [InstitutionalController::class, 'create'])->middleware('throttle:20,1');
+        Route::get('institutional/dossiers/{id}', [InstitutionalController::class, 'show']);
+        Route::post('institutional/dossiers/{id}/sources', [InstitutionalController::class, 'source'])->middleware('throttle:20,1');
+        Route::post('institutional/dossiers/{id}/submission', [InstitutionalController::class, 'submit']);
+        Route::post('institutional/dossiers/{id}/review', [InstitutionalController::class, 'review']);
+        Route::post('institutional/dossiers/{id}/activation', [InstitutionalController::class, 'activation']);
+        Route::get('institutional/sources/{id}/download', [InstitutionalController::class, 'download']);
         Route::post('logout', [SessionController::class, 'logout']);
         Route::get('me/navigation', [WorkspaceController::class, 'navigation']);
         Route::match(['get', 'put'], 'me/preferences', [WorkspaceController::class, 'preferences']);

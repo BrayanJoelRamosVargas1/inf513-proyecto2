@@ -1,0 +1,14 @@
+{
+  "resultado": "PASS",
+  "base_y_almacenamiento_aislados": true,
+  "tablas_operativas_identicas": 45,
+  "registros_historicos_identicos": {
+    "publications": 5,
+    "grades": 10,
+    "documents": 34,
+    "dossier_snapshots": 10,
+    "award_choices": 1
+  },
+  "flujo_preparacion_revision_y_bloqueo_institucional": "PASS",
+  "fecha_utc": "2026-11-22T01:25:15.460764+00:00"
+}

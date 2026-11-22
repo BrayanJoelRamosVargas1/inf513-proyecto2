@@ -1,7 +1,8 @@
 {
-  "junit": "evidence/inf513-p2/phpunit.xml",
-  "tests": 189,
-  "assertions": 1026,
-  "react_tests": 18,
-  "scope": "Reconversión académica INF513 P2; PostgreSQL aislado y recorrido remoto sintético; sin autorización institucional"
+  "junit": "evidence/institutional-preparation/phpunit.xml",
+  "tests": 199,
+  "assertions": 1123,
+  "react_tests": 21,
+  "browser_checks": 6,
+  "scope": "Fase 1 local de preparación documental; sin activación oficial ni despliegue remoto"
 }
