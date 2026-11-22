@@ -319,10 +319,11 @@ final class Selection
             if (! DB::table('documents')->where('application_id', $id)->where('kind', 'cpd')->exists()) {
                 Scores::fail('Adjunte el formulario CPD de respaldo.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $score = Scores::value($score, '40');
             DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'merit_version' => 1, 'updated_at' => now()]);
             Rectifications::version($id, null, 1, $score, $u->id);
-            self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference]);
+            self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference, 'document_checks' => $documentChecks]);
         });
     }
 
@@ -368,6 +369,7 @@ final class Selection
             if ($before && $before->status !== 'draft') {
                 Scores::fail('Nota confirmada: use rectificación autorizada.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($appId);
             $score = Scores::value($score);
             $data = ['user_id' => $u->id, 'score' => $score, 'status' => $confirmed ? 'confirmed' : 'draft', 'updated_at' => now()];
             if ($before) {
@@ -379,7 +381,7 @@ final class Selection
             if ($confirmed) {
                 Rectifications::version($appId, $id, 1, $score, $u->id);
             }
-            self::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data);
+            self::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data + ['document_checks' => $documentChecks]);
         });
     }
 
@@ -400,11 +402,12 @@ final class Selection
             if (mb_strlen(trim($reason)) < 10) {
                 Scores::fail('Explique la autorización y motivo de rectificación.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($a->id);
             $score = Scores::value($score);
             DB::table('grades')->where('id', $gradeId)->update(['score' => $score, 'status' => 'corrected', 'version' => $g->version + 1, 'updated_at' => now()]);
             DB::table('applications')->where('id', $a->id)->update(['exam' => null, 'final' => null, 'updated_at' => now()]);
             Rectifications::version($a->id, $gradeId, $g->version + 1, $score, $u->id);
-            self::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score], $reason);
+            self::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score, 'document_checks' => $documentChecks], $reason);
         });
     }
 
@@ -423,11 +426,12 @@ final class Selection
             if (! in_array($o->scheme, ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100']) || $o->rounding !== 'HALF_UP_FINAL') {
                 Scores::fail('Escala/composición/redondeo no definidos.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $notes = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->whereIn('grades.status', ['confirmed', 'corrected'])->pluck('grades.score', 'assignments.area')->all();
             $exam = Scores::exam(self::json($o->weights), $notes);
             $final = bcadd(Scores::value($a->merit, '40'), $exam, 2);
             DB::table('applications')->where('id', $id)->update(['exam' => $exam, 'final' => $final, 'updated_at' => now()]);
-            self::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => self::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding]);
+            self::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => self::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding, 'document_checks' => $documentChecks]);
         });
     }
 
@@ -460,6 +464,7 @@ final class Selection
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('No se puede abrir otro desempate en este estado.');
             }
+            app(ApplicantDocuments::class)->assertOffer($offerId);
             $r = $this->ranking($offerId);
             if (! $r['tied']) {
                 Scores::fail('No hay empate que afecte el corte de plazas.');
@@ -487,6 +492,7 @@ final class Selection
             if (now()->lt($t->scheduled_at)) {
                 Scores::fail('El nuevo examen aún no se realizó.');
             }
+            app(ApplicantDocuments::class)->assertOffer($o->id);
             $participants = self::json($t->participants);
             $keys = array_map('intval', array_keys($results));
             sort($keys);
@@ -521,6 +527,7 @@ final class Selection
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision || now()->lt($t->scheduled_at)) {
                 Scores::fail('La ronda no admite continuidad en este estado.');
             }
+            app(ApplicantDocuments::class)->assertOffer($o->id);
             $participants = self::json($t->participants);
             $expected = $participants;
             sort($expected);
@@ -561,6 +568,7 @@ final class Selection
             if (DB::table('participation_requests')->join('applications', 'applications.id', '=', 'participation_requests.application_id')->where('applications.offer_id', $offerId)->where('participation_requests.status', 'pending')->exists() || DB::table('amendments')->join('applications', 'applications.id', '=', 'amendments.application_id')->where('applications.offer_id', $offerId)->whereIn('amendments.status', ['open', 'submitted'])->exists()) {
                 Scores::fail('Resuelva solicitudes y subsanaciones antes de publicar.');
             }
+            app(ApplicantDocuments::class)->assertOffer($offerId);
             $r = $this->ranking($offerId);
             $winners = array_map(fn ($a) => $a->id, array_slice($r['rank'], 0, $o->seats - $o->held_vacancies));
             if ($r['tied']) {

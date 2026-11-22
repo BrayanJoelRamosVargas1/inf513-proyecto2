@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-11-22T10:42:27-04:00",
+  "tasks": [],
+  "ready": 0,
+  "delayed": 0,
+  "expired_leases": 0,
+  "oldest_ready_seconds": 0,
+  "failed_current": 0,
+  "unmanaged_current": 0,
+  "backlog_threshold_seconds": 300,
+  "health": "ok",
+  "warnings": []
+}

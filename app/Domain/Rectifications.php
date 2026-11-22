@@ -88,6 +88,7 @@ final class Rectifications
                 Scores::fail('Solicitud ya decidida o justificación insuficiente.');
             }
             if ($approve) {
+                app(ApplicantDocuments::class)->assertEffective($a->id);
                 $g = $r->grade_id ? Selection::row('grades', $r->grade_id, true) : null;
                 if (($g ? $g->version : $a->merit_version) !== $r->base_version || bccomp($g ? $g->score : $a->merit, $r->old_value, 2) !== 0) {
                     Scores::fail('Propuesta obsoleta: existe otra versión. Rechace y solicite una nueva.');

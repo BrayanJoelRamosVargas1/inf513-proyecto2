@@ -70,11 +70,12 @@ final class SelectionController extends Controller
             'owner' => $v['owner'], 'reviewer' => $v['reviewer'], 'authority' => $v['authority'], 'criteria' => $v['owner'] || $v['reviewer'] || $v['authority'] ? $criteria : [],
             'documents' => $v['effectiveDocuments']->map(fn ($doc) => collect((array) $doc)->only(['id', 'kind', 'name', 'mime', 'version', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($doc->id)))->values(),
             'reviews' => $v['reviews']->values(), 'grades' => $v['grades'], 'assignments' => $v['assignments'],
+            'document_validation' => $v['documentValidation'],
             'can_upload' => $active && $v['owner'] && $app->status === 'draft' && Workspace::receiving($v['call']),
             'can_review' => $active && $v['reviewer'] && ! $v['owner'] && ! $v['hasAmendmentHistory'] && $app->status === 'submitted' && $app->eligibility === 'pending' && in_array($v['call']->status, ['published', 'closed']),
-            'can_merit' => $active && $v['reviewer'] && ! $v['owner'] && ! $v['pendingAmendment'] && $app->status === 'submitted' && $app->merit === null && in_array($v['call']->status, ['published', 'closed', 'evaluation']),
-            'can_grade' => $active && ! $v['owner'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && ! $frozen,
-            'can_calculate' => $active && $v['authority'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && $app->merit !== null && ! $frozen]);
+            'can_merit' => $v['documentValidation']['ready'] && $active && $v['reviewer'] && ! $v['owner'] && ! $v['pendingAmendment'] && $app->status === 'submitted' && $app->merit === null && in_array($v['call']->status, ['published', 'closed', 'evaluation']),
+            'can_grade' => $v['documentValidation']['ready'] && $active && $v['assignments']->isNotEmpty() && ! $v['owner'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && ! $frozen,
+            'can_calculate' => $v['documentValidation']['ready'] && $active && $v['authority'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && $app->merit !== null && ! $frozen]);
     }
 
     public function action(Request $r, int $id, string $action)

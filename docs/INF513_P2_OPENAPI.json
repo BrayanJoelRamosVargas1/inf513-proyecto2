@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "FICCT INF513 P2 — inventario de API",
-    "version": "0.3.0-local-document-safety",
-    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales. La Fase 2 local reutiliza la cola para documentos de postulantes; un estado limpio no habilita académicamente ni amplía permisos."
+    "version": "0.3.0-local-document-readiness",
+    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales. La Fase 2 local reutiliza la cola para documentos de postulantes; un estado limpio no habilita académicamente ni amplía permisos. DOC-21: cada expediente incluye document_validation agregado, independiente de eligibility. Las nuevas evaluaciones dependientes requieren análisis vigente e integridad actual; las decisiones históricas se conservan. Rechazo 422 si falta validación o 409 si los bytes faltan o no coinciden."
   },
   "servers": [
     {

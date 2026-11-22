@@ -1,3 +1,7 @@
+# Actualización local DOC-21
+
+La vigencia documental se comprueba antes de nuevas evaluaciones, sin revocar habilitaciones ni resultados históricos. Validación: 270 pruebas PHP / 1.675 aserciones y 31 pruebas React. Detalles y pendientes: [DOC21_VIGENCIA_DOCUMENTAL.md](docs/DOC21_VIGENCIA_DOCUMENTAL.md). Se mantiene NO_GO_INSTITUCIONAL.
+
 # INF513-SA · Proyecto 2 · Grupo 09
 
 **Estado local actual:** seguridad documental de postulantes y subsanaciones con la cola compartida. 255 pruebas Laravel / 1496 aserciones y 28 pruebas React. Recorrido con ClamAV real, privacidad por roles, conservación de versiones, concurrencia y restauración verificados en copia aislada. [Operación, resultados y límites](docs/FASE2_SEGURIDAD_DOCUMENTAL_POSTULANTES.md).

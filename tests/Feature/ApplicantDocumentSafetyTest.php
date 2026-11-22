@@ -7,6 +7,7 @@ use App\Domain\DocumentSafety;
 use App\Domain\DocumentScanner;
 use App\Domain\InstitutionalPreparation;
 use App\Domain\Participation;
+use App\Domain\Rectifications;
 use App\Domain\Selection;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -14,6 +15,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 final class ApplicantDocumentSafetyTest extends TestCase
@@ -355,7 +358,7 @@ final class ApplicantDocumentSafetyTest extends TestCase
                     app(DocumentProcessor::class)->enqueue($this->id, 'applicant');
                 }
 
-return $this->disk->readStream($path);
+                return $this->disk->readStream($path);
             }
         };
         Storage::shouldReceive('disk')->with('local')->andReturn($proxy);
@@ -364,14 +367,200 @@ return $this->disk->readStream($path);
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'pending']);
     }
 
+    private function enabledForEvaluation(): int
+    {
+        $this->runScan();
+        $this->submit();
+        $s = app(Selection::class);
+        $s->review($this->reviewer, $this->application, ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Revisión sintética completa del expediente.');
+        $s->eligibility($this->reviewer, $this->application, true, 'Habilitación académica sintética registrada.');
+        $s->merit($this->reviewer, $this->application, '20', 'CPD sintético');
+        $s->assign($this->authority, $this->offer, $this->evaluator->id, 'Software');
+        $s->transition($this->authority, $this->call, 'closed');
+        $s->transition($this->authority, $this->call, 'evaluation');
+
+        return DB::table('assignments')->where('offer_id', $this->offer)->value('id');
+    }
+
+    public function test_d21_rescan_after_enable_blocks_new_grade_without_revoking_academic_decision(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus(422);
+        $this->assertDatabaseCount('grades', 0);
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);
+    }
+
+    public function test_d22_rescan_after_grading_blocks_calculation_and_preserves_confirmed_grade(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        app(Selection::class)->grade($this->evaluator, $this->application, $assignment, '80');
+        $before = DB::table('grades')->orderBy('id')->get()->toJson();
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->actingAs($this->authority)->postJson('/api/v1/applications/'.$this->application.'/calcular')->assertStatus(422);
+        $this->assertSame($before, DB::table('grades')->orderBy('id')->get()->toJson());
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled', 'final' => null]);
+    }
+
     public function test_d20_prior_academic_review_cannot_enable_after_a_new_scan_is_requested(): void
     {
         $this->runScan();
         $this->submit();
         $this->reviewResponse(200);
-        app(DocumentProcessor::class)->enqueue($this->document,'applicant');
-        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/habilitacion',['enabled' => '1', 'reason' => 'Habilitación solicitada en la prueba.'])->assertStatus(422);
-        $this->assertDatabaseHas('applications',['id' => $this->application, 'eligibility' => 'pending']);
-        $this->assertDatabaseHas('reviews',['application_id' => $this->application, 'criterion' => 'doc:cpd', 'decision' => 'meets']);
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/habilitacion', ['enabled' => '1', 'reason' => 'Habilitación solicitada en la prueba.'])->assertStatus(422);
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'pending']);
+        $this->assertDatabaseHas('reviews', ['application_id' => $this->application, 'criterion' => 'doc:cpd', 'decision' => 'meets']);
+    }
+
+    public static function unavailableValidation(): array
+    {
+        return array_combine(['pending', 'blocked', 'error', 'expired', 'policy', 'missing', 'tampered'], array_map(fn ($state) => [$state], ['pending', 'blocked', 'error', 'expired', 'policy', 'missing', 'tampered']));
+    }
+
+    #[DataProvider('unavailableValidation')]
+    public function test_d23_unavailable_validation_blocks_draft_confirmation_and_calculation(string $state): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        app(Selection::class)->grade($this->evaluator, $this->application, $assignment, '70', false);
+        $before = DB::table('applications')->find($this->application);
+        $history = DB::table('grades')->get()->toJson();
+        if (in_array($state, ['pending', 'blocked', 'error'])) {
+            app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+            if ($state !== 'pending') {
+                $this->runScan($state);
+            }
+        } elseif ($state === 'expired') {
+            $this->travel(25)->hours();
+        } elseif ($state === 'policy') {
+            config(['document_safety.timeout_seconds' => 61]);
+        } else {
+            $path = DB::table('documents')->find($this->document)->path;
+            $state === 'missing' ? Storage::disk('local')->delete($path) : Storage::disk('local')->put($path, 'alteración sintética');
+        }
+        $code = in_array($state, ['missing', 'tampered']) ? 409 : 422;
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus($code);
+        $this->actingAs($this->authority)->postJson('/api/v1/applications/'.$this->application.'/calcular')->assertStatus($code)->assertJsonPath('message', $state === 'missing' ? 'La fuente no está disponible para comprobar su integridad.' : ($state === 'tampered' ? 'La fuente no coincide con su huella registrada.' : 'Documento en cuarentena: falta un análisis válido antes de aprobarlo.'));
+        $this->assertEquals($before, DB::table('applications')->find($this->application));
+        $this->assertSame($history, DB::table('grades')->get()->toJson());
+        foreach ([$this->evaluator, $this->authority, $this->student] as $user) {
+            $r = $this->actingAs($user)->getJson('/api/v1/applications/'.$this->application)->assertOk()->assertJsonPath('document_validation', ['state' => 'pending', 'ready' => false])->assertJsonPath('can_grade', false)->assertJsonPath('can_calculate', false);
+            $this->assertSame('enabled', $r->json('application.eligibility'));
+        }
+    }
+
+    public function test_d24_new_clean_scan_restores_technical_readiness_without_new_academic_decision(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        $reviews = DB::table('reviews')->get()->toJson();
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->runScan();
+        $this->actingAs($this->evaluator)->getJson('/api/v1/applications/'.$this->application)->assertOk()->assertJsonPath('document_validation.ready', true)->assertJsonPath('can_grade', true)->assertJsonCount(0, 'documents')->assertJsonCount(0, 'reviews');
+        $this->actingAs($this->authority)->getJson('/api/v1/applications/'.$this->application)->assertOk()->assertJsonPath('can_grade', false)->assertJsonCount(0, 'documents');
+        app(Selection::class)->grade($this->evaluator, $this->application, $assignment, '80');
+        app(Selection::class)->calculate($this->authority, $this->application);
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled', 'final' => '68.00']);
+        $this->assertSame($reviews, DB::table('reviews')->get()->toJson());
+        $this->assertDatabaseCount('institutional_scan_results', 2);
+        $audit = DB::table('audit_events')->where('action', 'result.calculated')->orderByDesc('id')->first();
+        $this->assertNotEmpty(Selection::json($audit->after)['document_checks']);
+    }
+
+    public function test_d25_rescan_blocks_new_publication_without_changing_existing_result(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        $s = app(Selection::class);
+        $s->grade($this->evaluator, $this->application, $assignment, '80');
+        $s->calculate($this->authority, $this->application);
+        $before = DB::table('applications')->find($this->application);
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        try {
+            $s->approve($this->authority, $this->offer, 'Acta sintética de aprobación.');
+            $this->fail('Publicación con validación pendiente.');
+        } catch (HttpException $e) {
+            $this->assertSame(422, $e->getStatusCode());
+        }
+        $this->assertEquals($before, DB::table('applications')->find($this->application));
+        $this->assertDatabaseCount('publications', 0);
+        $this->assertCount(1, $s->ranking($this->offer)['rank']);
+    }
+
+    public function test_d26_rescan_does_not_rewrite_a_historical_publication_or_enable_unauthorized_access(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        $s = app(Selection::class);
+        $s->grade($this->evaluator, $this->application, $assignment, '80');
+        $s->calculate($this->authority, $this->application);
+        $s->approve($this->authority, $this->offer, 'Acta sintética de aprobación previa.');
+        $before = DB::table('publications')->get()->toJson();
+        $app = DB::table('applications')->find($this->application);
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->runScan('blocked');
+        $this->assertEquals($app, DB::table('applications')->find($this->application));
+        $this->assertSame($before, DB::table('publications')->get()->toJson());
+        $this->actingAs(User::factory()->create())->getJson('/api/v1/applications/'.$this->application)->assertForbidden();
+        $this->actingAs($this->authority)->get('/postulaciones/'.$this->application)->assertOk()->assertSee('Validación documental pendiente')->assertSee('resultados históricos se conservan');
+    }
+
+    public function test_d27_rectification_approval_cannot_bypass_document_validation_but_rejection_is_allowed(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        app(Selection::class)->grade($this->evaluator, $this->application, $assignment, '80');
+        $grade = DB::table('grades')->first();
+        $r = app(Rectifications::class);
+        $id = $r->request($this->evaluator, $this->application, $grade->id, '85', 'Propuesta sintética de rectificación.', 'Evidencia sintética de rectificación.');
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        try {
+            $r->decide($this->authority, $id, true, 'Decisión sintética de rectificación.');
+            $this->fail('Rectificación aprobada durante cuarentena.');
+        } catch (HttpException $e) {
+            $this->assertSame(422, $e->getStatusCode());
+        }
+        $this->assertEquals($grade, DB::table('grades')->first());
+        $this->assertDatabaseHas('correction_requests', ['id' => $id, 'status' => 'pending']);
+        $r->decide($this->authority, $id, false, 'Rechazo documentado sin alterar notas.');
+        $this->assertDatabaseHas('correction_requests', ['id' => $id, 'status' => 'rejected']);
+    }
+
+    public function test_d28_merit_registration_requires_current_documents_even_before_enable(): void
+    {
+        $this->runScan();
+        $this->submit();
+        app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/meritos', ['score' => '20', 'reference' => 'CPD sintético'])->assertStatus(422);
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'merit' => null]);
+        $this->assertDatabaseCount('score_versions', 0);
+    }
+
+    public function test_d29_rescan_during_grade_byte_check_rolls_back_new_grade(): void
+    {
+        $assignment = $this->enabledForEvaluation();
+        $disk = Storage::disk('local');
+        $id = $this->document;
+        $proxy = new class($disk, $id)
+        {
+            private bool $started = false;
+
+            public function __construct(private $disk, private $id) {}
+
+            public function exists($path)
+            {
+                return $this->disk->exists($path);
+            }
+
+            public function readStream($path)
+            {
+                if (! $this->started) {
+                    $this->started = true;
+                    app(DocumentProcessor::class)->enqueue($this->id, 'applicant');
+                }
+
+                return $this->disk->readStream($path);
+            }
+        };
+        Storage::shouldReceive('disk')->with('local')->andReturn($proxy);
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus(422)->assertJsonPath('message', 'El análisis cambió durante la revisión.');
+        $this->assertDatabaseCount('grades', 0);
+        $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);
     }
 }

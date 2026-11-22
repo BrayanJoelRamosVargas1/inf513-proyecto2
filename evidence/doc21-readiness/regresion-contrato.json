@@ -1,0 +1,11 @@
+{
+  "resultado": "PASS",
+  "fecha_utc": "2026-11-22T14:44:47.154835+00:00",
+  "pruebas_previas_conservadas": 255,
+  "pruebas_nuevas": 15,
+  "tests_finales": 270,
+  "canonico_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "Scores_y_config_ficct_identicos": true,
+  "migraciones_sin_cambios": true,
+  "zip_anterior_intacto": true
+}

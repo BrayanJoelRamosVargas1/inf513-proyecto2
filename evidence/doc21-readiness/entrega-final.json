@@ -1,0 +1,28 @@
+{
+  "resultado": "PASS",
+  "DOC21": "reproducido antes y corregido",
+  "phpunit_tests": 270,
+  "phpunit_aserciones": 1675,
+  "react_tests": 31,
+  "http_comprobaciones": 14,
+  "solicitudes_http_explicitas": 68,
+  "respuestas_http": {
+    "200": 54,
+    "201": 3,
+    "403": 3,
+    "422": 5,
+    "423": 3
+  },
+  "preservacion": "49 tablas y 35 archivos privados idénticos en la base operativa",
+  "restauracion": "49 tablas, 16 triggers y 42 archivos privados de copia aislada",
+  "concurrencia": "Selection::calculate serializado frente a nuevo análisis",
+  "fuentes_contrato_y_formulas": "conservados",
+  "alcance": "local, NO_GO_INSTITUCIONAL",
+  "pendiente": [
+    "servicio permanente",
+    "monitorización externa",
+    "EICAR",
+    "carga y capacidad",
+    "aprobación institucional"
+  ]
+}

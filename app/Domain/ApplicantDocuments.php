@@ -3,10 +3,36 @@
 namespace App\Domain;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /** Document safety only; academic decisions remain with authorized reviewers. */
 final class ApplicantDocuments
 {
+    /** Computed technical readiness, never an academic eligibility transition. */
+    public function readiness(int $application): array
+    {
+        try {
+            DB::transaction(fn () => $this->assertEffective($application));
+
+            return ['state' => 'current', 'ready' => true];
+        } catch (HttpException $e) {
+            if (! in_array($e->getStatusCode(), [409, 422])) {
+                throw $e;
+            }
+
+            // Only aggregate status is exposed; no file metadata or review detail.
+            return ['state' => 'pending', 'ready' => false];
+        }
+    }
+
+    public function assertOffer(int $offer): void
+    {
+        $ids = DB::table('applications')->where('offer_id', $offer)->where('status', 'submitted')->where('participation', 'active')->where('eligibility', 'enabled')->orderBy('id')->pluck('id');
+        foreach ($ids as $id) {
+            $this->assertEffective($id);
+        }
+    }
+
     public function status(int $id): array
     {
         return collect(app(DocumentSafety::class)->status($id, 'applicant'))->only(['state', 'download_allowed', 'finished_at'])->all();
