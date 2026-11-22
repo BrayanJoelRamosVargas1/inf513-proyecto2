@@ -1,5 +1,8 @@
 # Refuerzo de Fase 1: cuarentena de fuentes institucionales
 
+**Actualización posterior:** se añadió verificación de bytes en transiciones y se probó ClamAV real con alcance limitado. [Informe actual](INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md). El estado de motor no instalado indicado más abajo corresponde al ensayo anterior.
+
+
 Fecha local: 21/11/2026. Base: preparación institucional local 121f3dacb426b0a0b79cb894f2bcc02641197637. Esta ampliación no se desplegó al servidor docente ni habilita concursos reales.
 
 ## Qué se corrigió

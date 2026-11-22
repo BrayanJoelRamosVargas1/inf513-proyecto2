@@ -1,5 +1,8 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
+**Corrección local de integridad en transiciones:** 213 pruebas Laravel / 1223 aserciones. Envío y conclusión de revisión verifican bytes y disponibilidad. ClamAV real: cuatro casos de alcance limitado; EICAR pendiente. [Evidencias y límites](docs/INTEGRIDAD_EN_TRANSICIONES_Y_CLAMAV.md). Las cifras siguientes corresponden a versiones anteriores.
+
+
 **Refuerzo local de cuarentena institucional:** 209 pruebas Laravel / 1184 aserciones, 22 pruebas React y seis comprobaciones de navegador. El analizador real no está instalado/configurado: las fuentes quedan bloqueadas hasta disponer de un análisis válido. [Operación y límites](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md). Las cifras de versiones anteriores son antecedentes.
 
 

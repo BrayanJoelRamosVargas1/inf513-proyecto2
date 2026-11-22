@@ -1,0 +1,78 @@
+{
+  "result": "PASS_LIMITED_SCOPE",
+  "no_test_doubles": true,
+  "adapter_cases": [
+    {
+      "name": "clean_pdf",
+      "expected": "clean",
+      "actual": {
+        "state": "clean",
+        "engine": "ClamAV 1.5.5",
+        "reason": "no_detection"
+      },
+      "passed": true
+    },
+    {
+      "name": "harmless_test_signature_pdf",
+      "expected": "blocked",
+      "actual": {
+        "state": "blocked",
+        "engine": "ClamAV 1.5.5",
+        "reason": "detection_or_unscannable_content"
+      },
+      "passed": true
+    },
+    {
+      "name": "missing_signatures",
+      "expected": "error",
+      "actual": {
+        "state": "error",
+        "engine": "ClamAV 1.5.5",
+        "reason": "scan_incomplete"
+      },
+      "passed": true
+    },
+    {
+      "name": "expired_signed_main",
+      "expected": "error",
+      "actual": {
+        "state": "error",
+        "engine": "ClamAV 1.5.5",
+        "reason": "scan_incomplete"
+      },
+      "passed": true
+    }
+  ],
+  "native_confirmation": [
+    {
+      "name": "pdf_test_signature",
+      "exit_code": 1,
+      "output": "[LAB]\\samples\\synthetic-detection.pdf: FICCT.TestOnly.Acceptance.UNOFFICIAL FOUND\n"
+    },
+    {
+      "name": "expired_signed_main",
+      "exit_code": 2,
+      "output": "ERROR: Virus database is older than 2 days!\n"
+    }
+  ],
+  "eicar_attempt": {
+    "name": "official_eicar_stdin",
+    "expected_exit": 1,
+    "actual_exit": 2,
+    "output": "stdin: Can't open file or directory ERROR",
+    "passed": false,
+    "scope": "Motor real con firmas oficiales; flujo de entrada, sin archivo EICAR persistido."
+  },
+  "eicar_acceptance": "NOT_VERIFIED",
+  "engine_download": {
+    "url": "https://github.com/Cisco-Talos/clamav/releases/download/clamav-1.5.5/clamav-1.5.5.win.x64.zip",
+    "digest": "sha256:90169f5e551010bfbd0208b50d9b2fa8988ef396cccbd46b0cc8cae03e22a4a4",
+    "bytes": 225800047
+  },
+  "official_signature_sha256": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "698abcd56b441205bff91ea9579f7583f7d8b63aa5a367ff553825f6a45a26be",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "limits": "Cuatro casos reales del adaptador pasaron. Detección con firma inocua de ensayo adicional. EICAR no pudo comprobarse; se conserva la evidencia del intento fallido. No es certificación institucional."
+}

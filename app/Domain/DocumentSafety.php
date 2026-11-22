@@ -33,22 +33,55 @@ final class DocumentSafety
     public function bytes(object $source): string
     {
         $disk = Storage::disk('local');
-        abort_unless($disk->exists($source->path), 409, 'La fuente no está disponible para comprobar su integridad.');
-        $stream = $disk->readStream($source->path);
+        $stream = null;
         try {
+            abort_unless($disk->exists($source->path), 409, 'La fuente no está disponible para comprobar su integridad.');
+            $stream = $disk->readStream($source->path);
+            abort_unless(is_resource($stream), 409, 'La fuente no está disponible para comprobar su integridad.');
             $bytes = stream_get_contents($stream, 15728641);
+        } catch (\League\Flysystem\FilesystemException) {
+            abort(409, 'La fuente no está disponible para comprobar su integridad.');
         } finally {
-            fclose($stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
         }
         abort_unless(is_string($bytes) && strlen($bytes) <= 15728640 && hash('sha256', $bytes) === $source->sha256, 409, 'La fuente no coincide con su huella registrada.');
 
         return $bytes;
     }
 
+    /**
+     * Caller holds the dossier and permission locks in its transaction.
+     * Scan starts take the same source lock; results remain append-only.
+     */
+    public function assertCurrentSources(int $dossierId): array
+    {
+        if (DB::transactionLevel() < 1) {
+            throw new \LogicException('Source verification requires the decision transaction.');
+        }
+        $sources = DB::table('institutional_sources')->where('dossier_id', $dossierId)->orderBy('id')->lockForUpdate()->get();
+        $checks = [];
+        foreach ($sources as $source) {
+            $before = $this->status($source->id);
+            abort_unless($before['download_allowed'], 422, 'El análisis de alguna fuente falta, venció o bloqueó el archivo.');
+            $bytes = $this->bytes($source);
+            $after = $this->status($source->id);
+            abort_unless($after['download_allowed'] && $before['job_id'] === $after['job_id'], 422, 'El análisis cambió durante la comprobación. Reintenta la operación.');
+            $checks[] = ['source_id' => $source->id, 'source_version' => $source->version, 'sha256' => hash('sha256', $bytes), 'scan_job_id' => $after['job_id'], 'checked_at' => now()->toIso8601String()];
+        }
+
+        return $checks;
+    }
+
     public function scan(int $sourceId): array
     {
-        $source = Selection::row('institutional_sources', $sourceId);
-        $job = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $sourceId, 'sha256' => $source->sha256, 'policy_hash' => self::policyHash(), 'created_at' => now()]);
+        [$source, $job] = DB::transaction(function () use ($sourceId) {
+            $source = Selection::row('institutional_sources', $sourceId, true);
+            $job = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $sourceId, 'sha256' => $source->sha256, 'policy_hash' => self::policyHash(), 'created_at' => now()]);
+
+            return [$source, $job];
+        });
         $temp = null;
         try {
             $bytes = $this->bytes($source);

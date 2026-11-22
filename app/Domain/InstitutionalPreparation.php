@@ -106,8 +106,12 @@ final class InstitutionalPreparation
             $readiness = $this->readiness($id);
             abort_if($readiness['sources']->isEmpty(), 422, 'Adjunta al menos una fuente antes de solicitar revisión.');
             abort_if($readiness['sources']->contains(fn ($s) => ! $s->security['download_allowed']), 422, 'Las fuentes deben superar el análisis antimalware antes de solicitar revisión.');
+            $checks = app(DocumentSafety::class)->assertCurrentSources($id);
+            // Capture status after obtaining source locks, so the snapshot references
+            // the same scan jobs that verified the bytes of this decision.
+            $readiness = $this->readiness($id);
             // Store the exact string whose hash is returned, rather than relying on JSONB key ordering.
-            $snapshot = json_encode(['dossier' => $d, 'readiness' => $readiness], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+            $snapshot = json_encode(['dossier' => $d, 'readiness' => $readiness, 'integrity_checks' => $checks], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
             $submission = DB::table('institutional_submissions')->insertGetId(['dossier_id' => $id, 'created_by' => $user->id, 'dossier_version' => $version, 'snapshot' => json_encode(['serialized' => $snapshot]), 'sha256' => hash('sha256', $snapshot), 'created_at' => now()]);
             DB::table('institutional_dossiers')->where('id', $id)->update(['status' => 'under_review', 'version' => $version + 1, 'updated_at' => now()]);
             Selection::audit($user, $d->call_id, 'institutional.review.requested', 'institutional:'.$id, null, ['submission_id' => $submission]);
@@ -124,13 +128,14 @@ final class InstitutionalPreparation
             abort_if($d->version !== $data['expected_version'], 409, 'El expediente cambió. Recarga antes de continuar.');
             abort_unless($d->status === 'under_review', 422, 'No hay una solicitud de revisión abierta.');
             // An observation can always be recorded, but completion requires current scans.
+            $checks = [];
             if ($data['decision'] === 'reviewed') {
-                abort_if($this->readiness($id)['sources']->contains(fn ($s) => ! $s->security['download_allowed']), 422, 'El análisis de alguna fuente falta, venció o bloqueó el archivo.');
+                $checks = app(DocumentSafety::class)->assertCurrentSources($id);
             }
             $submission = DB::table('institutional_submissions')->where('dossier_id', $id)->orderByDesc('id')->first();
             DB::table('institutional_reviews')->insert(['submission_id' => $submission->id, 'created_by' => $user->id, 'decision' => $data['decision'], 'reason' => $data['reason'], 'created_at' => now()]);
             DB::table('institutional_dossiers')->where('id', $id)->update(['status' => $data['decision'] === 'observed' ? 'draft' : 'technically_reviewed', 'version' => $d->version + 1, 'updated_at' => now()]);
-            Selection::audit($user, $d->call_id, 'institutional.review.recorded', 'institutional:'.$id, null, $data, $data['reason']);
+            Selection::audit($user, $d->call_id, 'institutional.review.recorded', 'institutional:'.$id, null, $data + ['integrity_checks' => $checks], $data['reason']);
         });
     }
 }

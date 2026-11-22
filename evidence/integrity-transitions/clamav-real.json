@@ -1,0 +1,66 @@
+{
+  "result": "FAIL",
+  "no_test_doubles": true,
+  "cases": [
+    {
+      "name": "official_eicar_stdin",
+      "expected_exit": 1,
+      "actual_exit": 2,
+      "output": "stdin: Can't open file or directory ERROR",
+      "passed": false,
+      "scope": "Motor real con firmas oficiales; flujo de entrada, sin archivo EICAR persistido."
+    },
+    {
+      "name": "clean_pdf",
+      "expected": "clean",
+      "actual": {
+        "state": "clean",
+        "engine": "ClamAV 1.5.5",
+        "reason": "no_detection"
+      },
+      "passed": true
+    },
+    {
+      "name": "harmless_test_signature_pdf",
+      "expected": "blocked",
+      "actual": {
+        "state": "blocked",
+        "engine": "ClamAV 1.5.5",
+        "reason": "detection_or_unscannable_content"
+      },
+      "passed": true
+    },
+    {
+      "name": "missing_signatures",
+      "expected": "error",
+      "actual": {
+        "state": "error",
+        "engine": "ClamAV 1.5.5",
+        "reason": "scan_incomplete"
+      },
+      "passed": true
+    },
+    {
+      "name": "expired_signed_main",
+      "expected": "error",
+      "actual": {
+        "state": "error",
+        "engine": "ClamAV 1.5.5",
+        "reason": "scan_incomplete"
+      },
+      "passed": true
+    }
+  ],
+  "engine_download": {
+    "url": "https://github.com/Cisco-Talos/clamav/releases/download/clamav-1.5.5/clamav-1.5.5.win.x64.zip",
+    "digest": "sha256:90169f5e551010bfbd0208b50d9b2fa8988ef396cccbd46b0cc8cae03e22a4a4",
+    "bytes": 225800047
+  },
+  "official_signature_sha256": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "698abcd56b441205bff91ea9579f7583f7d8b63aa5a367ff553825f6a45a26be",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "host_eicar_file_removed_before_scan": true,
+  "limits": "Detección EICAR por stdin; PDF con firma de ensayo adicional claramente identificada. No es certificación antimalware ni aceptación institucional."
+}

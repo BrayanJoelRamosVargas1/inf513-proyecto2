@@ -1,9 +1,9 @@
 {
-  "junit": "evidence/institutional-quarantine/phpunit.xml",
-  "tests": 209,
-  "assertions": 1184,
-  "react_tests": 22,
-  "browser_checks": 6,
-  "real_antimalware_engine": "NOT_VERIFIED",
-  "scope": "Cuarentena local de fuentes institucionales; sin habilitación oficial ni despliegue remoto"
+  "junit": "evidence/integrity-transitions/phpunit.xml",
+  "tests": 213,
+  "assertions": 1223,
+  "concurrency": "Dos procesos reales; bloqueo observado por PostgreSQL",
+  "clamav_real_adapter": "PASS_LIMITED_SCOPE: cuatro casos",
+  "eicar": "NOT_VERIFIED",
+  "scope": "Integridad en envío y revisión; local, sin activación ni despliegue oficial"
 }
