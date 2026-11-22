@@ -1,3 +1,7 @@
+# WIN-01 — configuración instalada verificada
+
+WIN-01 reproducido y corregido: once regresiones PowerShell aprobadas. Las acciones administrativas usan la configuración instalada y rechazan copias externas diferentes. Instalación SCM, LocalService y reinicio real siguen pendientes. Detalles: [WIN01_CONFIGURACION_INSTALADA.md](docs/WIN01_CONFIGURACION_INSTALADA.md). NO_GO_INSTITUCIONAL.
+
 # Operación documental de Windows — instalación pendiente
 
 Adaptador de servicio y diagnóstico implementados; ciclo de vida probado con procesos reales en consola. SCM y arranque tras reinicio siguen sin verificar porque esta sesión no es administrativa. Instrucciones: [OPERACION_SERVICIO_DOCUMENTAL_WINDOWS.md](docs/OPERACION_SERVICIO_DOCUMENTAL_WINDOWS.md). El supervisor local anterior continúa activo; NO_GO_INSTITUCIONAL. Las pruebas PHP/React citadas a continuación corresponden a DOC-21 y no se reejecutaron en esta intervención operativa.

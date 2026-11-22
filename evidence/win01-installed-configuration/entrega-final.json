@@ -1,0 +1,22 @@
+{
+  "WIN01": "REPRODUCED_AND_FIXED",
+  "regresiones_PowerShell": 11,
+  "regresiones_copia_entrega": 11,
+  "ejecucion_bloque_EnableAutomatic": "real AST, SCM y diagnóstico con dobles; no es aceptación administrativa",
+  "compilacion_real": "PASS",
+  "fuente_para_administracion": "service.json instalado; copias distintas rechazadas",
+  "WIN02": "NOT_VERIFIED",
+  "SCM_instalado": false,
+  "LocalService_efectivo": "NOT_VERIFIED",
+  "ACL_efectivas": "NOT_VERIFIED",
+  "reinicio_Windows": "NOT_VERIFIED",
+  "alertas_externas": "NOT_CONFIGURED",
+  "criterios_auditoria_cerrados": 1,
+  "criterios_auditoria_totales": 7,
+  "sesion_administrativa": false,
+  "supervisor_operativo_previo": "activo e identidad verificada",
+  "tablas_y_privados_preservados": "49 tablas, 35 archivos privados idénticos",
+  "codigo_academico_DOC21_CSharp_y_monitor": "sin cambios",
+  "PHP_React_reejecutados": false,
+  "NO_GO_INSTITUCIONAL": true
+}

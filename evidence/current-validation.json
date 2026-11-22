@@ -14,7 +14,7 @@
   "academic_decisions": "Conservadas; validación técnica calculada independiente",
   "local_worker": "Proceso local activo; no es servicio permanente",
   "eicar": "NOT_VERIFIED",
-  "scope": "Preparación de servicio local; no instalado; sin despliegue remoto; NO_GO_INSTITUCIONAL",
+  "scope": "WIN01 corregido localmente; servicio SCM y reinicio pendientes; sin despliegue remoto; NO_GO_INSTITUCIONAL",
   "php_reexecuted_this_intervention": false,
   "react_reexecuted_this_intervention": false,
   "windows_service": {
@@ -30,5 +30,15 @@
     ],
     "evidence": "evidence/windows-service-preparation/ciclo-de-vida.json",
     "external_alert_delivery": false
+  },
+  "win01": {
+    "state": "REPRODUCED_AND_FIXED",
+    "powershell_regressions": 11,
+    "delivery_copy_regressions": 11,
+    "evidence": "evidence/win01-installed-configuration/regresiones-entrega.json",
+    "source": "installed service.json only for management",
+    "SCM_acceptance": "NOT_VERIFIED",
+    "LocalService": "NOT_VERIFIED",
+    "reboot": "NOT_VERIFIED"
   }
 }

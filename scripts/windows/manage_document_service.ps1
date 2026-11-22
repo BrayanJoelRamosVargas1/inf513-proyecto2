@@ -5,15 +5,14 @@ param(
     [string]$InstallDirectory = "$env:ProgramData\FICCT\DocumentProcessor"
 )
 $ErrorActionPreference = 'Stop'
-$configFile = (Resolve-Path -LiteralPath $ConfigPath).Path
-$settings = Get-Content -LiteralPath $configFile -Raw | ConvertFrom-Json
-foreach ($name in @($settings.service_name,$settings.worker_name)) {
-    if ($name -notmatch '^[A-Za-z0-9_-]{1,40}$') { throw 'Invalid service or worker name.' }
-}
+. (Join-Path $PSScriptRoot 'service_configuration.ps1')
+$configuration = Read-DocumentServiceConfiguration -Action $Action -ConfigPath $ConfigPath -InstallDirectory $InstallDirectory
+$configFile = $configuration.SelectedFile
+$settings = $configuration.Settings
 $serviceName = $settings.service_name
-$target = [IO.Path]::GetFullPath($InstallDirectory)
+$target = $configuration.Target
 $binary = Join-Path $target 'FicctDocumentProcessor.exe'
-$installedConfig = Join-Path $target 'service.json'
+$installedConfig = $configuration.InstalledFile
 $expectedImage = '"' + $binary + '" "' + $installedConfig + '"'
 $source = Join-Path $PSScriptRoot 'DocumentProcessorService.cs'
 $admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)

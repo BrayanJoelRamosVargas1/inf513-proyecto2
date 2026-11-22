@@ -4,6 +4,8 @@
 
 Esta intervención continúa la auditoría de DOC-21. No modifica el control documental, el motor académico, las reglas de selección, los 8 CU ni los 30 RF. Las 270 pruebas PHP y 31 React pertenecen a la validación anterior DOC-21; no se presentan como una nueva ejecución de esta intervención operativa.
 
+Actualización WIN-01: las acciones de administración cargan únicamente la configuración instalada y rechazan una referencia externa con bytes diferentes. Compilación e instalación inicial mantienen la entrada externa. Reproducción, once regresiones y límites: `WIN01_CONFIGURACION_INSTALADA.md`. Esta actualización no cierra la aceptación bajo LocalService ni el reinicio real.
+
 ## Qué se incorpora
 
 - `scripts/windows/DocumentProcessorService.cs`: adaptador nativo del administrador de servicios, compilable con .NET Framework ya disponible. Ejecuta el supervisor Python existente, conserva su exclusión de instancias y sus reservas en PostgreSQL. No analiza archivos ni emite resultados por su cuenta.

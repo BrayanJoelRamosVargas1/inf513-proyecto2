@@ -1,0 +1,8 @@
+﻿{
+    "scope":  "Isolated execution of the actual EnableAutomatic AST block; does not validate SCM",
+    "actual_dependency":  "ExternalOld",
+    "SCM_calls":  "ALL_MOCKED_NO_MUTATIONS",
+    "resultado":  "FAIL_EXPECTED_INSTALLED_CONFIGURATION",
+    "health_used_installed_config":  true,
+    "expected_dependency":  "InstalledWanted"
+}
