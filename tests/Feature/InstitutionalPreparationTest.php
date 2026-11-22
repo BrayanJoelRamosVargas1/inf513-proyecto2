@@ -26,6 +26,8 @@ final class InstitutionalPreparationTest extends TestCase
     {
         parent::setUp();
         Storage::fake('local');
+        // Contract fixture only: never bind this scanner in a running installation.
+        $this->app->instance(\App\Domain\DocumentScanner::class, new class implements \App\Domain\DocumentScanner { public function scan(string $path): array { return ['state' => 'clean', 'engine' => 'TEST-ONLY', 'reason' => 'fixture']; } });
         $this->author = User::factory()->create(['role' => 'authority']);
         $this->reviewer = User::factory()->create(['role' => 'authority']);
         $this->student = User::factory()->create(['role' => 'student']);
@@ -42,7 +44,9 @@ final class InstitutionalPreparationTest extends TestCase
     private function source(int $expected = 1, string $gate = 'G02'): int
     {
         $file = UploadedFile::fake()->createWithContent('norma.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf')));
-        return $this->actingAs($this->author)->post($this->endpoint('/sources'), ['expected_version' => $expected, 'reference' => 'RV-021-2023', 'gate' => $gate, 'title' => 'Fuente sintética', 'issued_on' => '2023-01-01', 'pages' => '10, artículo 18', 'classification' => 'historical_reference', 'notes' => 'Esta muestra no es normativa auténtica.', 'file' => $file], ['Accept' => 'application/json'])->assertCreated()->json('id');
+        $id = $this->actingAs($this->author)->post($this->endpoint('/sources'), ['expected_version' => $expected, 'reference' => 'RV-021-2023', 'gate' => $gate, 'title' => 'Fuente sintética', 'issued_on' => '2023-01-01', 'pages' => '10, artículo 18', 'classification' => 'historical_reference', 'notes' => 'Esta muestra no es normativa auténtica.', 'file' => $file], ['Accept' => 'application/json'])->assertCreated()->json('id');
+        app(\App\Domain\DocumentSafety::class)->scan($id);
+        return $id;
     }
 
     public function test_i01_unrelated_accounts_and_members_without_assignment_cannot_read_or_create(): void

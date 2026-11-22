@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Access;
+use App\Domain\DocumentSafety;
 use App\Domain\InstitutionalPreparation;
 use App\Domain\Selection;
 use App\Http\Controllers\Controller;
@@ -72,12 +73,13 @@ final class InstitutionalController extends Controller
     {
         $source = Selection::row('institutional_sources', $id);
         $service->dossier($r->user(), $source->dossier_id);
-        $disk = Storage::disk('local');
-        abort_unless($disk->exists($source->path), 404);
-        abort_unless(hash_file('sha256', $disk->path($source->path)) === $source->sha256, 409, 'La fuente no coincide con su huella registrada.');
+        $safety = app(DocumentSafety::class);
+        abort_unless($safety->status($id)['download_allowed'], 423, 'Fuente en cuarentena: el análisis falta, venció, falló o bloqueó el archivo.');
+        $bytes = $safety->bytes($source);
         $ext = ['application/pdf' => 'pdf', 'image/jpeg' => 'jpg', 'image/png' => 'png'][$source->mime];
 
-        return $disk->download($source->path, 'fuente-'.$source->id.'-v'.$source->version.'.'.$ext, ['Content-Type' => $source->mime, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, no-store']);
+        // Return the bytes actually hashed, not a pathname that could change before transmission.
+        return response($bytes, 200, ['Content-Disposition' => 'attachment; filename="fuente-'.$source->id.'-v'.$source->version.'.'.$ext.'"', 'Content-Type' => $source->mime, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, no-store']);
     }
 
     public function activation(Request $r, int $id, InstitutionalPreparation $service)

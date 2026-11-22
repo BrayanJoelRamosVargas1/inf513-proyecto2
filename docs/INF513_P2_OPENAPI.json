@@ -1898,6 +1898,9 @@
           },
           "429": {
             "description": "Límite de solicitudes."
+          },
+          "423": {
+            "description": "Fuente en cuarentena: análisis pendiente, fallido, bloqueado o vencido."
           }
         }
       }

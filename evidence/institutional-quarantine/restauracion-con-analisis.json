@@ -1,0 +1,9 @@
+{
+  "resultado": "PASS",
+  "origen": "Copia de navegador, sin modificar instalación operativa",
+  "tablas_identicas": 47,
+  "archivos_privados_copiados_identicos": 36,
+  "resultados_antimalware_restaurados": 1,
+  "triggers_restaurados": 14,
+  "nota": "Se conservan los estados fallidos, sin convertirlos en aprobados al restaurar."
+}

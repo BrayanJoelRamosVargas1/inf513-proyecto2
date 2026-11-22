@@ -1,5 +1,8 @@
 # Preparación institucional FICCT · Fase 1 local
 
+**Actualización posterior:** la descarga y revisión de fuentes requieren ahora análisis antimalware válido. [Cuarentena, operación y límites actuales](CUARENTENA_FUENTES_INSTITUCIONALES.md). Las cifras y recorridos siguientes corresponden a la primera entrega.
+
+
 Fecha local: 21/11/2026. Base académica: revisión Git 72e0911faaebae9ddd1f4ff4799cb2de79ef8ef0.
 
 ## Resultado

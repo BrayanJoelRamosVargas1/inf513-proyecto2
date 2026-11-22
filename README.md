@@ -1,5 +1,8 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
+**Refuerzo local de cuarentena institucional:** 209 pruebas Laravel / 1184 aserciones, 22 pruebas React y seis comprobaciones de navegador. El analizador real no está instalado/configurado: las fuentes quedan bloqueadas hasta disponer de un análisis válido. [Operación y límites](docs/CUARENTENA_FUENTES_INSTITUCIONALES.md). Las cifras de versiones anteriores son antecedentes.
+
+
 **Ampliación local: preparación institucional, fase 1.** [Uso, arquitectura y pendientes](docs/PREPARACION_INSTITUCIONAL_FASE_1.md). 199 pruebas Laravel / 1123 aserciones, 21 pruebas React y seis comprobaciones de navegador. Sin activación oficial ni despliegue de esta ampliación. Las cifras siguientes describen la entrega académica anterior.
 
 Sistema académico de selección de auxiliares FICCT: React, API Laravel y PostgreSQL.

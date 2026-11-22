@@ -1,0 +1,7 @@
+{
+  "resultado": "PASS",
+  "pruebas_previas_preservadas": 199,
+  "pruebas_actuales": 209,
+  "contrato_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "protecciones_y_motor": "Sin cambios"
+}

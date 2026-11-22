@@ -42,7 +42,7 @@ export function InstitutionalDossier(){
     {d.can_edit&&<section className="card"><h2>Conservar una fuente o nueva versión</h2>
       <Form button="Guardar versión de fuente" onSubmit={async f=>{f.append('expected_version',String(expected_version));await api.post('/institutional/dossiers/'+id+'/sources',f);reload();}}>
         <label>Referencia estable<input name="reference" required maxLength="100" pattern="[A-Za-z0-9._-]+" placeholder="RV-021-2023"/></label>
-        <p>Reutiliza la misma referencia para añadir una versión; se conserva la anterior. Registrar una nueva versión no demuestra su vigencia.</p>
+        <p>Reutiliza la misma referencia para añadir una versión; se conserva la anterior. Registrar una nueva versión no demuestra su vigencia. El archivo queda en cuarentena hasta superar el análisis antimalware.</p>
         <label>Título de la fuente<input name="title" required maxLength="180"/></label>
         <label>Condición relacionada<select name="gate" required>{d.readiness.gates.map(g=><option key={g.id} value={g.id}>{g.id} · {g.name}</option>)}</select></label>
         <label>Fecha que figura en el documento<input type="date" name="issued_on" required/></label>
@@ -54,7 +54,7 @@ export function InstitutionalDossier(){
       <Form button="Enviar a revisión técnica" onSubmit={async()=>{await api.post('/institutional/dossiers/'+id+'/submission',{expected_version});reload();}}><p>Se conservará una copia inmutable de los metadatos y sus huellas. Las condiciones sin resolver seguirán pendientes.</p></Form>
     </section>}
     <section className="card"><h2>Fuentes y versiones conservadas</h2>
-      {d.readiness.sources.map(s=><article key={s.id}><h3>{s.reference} · versión {s.version}</h3><p>{s.title} · {s.issued_on} · {s.pages} · {s.classification==='historical_reference'?'Referencia histórica':'Propuesta no validada'}</p><p>{s.notes}</p><p>SHA-256: <code style={{overflowWrap:'anywhere'}}>{s.sha256}</code></p><a href={base+'/api/v1/institutional/sources/'+s.id+'/download'}>Descargar fuente #{s.id}</a></article>)}
+      {d.readiness.sources.map(s=><article key={s.id}><h3>{s.reference} · versión {s.version}</h3><p>{s.title} · {s.issued_on} · {s.pages} · {s.classification==='historical_reference'?'Referencia histórica':'Propuesta no validada'}</p><p>{s.notes}</p><p>SHA-256: <code style={{overflowWrap:'anywhere'}}>{s.sha256}</code></p><p>Control de seguridad: {({pending:'En cuarentena: análisis pendiente',clean:'Análisis sin detecciones vigente; autenticidad sin validar',blocked:'Bloqueado por el analizador',error:'Análisis no disponible o fallido',expired:'Análisis vencido'})[s.security?.state||'pending']}</p>{s.security?.download_allowed?<a href={base+'/api/v1/institutional/sources/'+s.id+'/download'}>Descargar fuente #{s.id}</a>:<p>Descarga bloqueada. El operador debe completar un análisis válido; ninguna cuenta puede liberarlo desde la web.</p>}</article>)}
       {!d.readiness.sources.length&&<p>Todavía no hay fuentes conservadas.</p>}
     </section>
     {d.can_review&&<section className="card"><h2>Revisión por otra autoridad del ámbito</h2>

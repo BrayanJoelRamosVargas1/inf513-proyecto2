@@ -1,8 +1,9 @@
 {
-  "junit": "evidence/institutional-preparation/phpunit.xml",
-  "tests": 199,
-  "assertions": 1123,
-  "react_tests": 21,
+  "junit": "evidence/institutional-quarantine/phpunit.xml",
+  "tests": 209,
+  "assertions": 1184,
+  "react_tests": 22,
   "browser_checks": 6,
-  "scope": "Fase 1 local de preparación documental; sin activación oficial ni despliegue remoto"
+  "real_antimalware_engine": "NOT_VERIFIED",
+  "scope": "Cuarentena local de fuentes institucionales; sin habilitación oficial ni despliegue remoto"
 }

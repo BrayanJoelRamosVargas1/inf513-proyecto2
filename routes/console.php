@@ -4,6 +4,17 @@ use App\Domain\DemoJourney;
 use App\Domain\DocumentaryJourney;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+
+Artisan::command('ficct:scan-institutional-source {source_id}', function () {
+    $id = filter_var($this->argument('source_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($id === false || ! \Illuminate\Support\Facades\DB::table('institutional_sources')->where('id', $id)->exists()) {
+        $this->error('Fuente inexistente o identificador inválido.');
+        return 1;
+    }
+    $result = app(\App\Domain\DocumentSafety::class)->scan($id);
+    $this->line(json_encode($result, JSON_UNESCAPED_UNICODE));
+    return $result['state'] === 'clean' ? 0 : 1;
+})->purpose('Analizar una fuente institucional privada; sin opciones de aprobación manual');
 use Illuminate\Support\Facades\DB;
 
 Artisan::command('ficct:telemetry-prune {--apply : Aplicar eliminación únicamente a telemetría vencida}', function () {

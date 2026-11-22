@@ -67,7 +67,7 @@ final class InstitutionalPreparation
                 $d = $this->editable($user, $id, $data['expected_version']);
                 $version = 1 + (int) DB::table('institutional_sources')->where('dossier_id', $id)->where('reference', $data['reference'])->max('version');
                 $sha = hash_file('sha256', $file->getRealPath());
-                $path = $file->store('institutional-preparation', 'local');
+                $path = $file->store('institutional-quarantine', 'local');
                 abort_unless(is_string($path), 500, 'No se pudo conservar la fuente.');
                 unset($data['expected_version']);
                 $source = DB::table('institutional_sources')->insertGetId($data + ['dossier_id' => $id, 'created_by' => $user->id, 'version' => $version, 'path' => $path, 'sha256' => $sha, 'mime' => $file->getMimeType(), 'bytes' => $file->getSize(), 'created_at' => now()]);
@@ -87,6 +87,9 @@ final class InstitutionalPreparation
     public function readiness(int $id): array
     {
         $sources = DB::table('institutional_sources')->where('dossier_id', $id)->orderBy('id')->get(['id', 'reference', 'version', 'gate', 'title', 'issued_on', 'pages', 'classification', 'notes', 'sha256', 'mime', 'bytes', 'created_at']);
+        foreach ($sources as $source) {
+            $source->security = app(DocumentSafety::class)->status($source->id);
+        }
         $latest = $sources->groupBy('reference')->map(fn ($versions) => $versions->last())->values();
         $gates = [];
         foreach (self::GATES as $key => $name) {
@@ -102,6 +105,7 @@ final class InstitutionalPreparation
             $d = $this->editable($user, $id, $version);
             $readiness = $this->readiness($id);
             abort_if($readiness['sources']->isEmpty(), 422, 'Adjunta al menos una fuente antes de solicitar revisión.');
+            abort_if($readiness['sources']->contains(fn ($s) => ! $s->security['download_allowed']), 422, 'Las fuentes deben superar el análisis antimalware antes de solicitar revisión.');
             // Store the exact string whose hash is returned, rather than relying on JSONB key ordering.
             $snapshot = json_encode(['dossier' => $d, 'readiness' => $readiness], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
             $submission = DB::table('institutional_submissions')->insertGetId(['dossier_id' => $id, 'created_by' => $user->id, 'dossier_version' => $version, 'snapshot' => json_encode(['serialized' => $snapshot]), 'sha256' => hash('sha256', $snapshot), 'created_at' => now()]);
@@ -119,6 +123,10 @@ final class InstitutionalPreparation
             abort_unless($d->reviewer_id === $user->id && $d->created_by !== $user->id, 403);
             abort_if($d->version !== $data['expected_version'], 409, 'El expediente cambió. Recarga antes de continuar.');
             abort_unless($d->status === 'under_review', 422, 'No hay una solicitud de revisión abierta.');
+            // An observation can always be recorded, but completion requires current scans.
+            if ($data['decision'] === 'reviewed') {
+                abort_if($this->readiness($id)['sources']->contains(fn ($s) => ! $s->security['download_allowed']), 422, 'El análisis de alguna fuente falta, venció o bloqueó el archivo.');
+            }
             $submission = DB::table('institutional_submissions')->where('dossier_id', $id)->orderByDesc('id')->first();
             DB::table('institutional_reviews')->insert(['submission_id' => $submission->id, 'created_by' => $user->id, 'decision' => $data['decision'], 'reason' => $data['reason'], 'created_at' => now()]);
             DB::table('institutional_dossiers')->where('id', $id)->update(['status' => $data['decision'] === 'observed' ? 'draft' : 'technically_reviewed', 'version' => $d->version + 1, 'updated_at' => now()]);

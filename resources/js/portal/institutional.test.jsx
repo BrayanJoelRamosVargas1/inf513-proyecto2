@@ -26,3 +26,10 @@ it('explica la falta de otra autoridad y no habilita la autorrevisión',()=>{
   expect(screen.getByRole('combobox',{name:'Otra autoridad para revisión técnica'}).disabled).toBe(true);
   expect(screen.getByText('No hay expedientes asignados.')).toBeTruthy();
 });
+it('presenta la cuarentena sin ofrecer la descarga del documento',()=>{
+  useData.mockReturnValue([{dossier:{title:'Preparación',status:'draft',version:2},readiness:{notice:'Pendiente.',gates:[],sources:[{id:1,reference:'MUESTRA',version:1,title:'PDF de prueba',issued_on:'2026-11-21',pages:'1',classification:'historical_reference',notes:'Sin autenticidad acreditada',sha256:'a'.repeat(64),security:{state:'error',download_allowed:false}}]},submissions:[],reviews:[],can_edit:false,can_review:false},'',vi.fn()]);
+  render(<MemoryRouter><InstitutionalDossier/></MemoryRouter>);
+  expect(screen.getByText(/Análisis no disponible o fallido/)).toBeTruthy();
+  expect(screen.queryByRole('link',{name:'Descargar fuente #1'})).toBeNull();
+  expect(screen.getByText(/Descarga bloqueada/)).toBeTruthy();
+});
