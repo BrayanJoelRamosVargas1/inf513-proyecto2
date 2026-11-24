@@ -17,6 +17,7 @@ if (config('database.connections.'.config('database.default').'.database') !== '
 }
 $d = json_decode(file_get_contents($argv[1]), true);
 $mode = $argv[2];
+require __DIR__.'/concurrency_documents.php';
 $s = app(Selection::class);
 try {
     if ($mode === 'setup') {
@@ -36,11 +37,14 @@ try {
             $assignments[$i] = DB::table('assignments')->where('offer_id', $offers[$i])->value('id');
         }
         $s->transition($users['authority'], $call, 'published');
+        DB::table('memberships')->insert(['call_id' => $call, 'user_id' => $users['authority']->id, 'role' => 'reviewer']);
         foreach ($offers as $i => $offer) {
             $apps[$i] = $s->apply($users['student'], $offer);
-            // Preparación sintética aislada: no representa revisión institucional.
-            DB::table('applications')->where('id', $apps[$i])->update(['status' => 'submitted', 'eligibility' => 'enabled', 'merit' => '20.10']);
-            Rectifications::version($apps[$i], null, 1, '20.10', null);
+            ficctRaceDocument($users['student'], $apps[$i]);
+            $s->submit($users['student'], $apps[$i]);
+            $s->review($users['authority'], $apps[$i], ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Cotejo de fixture sintético concurrente.');
+            $s->eligibility($users['authority'], $apps[$i], true, 'Habilitación sintética para carrera.');
+            $s->merit($users['authority'], $apps[$i], '20.10', 'CPD sintético concurrente');
         }
         $s->transition($users['authority'], $call, 'closed');
         $s->transition($users['authority'], $call, 'evaluation');

@@ -1,6 +1,6 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {Link,useSearchParams} from 'react-router-dom';
-import {useData,Loading,Form} from './shared';
+import {useData,Loading,Form,Session} from './shared';
 import {label} from './api';
 
 export function Search(){
@@ -26,6 +26,12 @@ export function Search(){
 }
 
 export function Metrics(){
+  const context=useContext(Session);
+  const session=context?.session;
+  const technical=session?.user.role==='admin'&&!session.roles.some(r=>['authority','reviewer','evaluator'].includes(r));
+  const gradesVisible=!session||session.user.role==='student'||session.roles.some(r=>['authority','evaluator'].includes(r));
+  const awardsVisible=!session||session.user.role==='student'||session.roles.includes('authority');
+  const documentsVisible=!session||session.user.role==='student'||session.roles.includes('reviewer')||session.roles.includes('authority');
   const [params,setParams]=useSearchParams();
   const [d,error]=useData('/metrics?'+params.toString());
   if(!d)return <Loading error={error}/>;
@@ -48,16 +54,16 @@ export function Metrics(){
       <p><Link to="/estadisticas">Quitar filtros</Link></p>
       <p>Las fechas filtran postulaciones y accesos. El filtro de convocatoria se aplica a los datos académicos; los accesos corresponden al ámbito de tu cuenta.</p>
     </section>
-    <section className="card"><h2>Postulaciones de mi ámbito: {d.applications}</h2>
+    {!technical&&<section className="card"><h2>{session?.user.role==='student'&&!session.roles.length?'Seguimiento de mis postulaciones':'Postulaciones de mi responsabilidad'}: {d.applications}</h2>
       <div className="grid">
-        <p>Convocatorias visibles: {d.calls}</p><p>Documentos de estas postulaciones: {d.documents}</p>
-        <p>Notas de examen confirmadas visibles: {d.confirmed_exams}</p><p>Adjudicaciones activas de estas postulaciones: {d.active_awards}</p>
-        {d.registered_users!==null&&<p>Usuarios registrados en la instalación: {d.registered_users}</p>}
+        <p>Convocatorias visibles: {d.calls}</p>{documentsVisible&&<p>Documentos de estas postulaciones: {d.documents}</p>}
+        {gradesVisible&&<p>Notas de examen confirmadas visibles: {d.confirmed_exams}</p>}{awardsVisible&&<p>Adjudicaciones activas de estas postulaciones: {d.active_awards}</p>}
       </div>
       {d.eligibility.map(g=><div className="chart" key={g.eligibility}><label>{label(g.eligibility)}: {g.total}<meter min="0" max={total} value={g.total}>{g.total}</meter></label></div>)}
       {!d.applications&&<p>No hay postulaciones de tu ámbito para este filtro.</p>}
-    </section>
+    </section>}
     <section className="card"><h2>Accesos · {d.traffic_scope}</h2>
+      {d.registered_users!==null&&<p>Usuarios registrados en la instalación: {d.registered_users}</p>}
       <p>Inicios correctos: {d.login_success} · Fallidos: {d.login_failed}</p>
       <h3>Actividad por fecha</h3><p>Zona horaria: Bolivia. Se muestran hasta 90 fechas recientes.</p>
       {d.series.map(day=><div className="chart" key={day.day}><label>{day.day}: {day.total} eventos<meter min="0" max={peak} value={day.total}>{day.total}</meter></label></div>)}

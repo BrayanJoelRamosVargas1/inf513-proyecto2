@@ -1,5 +1,7 @@
 # Respaldo, restauración e incidentes · Proyecto 2
 
+Actualización local de auditoría — 24/11/2026: las cifras de 41 tablas y nueve triggers de este documento describen el respaldo docente histórico. La aplicación local actual tiene 50 tablas y 16 triggers según sus evidencias de restauración. Comprobar siempre el inventario de la instalación que se está respaldando; no usar las cifras históricas como criterio de aceptación de una actualización. Esta auditoría no ha validado ni actualizado el servidor remoto.
+
 ## Aislamiento y preparación
 
 La instalación docente usa el esquema exclusivo ficct_p2 de la base asignada al grupo. Desde el servidor PHP, la conexión PostgreSQL es local; la conexión administrativa externa tiene una dirección distinta. Consultar la configuración privada sin publicarla. Nunca usar migrate:fresh, DROP SCHEMA ni restauraciones sobre otros proyectos.
@@ -11,7 +13,7 @@ Antes de actualizar: anotar revisión de Git y composer.lock, respaldar el esque
 1. Crear una base aislada nueva; no sobrescribir la operativa.
 2. Restaurar con pg_restore --no-owner --no-privileges, conservando el esquema del respaldo.
 3. Configurar DB_SEARCH_PATH para ese esquema y archivos privados de la copia.
-4. Comparar conteos y huellas de tablas, secuencias, nueve triggers de inmutabilidad y archivos. Probar sesión, expediente, publicación histórica y descargas.
+4. Comparar conteos y huellas de todas las tablas, secuencias, definiciones y estado de los triggers y archivos contra el inventario del respaldo y las migraciones de esa versión. No limitar la comparación a los nueve triggers históricos. Probar sesión, expediente, publicación histórica y descargas.
 5. Registrar fecha, resultado y límites. No abrir la copia restaurada al público con credenciales reales.
 
 La restauración local realizada conservó 41 tablas y nueve triggers. Las evidencias especifican qué instalación se restauró; no atribuir una prueba local al servidor remoto.

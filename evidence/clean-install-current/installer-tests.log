@@ -1,0 +1,9 @@
+test_changed_or_unsigned_bytes_rejected (test_clean_install.ReleaseInputTest.test_changed_or_unsigned_bytes_rejected) ... ok
+test_corrupt_gzip_rejected (test_clean_install.ReleaseInputTest.test_corrupt_gzip_rejected) ... ok
+test_paths_and_private_content_rejected (test_clean_install.ReleaseInputTest.test_paths_and_private_content_rejected) ... ok
+test_verified_manifest (test_clean_install.ReleaseInputTest.test_verified_manifest) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.145s
+
+OK

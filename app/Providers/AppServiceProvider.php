@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Domain\ClamAvScanner;
+use App\Domain\DocumentScanner;
 use App\Domain\Workspace;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(\App\Domain\DocumentScanner::class, \App\Domain\ClamAvScanner::class);
+        $this->app->bind(DocumentScanner::class, ClamAvScanner::class);
     }
 
     /**
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             $u = auth()->user();
             $roles = $u ? Workspace::roles($u) : [];
             $view->with('workspaceRoles', $roles)->with('hasOwnApplications', $u && DB::table('applications')->where('user_id', $u->id)->exists());
+
         });
 
         View::share('label', static fn ($s) => [

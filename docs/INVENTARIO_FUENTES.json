@@ -1,0 +1,41 @@
+[
+  {
+    "archivo": "Analisis_Actualizado_FICCT.pdf",
+    "bytes": 404855,
+    "sha256": "5e09ed989c49495b0305b602189a43beaba31d42dcc2620307168fe4ba537eb2",
+    "paginas": 15
+  },
+  {
+    "archivo": "Convocatoria_FICCT_01_2026.pdf",
+    "bytes": 224571,
+    "sha256": "1840f406a749201ce8a915eb6ff85f61b7a85b3d37f08b491800abb1f5a157bd",
+    "paginas": 7
+  },
+  {
+    "archivo": "Convocatoria_FICCT_02_2026.pdf",
+    "bytes": 208237,
+    "sha256": "cd2a738f9ab790a39bcd2b02966c48bd9e5bcdd2f7f11a80f229b35af5ae24e4",
+    "paginas": 6
+  },
+  {
+    "archivo": "Foto_apuntes_01.png",
+    "bytes": 1755603,
+    "sha256": "cd4821a200d97fc8a4b7496e14e6c405e3d4a70963074715f56887c3f1bb287e"
+  },
+  {
+    "archivo": "Foto_apuntes_02.png",
+    "bytes": 1028650,
+    "sha256": "724bbd1ffcb35f23c5517bb9ea6a1ef5dc2cbbe3e74b2ef18d1a9d58800fcf2e"
+  },
+  {
+    "archivo": "Foto_apuntes_03.png",
+    "bytes": 986894,
+    "sha256": "11779f90f75d2e47474404c16c60ce807b194505fdab9f7dbe0a6b936946f5ed"
+  },
+  {
+    "archivo": "Resolucion_Vicerrectoral_021_2023.pdf",
+    "bytes": 19305674,
+    "sha256": "02ea462eec51f81725f9081162045cdc8c1c4c6242f3af7a76ec1942a571171e",
+    "paginas": 29
+  }
+]

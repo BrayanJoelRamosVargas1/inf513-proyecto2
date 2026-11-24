@@ -1,0 +1,68 @@
+{
+  "result": "PASS",
+  "executed_at_utc": "2026-11-22T17:26:15.218680+00:00",
+  "phpunit": {
+    "tests": 276,
+    "assertions": 1712,
+    "failures": 0,
+    "errors": 0
+  },
+  "react_tests": 37,
+  "browser_checks": 59,
+  "axe_screen_checks": 53,
+  "responsive_combinations": 48,
+  "existing_tables_identical": 44,
+  "appended_history_preserved": {
+    "access_events": true,
+    "audit_events": true,
+    "visit_receipts": true,
+    "migrations": true
+  },
+  "historical_page_counters_not_reduced": true,
+  "private_files_identical": 35,
+  "table_count": 50,
+  "trigger_count": 16,
+  "protected_source_sha256": {
+    "docs/CU_Y_RF_CANONICOS.md": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+    "app/Domain/Selection.php": "697586336beccb852c4074a6f2457dc0399b37fc65c498df44175f90d0e595f1",
+    "app/Domain/Scores.php": "73f487ef59c57cec14eb522b9f7573cd734862af544b6dc41e8349aad8ee2a00",
+    "app/Domain/ApplicantDocuments.php": "8ec742dbff737dfa40e4620b14545e86718266ec21d4b2330099d98055109eb2",
+    "app/Domain/DocumentProcessor.php": "780cce680b8d17037775912c0af0a96fcd2a8f5874f2ad0e0d2b7f6a9123743c",
+    "app/Domain/DocumentSafety.php": "200ad70a2e9c77fa76e02ebb749efcc029314e03e1593f484c780f442ee6be2b",
+    "app/Domain/InstitutionalPreparation.php": "4a73d52a9252f4c74f3d8b21e2f57ba4622178651cdf4c0c9944a94b88373aab",
+    "scripts/run_document_processor.py": "ba82d31d6b24b6aef971b65a267b94cb1293d6ae89eb59cf151790323bcaeb70"
+  },
+  "runtime_source_and_manifest_match": true,
+  "new_application_created": false,
+  "remote_deployment": false,
+  "NO_GO_INSTITUCIONAL": true,
+  "downloads": [
+    {
+      "format": "pdf",
+      "status": 200,
+      "bytes": 27779,
+      "content_type": "application/pdf",
+      "signature": "%PDF",
+      "result": "PASS"
+    },
+    {
+      "format": "xlsx",
+      "status": 200,
+      "bytes": 11032,
+      "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "signature": "PK",
+      "result": "PASS"
+    }
+  ],
+  "modified_source_sha256": {
+    "resources/js/portal/main.jsx": "7217362da787e01c91be767b388b3cbbdb1735f957ee944b76181adebd5428c5",
+    "resources/js/portal/portal.css": "199a6c145b0c9b428f9c1c244c40c745e66de6b731944fb98562fb3b9663d31f",
+    "resources/js/portal/processes.jsx": "c571186bb01c748880e37b81d34b52a1b5353f74d91927829b43069d99bdb6c6",
+    "resources/js/portal/auth-redesign.test.jsx": "ffe4b8307089fbbc70a3d86225a4c80a27946ae94c055cc19801b4643c7fbd54",
+    "resources/js/portal/application-redesign.test.jsx": "a9d98413c0cd91f510e4e74f443477051c1527279cefd604ee50dd5bd313dc2e",
+    "app/Http/Controllers/Api/WorkspaceController.php": "01417eec2db93b67004ea281eb76d9a602d65c218f14ded259f707954dfa3eaa",
+    "routes/api.php": "af15590bdcb7f6e4d1f0b20c84ecdcbf109ebf3fb9f84d6713bbc966e4771b28",
+    "database/migrations/2026_11_22_000001_add_public_portal_visit_receipts.php": "0b4cee2d98a371c4eb27a07d57485151e13d233a9efde9f6009d3d9c4d45e550",
+    "tests/Feature/PublicVisitCounterTest.php": "aca770a2cdf17fc35c2f861080174c71026321c74d7b214f0f61903b9a7dfc4e"
+  }
+}

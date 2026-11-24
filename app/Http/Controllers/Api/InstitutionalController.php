@@ -74,8 +74,11 @@ final class InstitutionalController extends Controller
         $source = Selection::row('institutional_sources', $id);
         $service->dossier($r->user(), $source->dossier_id);
         $safety = app(DocumentSafety::class);
-        abort_unless($safety->status($id)['download_allowed'], 423, 'Fuente en cuarentena: el análisis falta, venció, falló o bloqueó el archivo.');
+        $before = $safety->status($id);
+        abort_unless($before['download_allowed'], 423, 'Fuente en cuarentena: el análisis falta, venció, falló o bloqueó el archivo.');
         $bytes = $safety->bytes($source);
+        $after = $safety->status($id);
+        abort_unless($after['download_allowed'] && $after['job_id'] === $before['job_id'], 423, 'El análisis cambió durante la lectura. Descarga bloqueada.');
         $ext = ['application/pdf' => 'pdf', 'image/jpeg' => 'jpg', 'image/png' => 'png'][$source->mime];
 
         // Return the bytes actually hashed, not a pathname that could change before transmission.

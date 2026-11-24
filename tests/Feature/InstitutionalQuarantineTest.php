@@ -269,4 +269,21 @@ final class InstitutionalQuarantineTest extends TestCase
         $this->assertDatabaseCount('institutional_reviews', 0);
         $this->assertSame($before, DB::table('institutional_submissions')->get()->toJson());
     }
+
+    public function test_q21_rescan_started_while_reading_source_blocks_the_download(): void
+    {
+        $this->scanner('clean');
+        app(DocumentSafety::class)->scan($this->source);
+        $source = DB::table('institutional_sources')->find($this->source);
+        $disk = Storage::disk('local');
+        $proxy = \Mockery::mock($disk);
+        $proxy->shouldReceive('readStream')->with($source->path)->once()->andReturnUsing(function () use ($disk, $source) {
+            DB::table('institutional_scan_jobs')->insert(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+            return $disk->readStream($source->path);
+        });
+        Storage::shouldReceive('disk')->with('local')->andReturn($proxy);
+        $this->download(423);
+        $this->assertSame('pending', app(DocumentSafety::class)->status($this->source)['state']);
+        $this->assertDatabaseCount('institutional_scan_results', 1);
+    }
 }

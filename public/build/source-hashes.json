@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "asset_base": "/build/",
+  "sources": {
+    "package-lock.json": "405cca5e56222518366bc177057dca62287d4572c17c6283473f5f9ec5574bf0",
+    "package.json": "a63ade2ccabf9b7251478f9d552498b28d33a9a60acf075eacaad35cdd03ad3d",
+    "resources/js/portal/account.jsx": "0e2e2edc45e0ac6eb30f42613a3e50de34ccb4607956a2e0ea807deb78e9557b",
+    "resources/js/portal/analytics.jsx": "e4f757ce899fb5b1d767936a11f8b13863b726222005788b97adb4d88dffdb00",
+    "resources/js/portal/api.js": "b6130295f9c5712611750cd198a2d9a7cfd5ed2953f356b807f92e6adf0f4ff2",
+    "resources/js/portal/audit.jsx": "989520408cb63d8429e1fa7e0f5cc68c0c57a1cf4ba269cb7dfe6bf6af68af9a",
+    "resources/js/portal/institutional.jsx": "69dbd7b084a9f30458c673d976d7a4dc3e2722ea94c7817e4622e8af7d852430",
+    "resources/js/portal/main.jsx": "d60627442e2578c11b4173f6fac284918f6d8b9ca20db4b3282bd901a9d4f220",
+    "resources/js/portal/portal.css": "a5e4c33cc9aa9fbc1661f9e6875ac6534c6b9194aedf573ee7038878fe11e77f",
+    "resources/js/portal/processes.jsx": "17514ea7c26ca112f8a1c86ebacaf40d36c33d40126ee0b230a7e7a54730fc4c",
+    "resources/js/portal/result-history.jsx": "e510e5cf24196be58f92b246dee5119f9599bfff3ffdd8b543444d580b859f3d",
+    "resources/js/portal/shared.jsx": "3a0a517923c088f1ad3a95a4681889b7af4520324b1dc59e19b17a4e0504561c",
+    "resources/js/portal/user-directory.jsx": "a046c744458503c7aef421524c9cd41c24f6365430959ad573cf86466ca9bfb5",
+    "resources/js/portal/workspaces.jsx": "de6c6da1c3bb0416c0376eed508bcbc01a7a0dce6ee6e7217c1721728e8a12d1",
+    "scripts/write_frontend_build_manifest.mjs": "da6aa133b871b872044c96dead35435d4e04b659d48458bebb305822806d2c6f",
+    "vite.config.js": "e46298111a983ce3c09fcdbd72ff44b455ee40dfa20daaa64391095458b6aff5"
+  },
+  "artifacts": {
+    "public/build/assets/main-DTWJWQgv.js": "5ac970c2db9cfe55315a1ef5ae6c7da0ae5d12b3713a580dd72c3ff78486dbb5",
+    "public/build/assets/main-dhhVsAbk.css": "1a622e8300c70b69db2ea7c0c551ea59f1417fd21d271d38fce446127993e1c8",
+    "public/build/manifest.json": "51f7ae94dcff1bdee09863dfb905ec9ebcd61aeae0376f5288cdf08a7e7c2054"
+  }
+}

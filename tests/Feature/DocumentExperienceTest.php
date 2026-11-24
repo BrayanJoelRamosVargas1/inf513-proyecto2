@@ -239,4 +239,52 @@ final class DocumentExperienceTest extends TestCase
         $s->grade($this->evaluator, $this->application, DB::table('assignments')->value('id'), '80');
         $this->get('/postulaciones/'.$this->application)->assertOk()->assertDontSee('Confirmar nota')->assertSee('Rectificaciones con aprobación separada');
     }
+
+    public function test_e17_api_reviewer_download_is_the_uploaded_original_with_safe_metadata(): void
+    {
+        $original = file_get_contents(resource_path('demo-documents/cpd.pdf'));
+        $this->actingAs($this->reviewer)->get('/api/v1/documents/'.$this->document.'/download')
+            ->assertOk()->assertHeader('Content-Type', 'application/pdf')->assertDownload('respaldo.pdf')->assertContent($original);
+        $this->getJson('/api/v1/documents/'.$this->document.'/metadata')->assertOk()
+            ->assertJsonPath('size_bytes', strlen($original))->assertJsonPath('sha256', hash('sha256', $original))
+            ->assertJsonPath('small_image', false)->assertJsonMissingPath('path');
+        $this->actingAs($this->student)->get('/api/v1/documents/'.$this->document.'/download')->assertOk()->assertContent($original);
+    }
+
+    public function test_e18_api_download_and_metadata_reject_other_roles_and_revoked_reviewers(): void
+    {
+        foreach ([$this->authority, $this->evaluator, User::factory()->create(['role' => 'admin']), User::factory()->create()] as $user) {
+            foreach (['download', 'metadata'] as $action) {
+                $this->actingAs($user)->getJson('/api/v1/documents/'.$this->document.'/'.$action)->assertForbidden();
+            }
+        }
+        DB::table('memberships')->where('user_id', $this->reviewer->id)->update(['revoked_at' => now()]);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/documents/'.$this->document.'/download')->assertForbidden();
+    }
+
+    public function test_e19_api_metadata_and_download_check_pending_tampered_and_missing_bytes(): void
+    {
+        $this->actingAs($this->reviewer);
+        $doc = DB::table('documents')->find($this->document);
+        Storage::disk('local')->put($doc->path, 'Archivo alterado');
+        foreach (['download', 'metadata'] as $action) {
+            $this->getJson('/api/v1/documents/'.$this->document.'/'.$action)->assertStatus(409);
+        }
+        Storage::disk('local')->delete($doc->path);
+        $this->getJson('/api/v1/documents/'.$this->document.'/download')->assertNotFound();
+        $this->getJson('/api/v1/documents/'.$this->document.'/metadata')->assertNotFound();
+        app(\App\Domain\DocumentProcessor::class)->enqueue($this->document, 'applicant');
+        $this->getJson('/api/v1/documents/'.$this->document.'/download')->assertStatus(423);
+        $this->getJson('/api/v1/documents/'.$this->document.'/metadata')->assertStatus(423);
+    }
+
+    public function test_e20_api_small_image_details_do_not_resize_the_original(): void
+    {
+        $id = app(Selection::class)->upload($this->student, $this->application, 'cpd', UploadedFile::fake()->image('original.png', 1, 1));
+        $this->scanApplicantFixtures();
+        $doc = DB::table('documents')->find($id);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/documents/'.$id.'/metadata')->assertOk()
+            ->assertJsonPath('width', 1)->assertJsonPath('height', 1)->assertJsonPath('small_image', true);
+        $this->get('/api/v1/documents/'.$id.'/download')->assertOk()->assertHeader('Content-Type', 'image/png')->assertContent(Storage::disk('local')->get($doc->path));
+    }
 }

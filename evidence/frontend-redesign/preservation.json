@@ -1,0 +1,24 @@
+{
+  "old_tables_unchanged_excluding_migration_ledger": 48,
+  "original_files_unchanged": 35,
+  "tables_after_additive_migration": 50,
+  "protected_source_hashes_unchanged": [
+    "docs/CU_Y_RF_CANONICOS.md",
+    "app/Domain/Selection.php",
+    "app/Domain/Scores.php",
+    "app/Domain/ApplicantDocuments.php",
+    "app/Domain/DocumentProcessor.php",
+    "app/Domain/DocumentSafety.php",
+    "app/Domain/InstitutionalPreparation.php",
+    "scripts/run_document_processor.py"
+  ],
+  "local_runtime_files_synchronized": [
+    "resources/js/portal/main.jsx",
+    "resources/js/portal/portal.css",
+    "routes/api.php",
+    "app/Http/Controllers/Api/WorkspaceController.php",
+    "database/migrations/2026_11_22_000001_add_public_portal_visit_receipts.php"
+  ],
+  "remote_deployment": false,
+  "NO_GO_INSTITUCIONAL": true
+}

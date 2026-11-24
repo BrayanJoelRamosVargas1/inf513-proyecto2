@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 // First-party, same-origin JSON API: uses the web session and CSRF middleware, never bearer tokens in localStorage.
 Route::prefix('api/v1')->middleware('web')->group(function () {
+    Route::post('visits/public', [WorkspaceController::class, 'publicVisit'])->middleware('throttle:30,1,public-visits:');
     Route::get('csrf', [SessionController::class, 'csrf']);
     Route::post('login', [SessionController::class, 'login'])->middleware('throttle:6,1');
     Route::post('register', [SessionController::class, 'register'])->middleware('throttle:6,1');
@@ -39,6 +40,8 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
         Route::post('offers/{id}/applications', [SelectionController::class, 'apply']);
         Route::post('applications/{id}/{action}', [SelectionController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
         Route::get('documents/{id}', [DocumentController::class, 'preview']);
+        Route::get('documents/{id}/download', [DocumentController::class, 'download']);
+        Route::get('documents/{id}/metadata', [DocumentController::class, 'metadata']);
         Route::get('management', [ProcessController::class, 'management']);
         Route::get('calls/{id}/configuration', [ProcessController::class, 'configuration']);
         Route::get('offers/{id}/ranking', [ProcessController::class, 'ranking']);

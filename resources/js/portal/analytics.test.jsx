@@ -10,7 +10,7 @@ describe('Consulta de estadísticas y búsqueda',()=>{
   it('envía fechas y convocatoria y presenta cifras reales del recurso',async()=>{
     const get=vi.spyOn(api,'get').mockResolvedValue({data:{applications:2,calls:1,documents:6,confirmed_exams:1,active_awards:0,registered_users:null,eligibility:[{eligibility:'pending',total:2}],call_options:[{id:12,title:'Convocatoria de prueba'}],series:[{day:'2026-11-21',total:3}],traffic_scope:'Mi actividad',login_success:1,login_failed:0,popular:[]}});
     render(<MemoryRouter initialEntries={['/estadisticas']}><Metrics/></MemoryRouter>);
-    await screen.findByRole('heading',{name:'Postulaciones de mi ámbito: 2'});
+    await screen.findByRole('heading',{name:'Postulaciones de mi responsabilidad: 2'});
     expect(screen.getByText('Documentos de estas postulaciones: 6')).toBeTruthy();
     expect(screen.queryByText(/Usuarios registrados en la instalación/)).toBeNull();
     fireEvent.change(screen.getByLabelText('Desde'),{target:{value:'2026-11-01'}});

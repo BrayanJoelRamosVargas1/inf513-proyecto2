@@ -1,0 +1,72 @@
+{
+  "06_ACEPTACION_CU.csv": {
+    "filas": 8,
+    "totales": {
+      "VERIFICADO LOCAL": 7,
+      "PARCIAL": 1
+    },
+    "estados_detallados": {
+      "VERIFICADO LOCAL: administración React y restricciones documentadas": 1,
+      "VERIFICADO LOCAL: contrato en alcance DEMO documentado": 3,
+      "VERIFICADO LOCAL: requisitos, revisión y habilitación DEMO": 1,
+      "PARCIAL: recorrido base verificado; alcance integral abierto": 1,
+      "VERIFICADO LOCAL: auditoría académica de calificaciones": 1,
+      "VERIFICADO LOCAL: reportes e indicadores existentes": 1
+    }
+  },
+  "07_ACEPTACION_RF.csv": {
+    "filas": 30,
+    "totales": {
+      "VERIFICADO LOCAL": 29,
+      "PARCIAL": 1
+    },
+    "estados_detallados": {
+      "VERIFICADO LOCAL: funciones administrativas del contrato en alcance DEMO": 1,
+      "VERIFICADO LOCAL: contrato funcional en alcance documentado": 23,
+      "VERIFICADO LOCAL: configuración por ámbito y oferta en alcance DEMO": 2,
+      "VERIFICADO LOCAL: requisitos y subsanación DEMO": 1,
+      "PARCIAL: respaldo y puntaje manual verificados; formulario oficial pendiente de homologación": 1,
+      "VERIFICADO LOCAL: asignación y reasignación por ámbito": 1,
+      "VERIFICADO LOCAL: auditoría de calificaciones y rectificación": 1
+    }
+  },
+  "08_ACEPTACION_INF513.csv": {
+    "filas": 14,
+    "totales": {
+      "VERIFICADO LOCAL": 10,
+      "NO VERIFICADO": 1,
+      "PENDIENTE": 2,
+      "PENDIENTE EXTERNO": 1
+    },
+    "estados_detallados": {
+      "VERIFICADO LOCAL": 6,
+      "VERIFICADO EN ALCANCE LOCAL": 4,
+      "NO VERIFICADO": 1,
+      "PENDIENTE": 2,
+      "PENDIENTE EXTERNO": 1
+    }
+  },
+  "09_ACEPTACION_ACCIONES_ROLES.csv": {
+    "filas": 123,
+    "totales": {
+      "VERIFICADO LOCAL": 95,
+      "EQUIVALENCIA VERIFICADA": 28
+    },
+    "estados_detallados": {
+      "VERIFICADO LOCAL: ruta HTML activa y restricciones comprobadas": 18,
+      "VERIFICADO LOCAL: recorrido React y restricciones aplicables documentadas": 6,
+      "VERIFICADO LOCAL: vencimiento real y preservación documentados": 1,
+      "VERIFICADO LOCAL: contrato técnico y ámbito documentados": 15,
+      "VERIFICADO LOCAL: lectura/solicitud por ámbito y restricciones documentadas": 2,
+      "VERIFICADO LOCAL: operación y restricciones del contrato con evidencia vinculada": 33,
+      "VERIFICADO LOCAL: decisiones de retiro/renuncia en alcance documentado": 2,
+      "VERIFICADO LOCAL: flujo de preparación y bloqueo oficial en alcance documentado": 8,
+      "VERIFICADO LOCAL: operaciones React y restricciones de servidor en alcance documentado": 5,
+      "VERIFICADO LOCAL: indicadores existentes y filtros actuales; no se inventan indicadores nuevos": 1,
+      "VERIFICADO LOCAL: buscador actual y privacidad por ámbito en escenarios documentados": 1,
+      "VERIFICADO LOCAL: continuidad de desempate y preservación en alcance documentado": 1,
+      "EQUIVALENCIA VERIFICADA: negocio compartido y rechazo HTTP comprobados": 28,
+      "VERIFICADO LOCAL: formularios HTML públicos y contador comprobados": 2
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FICCT INF513 P2 — inventario de API",
-    "version": "0.3.0-local-document-readiness",
-    "description": "Sesión de primera parte mediante cookie. Obtener token CSRF antes de mutaciones. Inventario generado de rutas reales; esquemas de negocio detallados en código y pruebas. Las rutas institucionales son de preparación documental local; no están desplegadas en el servidor docente ni activan concursos reales. La Fase 2 local reutiliza la cola para documentos de postulantes; un estado limpio no habilita académicamente ni amplía permisos. DOC-21: cada expediente incluye document_validation agregado, independiente de eligibility. Las nuevas evaluaciones dependientes requieren análisis vigente e integridad actual; las decisiones históricas se conservan. Rechazo 422 si falta validación o 409 si los bytes faltan o no coinciden."
+    "title": "FICCT INF513 P2 — inventario de API actual",
+    "version": "0.3.0-local",
+    "description": "Generado desde las rutas del código actual. Sesión por cookie configurada en el servidor, token obtenido mediante /api/v1/csrf. NO_GO_INSTITUCIONAL. La presencia de rutas no acredita un despliegue remoto."
   },
   "servers": [
     {
@@ -14,7 +14,7 @@
     "/api/v1/amendments/{id}/documents": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -35,34 +35,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -70,7 +73,7 @@
     "/api/v1/amendments/{id}/expiration": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -91,34 +94,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -126,7 +132,7 @@
     "/api/v1/amendments/{id}/review": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -147,34 +153,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -182,7 +191,7 @@
     "/api/v1/amendments/{id}/submission": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -203,34 +212,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -238,38 +250,41 @@
     "/api/v1/applications": {
       "get": {
         "summary": "SelectionController@applications",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -277,7 +292,7 @@
     "/api/v1/applications/{id}": {
       "get": {
         "summary": "SelectionController@application",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -290,34 +305,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -325,7 +343,7 @@
     "/api/v1/applications/{id}/amendments": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -346,34 +364,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -381,7 +402,7 @@
     "/api/v1/applications/{id}/choices": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -402,34 +423,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -437,7 +461,7 @@
     "/api/v1/applications/{id}/corrections": {
       "get": {
         "summary": "ProcessController@corrections",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -450,40 +474,43 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       },
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -504,34 +531,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -539,7 +569,7 @@
     "/api/v1/applications/{id}/participation": {
       "get": {
         "summary": "ProcessController@participation",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -552,34 +582,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -587,7 +620,7 @@
     "/api/v1/applications/{id}/participation-requests": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -608,34 +641,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -643,7 +679,7 @@
     "/api/v1/applications/{id}/{action}": {
       "post": {
         "summary": "SelectionController@action",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -672,34 +708,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -707,7 +746,7 @@
     "/api/v1/assignments/{id}/replacement": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -728,34 +767,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -763,38 +805,41 @@
     "/api/v1/awards": {
       "get": {
         "summary": "ProcessController@awards",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -802,44 +847,47 @@
     "/api/v1/calls": {
       "get": {
         "summary": "SelectionController@calls",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       },
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -852,34 +900,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -887,7 +938,7 @@
     "/api/v1/calls/{id}": {
       "get": {
         "summary": "SelectionController@call",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -900,34 +951,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -935,7 +989,7 @@
     "/api/v1/calls/{id}/audit": {
       "get": {
         "summary": "ProcessController@audit",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -948,34 +1002,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -983,7 +1040,7 @@
     "/api/v1/calls/{id}/configuration": {
       "get": {
         "summary": "ProcessController@configuration",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -996,40 +1053,43 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       },
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1050,34 +1110,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1085,7 +1148,7 @@
     "/api/v1/calls/{id}/offers": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1106,34 +1169,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1141,7 +1207,7 @@
     "/api/v1/calls/{id}/reports/{format}": {
       "get": {
         "summary": "ConsolidatedResultsController@export",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1162,34 +1228,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1197,7 +1266,7 @@
     "/api/v1/calls/{id}/transition": {
       "post": {
         "summary": "SelectionController@transition",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1218,34 +1287,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1253,7 +1325,7 @@
     "/api/v1/categories": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -1266,34 +1338,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1301,7 +1376,7 @@
     "/api/v1/categories/{id}/configuration": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1322,34 +1397,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1357,7 +1435,7 @@
     "/api/v1/corrections/{id}/decision": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1378,34 +1456,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1413,38 +1494,41 @@
     "/api/v1/csrf": {
       "get": {
         "summary": "SessionController@csrf",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1452,7 +1536,7 @@
     "/api/v1/documents/{id}": {
       "get": {
         "summary": "DocumentController@preview",
-        "description": "Original privado: solo propietario activo o revisor con permiso vigente en la convocatoria; exige análisis limpio vigente e integridad de bytes.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1465,37 +1549,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Bytes originales PDF/JPEG/PNG, sin transformación."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Integridad del archivo distinta de su huella registrada."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
-          },
-          "429": {
-            "description": "Límite de solicitudes."
+            "description": "Validación o regla de dominio"
           },
           "423": {
-            "description": "Análisis pendiente, bloqueado, fallido, vencido o cambiado durante la descarga."
+            "description": "Archivo bloqueado"
+          },
+          "429": {
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1503,44 +1587,47 @@
     "/api/v1/institutional/dossiers": {
       "get": {
         "summary": "InstitutionalController@index",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       },
       "post": {
         "summary": "InstitutionalController@create",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -1553,34 +1640,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1588,7 +1678,7 @@
     "/api/v1/institutional/dossiers/{id}": {
       "get": {
         "summary": "InstitutionalController@show",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1601,34 +1691,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1636,7 +1729,7 @@
     "/api/v1/institutional/dossiers/{id}/activation": {
       "post": {
         "summary": "InstitutionalController@activation",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1657,34 +1750,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1692,7 +1788,7 @@
     "/api/v1/institutional/dossiers/{id}/review": {
       "post": {
         "summary": "InstitutionalController@review",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1713,34 +1809,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1748,7 +1847,7 @@
     "/api/v1/institutional/dossiers/{id}/sources": {
       "post": {
         "summary": "InstitutionalController@source",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1769,34 +1868,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1804,7 +1906,7 @@
     "/api/v1/institutional/dossiers/{id}/submission": {
       "post": {
         "summary": "InstitutionalController@submit",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1825,34 +1927,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1860,7 +1965,7 @@
     "/api/v1/institutional/sources/{id}/download": {
       "get": {
         "summary": "InstitutionalController@download",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -1873,37 +1978,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
-          },
-          "429": {
-            "description": "Límite de solicitudes."
+            "description": "Validación o regla de dominio"
           },
           "423": {
-            "description": "Fuente en cuarentena: análisis pendiente, fallido, bloqueado o vencido."
+            "description": "Archivo bloqueado"
+          },
+          "429": {
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1911,7 +2016,7 @@
     "/api/v1/login": {
       "post": {
         "summary": "SessionController@login",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -1924,34 +2029,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -1959,7 +2067,7 @@
     "/api/v1/logout": {
       "post": {
         "summary": "SessionController@logout",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -1972,34 +2080,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2007,38 +2118,41 @@
     "/api/v1/management": {
       "get": {
         "summary": "ProcessController@management",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2046,38 +2160,41 @@
     "/api/v1/me": {
       "get": {
         "summary": "SessionController@me",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2085,38 +2202,41 @@
     "/api/v1/me/navigation": {
       "get": {
         "summary": "WorkspaceController@navigation",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2124,53 +2244,47 @@
     "/api/v1/me/preferences": {
       "get": {
         "summary": "WorkspaceController@preferences",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
-        "parameters": [
-          {
-            "name": "X-CSRF-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       },
       "put": {
         "summary": "WorkspaceController@preferences",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2183,34 +2297,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2218,38 +2335,41 @@
     "/api/v1/metrics": {
       "get": {
         "summary": "WorkspaceController@metrics",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2257,7 +2377,7 @@
     "/api/v1/offers/{id}/applications": {
       "post": {
         "summary": "SelectionController@apply",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2278,34 +2398,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2313,7 +2436,7 @@
     "/api/v1/offers/{id}/assignments": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2334,34 +2457,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2369,7 +2495,7 @@
     "/api/v1/offers/{id}/publications": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2390,34 +2516,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2425,7 +2554,7 @@
     "/api/v1/offers/{id}/ranking": {
       "get": {
         "summary": "ProcessController@ranking",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2438,34 +2567,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2473,7 +2605,7 @@
     "/api/v1/offers/{id}/ties": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2494,34 +2626,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2529,7 +2664,7 @@
     "/api/v1/participation-requests/{id}/decision": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2550,34 +2685,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2585,7 +2723,7 @@
     "/api/v1/permissions": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2598,34 +2736,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2633,7 +2774,7 @@
     "/api/v1/permissions/{id}/revoke": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2654,34 +2795,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2689,7 +2833,7 @@
     "/api/v1/register": {
       "post": {
         "summary": "SessionController@register",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2702,34 +2846,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2737,38 +2884,41 @@
     "/api/v1/sandbox": {
       "get": {
         "summary": "SandboxController@index",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2776,7 +2926,7 @@
     "/api/v1/sandbox/methods": {
       "post": {
         "summary": "SandboxController@method",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2789,34 +2939,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2824,7 +2977,7 @@
     "/api/v1/sandbox/methods/{id}": {
       "delete": {
         "summary": "SandboxController@remove",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -2845,34 +2998,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2880,7 +3036,7 @@
     "/api/v1/sandbox/payments": {
       "post": {
         "summary": "SandboxController@pay",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2893,34 +3049,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2928,7 +3087,7 @@
     "/api/v1/sandbox/plans": {
       "post": {
         "summary": "SandboxController@plan",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -2941,34 +3100,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -2976,38 +3138,41 @@
     "/api/v1/sandbox/report": {
       "get": {
         "summary": "SandboxController@report",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3015,38 +3180,41 @@
     "/api/v1/search": {
       "get": {
         "summary": "WorkspaceController@search",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3054,7 +3222,7 @@
     "/api/v1/ties/{id}/continuation": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -3075,34 +3243,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3110,7 +3281,7 @@
     "/api/v1/ties/{id}/resolution": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -3131,34 +3302,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3166,7 +3340,7 @@
     "/api/v1/users": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -3179,34 +3353,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3214,7 +3391,7 @@
     "/api/v1/users/{id}/profile": {
       "post": {
         "summary": "ProcessController@mutate",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "id",
@@ -3235,34 +3412,37 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
           }
         }
       }
@@ -3270,7 +3450,7 @@
     "/api/v1/visits": {
       "post": {
         "summary": "WorkspaceController@visit",
-        "description": "Contrato de rutas implementadas. Campos y reglas específicos: controladores Api y controladores de dominio referenciados; no todos los esquemas de cuerpo están descritos en este inventario.",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
         "parameters": [
           {
             "name": "X-CSRF-TOKEN",
@@ -3283,34 +3463,190 @@
         ],
         "responses": {
           "200": {
-            "description": "Respuesta autorizada; las creaciones pueden responder 201 y las eliminaciones 204."
+            "description": "Respuesta autorizada"
           },
           "201": {
-            "description": "Creación registrada."
+            "description": "Creación, cuando corresponde"
           },
           "204": {
-            "description": "Operación sin cuerpo."
+            "description": "Sin contenido, cuando corresponde"
           },
           "401": {
-            "description": "Sesión ausente o revocada."
+            "description": "Sesión ausente o revocada"
           },
           "403": {
-            "description": "Fuera del ámbito autorizado."
+            "description": "Fuera de ámbito"
           },
           "404": {
-            "description": "Recurso inexistente."
+            "description": "Recurso ausente"
           },
           "409": {
-            "description": "Conflicto de idempotencia."
+            "description": "Conflicto de versión o idempotencia"
           },
           "419": {
-            "description": "CSRF inválido."
+            "description": "CSRF inválido"
           },
           "422": {
-            "description": "Validación o regla del dominio."
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
           },
           "429": {
-            "description": "Límite de solicitudes."
+            "description": "Límite de solicitudes"
+          }
+        }
+      }
+    },
+    "/api/v1/visits/public": {
+      "post": {
+        "summary": "WorkspaceController@publicVisit",
+        "description": "Inventario de ruta implementada. Campos, reglas y autorización específicos: controladores y pruebas. No es una especificación exhaustiva de cada cuerpo JSON. Sesión de primera parte y CSRF; DOC-21 mantiene el bloqueo de archivos y operaciones cuando corresponde.",
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Respuesta autorizada"
+          },
+          "201": {
+            "description": "Creación, cuando corresponde"
+          },
+          "204": {
+            "description": "Sin contenido, cuando corresponde"
+          },
+          "401": {
+            "description": "Sesión ausente o revocada"
+          },
+          "403": {
+            "description": "Fuera de ámbito"
+          },
+          "404": {
+            "description": "Recurso ausente"
+          },
+          "409": {
+            "description": "Conflicto de versión o idempotencia"
+          },
+          "419": {
+            "description": "CSRF inválido"
+          },
+          "422": {
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
+          },
+          "429": {
+            "description": "Límite de solicitudes"
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{id}/download": {
+      "get": {
+        "summary": "Descargar el archivo original sin conversión",
+        "description": "Acceso al propietario o revisor vigente de la convocatoria. Comprueba cuarentena, análisis vigente, disponibilidad y SHA-256 antes de responder. No concede acceso académico al administrador ni al evaluador.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Original íntegro con Content-Disposition attachment"
+          },
+          "201": {
+            "description": "Creación, cuando corresponde"
+          },
+          "204": {
+            "description": "Sin contenido, cuando corresponde"
+          },
+          "401": {
+            "description": "Sesión ausente o revocada"
+          },
+          "403": {
+            "description": "Fuera de ámbito"
+          },
+          "404": {
+            "description": "Recurso ausente"
+          },
+          "409": {
+            "description": "Conflicto de versión o idempotencia"
+          },
+          "419": {
+            "description": "CSRF inválido"
+          },
+          "422": {
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
+          },
+          "429": {
+            "description": "Límite de solicitudes"
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{id}/metadata": {
+      "get": {
+        "summary": "Consultar formato, tamaño e integridad del archivo original",
+        "description": "Acceso al propietario o revisor vigente de la convocatoria. Comprueba cuarentena, análisis vigente, disponibilidad y SHA-256 antes de responder. No concede acceso académico al administrador ni al evaluador.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metadatos del original comprobado, sin ruta interna"
+          },
+          "201": {
+            "description": "Creación, cuando corresponde"
+          },
+          "204": {
+            "description": "Sin contenido, cuando corresponde"
+          },
+          "401": {
+            "description": "Sesión ausente o revocada"
+          },
+          "403": {
+            "description": "Fuera de ámbito"
+          },
+          "404": {
+            "description": "Recurso ausente"
+          },
+          "409": {
+            "description": "Conflicto de versión o idempotencia"
+          },
+          "419": {
+            "description": "CSRF inválido"
+          },
+          "422": {
+            "description": "Validación o regla de dominio"
+          },
+          "423": {
+            "description": "Archivo bloqueado"
+          },
+          "429": {
+            "description": "Límite de solicitudes"
           }
         }
       }

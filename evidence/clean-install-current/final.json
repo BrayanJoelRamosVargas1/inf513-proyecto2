@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "completed_at_utc": "2026-11-23T13:45:07.356802+00:00",
+  "installer_tests": 4,
+  "installed_archive_sha256": "0dfed12b495f6c506c42896b36607cc9db8a48492bf33c10e544fb1b0c27dfc3",
+  "source_files": {
+    "scripts/verify_clean_install.py": "67ca17148782dd885cb66aaf18153bd471a8623d54c3f3bf76aaf51018d9d23e",
+    "scripts/test_clean_install.py": "5055c88c331a647e0638f77e97383cf05f97a44b1b803a79007b24a3aebb040b",
+    "docs/INSTALACION_DESDE_ENTREGA.md": "7d171f7faca244d34b42dbb4a5f2f98a58b782549e19e02a66d38324e6998e85",
+    "docs/CIERRE_INF513_ACTUAL.md": "9ad16d86b532e5a7b8fa1cd1a0c2130d7347140a4cc19b43f42c367833d42da4",
+    "README.md": "560dc996c604b7e4b26696bde1a532506344517696060ab0da2cbfc449f5fd1b"
+  },
+  "backend_modified": false,
+  "delivery_archive_modified": false,
+  "remote_writes": false,
+  "pending": [
+    "SSH access and remote ClamAV/worker acceptance",
+    "New delivery must include the updated installation conductor",
+    "Reviewed and authorized GitHub/Tecnoweb publication",
+    "Formal academic submission and human accessibility review"
+  ],
+  "NO_GO_INSTITUCIONAL": true
+}

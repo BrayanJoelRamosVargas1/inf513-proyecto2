@@ -1,5 +1,7 @@
 # INF513-SA · Proyecto 2 · Grupo 09
 
+**Actualización local 22/11/2026:** el código vigente conserva DOC-21 y el rediseño. Consultar [cierre académico actual](CIERRE_INF513_ACTUAL.md) y [rediseño](REDISENO_FRONTEND_ACTUAL.md). Las cifras, esquema y publicación del 21/11 descritos abajo son antecedentes; no acreditan que Tecnoweb o GitHub ya tengan la versión local más reciente.
+
 ## Estado al 21 de noviembre de 2026
 
 Interfaz React en `/p2`, API Laravel con sesión y PostgreSQL. Se conserva la interfaz anterior para comparación y continuidad. Se mantienen intactos el contrato de 8 CU / 30 RF y los registros históricos. La reconversión académica no constituye autorización institucional.

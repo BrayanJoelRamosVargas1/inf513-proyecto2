@@ -12,5 +12,5 @@
 @if(session('success'))<div class="alert success" role="status">{{ session('success') }}</div>@endif
 @if($errors->any())<div class="alert error" role="alert"><strong>No se pudo completar la operación.</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
 @yield('content')
-</main><footer>FICCT / UAGRM · Proyecto académico Grupo #09 <span>Horario de referencia: America/La_Paz</span></footer></div>
+</main><footer>FICCT / UAGRM · Proyecto académico Grupo #09 <span>Horario de referencia: America/La_Paz</span><!--ficct:legacy-visit-count--></footer></div>
 </body></html>

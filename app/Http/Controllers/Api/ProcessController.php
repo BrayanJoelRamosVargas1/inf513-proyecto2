@@ -44,6 +44,9 @@ final class ProcessController extends Controller
     {
         $v = app(GovernanceController::class)->corrections($r, $id)->getData();
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'merit', 'participation']);
+        if (! $v['authority'] && ! $v['reviewer']) {
+            $v['app']->forget('merit');
+        }
         $v['requests'] = $v['requests']->values();
         $v['grades'] = $v['grades']->values();
         $v['versions'] = $v['versions']->values();
@@ -55,6 +58,8 @@ final class ProcessController extends Controller
     {
         $v = app(ParticipationController::class)->show($r, $id)->getData();
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'status', 'participation', 'dossier_version', 'eligibility']);
+        // A participant needs their award reference, never the full ranking snapshot.
+        $v['award'] = $v['award'] ? collect((array) $v['award'])->only(['id', 'version', 'created_at']) : null;
         $v['documents'] = ($v['owner'] || $v['reviewer']) ? $v['documents']->map(fn ($d) => collect((array) $d)->only(['id', 'name', 'kind', 'version', 'amendment_id', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($d->id))) : [];
         $v['snapshots'] = $v['snapshots']->map(function ($snapshot) {
             $snapshot->snapshot = ['documents' => collect(Selection::json($snapshot->snapshot)['documents'])->map(fn ($d) => collect((array) $d)->only(['id', 'kind', 'version']))->values()];

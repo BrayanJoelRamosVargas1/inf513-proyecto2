@@ -15,8 +15,12 @@ final class WorkspaceController extends Controller
 {
     public function navigation(Request $r)
     {
-        $roles = array_unique(array_merge([$r->user()->role], Workspace::roles($r->user())));
-        $items = DB::table('navigation_items')->where('active', true)->whereIn('id', DB::table('navigation_roles')->whereIn('role', $roles)->select('navigation_item_id'))->orderBy('position')->get(['id', 'label', 'path']);
+        $effectiveRoles = Workspace::roles($r->user());
+        $roles = array_unique(array_merge([$r->user()->role], $effectiveRoles));
+        $items = DB::table('navigation_items')->where('active', true)->whereIn('id', DB::table('navigation_roles')->whereIn('role', $roles)->select('navigation_item_id'))
+            ->when($r->user()->role !== 'student', fn ($q) => $q->where('path', '!=', '/simulacion'))
+            ->when(! in_array('authority', $effectiveRoles), fn ($q) => $q->whereNotIn('path', ['/expedientes', '/institucional']))
+            ->orderBy('position')->orderBy('id')->get(['id', 'label', 'path']);
 
         return response()->json(['items' => $items]);
     }
@@ -31,9 +35,35 @@ final class WorkspaceController extends Controller
         return response()->json(['preferences' => DB::table('portal_preferences')->where('user_id', $r->user()->id)->first() ?? ['theme' => 'adultos', 'mode' => 'auto', 'font' => 100, 'contrast' => false]]);
     }
 
+    public function publicVisit(Request $r)
+    {
+        $d = $r->validate([
+            'path' => ['required', Rule::in(['/ingresar', '/registro'])],
+            'key' => ['required', 'uuid'],
+        ]);
+        $total = DB::transaction(function () use ($d) {
+            $receipt = DB::table('public_visit_receipts')->where('key', $d['key'])->first();
+            abort_if($receipt && $receipt->path !== $d['path'], 409, 'Este identificador corresponde a otra vista.');
+            if (! $receipt) {
+                $inserted = DB::table('public_visit_receipts')->insertOrIgnore([
+                    'key' => $d['key'], 'path' => $d['path'], 'created_at' => now(),
+                ]);
+                abort_if(DB::table('public_visit_receipts')->where('key', $d['key'])->value('path') !== $d['path'], 409, 'Este identificador corresponde a otra vista.');
+                if ($inserted) {
+                    DB::table('page_visits')->insertOrIgnore(['path' => $d['path'], 'total' => 0]);
+                    DB::table('page_visits')->where('path', $d['path'])->increment('total');
+                }
+            }
+
+            return DB::table('page_visits')->where('path', $d['path'])->value('total');
+        });
+
+        return response()->json(['path' => $d['path'], 'total' => $total]);
+    }
+
     public function visit(Request $r)
     {
-        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones)?$~'], 'key' => 'required|uuid']);
+        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion|/auditoria)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|revision|evaluaciones|expedientes|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones)?$~'], 'key' => 'required|uuid']);
         $result = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('visit_receipts')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             abort_if($existing && $existing->path !== $d['path'], 409, 'El identificador de visita ya corresponde a otra página.');
@@ -86,9 +116,10 @@ final class WorkspaceController extends Controller
         $groups = (clone $apps)->select('applications.eligibility')->selectRaw('count(*) as total')->groupBy('applications.eligibility')->get();
         $ids = (clone $apps)->select('applications.id');
         $authorityCalls = Access::effective(DB::table('memberships')->where('user_id', $r->user()->id)->where('role', 'authority'))->select('call_id');
+        $evaluatorCalls = Access::effective(DB::table('memberships')->where('user_id', $r->user()->id)->where('role', 'evaluator'))->select('call_id');
         $exams = DB::table('grades')->join('applications as a', 'a.id', '=', 'grades.application_id')->join('offers as o', 'o.id', '=', 'a.offer_id')
-            ->whereIn('grades.application_id', clone $ids)->where('grades.status', 'confirmed')
-            ->where(fn ($q) => $q->where('a.user_id', $r->user()->id)->orWhereIn('o.call_id', $authorityCalls)->orWhereIn('grades.assignment_id', DB::table('assignments')->where('user_id', $r->user()->id)->select('id')))->count();
+            ->whereIn('grades.application_id', clone $ids)->whereIn('grades.status', ['confirmed', 'corrected'])
+            ->where(fn ($q) => $q->where('a.user_id', $r->user()->id)->orWhereIn('o.call_id', $authorityCalls)->orWhere(fn ($q) => $q->whereIn('o.call_id', $evaluatorCalls)->whereIn('grades.assignment_id', DB::table('assignments')->where('user_id', $r->user()->id)->select('id'))))->count();
         $traffic = DB::table('access_events')->when($r->user()->role !== 'admin', fn ($q) => $q->where('user_id', $r->user()->id))
             ->when($r->filled('from'), fn ($q) => $q->where('created_at', '>=', $r->date('from')->startOfDay()))
             ->when($r->filled('to'), fn ($q) => $q->where('created_at', '<=', $r->date('to')->endOfDay()));

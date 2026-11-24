@@ -1,5 +1,7 @@
 # Guía de demostración · INF513 P2 · Grupo 09
 
+Nota de auditoría — 24/11/2026: esta guía conserva el recorrido y las cifras de una entrega docente anterior. La revisión en curso se ejecuta localmente en http://127.0.0.1:8116/p2 y en una copia aislada para pruebas. No se ha confirmado que la URL remota tenga el código actual. Las cifras de 189 pruebas y el recorrido remoto que aparecen abajo son antecedentes, no resultados de esta auditoría. Consultar `../../AUDITORIA_INTEGRAL_INF513_20261123/PROGRESO.json` en este espacio de trabajo para el avance y sus pendientes; ese informe no implica cierre integral ni publicación.
+
 Abrir https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2/p2 . Utilizar las cuentas sintéticas del archivo privado de accesos. Mantener ventanas o perfiles separados para cada cuenta; nunca mostrar contraseñas en una grabación.
 
 ## Recorrido por responsabilidades

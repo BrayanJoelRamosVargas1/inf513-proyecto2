@@ -1,0 +1,31 @@
+{
+  "mode": "READ_ONLY",
+  "remote_writes": false,
+  "checks": {
+    "dns:www.tecnoweb.org.bo": {
+      "result": "NOT_VERIFIED",
+      "error": "[Errno 11002] getaddrinfo failed"
+    },
+    "dns:db.tecnoweb.org.bo": {
+      "result": "NOT_VERIFIED",
+      "error": "[Errno 11002] getaddrinfo failed"
+    },
+    "http": {
+      "result": "NOT_VERIFIED",
+      "error": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    "ftp": {
+      "result": "NOT_VERIFIED",
+      "error": "[Errno 11001] getaddrinfo failed"
+    },
+    "postgres": {
+      "result": "NOT_VERIFIED",
+      "error": "psql: error: could not translate host name \"db.tecnoweb.org.bo\" to address: Host name lookup failure\n"
+    }
+  },
+  "unknown": [
+    "PHP runtime extensions without SSH or an existing diagnostic endpoint",
+    "ClamAV real execution and signature freshness",
+    "Supervised background worker support and recovery"
+  ]
+}

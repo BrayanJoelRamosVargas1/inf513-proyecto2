@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "protected_sources_unchanged": 8,
+  "canonical_unchanged": true,
+  "operative_tables": 50,
+  "operative_private_files": 35,
+  "demo_http": 200,
+  "academic_tarball_unchanged": true,
+  "source_installer_updated": true,
+  "tarball_kept_as_audited": true,
+  "remote_writes": false,
+  "NO_GO_INSTITUCIONAL": true,
+  "operational_data_unchanged_during_final_checks": true,
+  "document_supervisor_last_event": "worker_exited"
+}

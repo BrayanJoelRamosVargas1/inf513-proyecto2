@@ -1,0 +1,36 @@
+[Unit]
+Description=FICCT document processor (shared Laravel worker)
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=ficct-worker
+Group=ficct-documents
+WorkingDirectory=/srv/ficct/sistema
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 /srv/ficct/sistema/scripts/run_document_processor.py --name linux-service --idle-seconds 5
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+KillMode=control-group
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/srv/ficct/sistema/storage /srv/ficct/sistema/bootstrap/cache /srv/ficct/sistema/.local/document-processor
+StandardOutput=journal
+StandardError=journal
+
+# Deliberately no [Install]: acceptance starts manually; automatic boot is a separate decision.

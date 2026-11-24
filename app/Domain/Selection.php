@@ -152,6 +152,9 @@ final class Selection
                 }
                 foreach ($offers as $o) {
                     Scores::weights(self::json($o->weights));
+                    if (! array_key_exists('cpd', self::json($o->documents))) {
+                        Scores::fail('La oferta «'.$o->title.'» debe solicitar el respaldo de méritos con la clave cpd. Este sistema lo exige para registrar méritos; corrija el borrador antes de publicar.');
+                    }
                 }
             }
             if (in_array($next, ['results', 'archived']) && DB::table('offers')->where('call_id', $callId)->where('needs_publication_review', true)->exists()) {

@@ -46,6 +46,20 @@ final class DocumentController extends Controller
         return view('document', ['document' => $document, 'mime' => $mime, 'bytes' => strlen($bytes), 'dimensions' => $dimensions, 'smallImage' => $smallImage, 'security' => $security]);
     }
 
+    public function metadata(Request $request, int $id)
+    {
+        [$document, $bytes, $mime] = $this->document($request, $id);
+        $dimensions = str_starts_with($mime, 'image/') ? @getimagesizefromstring($bytes) : false;
+
+        return response()->json([
+            'id' => $document->id, 'name' => $document->name, 'version' => $document->version,
+            'mime' => $mime, 'size_bytes' => strlen($bytes), 'sha256' => hash('sha256', $bytes),
+            'created_at' => $document->created_at,
+            'width' => $dimensions ? $dimensions[0] : null, 'height' => $dimensions ? $dimensions[1] : null,
+            'small_image' => $dimensions && ($dimensions[0] < 100 || $dimensions[1] < 100),
+        ]);
+    }
+
     public function download(Request $request, int $id)
     {
         return $this->send($request, $id, false);
@@ -59,7 +73,9 @@ final class DocumentController extends Controller
     private function send(Request $request, int $id, bool $inline)
     {
         [$document, $bytes, $mime] = $this->document($request, $id);
-        $disposition = HeaderUtils::makeDisposition($inline ? 'inline' : 'attachment', basename($document->name), 'documento.'.($mime === 'application/pdf' ? 'pdf' : ($mime === 'image/png' ? 'png' : 'jpg')));
+        $filename = basename($document->name);
+        $fallback = preg_replace('/[^A-Za-z0-9._-]/', '_', $filename) ?: 'documento';
+        $disposition = HeaderUtils::makeDisposition($inline ? 'inline' : 'attachment', $filename, $fallback);
 
         return response($bytes, 200, ['Content-Type' => $mime, 'Content-Length' => (string) strlen($bytes), 'Content-Disposition' => $disposition]);
     }

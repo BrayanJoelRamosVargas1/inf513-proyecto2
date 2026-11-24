@@ -7,6 +7,7 @@ use App\Domain\Administration;
 use App\Domain\Scores;
 use App\Domain\Selection;
 use App\Domain\Workspace;
+use App\Http\Controllers\Api\SessionController;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -34,22 +35,17 @@ final class PortalController extends Controller
 
     public function login(Request $r)
     {
-        $d = $r->validate(['email' => 'required|email', 'password' => 'required|string']);
-        if (! Auth::attempt($d + ['active' => true])) {
-            return back()->withErrors(['email' => 'No se pudo iniciar sesión con esas credenciales.'])->onlyInput('email');
+        $response = app(SessionController::class)->login($r);
+        if ($response->getStatusCode() !== 200) {
+            return back()->withErrors($response->getData(true)['errors'])->onlyInput('email');
         }
-        $r->session()->regenerate();
-        $r->session()->put('security_version', $r->user()->security_version);
-        Selection::audit($r->user(), null, 'session.login', 'user:'.$r->user()->id);
 
         return redirect('/');
     }
 
     public function logout(Request $r)
     {
-        Auth::logout();
-        $r->session()->invalidate();
-        $r->session()->regenerateToken();
+        app(SessionController::class)->logout($r);
 
         return redirect('/login');
     }
@@ -226,7 +222,7 @@ final class PortalController extends Controller
         $documents = ($owner || $reviewer) ? DB::table('documents')->where('application_id', $id)->orderByDesc('version')->get() : collect();
         $reviews = ($owner || $reviewer || $authority) ? DB::table('reviews')->where('application_id', $id)->get()->keyBy('criterion') : collect();
         $assignments = Access::has($u, $call->id, ['evaluator']) ? DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get() : collect();
-        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->where('grades.user_id', $u->id))->select('grades.*', 'assignments.area')->get();
+        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->whereIn('grades.assignment_id', $assignments->pluck('id')))->select('grades.*', 'assignments.area')->get();
 
         $hasAmendmentHistory = DB::table('amendments')->where('application_id', $id)->exists();
         $pendingAmendment = DB::table('amendments')->where('application_id', $id)->whereIn('status', ['open', 'submitted'])->exists();

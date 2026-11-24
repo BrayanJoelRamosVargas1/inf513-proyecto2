@@ -1,0 +1,8 @@
+test_archive_links_are_rejected (__main__.ReleasePackageTest.test_archive_links_are_rejected) ... ok
+test_hash_verification_rejects_payload_changed_after_manifest (__main__.ReleasePackageTest.test_hash_verification_rejects_payload_changed_after_manifest) ... ok
+test_private_files_and_known_secrets_are_rejected_without_echoing_secret (__main__.ReleasePackageTest.test_private_files_and_known_secrets_are_rejected_without_echoing_secret) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.029s
+
+OK
