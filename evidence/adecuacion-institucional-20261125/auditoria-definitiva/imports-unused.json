@@ -1,0 +1,72 @@
+[
+  {
+    "file": "account.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "analytics.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "audit.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "documentary.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "institutional-register.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "institutional.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "main.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "main.jsx",
+    "import": "createContext",
+    "kind": "ImportSpecifier"
+  },
+  {
+    "file": "main.jsx",
+    "import": "Navigate",
+    "kind": "ImportSpecifier"
+  },
+  {
+    "file": "main.jsx",
+    "import": "useSearchParams",
+    "kind": "ImportSpecifier"
+  },
+  {
+    "file": "processes.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "result-history.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "user-directory.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  },
+  {
+    "file": "workspaces.jsx",
+    "import": "React",
+    "kind": "ImportDefaultSpecifier"
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "checked_at_utc": "2026-11-23T15:29:50.026842+00:00",
+  "remote_writes": false,
+  "known_deployment_channels": [
+    {
+      "state_file": "hosting-deploy-state.json",
+      "fields": [
+        "private",
+        "helper",
+        "token",
+        "url",
+        "archive_sha256"
+      ],
+      "has_saved_helper": true,
+      "has_saved_token": true
+    },
+    {
+      "state_file": "hosting-resume-state.json",
+      "fields": [
+        "token",
+        "name"
+      ],
+      "has_saved_helper": false,
+      "has_saved_token": true
+    }
+  ],
+  "http": [
+    {
+      "url": "https://www.tecnoweb.org.bo/",
+      "status": 200,
+      "allow": "GET,POST,OPTIONS,HEAD,TRACE",
+      "dav": null,
+      "authentication": null
+    },
+    {
+      "url": "https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2/",
+      "status": 302,
+      "allow": null,
+      "dav": null,
+      "authentication": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+
+> build
+> vite build && node scripts/write_frontend_build_manifest.mjs
+
+vite v6.4.6 building for production...
+transforming...
+✓ 102 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/manifest.json               0.22 kB │ gzip:   0.16 kB
+public/build/assets/main-IO7JBHCS.css   16.13 kB │ gzip:   4.59 kB
+public/build/assets/main-DWgWX-xb.js   394.07 kB │ gzip: 126.02 kB
+✓ built in 2.70s
+Registro de fuentes y recursos compilados generado.

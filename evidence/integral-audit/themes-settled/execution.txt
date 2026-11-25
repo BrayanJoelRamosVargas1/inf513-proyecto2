@@ -1,0 +1,1 @@
+Accessibility matrix failure: {"role":"admin","route":"/administracion","theme":"ninos","mode":"dia","contrast":"normal","font":200,"width":320,"overflow":true,"violations":[]}

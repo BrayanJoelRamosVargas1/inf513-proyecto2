@@ -1,0 +1,573 @@
+{
+  "resultado": "PASS",
+  "comprobaciones": [
+    {
+      "nombre": "Ventana vencida se conserva y permite cierre explícito",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Revisor autoriza una ventana nueva sin cambiar la anterior",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Postulante carga una versión nueva desde el formulario",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Postulante envía y congela la subsanación",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Revisor repite la revisión completa y habilita",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Evaluador no accede al proceso ni decide solicitudes",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Postulante solicita retiro; todavía queda pendiente",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Otra autoridad aprueba el retiro conservando la revisión",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Múltiples adjudicaciones permanecen y se registra manifestación DEMO",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Renuncia a una plaza se solicita por separado",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Autoridad aprueba renuncia y conserva vacante retenida",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Nueva aprobación conserva publicación anterior sin adjudicar reemplazo",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Otro postulante no accede al expediente ni al documento subsanado",
+      "resultado": "PASS"
+    }
+  ],
+  "solicitudes": [
+    {
+      "perfil": "revisor",
+      "ruta": "/login",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/login",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/login",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/login",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/login",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/login",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/login",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/login",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/login",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/login",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/subsanaciones/1/vencer",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/subsanaciones",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/subsanaciones/2/archivo",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/subsanaciones/2/enviar",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/subsanaciones/2/revisar",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 403
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/participacion/1/decision",
+      "metodo": "POST",
+      "status": 403,
+      "esperado": 403
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 403
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/participacion",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "carla",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/participacion/2/decision",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/6/aceptacion",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/6/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/6/participacion",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/6/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/postulaciones/6/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/participacion/3/decision",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/postulaciones/6/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/ofertas/16/resultados",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/ofertas/16/aprobar",
+      "metodo": "POST",
+      "status": 302
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/ofertas/16/resultados",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/portal.css",
+      "metodo": "GET",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/8/procesos",
+      "metodo": "GET",
+      "status": 403
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/documentos/23",
+      "metodo": "GET",
+      "status": 403,
+      "esperado": 403
+    }
+  ],
+  "credenciales_incluidas": false,
+  "alcance": "Formularios reales en Chromium sobre copia aislada sintética."
+}

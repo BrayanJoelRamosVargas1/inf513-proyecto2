@@ -1,0 +1,95 @@
+{
+  "resultado": "PASS",
+  "tablas": 31,
+  "contenido_comparado_antes_de_abrir_aplicacion": "IDENTICO",
+  "triggers_inmutabilidad": 9,
+  "actualizacion_historica_rechazada": true,
+  "archivos_privados_restaurados_y_sha256": 22,
+  "descargas_http_restauradas_verificadas": 22,
+  "perfiles_con_login_real": 5,
+  "lecturas_http_restauradas": [
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200
+    }
+  ],
+  "aplicacion_recuperada_uso_base_restaurada": true,
+  "cookies_y_almacenamiento_separados": true,
+  "clave_aplicacion_respaldada_privadamente": true,
+  "respaldo_fuera_del_paquete": true,
+  "servidor_de_recuperacion_detenido": true,
+  "servidor_principal_disponible": "http://127.0.0.1:8116",
+  "dump_sha256": "96943f9f89b011c494094f601b9d0a473358a599c8b266484bee8f5b9ee7dbb0",
+  "alcance": "Simulacro local en otra base/almacenamiento y servidor. No prueba de pérdida de máquina ni recuperación en otra infraestructura."
+}

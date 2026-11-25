@@ -1,0 +1,15 @@
+{
+  "resultado": "PASS",
+  "tablas_anteriores_identicas": 46,
+  "tabla_registro_migraciones_actualizada": [
+    "migrations"
+  ],
+  "tablas_agregadas": [
+    "institutional_scan_events",
+    "institutional_scan_tasks"
+  ],
+  "tablas_actuales": 49,
+  "triggers_actuales": 15,
+  "archivos_privados_preservados": 35,
+  "respaldo_previo_restaurado_para_comparacion": true
+}

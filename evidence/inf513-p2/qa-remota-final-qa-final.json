@@ -1,0 +1,58 @@
+{
+  "resultado": "PASS",
+  "checks": [
+    {
+      "nombre": "Autorización horizontal y vertical: seis accesos indebidos rechazados y evaluador sin expediente reservado",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Adjudicaciones entregan solo referencia de publicación, sin información interna de otros expedientes",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Carga PHP maliciosa rechazada sin documento ni modificación del expediente",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Búsqueda por tipo y control de página inexistente funcionan en el servidor",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Reporte de pagos ficticios disponible en CSV para su propietario",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Sesión HTTPS con Secure, HttpOnly, SameSite y ruta exclusiva de Proyecto 2",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Ingreso incorrecto registrado y estadísticas calculadas con datos reales",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Filtros React y series temporales funcionan con cifras reales, axe y móvil al 200%",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "La búsqueda React presenta tipos y ofertas en la subruta del curso",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Ayuda por perfil y descarga PDF real; el evaluador no recibe la guía del postulante",
+      "resultado": "PASS"
+    },
+    {
+      "nombre": "Interfaz anterior conserva estilos y enlaces dentro de Proyecto 2",
+      "resultado": "PASS"
+    }
+  ],
+  "errors": [],
+  "aplicacion_sintetica": 2,
+  "cookie": {
+    "secure": true,
+    "httpOnly": true,
+    "sameSite": "Lax",
+    "path": "/inf513/grupo09sa/proyecto2"
+  },
+  "limites": "Datos sintéticos; no equivale a pentest exhaustivo ni autorización institucional."
+}

@@ -1,0 +1,54 @@
+{
+  "result": "PASS",
+  "date_local": "2026-11-23",
+  "phpunit": {
+    "name": "C:\\Users\\ElCremosasWee\\Documents\\ChatGPT\\tecnoproyectoCABa\\sistema\\phpunit.xml",
+    "tests": "287",
+    "assertions": "1797",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "time": "107.360566"
+  },
+  "react": {
+    "passed": 53,
+    "failed": 0
+  },
+  "five_profile_browser": {
+    "checks": 39,
+    "responses": 398,
+    "errors": []
+  },
+  "business_workflow": {
+    "checks": 20,
+    "instrumented_requests": 52,
+    "evidence": "evidence/academic-business/20261123132351"
+  },
+  "preservation": {
+    "result": "PASS",
+    "original_private_files_preserved": 35,
+    "domain_files_unchanged": 16,
+    "tables_checked": 50,
+    "changed_tables": [
+      "access_events",
+      "audit_events"
+    ],
+    "changed_table_reason": "Local login/logout audit telemetry only",
+    "canonical_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+    "no_migration": true,
+    "official_status": "NO_GO_INSTITUCIONAL"
+  },
+  "runtime": {
+    "base": "http://127.0.0.1:8116/p2",
+    "http": 200,
+    "source_build_receipt_matches": true,
+    "code_backup": ".local/runtime-sync/20261123231943460321",
+    "same_existing_runtime": true,
+    "worker": "fase2-local, existing configuration resumed after prior process interruption"
+  },
+  "limits": [
+    "Selected role scenarios and automatic accessibility checks, not exhaustive verification",
+    "No remote publication or new release archive",
+    "NO_GO_INSTITUCIONAL remains"
+  ]
+}

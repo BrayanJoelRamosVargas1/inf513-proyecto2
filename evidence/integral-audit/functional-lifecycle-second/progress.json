@@ -1,0 +1,631 @@
+{
+  "checks": [
+    {
+      "action": "Guardar",
+      "endpoint": "/api/v1/offers/23/assignments",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar",
+      "endpoint": "/api/v1/offers/24/assignments",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar",
+      "endpoint": "/api/v1/offers/24/assignments",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Pasar a Recepción publicada",
+      "endpoint": "/api/v1/calls/11/transition",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Registro publico y sesion conservada",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar archivo",
+      "endpoint": "/api/v1/applications/13/archivo",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar envío definitivo",
+      "endpoint": "/api/v1/applications/13/enviar",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Postulacion, envio, analisis automatico real y descarga original",
+      "application": 13,
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar archivo",
+      "endpoint": "/api/v1/applications/14/archivo",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar envío definitivo",
+      "endpoint": "/api/v1/applications/14/enviar",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Postulacion, envio, analisis automatico real y descarga original",
+      "application": 14,
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar revisión por criterio",
+      "endpoint": "/api/v1/applications/13/revision",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar habilitación",
+      "endpoint": "/api/v1/applications/13/habilitacion",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar méritos",
+      "endpoint": "/api/v1/applications/13/meritos",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Guardar revisión por criterio",
+      "endpoint": "/api/v1/applications/14/revision",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar habilitación",
+      "endpoint": "/api/v1/applications/14/habilitacion",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Confirmar méritos",
+      "endpoint": "/api/v1/applications/14/meritos",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Pasar a Recepción cerrada",
+      "endpoint": "/api/v1/calls/11/transition",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Pasar a Evaluación",
+      "endpoint": "/api/v1/calls/11/transition",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Registrar nota",
+      "endpoint": "/api/v1/applications/13/nota",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Calcular resultado",
+      "endpoint": "/api/v1/applications/13/calcular",
+      "result": "FUNCIONA Y VERIFICADO"
+    }
+  ],
+  "traffic": [
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/configuration",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/offers/23/assignments",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/configuration",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/offers/24/assignments",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/configuration",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/offers/24/assignments",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/configuration",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/transition",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13/revision",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13/habilitacion",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13/meritos",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14/revision",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14/habilitacion",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14/meritos",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/14",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/transition",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11/transition",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/calls/11",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/applications/13",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,51 @@
+{
+  "result": "REVIEWED_WITH_FINDINGS",
+  "reviewed_at_utc": "2026-11-10T15:43:25.871432+00:00",
+  "browser": "Codex in-app browser",
+  "base_url": "http://127.0.0.1:8103",
+  "method": "Login y navegación por perfiles sintéticos; inspección de estado accesible y capturas completas de estados finales",
+  "roles": {
+    "postulante": {
+      "page": "/postulaciones/1/procesos",
+      "observed": "Expediente v2, subsanación revisada, versiones anteriores y renuncia aprobada",
+      "capture": "pantallas/postulante.png"
+    },
+    "revisor": {
+      "page": "/postulaciones/1/procesos",
+      "observed": "Revisión v2 expandida, tres criterios cumple, actor y documentos versionados",
+      "capture": "pantallas/revisor.png"
+    },
+    "evaluador": {
+      "page": "/postulaciones/3",
+      "observed": "Nota 90.00 confirmada y documentos privados restringidos; VIS-01 pendiente",
+      "capture": "pantallas/evaluador.png"
+    },
+    "administrador": {
+      "page": "/usuarios",
+      "observed": "Cuentas, perfiles y permisos por convocatoria, historial de asignaciones",
+      "capture": "pantallas/administrador.png"
+    },
+    "autoridad": {
+      "page": "/ofertas/1/resultados",
+      "observed": "Vacante retenida, candidato fuera de cupo y publicaciones v1/v2; VIS-02 pendiente",
+      "capture": "pantallas/autoridad.png"
+    }
+  },
+  "findings": [
+    {
+      "id": "VIS-01",
+      "status": "OPEN",
+      "scope": "Presentación",
+      "description": "Criterios de revisión restringidos al evaluador aparecen como Pendiente aunque el expediente está habilitado."
+    },
+    {
+      "id": "VIS-02",
+      "status": "OPEN",
+      "scope": "Presentación",
+      "description": "La etiqueta sin candidato suficiente no distingue vacante retenida pese a haber otro candidato."
+    }
+  ],
+  "application_views_modified": false,
+  "full_manual_form_replay": false,
+  "accessibility_certification": false
+}

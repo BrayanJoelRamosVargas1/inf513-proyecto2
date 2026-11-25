@@ -1,0 +1,1 @@
+Accessibility matrix failure: {"role":"student","route":"/postulaciones","theme":"ninos","mode":"noche","contrast":"normal","font":200,"width":320,"overflow":false,"violations":[{"id":"color-contrast","nodes":2}]}

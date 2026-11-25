@@ -1,0 +1,35 @@
+{
+  "stored_access_protocol": "ftp",
+  "stored_user": "grupo09sa",
+  "provided_password_matches_saved": true,
+  "remote_writes": false,
+  "ftp_port_21": {
+    "result": "UNAVAILABLE",
+    "error": "[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión"
+  },
+  "historical_access_metadata": {
+    "acceso-alojamiento.json": {
+      "fields": [
+        "error",
+        "detalle"
+      ]
+    },
+    "ftp-alojamiento.json": {
+      "fields": "array"
+    },
+    "entorno-remoto.json": {
+      "fields": [
+        "php",
+        "sapi",
+        "extensions",
+        "functions",
+        "root",
+        "writable",
+        "memory",
+        "max_execution_time",
+        "upload_max_filesize",
+        "open_basedir"
+      ]
+    }
+  }
+}

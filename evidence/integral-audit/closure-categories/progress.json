@@ -1,0 +1,109 @@
+{
+  "checks": [
+    {
+      "action": "Catálogo: crear, editar nombre/régimen y desactivar tipo no utilizado",
+      "result": "PASS"
+    },
+    {
+      "action": "Tipo ya utilizado rechaza cambio de identidad conservando ofertas históricas",
+      "result": "PASS"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/categories",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/categories/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/categories/14/configuration",
+      "status": 422
+    }
+  ]
+}

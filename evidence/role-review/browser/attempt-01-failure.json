@@ -1,0 +1,97 @@
+{
+  "error": "locator.waitFor: Error: strict mode violation: getByText('Cargando información…', { exact: true }) resolved to 3 elements:\n    1) <p role=\"status\">Cargando información…</p> aka getByText('Cargando información…').first()\n    2) <p role=\"status\">Cargando información…</p> aka getByText('Cargando información…').nth(1)\n    3) <p role=\"status\">Cargando información…</p> aka getByText('Cargando información…').nth(2)\n\nCall log:\n\u001b[2m  - waiting for getByText('Cargando información…', { exact: true }) to be hidden\u001b[22m\n",
+  "checks": [],
+  "requests": [
+    {
+      "role": "student",
+      "path": "/p2",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

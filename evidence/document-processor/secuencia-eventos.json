@@ -1,0 +1,173 @@
+{
+  "resultado": "PASS",
+  "timeline": [
+    {
+      "elapsed_ms": 4203,
+      "utc": "2026-11-22T10:55:18.757050+00:00",
+      "action": "isolated_clone_created",
+      "original_tables": 47
+    },
+    {
+      "elapsed_ms": 5859,
+      "utc": "2026-11-22T10:55:20.407866+00:00",
+      "action": "source_queued",
+      "source": "S1"
+    },
+    {
+      "elapsed_ms": 6375,
+      "utc": "2026-11-22T10:55:20.918012+00:00",
+      "action": "worker_reserved_and_snapshot_locked",
+      "worker": "W1",
+      "attempt": 1
+    },
+    {
+      "elapsed_ms": 7172,
+      "utc": "2026-11-22T10:55:21.722933+00:00",
+      "action": "competing_worker_refused_active_lease",
+      "worker": "W2",
+      "observed_state": "pending"
+    },
+    {
+      "elapsed_ms": 7187,
+      "utc": "2026-11-22T10:55:21.728114+00:00",
+      "action": "worker_forcibly_interrupted",
+      "worker": "W1"
+    },
+    {
+      "elapsed_ms": 7531,
+      "utc": "2026-11-22T10:55:22.079014+00:00",
+      "action": "interruption_preserved_pending_and_snapshot"
+    },
+    {
+      "elapsed_ms": 21828,
+      "utc": "2026-11-22T10:55:36.376101+00:00",
+      "action": "expired_lease_recovered_as_error",
+      "retry_scheduled": true
+    },
+    {
+      "elapsed_ms": 34078,
+      "utc": "2026-11-22T10:55:48.622997+00:00",
+      "action": "second_attempt_completed_with_real_clamav",
+      "worker": "W3",
+      "attempt": 2
+    },
+    {
+      "elapsed_ms": 34422,
+      "utc": "2026-11-22T10:55:48.968321+00:00",
+      "action": "late_clean_completion_rejected",
+      "worker": "W1",
+      "attempt": 1
+    },
+    {
+      "elapsed_ms": 35125,
+      "utc": "2026-11-22T10:55:49.671999+00:00",
+      "action": "temporary_cleanup_dry_run",
+      "eligible": 1,
+      "changed": false
+    },
+    {
+      "elapsed_ms": 35484,
+      "utc": "2026-11-22T10:55:50.031661+00:00",
+      "action": "abandoned_snapshot_removed_original_preserved",
+      "removed": 1
+    },
+    {
+      "elapsed_ms": 46484,
+      "utc": "2026-11-22T10:56:01.028852+00:00",
+      "action": "supervisor_processed_persisted_request",
+      "exit_code": 0
+    },
+    {
+      "elapsed_ms": 46547,
+      "utc": "2026-11-22T10:56:01.098794+00:00",
+      "action": "supervisor_stop_marker_respected"
+    },
+    {
+      "elapsed_ms": 48250,
+      "utc": "2026-11-22T10:56:02.799194+00:00",
+      "action": "same_supervisor_restarted_without_duplicate_lease"
+    }
+  ],
+  "ledger_events": [
+    {
+      "action": "queued",
+      "attempt": 0,
+      "created_at": "2026-11-22 06:55:20-04",
+      "details": "[]"
+    },
+    {
+      "action": "claimed",
+      "attempt": 1,
+      "created_at": "2026-11-22 06:55:20-04",
+      "details": "{\"lease_until\": \"2026-11-22T06:55:36-04:00\"}"
+    },
+    {
+      "action": "abandoned_recovered",
+      "attempt": 1,
+      "created_at": "2026-11-22 06:55:36-04",
+      "details": "{\"retry\": true}"
+    },
+    {
+      "action": "claimed",
+      "attempt": 2,
+      "created_at": "2026-11-22 06:55:37-04",
+      "details": "{\"lease_until\": \"2026-11-22T06:57:37-04:00\"}"
+    },
+    {
+      "action": "finished",
+      "attempt": 2,
+      "created_at": "2026-11-22 06:55:48-04",
+      "details": "{\"reason\": \"no_detection\", \"result\": \"clean\", \"task_state\": \"completed\", \"available_at\": \"2026-11-22T06:55:50-04:00\"}"
+    },
+    {
+      "action": "late_completion_ignored",
+      "attempt": 1,
+      "created_at": "2026-11-22 06:55:48-04",
+      "details": "{\"reported_state\": \"clean\"}"
+    },
+    {
+      "action": "temporary_payload_cleaned",
+      "attempt": 0,
+      "created_at": "2026-11-22 06:55:50-04",
+      "details": "[]"
+    },
+    {
+      "action": "queued",
+      "attempt": 0,
+      "created_at": "2026-11-22 06:55:50-04",
+      "details": "[]"
+    },
+    {
+      "action": "claimed",
+      "attempt": 1,
+      "created_at": "2026-11-22 06:55:50-04",
+      "details": "{\"lease_until\": \"2026-11-22T06:57:50-04:00\"}"
+    },
+    {
+      "action": "finished",
+      "attempt": 1,
+      "created_at": "2026-11-22 06:56:00-04",
+      "details": "{\"reason\": \"no_detection\", \"result\": \"clean\", \"task_state\": \"completed\", \"available_at\": \"2026-11-22T06:56:30-04:00\"}"
+    }
+  ],
+  "scan_results": [
+    {
+      "state": "error",
+      "engine": "processor",
+      "reason": "worker_abandoned"
+    },
+    {
+      "state": "clean",
+      "engine": "ClamAV 1.5.5",
+      "reason": "no_detection"
+    },
+    {
+      "state": "clean",
+      "engine": "ClamAV 1.5.5",
+      "reason": "no_detection"
+    }
+  ],
+  "source_alias": "S1",
+  "original_sha256": "d3884beaf68d03f55740d1c8d3991967a681ad0969be44c90d90c57b9c830f9c",
+  "limits": "Análisis pausado mediante doble exclusivamente para inyección del fallo; recuperación con ClamAV real. No es prueba de carga ni aceptación EICAR."
+}

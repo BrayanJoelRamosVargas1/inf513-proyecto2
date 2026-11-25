@@ -1,0 +1,34 @@
+Inicio y menú específico: admin
+Inicio y menú específico: autoridad
+Inicio y menú específico: revisor
+Inicio y menú específico: docente
+Error: Error de operación: Ir al contenido
+FICCT / Postulante
+DEMO ACADÉMICA
+DEMO Concurso ficticio. Las operaciones no emiten designaciones ni documentos oficiales.
+No se pudo completar la operación.
+Los permisos cambiaron. Inicie sesión nuevamente.
+FACULTAD DE INGENIERÍA EN CIENCIAS DE LA COMPUTACIÓN Y TELECOMUNICACIONES
+Un proceso claro.
+Una oportunidad
+para aportar.
+
+Postulaciones, expedientes y evaluaciones en un mismo lugar, con seguimiento y responsabilidad en cada etapa.
+
+Convocatoria → Expediente → Evaluación → Resultados
+PORTAL DE AUXILIATURAS
+Bienvenido de nuevo
+
+Ingresa con tu cuenta para continuar el proceso.
+
+Correo electrónico
+Contraseña
+Iniciar sesión
+
+Crear cuenta de postulante →
+
+FICCT / UAGRM · Proyecto académico Grupo #09
+Horario de referencia: America/La_Paz
+    at assert (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\roles_ui.cjs:4:34)
+    at submit (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\roles_ui.cjs:7:173)
+    at async C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\roles_ui.cjs:13:422

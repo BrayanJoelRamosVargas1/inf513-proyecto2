@@ -1,0 +1,21 @@
+{
+  "resultado": "PASS",
+  "archivos": [
+    {
+      "archivo": "app/Http/Middleware/SecureResponse.php",
+      "resultado": "PASS"
+    },
+    {
+      "archivo": "bootstrap/app.php",
+      "resultado": "PASS"
+    },
+    {
+      "archivo": "routes/web.php",
+      "resultado": "PASS"
+    },
+    {
+      "archivo": "tests/Feature/SecuritySurfaceTest.php",
+      "resultado": "PASS"
+    }
+  ]
+}

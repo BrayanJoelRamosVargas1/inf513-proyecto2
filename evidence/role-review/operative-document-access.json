@@ -1,0 +1,22 @@
+{
+  "result": "PASS",
+  "document_id": 23,
+  "checks": [
+    {
+      "profile": "revisor",
+      "http": 200,
+      "original_pdf_bytes_verified": true
+    },
+    {
+      "profile": "docente",
+      "http": 403,
+      "original_pdf_bytes_verified": false
+    },
+    {
+      "profile": "autoridad",
+      "http": 403,
+      "original_pdf_bytes_verified": false
+    }
+  ],
+  "source_modified": false
+}

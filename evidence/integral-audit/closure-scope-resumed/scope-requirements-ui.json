@@ -1,0 +1,32 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "action": "Publicar congela la configuración y retira formularios de edición",
+      "call": 18
+    },
+    {
+      "action": "Perfil coincidente postula desde React; perfil ajeno sin botón y rechazado por Laravel",
+      "call": 18,
+      "scope": "faculty",
+      "application": 65
+    },
+    {
+      "action": "Ámbito y requisitos: alta con valor declarado, claves duplicadas/inválidas rechazadas y edición conservada",
+      "call": 19,
+      "scope": "career",
+      "scope_value": "Sistemas"
+    },
+    {
+      "action": "Publicar congela la configuración y retira formularios de edición",
+      "call": 19
+    },
+    {
+      "action": "Perfil coincidente postula desde React; perfil ajeno sin botón y rechazado por Laravel",
+      "call": 19,
+      "scope": "career",
+      "application": 66
+    }
+  ],
+  "scope": "Profiles are declared synthetic data. Faculty/career configured independently and requests checked by server; no institutional enrollment lookup claimed."
+}

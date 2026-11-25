@@ -1,0 +1,3689 @@
+{
+  "result": "PASS",
+  "phase": "grades",
+  "checks": [
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 40,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "90",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 44,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "90",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 45,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "90",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 46,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 48,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 59,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "50",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 60,
+      "evaluator": 0,
+      "area": "Software",
+      "score": "50",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 41,
+      "evaluator": 1,
+      "area": "Redes",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 50,
+      "evaluator": 1,
+      "area": "Redes",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 52,
+      "evaluator": 1,
+      "area": "Redes",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 58,
+      "evaluator": 1,
+      "area": "Redes",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 41,
+      "evaluator": 2,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 50,
+      "evaluator": 2,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 52,
+      "evaluator": 2,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 58,
+      "evaluator": 2,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 55,
+      "evaluator": 3,
+      "area": "Electrónica",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 57,
+      "evaluator": 3,
+      "area": "Electrónica",
+      "score": "0",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 42,
+      "evaluator": 3,
+      "area": "Electrónica",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 43,
+      "evaluator": 3,
+      "area": "Software",
+      "score": "10",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 62,
+      "evaluator": 3,
+      "area": "Software",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 55,
+      "evaluator": 4,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 57,
+      "evaluator": 4,
+      "area": "Soporte",
+      "score": "0",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 42,
+      "evaluator": 4,
+      "area": "Soporte",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 47,
+      "evaluator": 4,
+      "area": "Software",
+      "score": "90",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 49,
+      "evaluator": 4,
+      "area": "Software",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 61,
+      "evaluator": 4,
+      "area": "Software",
+      "score": "80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 43,
+      "evaluator": 4,
+      "area": "Soporte",
+      "score": "30",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Nota confirmada por evaluador asignado",
+      "application": 62,
+      "evaluator": 4,
+      "area": "Soporte",
+      "score": "100",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 40,
+      "student": "A",
+      "offer": "software",
+      "merit": "37.50",
+      "exam": "54.00",
+      "final": "91.50",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 44,
+      "student": "B",
+      "offer": "software",
+      "merit": "33.25",
+      "exam": "54.00",
+      "final": "87.25",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 45,
+      "student": "C",
+      "offer": "software",
+      "merit": "33.25",
+      "exam": "54.00",
+      "final": "87.25",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 46,
+      "student": "D",
+      "offer": "software",
+      "merit": "27.80",
+      "exam": "48.00",
+      "final": "75.80",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 48,
+      "student": "E",
+      "offer": "software",
+      "merit": "21.40",
+      "exam": "48.00",
+      "final": "69.40",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 41,
+      "student": "A",
+      "offer": "redes",
+      "merit": "32.00",
+      "exam": "48.00",
+      "final": "80.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 50,
+      "student": "F",
+      "offer": "redes",
+      "merit": "22.00",
+      "exam": "48.00",
+      "final": "70.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 52,
+      "student": "G",
+      "offer": "redes",
+      "merit": "22.00",
+      "exam": "48.00",
+      "final": "70.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 58,
+      "student": "J",
+      "offer": "redes",
+      "merit": "22.00",
+      "exam": "48.00",
+      "final": "70.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 55,
+      "student": "H",
+      "offer": "electronica",
+      "merit": "32.00",
+      "exam": "48.00",
+      "final": "80.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 57,
+      "student": "I",
+      "offer": "electronica",
+      "merit": "0.00",
+      "exam": "0.00",
+      "final": "0.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 42,
+      "student": "A",
+      "offer": "electronica",
+      "merit": "12.00",
+      "exam": "48.00",
+      "final": "60.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 59,
+      "student": "J",
+      "offer": "exacto",
+      "merit": "30.00",
+      "exam": "30.00",
+      "final": "60.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 60,
+      "student": "K",
+      "offer": "exacto",
+      "merit": "20.00",
+      "exam": "30.00",
+      "final": "50.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 47,
+      "student": "D",
+      "offer": "empate_fuera",
+      "merit": "36.00",
+      "exam": "54.00",
+      "final": "90.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 49,
+      "student": "E",
+      "offer": "empate_fuera",
+      "merit": "22.00",
+      "exam": "48.00",
+      "final": "70.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 61,
+      "student": "L",
+      "offer": "empate_fuera",
+      "merit": "22.00",
+      "exam": "48.00",
+      "final": "70.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 43,
+      "student": "A",
+      "offer": "segunda",
+      "merit": "8.00",
+      "exam": "12.00",
+      "final": "20.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    },
+    {
+      "action": "Resultado visible y persistido",
+      "application": 62,
+      "student": "L",
+      "offer": "segunda",
+      "merit": "36.00",
+      "exam": "54.00",
+      "final": "90.00",
+      "result": "FUNCIONA Y VERIFICADO"
+    }
+  ],
+  "traffic": [
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62/nota",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/calls",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/40",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/44",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/45",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/46",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/48",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/41",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/50",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/52",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/58",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/55",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/57",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/42",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/59",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/60",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/47",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/49",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/61",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/43",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62/calcular",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications/62",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "fixture_preparation": "Fixtures: identities, scoped memberships, categories, draft calls/offers and assignments only. Academic outcomes must be created through React.",
+  "scope": "Academic mutations through React; independent decimal and PostgreSQL checks are separate receipts. No institutional pass threshold invented."
+}

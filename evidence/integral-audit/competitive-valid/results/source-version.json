@@ -1,0 +1,9 @@
+{
+  "source_before_sha256": "f48b21319800dd65016333a7bf6877b56af1facc51c0b9a6327e9549735ce545",
+  "source_after_sha256": "f48b21319800dd65016333a7bf6877b56af1facc51c0b9a6327e9549735ce545",
+  "changed_during_run": [],
+  "instrument_before_sha256": "5446e0178ebd58dd32ee938a53a19cfa68693f28c4f702d41989698b201e63af",
+  "instrument_after_sha256": "5446e0178ebd58dd32ee938a53a19cfa68693f28c4f702d41989698b201e63af",
+  "instrument_changed_during_run": false,
+  "scope": "Application source and matching compiled frontend; test credentials and private files excluded."
+}

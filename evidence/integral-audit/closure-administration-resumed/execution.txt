@@ -1,0 +1,4 @@
+locator.evaluate: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for locator('details').filter({ has: locator('summary').filter({ hasText: 'Ángela Cierre 94dd208604' }) }).first().locator('section').filter({ has: locator('details').filter({ has: locator('summary').filter({ hasText: 'Ángela Cierre 94dd208604' }) }).first().getByRole('heading', { name: 'Editar perfil', exact: true }) }).last().locator('[name="career"]')[22m
+

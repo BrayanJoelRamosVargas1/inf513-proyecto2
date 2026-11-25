@@ -1,0 +1,104 @@
+{
+  "phase": "readback",
+  "error": "locator.click: Timeout 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('Publicación v1 · Revisión 1', { exact: true })\u001b[22m\n",
+  "checks": [],
+  "traffic": [
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/calls",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/offers/35/ranking",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

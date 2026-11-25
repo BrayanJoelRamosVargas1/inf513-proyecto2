@@ -1,0 +1,224 @@
+{
+  "call": {
+    "id": 11,
+    "mode": "DEMO",
+    "scope": "UAGRM",
+    "title": "Convocatoria integral desde formularios 1795524779265",
+    "source": "Ensayo sintetico por interfaz; no constituye convocatoria oficial.",
+    "status": "evaluation",
+    "exam_at": "2026-11-27T08:53:14-04:00",
+    "version": 1,
+    "opens_at": "2026-11-23T08:53:14-04:00",
+    "closes_at": "2026-11-26T08:53:14-04:00",
+    "parent_id": null,
+    "created_at": "2026-11-24T08:53:15-04:00",
+    "updated_at": "2026-11-24T08:54:52-04:00",
+    "call_number": "UI-1795524779265",
+    "scope_value": null,
+    "subject_limit": null,
+    "management_year": 2026,
+    "source_snapshot": null
+  },
+  "grades": [
+    {
+      "id": 12,
+      "score": 80.0,
+      "status": "confirmed",
+      "user_id": 22,
+      "version": 1,
+      "created_at": "2026-11-24T08:54:58-04:00",
+      "updated_at": "2026-11-24T08:54:58-04:00",
+      "assignment_id": 22,
+      "application_id": 13
+    }
+  ],
+  "offers": [
+    {
+      "id": 23,
+      "seats": 1,
+      "title": "Oferta software integral",
+      "scheme": "DEMO_AREAS_100",
+      "source": "Configuracion sintetica con ponderaciones diferenciadas.",
+      "call_id": 11,
+      "version": 1,
+      "weights": {
+        "Software": "100.00"
+      },
+      "modality": "Presencial",
+      "rounding": "HALF_UP_FINAL",
+      "documents": {
+        "cpd": "Formulario CPD de ensayo"
+      },
+      "created_at": "2026-11-24T08:53:23-04:00",
+      "is_subject": false,
+      "updated_at": "2026-11-24T08:53:23-04:00",
+      "category_id": 9,
+      "requirements": {
+        "activo": "Condicion academica de ensayo"
+      },
+      "held_vacancies": 0,
+      "result_revision": 0,
+      "needs_publication_review": false
+    },
+    {
+      "id": 24,
+      "seats": 1,
+      "title": "Oferta mixta integral",
+      "scheme": "DEMO_AREAS_100",
+      "source": "Configuracion sintetica con ponderaciones diferenciadas.",
+      "call_id": 11,
+      "version": 1,
+      "weights": {
+        "Soporte": "75.00",
+        "Software": "25.00"
+      },
+      "modality": "Presencial",
+      "rounding": "HALF_UP_FINAL",
+      "documents": {
+        "cpd": "Formulario CPD de ensayo"
+      },
+      "created_at": "2026-11-24T08:53:24-04:00",
+      "is_subject": false,
+      "updated_at": "2026-11-24T08:53:24-04:00",
+      "category_id": 9,
+      "requirements": {
+        "activo": "Condicion academica de ensayo"
+      },
+      "held_vacancies": 0,
+      "result_revision": 0,
+      "needs_publication_review": false
+    }
+  ],
+  "memberships": [
+    {
+      "id": 25,
+      "role": "authority",
+      "reason": null,
+      "call_id": 11,
+      "user_id": 20,
+      "version": 1,
+      "starts_at": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "revoked_by": null
+    },
+    {
+      "id": 26,
+      "role": "reviewer",
+      "reason": "Responsabilidad sintetica asignada mediante formulario.",
+      "call_id": 11,
+      "user_id": 21,
+      "version": 1,
+      "starts_at": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "revoked_by": null
+    },
+    {
+      "id": 27,
+      "role": "evaluator",
+      "reason": "Responsabilidad sintetica asignada mediante formulario.",
+      "call_id": 11,
+      "user_id": 22,
+      "version": 1,
+      "starts_at": null,
+      "expires_at": null,
+      "revoked_at": null,
+      "revoked_by": null
+    }
+  ],
+  "applications": [
+    {
+      "id": 13,
+      "exam": 48.0,
+      "final": 68.0,
+      "merit": 20.0,
+      "status": "submitted",
+      "user_id": 23,
+      "offer_id": 23,
+      "snapshot": {
+        "mode": "DEMO",
+        "offer": {
+          "id": 23,
+          "seats": 1,
+          "title": "Oferta software integral",
+          "scheme": "DEMO_AREAS_100",
+          "source": "Configuracion sintetica con ponderaciones diferenciadas.",
+          "call_id": 11,
+          "version": 1,
+          "weights": "{\"Software\":\"100.00\"}",
+          "modality": "Presencial",
+          "rounding": "HALF_UP_FINAL",
+          "documents": "{\"cpd\":\"Formulario CPD de ensayo\"}",
+          "created_at": "2026-11-24 08:53:23-04",
+          "is_subject": false,
+          "updated_at": "2026-11-24 08:53:23-04",
+          "category_id": 9,
+          "requirements": "{\"activo\":\"Condicion academica de ensayo\"}",
+          "held_vacancies": 0,
+          "result_revision": 0,
+          "needs_publication_review": false
+        },
+        "scale": "0..100",
+        "rounding": "HALF_UP_FINAL",
+        "call_version": 1
+      },
+      "selection": "pending",
+      "created_at": "2026-11-24T08:53:59-04:00",
+      "updated_at": "2026-11-24T08:55:01-04:00",
+      "eligibility": "enabled",
+      "cpd_reference": "CPD-SINTETICO-UI",
+      "merit_version": 1,
+      "participation": "active",
+      "dossier_version": 1,
+      "eligibility_reason": "Todos los criterios cumplen; decision sintetica documentada."
+    },
+    {
+      "id": 14,
+      "exam": null,
+      "final": null,
+      "merit": 25.0,
+      "status": "submitted",
+      "user_id": 23,
+      "offer_id": 24,
+      "snapshot": {
+        "mode": "DEMO",
+        "offer": {
+          "id": 24,
+          "seats": 1,
+          "title": "Oferta mixta integral",
+          "scheme": "DEMO_AREAS_100",
+          "source": "Configuracion sintetica con ponderaciones diferenciadas.",
+          "call_id": 11,
+          "version": 1,
+          "weights": "{\"Software\":\"25.00\",\"Soporte\":\"75.00\"}",
+          "modality": "Presencial",
+          "rounding": "HALF_UP_FINAL",
+          "documents": "{\"cpd\":\"Formulario CPD de ensayo\"}",
+          "created_at": "2026-11-24 08:53:24-04",
+          "is_subject": false,
+          "updated_at": "2026-11-24 08:53:24-04",
+          "category_id": 9,
+          "requirements": "{\"activo\":\"Condicion academica de ensayo\"}",
+          "held_vacancies": 0,
+          "result_revision": 0,
+          "needs_publication_review": false
+        },
+        "scale": "0..100",
+        "rounding": "HALF_UP_FINAL",
+        "call_version": 1
+      },
+      "selection": "pending",
+      "created_at": "2026-11-24T08:54:19-04:00",
+      "updated_at": "2026-11-24T08:54:47-04:00",
+      "eligibility": "enabled",
+      "cpd_reference": "CPD-SINTETICO-UI",
+      "merit_version": 1,
+      "participation": "active",
+      "dossier_version": 1,
+      "eligibility_reason": "Todos los criterios cumplen; decision sintetica documentada."
+    }
+  ],
+  "audit_events": 27,
+  "publications": null
+}

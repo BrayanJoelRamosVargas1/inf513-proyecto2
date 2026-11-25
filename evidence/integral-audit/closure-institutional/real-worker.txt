@@ -1,0 +1,16 @@
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"state":"idle"}
+{"task_id":94,"source_id":1,"job_id":94,"state":"clean","task_state":"completed","reason":"no_detection"}
+{"state":"idle"}
+{"state":"idle"}

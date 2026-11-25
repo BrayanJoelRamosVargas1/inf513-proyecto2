@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "action": "Expediente enviado con dos PDF originales analizados por trabajador y ClamAV reales",
+      "application": 64,
+      "originals": [
+        {
+          "id": 91,
+          "kind": "ci",
+          "version": 1
+        },
+        {
+          "id": 92,
+          "kind": "cpd",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "action": "Revisor observa y autoriza únicamente CPD con motivo, evidencia y plazo explícito",
+      "amendment": 5
+    },
+    {
+      "action": "Plazo real vencido: no ofrece carga/envío y revisor cierra con motivo, conserva versión original e inhabilita",
+      "application": 64,
+      "amendment": 5,
+      "wait_ms": 13108
+    }
+  ],
+  "application": 64,
+  "amendment": 5,
+  "scope": "Real clock waited; no test-time override. New synthetic applicant only, no changes to accepted competitive calls."
+}

@@ -1,0 +1,144 @@
+{
+  "checks": [
+    {
+      "action": "Interfaz heredada: asignación excluye cuenta propia como React y Laravel",
+      "result": "PASS"
+    },
+    {
+      "action": "Footer heredado persistente: recargar incrementa una vez y consulta API no duplica",
+      "before": 3,
+      "after": 4,
+      "result": "PASS"
+    },
+    {
+      "action": "Ingreso y registro heredados muestran sus contadores persistentes",
+      "result": "PASS"
+    },
+    {
+      "action": "Rutas heredadas: autoridad sin administración y administrador con metadatos públicos, sin expedientes ni control académico",
+      "result": "PASS"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    }
+  ]
+}

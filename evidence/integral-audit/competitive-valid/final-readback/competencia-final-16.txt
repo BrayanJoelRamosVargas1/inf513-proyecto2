@@ -1,0 +1,70 @@
+FICCT / UAGRM · Grupo #09
+Consolidado de convocatoria
+Competencia sintetica 2 c277e0a41e
+DEMO · Sin validez institucional. 4 postulaciones. La posición por puntaje no resuelve empates. Cobertura sin publicación: pendiente. Los resultados actuales no reemplazan una publicación anterior. No hay umbral aprobatorio confirmado.
+Consulta 24/11/2026 15:02:38 · America/La_Paz. No incluye CI, correos, archivos privados ni motivos sensibles.
+Resultados
+Postulación Postulante Oferta Habilitación Participación Mérito /40 Examen /60 Final /100 Posición por
+puntaje Estado actual Última
+publicación
+Adjudicación
+activa
+43 Competencia A
+c277e0a41e
+Competencia
+segunda
+c277e0a41e
+Habilitado Activa 8.00 12.00 20.00 2 Fuera de cupo v1 No
+62 Competencia L
+c277e0a41e
+Competencia
+segunda
+c277e0a41e
+Habilitado Activa 36.00 54.00 90.00 1 Seleccionado
+DEMO v1 Sí
+54 Competencia G
+c277e0a41e
+Competencia
+sin_habilitados
+c277e0a41e
+Inhabilitado Activa Pendiente Pendiente Pendiente Pendiente Pendiente v1 No
+56 Competencia H
+c277e0a41e
+Competencia
+sin_habilitados
+c277e0a41e
+Inhabilitado Activa Pendiente Pendiente Pendiente Pendiente Pendiente v1 No
+
+Áreas
+Postulación Oferta Área Peso % Nota /100 Estado
+43 Competencia segunda c277e0a41e Software 50.00 10.00 Confirmada
+43 Competencia segunda c277e0a41e Soporte 50.00 30.00 Confirmada
+62 Competencia segunda c277e0a41e Software 50.00 80.00 Confirmada
+62 Competencia segunda c277e0a41e Soporte 50.00 100.00 Confirmada
+54 Competencia sin_habilitados
+c277e0a41e Electrónica 100.00 Pendiente Pendiente
+56 Competencia sin_habilitados
+c277e0a41e Electrónica 100.00 Pendiente Pendiente
+
+Documentación
+Postulación Oferta Documento requerido Presente en expediente Versión Revisión
+43 Competencia segunda c277e0a41e Formulario de meritos sintetico para
+software Sí 1 Cumple
+62 Competencia segunda c277e0a41e Formulario de meritos sintetico para
+software Sí 1 Cumple
+54 Competencia sin_habilitados
+c277e0a41e
+Formulario de meritos sintetico para
+electronica Sí 1 Cumple
+56 Competencia sin_habilitados
+c277e0a41e
+Formulario de meritos sintetico para
+electronica Sí 1 Cumple
+
+Plazas
+Oferta Cupos Última publicación Adjudicaciones activas Sin cubrir Retenidas por renuncia Nueva publicación pendiente
+Competencia segunda
+c277e0a41e 1 v1 1 0 0 No
+Competencia sin_habilitados
+c277e0a41e 1 v1 0 1 0 No
+Documento de demostración. No constituye acta, designación ni formulario oficial CPD.

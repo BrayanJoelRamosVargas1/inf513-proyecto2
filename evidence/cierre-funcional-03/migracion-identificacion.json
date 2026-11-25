@@ -1,0 +1,9 @@
+{
+  "resultado": "PASS",
+  "tablas_previas_conservadas": 31,
+  "columnas_previas_y_filas_conservadas": true,
+  "dos_campos_nuevos_nulos_en_registros_previos": true,
+  "datos_historicos_no_inferidos": true,
+  "respaldo_previo_privado": true,
+  "nuevas_migraciones": 1
+}

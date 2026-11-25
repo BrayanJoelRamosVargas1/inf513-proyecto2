@@ -1,0 +1,6 @@
+Inicio y menú específico: admin
+TypeError: Cannot read properties of null (reading 'status')
+    at C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\integral_ui.cjs:12:170
+    at runNextTicks (node:internal/process/task_queues:64:5)
+    at process.processImmediate (node:internal/timers:452:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)

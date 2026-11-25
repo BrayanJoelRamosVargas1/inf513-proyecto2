@@ -1,0 +1,44 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.30
+Configuration: C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\phpunit.xml
+
+...............................................................  63 / 119 ( 52%)
+.................E......................................        119 / 119 (100%)
+
+Time: 01:22.115, Memory: 92.00 MB
+
+There was 1 error:
+
+1) Tests\Feature\SecuritySurfaceTest::test_s09_cached_routes_keep_identifier_validation_in_a_fresh_process
+ErrorException: file_put_contents(C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\.local\phpunit-cache-90a993fa67ee0e14\routes.php): Failed to open stream: No such file or directory
+
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php:262
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Filesystem\Filesystem.php:204
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Foundation\Console\RouteCacheCommand.php:66
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\symfony\console\Command\Command.php:341
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\symfony\console\Application.php:1104
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\symfony\console\Application.php:357
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\symfony\console\Application.php:196
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Console\Application.php:165
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:447
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:363
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\tests\Feature\SecuritySurfaceTest.php:83
+
+ERRORS!
+Tests: 119, Assertions: 487, Errors: 1.
+
+Traceback (most recent call last):
+  File "C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\scripts\revalidate_03.py", line 76, in <module>
+    run()
+  File "C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\scripts\revalidate_03.py", line 49, in run
+    assert result.returncode == 0, 'PHPUnit fall�; consulte tests.txt'
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PHPUnit fall�; consulte tests.txt

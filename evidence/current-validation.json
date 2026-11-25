@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-11-25T20:41:30.075634+00:00",
+  "status": "SCOPED_CORRECTIONS_TESTED_EXHAUSTIVE_REVIEW_OPEN",
+  "junit": "evidence/adecuacion-institucional-20261125/auditoria-definitiva/php-final.xml",
+  "tests": 347,
+  "assertions": 2150,
+  "react_tests": 72,
+  "react_evidence": "evidence/adecuacion-institucional-20261125/auditoria-definitiva/react-final-bounded.log",
+  "preservation": "evidence/adecuacion-institucional-20261125/auditoria-definitiva/preservacion.json",
+  "downloads": "evidence/adecuacion-institucional-20261125/auditoria-definitiva/cierre-recorrido.json",
+  "remote_publication": "NOT_AUTHORIZED_FOR_THIS_CANDIDATE",
+  "institutional_status": "NO_GO_INSTITUCIONAL",
+  "limitations": [
+    "Full manual review of all inventoried files remains open; do not equate tests with that review.",
+    "Institutional formats, ambiguous rubrics, threshold and approvals pending.",
+    "Exact candidate installation evidence remains outside the archive to avoid circular hashing."
+  ]
+}

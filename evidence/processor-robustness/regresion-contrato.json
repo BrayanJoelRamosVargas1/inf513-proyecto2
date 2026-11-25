@@ -1,0 +1,22 @@
+{
+  "resultado": "PASS",
+  "identificadores_anteriores_preservados": 227,
+  "casos_actuales": 235,
+  "casos_nuevos": [
+    "test_p15_superseded_legacy_attempt_does_not_invalidate_a_newer_clean_scan",
+    "test_p16_superseded_legacy_attempt_preserves_a_newer_blocked_result",
+    "test_p17_superseded_legacy_attempt_does_not_duplicate_a_newer_pending_job",
+    "test_p18_superseded_recovery_dry_run_is_read_only_and_application_is_idempotent",
+    "test_p19_queue_health_distinguishes_overdue_ready_from_scheduled_retries_without_private_data",
+    "test_p20_queue_health_does_not_keep_alerting_about_superseded_historical_failures",
+    "test_p21_unmanaged_health_ignores_obsolete_pending_attempts_but_reports_a_current_abandoned_one",
+    "test_p22_queue_health_cli_check_signals_attention_without_changing_queue_or_evidence"
+  ],
+  "archivos_protegidos_identicos": {
+    "app/Domain/Selection.php": "0779424c8dbe43ea1d94a72cba8e5fb13ca6b88605ba675004629cbf245198b2",
+    "app/Domain/Scores.php": "73f487ef59c57cec14eb522b9f7573cd734862af544b6dc41e8349aad8ee2a00",
+    "config/ficct.php": "9b003e080b92bb8bef38004b63ab3804cb4e4c41df9e0eb36347707bed638422",
+    "docs/CU_Y_RF_CANONICOS.md": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2"
+  },
+  "paquete_anterior_sha256_sin_cambios": "771a38acf73f9c1c3ec5d6bad272a6e204a587f3cad16b1d125434f3fcf366c8"
+}

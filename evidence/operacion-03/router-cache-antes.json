@@ -1,0 +1,47 @@
+[
+  {
+    "cmd": [
+      "php",
+      "artisan",
+      "route:clear"
+    ],
+    "exit": 0,
+    "out": "\n   INFO  Route cache cleared successfully.  \n\n"
+  },
+  {
+    "cmd": [
+      "php",
+      "-r",
+      "require 'vendor/autoload.php'; $a=require 'bootstrap/app.php'; $a->make(Illuminate\\Contracts\\Console\\Kernel::class)->bootstrap(); echo json_encode(['id_binding'=>is_callable(app('router')->getBindingCallback('id'))]);"
+    ],
+    "exit": 0,
+    "out": "{\"id_binding\":true}"
+  },
+  {
+    "cmd": [
+      "php",
+      "artisan",
+      "route:cache"
+    ],
+    "exit": 0,
+    "out": "\n   INFO  Routes cached successfully.  \n\n"
+  },
+  {
+    "cmd": [
+      "php",
+      "-r",
+      "require 'vendor/autoload.php'; $a=require 'bootstrap/app.php'; $a->make(Illuminate\\Contracts\\Console\\Kernel::class)->bootstrap(); echo json_encode(['id_binding'=>is_callable(app('router')->getBindingCallback('id'))]);"
+    ],
+    "exit": 0,
+    "out": "{\"id_binding\":false}"
+  },
+  {
+    "cmd": [
+      "php",
+      "artisan",
+      "route:clear"
+    ],
+    "exit": 0,
+    "out": "\n   INFO  Route cache cleared successfully.  \n\n"
+  }
+]

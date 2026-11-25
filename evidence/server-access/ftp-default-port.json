@@ -1,0 +1,19 @@
+{
+  "checked_at_utc": "2026-11-23T15:45:25.848937+00:00",
+  "method": "FTP with port omitted (library default)",
+  "remote_writes": false,
+  "attempts": [
+    {
+      "host": "www.tecnoweb.org.bo",
+      "port_argument_supplied": false,
+      "error_type": "ConnectionRefusedError",
+      "error": "[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión"
+    },
+    {
+      "host": "ftp.tecnoweb.org.bo",
+      "port_argument_supplied": false,
+      "error_type": "ConnectionRefusedError",
+      "error": "[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión"
+    }
+  ]
+}

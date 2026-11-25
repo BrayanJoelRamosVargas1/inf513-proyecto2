@@ -1,0 +1,15 @@
+{
+  "resultado": "PASS",
+  "pruebas": 148,
+  "aserciones": 685,
+  "identidades_previas_conservadas": 136,
+  "nuevas": 12,
+  "comprobaciones_navegador": 13,
+  "respuestas_http": 97,
+  "pantallas_axe_y_movil": 8,
+  "tablas_operativas_identicas": 31,
+  "archivos_privados_identicos": 23,
+  "contrato_8_CU_30_RF_identico": true,
+  "registro_y_postulacion_hasta_publicacion": "PASS",
+  "alcance": "Ejecución local sintética, sin autorización institucional"
+}

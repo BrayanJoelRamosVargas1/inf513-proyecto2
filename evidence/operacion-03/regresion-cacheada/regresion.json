@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "executed_at_utc": "2026-11-12T13:54:56.330813+00:00",
+  "database": "ficct_test",
+  "database_host": "127.0.0.1",
+  "database_port": "55442",
+  "new_local_execution": true,
+  "tests": 119,
+  "assertions": 489,
+  "errors": 0,
+  "failures": 0,
+  "previous_test_identities_preserved": 102,
+  "new_tests": 17,
+  "demo_tables_preserved": 31,
+  "demo_private_files_preserved": 23,
+  "historical_evidence_files_preserved": 248,
+  "scope": "Same-machine local execution; not an external audit or institutional acceptance"
+}

@@ -1,0 +1,2452 @@
+{
+  "resultado": "PASS_ESTABILIDAD_EN_MUESTRA",
+  "clientes_concurrentes": 5,
+  "perfiles": [
+    "admin",
+    "autoridad",
+    "revisor",
+    "docente",
+    "estudiante"
+  ],
+  "solicitudes": 300,
+  "duracion_segundos": 159.514,
+  "mediana_ms": 2548.675,
+  "p95_ms": 3517.72,
+  "max_ms": 3915.26,
+  "errores_http": 0,
+  "tablas_sin_cambios_salvo_auditoria": {
+    "access_control_lock": true,
+    "amendments": true,
+    "applications": true,
+    "assignments": true,
+    "award_choices": true,
+    "cache": true,
+    "cache_locks": true,
+    "calls": true,
+    "categories": true,
+    "correction_requests": true,
+    "documents": true,
+    "dossier_snapshots": true,
+    "failed_jobs": true,
+    "grades": true,
+    "job_batches": true,
+    "jobs": true,
+    "memberships": true,
+    "migrations": true,
+    "offers": true,
+    "participation_decisions": true,
+    "participation_requests": true,
+    "password_reset_tokens": true,
+    "publications": true,
+    "result_revisions": true,
+    "reviews": true,
+    "score_versions": true,
+    "sessions": true,
+    "tie_exams": true,
+    "users": true,
+    "vacancy_events": true
+  },
+  "rows": [
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 500.75,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2852.85,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 3382.86,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2983.39,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2527.02,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2600.66,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2542.53,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2593.78,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2627.66,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2476.0,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2445.12,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2558.82,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2500.74,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2468.5,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2680.24,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2462.81,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2565.58,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2493.71,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2476.51,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2502.31,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2564.56,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2469.1,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2635.46,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2518.27,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2479.47,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2529.77,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2661.48,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2517.17,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2431.3,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2676.31,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2438.18,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2466.94,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2679.82,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2469.74,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2472.75,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2609.79,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2469.17,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2543.81,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2727.44,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2452.89,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2463.49,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2630.96,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2612.52,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2461.93,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2610.73,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2497.19,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2455.2,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2736.68,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2448.7,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2452.23,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2568.67,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2570.1,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2440.95,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 2989.54,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2737.24,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 2698.45,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 3241.24,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/",
+      "status": 200,
+      "ms": 3569.83,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/usuarios",
+      "status": 200,
+      "ms": 3729.86,
+      "sesion_valida": true,
+      "bytes": 31986
+    },
+    {
+      "perfil": "admin",
+      "ruta": "/convocatorias/3",
+      "status": 200,
+      "ms": 3584.4,
+      "sesion_valida": true,
+      "bytes": 6136
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 1012.11,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3332.86,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3041.86,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2823.94,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2550.9,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2581.17,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2592.16,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2566.73,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2589.43,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2476.81,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2481.38,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2514.3,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2515.2,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2502.76,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2633.63,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2467.02,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2597.28,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2457.75,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2547.21,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2458.67,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2533.23,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2501.37,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2638.15,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2492.89,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2471.26,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2565.89,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2645.95,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2502.74,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2478.11,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2630.54,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2443.22,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2501.26,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2636.92,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2487.76,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2477.83,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2592.17,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2570.24,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2473.6,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2700.92,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2460.81,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2480.88,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2612.56,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2613.08,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2509.08,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2541.57,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2514.68,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2480.67,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2700.32,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2446.89,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2485.11,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2639.35,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2484.4,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2599.2,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2889.73,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2732.41,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2855.2,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3248.32,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/",
+      "status": 200,
+      "ms": 3586.76,
+      "sesion_valida": true,
+      "bytes": 6387
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3718.72,
+      "sesion_valida": true,
+      "bytes": 7072
+    },
+    {
+      "perfil": "autoridad",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3517.72,
+      "sesion_valida": true,
+      "bytes": 2061
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 1517.25,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3351.26,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3067.96,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2779.31,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2568.51,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2587.11,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2589.75,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2576.53,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2572.82,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2435.69,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2500.79,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2563.65,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2451.22,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2557.99,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2616.96,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2429.44,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2597.13,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2498.86,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2510.3,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2476.57,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2559.33,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2479.08,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2635.21,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2500.23,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2453.87,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2660.73,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2602.61,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2437.25,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2493.98,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2651.16,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2412.48,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2528.16,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2656.69,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2438.17,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2483.57,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2629.0,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2514.36,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2547.23,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2663.46,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2442.22,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2481.6,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2767.2,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2443.07,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2583.04,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2497.39,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2494.57,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2524.9,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2689.79,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2405.99,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2526.01,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2646.71,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2429.22,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2866.44,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2705.61,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2700.0,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2912.15,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3337.02,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/",
+      "status": 200,
+      "ms": 3662.21,
+      "sesion_valida": true,
+      "bytes": 5070
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3714.15,
+      "sesion_valida": true,
+      "bytes": 3801
+    },
+    {
+      "perfil": "revisor",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3575.35,
+      "sesion_valida": true,
+      "bytes": 4372
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2009.73,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3370.74,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3109.02,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2725.45,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2582.03,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2574.03,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2594.18,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2586.39,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2544.41,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2422.75,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2537.7,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2540.86,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2448.09,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2641.86,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2536.99,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2534.18,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2492.89,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2488.94,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2521.65,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2500.65,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2530.16,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2510.11,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2616.4,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2484.65,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2441.51,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2710.15,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2576.45,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2439.37,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2504.18,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2621.9,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2417.92,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2660.89,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2527.67,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2441.34,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2496.72,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2602.27,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2532.76,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2610.32,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2582.72,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2437.24,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2526.06,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2733.23,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2451.62,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2617.84,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2463.65,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2483.15,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2666.04,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2545.05,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2418.87,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2545.88,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2616.83,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2422.98,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 2956.23,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 2672.72,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2664.76,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3067.26,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3298.91,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/",
+      "status": 200,
+      "ms": 3906.53,
+      "sesion_valida": true,
+      "bytes": 5068
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/convocatorias/4",
+      "status": 200,
+      "ms": 3583.41,
+      "sesion_valida": true,
+      "bytes": 3799
+    },
+    {
+      "perfil": "docente",
+      "ruta": "/rectificaciones",
+      "status": 200,
+      "ms": 3584.89,
+      "sesion_valida": true,
+      "bytes": 2056
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2512.61,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3703.52,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2992.87,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2507.85,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2614.94,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2554.07,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2576.46,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2648.34,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2488.56,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2428.86,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2552.37,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2521.31,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2435.56,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2681.68,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2494.18,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2533.23,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2520.86,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2469.54,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2487.38,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2566.08,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2506.28,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2610.27,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2530.15,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2475.54,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2402.92,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2760.5,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2550.12,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2414.36,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2669.94,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2478.46,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2415.49,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2705.08,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2488.55,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2425.8,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2641.57,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2481.97,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2512.85,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2645.92,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2559.84,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2430.78,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2584.0,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2689.52,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2418.49,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2654.28,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2473.68,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2452.82,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2750.55,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2462.29,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2419.4,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2573.74,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2602.57,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2406.57,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 2997.48,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 2728.14,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 2636.91,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3150.15,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 3354.03,
+      "sesion_valida": true,
+      "bytes": 5626
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/",
+      "status": 200,
+      "ms": 3915.26,
+      "sesion_valida": true,
+      "bytes": 6260
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/postulaciones/1",
+      "status": 200,
+      "ms": 3591.9,
+      "sesion_valida": true,
+      "bytes": 5448
+    },
+    {
+      "perfil": "estudiante",
+      "ruta": "/adjudicaciones",
+      "status": 200,
+      "ms": 3588.24,
+      "sesion_valida": true,
+      "bytes": 5626
+    }
+  ],
+  "alcance": "Servidor PHP de desarrollo Windows. No demuestra capacidad institucional ni cumple un SLA definido."
+}

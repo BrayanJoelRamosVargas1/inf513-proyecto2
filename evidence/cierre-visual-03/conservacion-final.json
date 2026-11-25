@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "checked_at_utc": "2026-11-10T18:39:20.141018+00:00",
+  "demo_tables_preserved": 31,
+  "demo_private_files_preserved": 18,
+  "historical_evidence_files_preserved": 69,
+  "protected_source_files_unchanged": 37,
+  "canonical_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "existing_members_modified_since_validation_zip": [
+    "README.md",
+    "docs/ESTADO_PROYECTO.md",
+    "resources/views/application.blade.php",
+    "resources/views/results.blade.php",
+    "scripts/revalidate_03.py",
+    "scripts/walkthrough_03.py",
+    "tests/Feature/ParticipationTest.php"
+  ],
+  "previous_zip_sha256_unchanged": {
+    "SISTEMA_FICCT_GRUPO09_DEMO_0_3.zip": "d7992377973aca40f671a1fe1b694c78fe0c62f11068fe2de26ceaadc5549c93",
+    "SISTEMA_FICCT_GRUPO09_DEMO_0_3_VALIDACION_LOCAL.zip": "535fa785cb646a8f3c0d60381e867f45c5f306be7cc5c6695609ec1c38e127ce"
+  },
+  "note": "Se añaden pruebas, comprobadores y documentación; las modificaciones de la aplicación se limitan a dos vistas. No se distribuyen bases, credenciales ni archivos privados."
+}

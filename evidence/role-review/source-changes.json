@@ -1,0 +1,24 @@
+{
+  "source_files": [
+    "app/Http/Controllers/Api/ProcessController.php",
+    "app/Http/Controllers/Api/SelectionController.php",
+    "app/Http/Controllers/Api/WorkspaceController.php",
+    "resources/js/portal/account.jsx",
+    "resources/js/portal/account.test.jsx",
+    "resources/js/portal/analytics.jsx",
+    "resources/js/portal/analytics.test.jsx",
+    "resources/js/portal/application-redesign.test.jsx",
+    "resources/js/portal/main.jsx",
+    "resources/js/portal/portal.css",
+    "resources/js/portal/workspaces.jsx",
+    "resources/js/portal/workspaces.test.jsx",
+    "database/migrations/2026_11_23_000001_add_role_workspaces.php"
+  ],
+  "additional_files": [
+    "tests/Feature/RoleWorkspaceTest.php",
+    "scripts/role_workspaces_browser.cjs",
+    "scripts/verify_role_workspaces.py",
+    "docs/REVISION_INTEGRAL_ROLES_Y_DOCUMENTOS.md"
+  ],
+  "generated_build": "public/build"
+}

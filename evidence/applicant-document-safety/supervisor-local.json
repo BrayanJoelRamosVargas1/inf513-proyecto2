@@ -1,0 +1,9 @@
+{
+  "resultado": "PASS",
+  "proceso_supervisor_verificado": true,
+  "evento_reciente": "worker_exited",
+  "ultimo_evento_utc": "2026-11-22T11:47:28.092543+00:00",
+  "antiguedad_segundos": 3.31,
+  "servicio_OS_permanente": false,
+  "capacidad_real_de_analisis": "Validada separadamente en la copia HTTP aislada"
+}

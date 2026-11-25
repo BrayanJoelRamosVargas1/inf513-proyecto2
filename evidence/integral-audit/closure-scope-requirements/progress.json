@@ -1,0 +1,14 @@
+{
+  "checks": [
+    {
+      "action": "Ámbito y requisitos: alta con valor declarado, claves duplicadas/inválidas rechazadas y edición conservada",
+      "call": 18,
+      "scope": "faculty",
+      "scope_value": "FICCT"
+    },
+    {
+      "action": "Publicar congela la configuración y retira formularios de edición",
+      "call": 18
+    }
+  ]
+}

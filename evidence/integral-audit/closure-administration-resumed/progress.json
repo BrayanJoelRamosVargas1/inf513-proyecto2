@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "action": "Crear y consultar cuenta sintética mediante React",
+      "user": 66,
+      "result": "PASS"
+    },
+    {
+      "action": "Buscar sin tildes, combinar perfil/estado y quitar filtros",
+      "result": "PASS"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "resultado": "PASS",
+  "zip_anteriores_iguales": 7,
+  "evidencias_historicas_iguales": 107,
+  "archivos_cluster_original_detenido_iguales": 9037,
+  "archivos_privados_originales_iguales": 18,
+  "codigo_dominio_modelos_controladores_migraciones_y_pruebas_previas_preservado": 64,
+  "consulta_sql_a_base_original": false,
+  "reglas_institucionales_modificadas": false
+}

@@ -1,0 +1,65 @@
+{
+  "result": "PASS",
+  "checks": [
+    "Método creado mediante formulario y conservado tras recarga",
+    "Intento fallido simulado conserva historial sin convertirse en éxito",
+    "Respuesta perdida después de commit: error visible, reintento idempotente y una sola transacción exitosa",
+    "Plan de tres cuotas, suma exacta, pago completo e historial persistente",
+    "Descarga CSV real y desactivación conservan historial y ocultan operaciones no disponibles"
+  ],
+  "summary": {
+    "paid": "149.99",
+    "failed": "25.50",
+    "pending_installments": "0.00"
+  },
+  "payments": [
+    {
+      "id": 8,
+      "amount": "33.33",
+      "status": "paid",
+      "installment_id": 6
+    },
+    {
+      "id": 7,
+      "amount": "33.33",
+      "status": "paid",
+      "installment_id": 5
+    },
+    {
+      "id": 6,
+      "amount": "33.34",
+      "status": "paid",
+      "installment_id": 4
+    },
+    {
+      "id": 5,
+      "amount": "49.99",
+      "status": "paid",
+      "installment_id": null
+    },
+    {
+      "id": 4,
+      "amount": "25.50",
+      "status": "failed",
+      "installment_id": null
+    }
+  ],
+  "installments": [
+    {
+      "id": 4,
+      "number": 1,
+      "amount": "33.34"
+    },
+    {
+      "id": 5,
+      "number": 2,
+      "amount": "33.33"
+    },
+    {
+      "id": 6,
+      "number": 3,
+      "amount": "33.33"
+    }
+  ],
+  "scope": "All financial values are fictitious. One lost-response fault injected in browser only after genuine backend processing; no real payment service used."
+}

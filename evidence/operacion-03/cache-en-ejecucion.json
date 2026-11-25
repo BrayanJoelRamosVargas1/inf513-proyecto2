@@ -1,0 +1,12 @@
+{
+  "resultado": "PASS",
+  "configuracion_y_rutas_cacheadas": true,
+  "caches_activas_preservadas": true,
+  "caches_pruebas_separadas": true,
+  "hashes": {
+    "config.php": "230fc88ac246414f42dc2b73aecc55c6c474d479086194d09e1465bdf7ebdc77",
+    "packages.php": "7a868c4d90500442dc869bac6495aacf9613dc22bc088aaeb72efb89b6a454d2",
+    "routes-v7.php": "4b9cc81de24e84a015c4e1c193b9c511516ea573d31e851a073e2ab7288cc9e4",
+    "services.php": "2bfe3850137a2a4d1d683f20edddc1e5f73f0e88f554119dd785b0b8a59bf0bb"
+  }
+}

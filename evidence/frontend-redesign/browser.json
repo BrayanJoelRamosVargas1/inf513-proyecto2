@@ -1,0 +1,747 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "screen": "ingreso",
+      "result": "PASS"
+    },
+    {
+      "screen": "registro",
+      "result": "PASS"
+    },
+    {
+      "screen": "contador-publico-idempotencia-y-CSRF",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-administracion",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin-convocatoria",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin-menu-movil-teclado",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-adjudicaciones",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad--p2-institucional",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad-convocatoria",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad-expediente",
+      "result": "PASS"
+    },
+    {
+      "screen": "autoridad-menu-movil-teclado",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor-convocatoria",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor-expediente",
+      "result": "PASS"
+    },
+    {
+      "screen": "revisor-menu-movil-teclado",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente-convocatoria",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente-expediente",
+      "result": "PASS"
+    },
+    {
+      "screen": "docente-menu-movil-teclado",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-postulaciones",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante--p2-adjudicaciones",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante-convocatoria",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante-expediente",
+      "result": "PASS"
+    },
+    {
+      "screen": "estudiante-menu-movil-teclado",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-ninos-dia-contraste-200",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-ninos-noche-contraste-200",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-jovenes-dia-contraste-200",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-jovenes-noche-contraste-200",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-adultos-dia-contraste-200",
+      "result": "PASS"
+    },
+    {
+      "screen": "tema-adultos-noche-contraste-200",
+      "result": "PASS"
+    }
+  ],
+  "accessibility": [
+    {
+      "screen": "ingreso",
+      "violations": []
+    },
+    {
+      "screen": "registro",
+      "violations": []
+    },
+    {
+      "screen": "admin-inicio",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-administracion",
+      "violations": []
+    },
+    {
+      "screen": "admin-convocatoria",
+      "violations": []
+    },
+    {
+      "screen": "autoridad-inicio",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-adjudicaciones",
+      "violations": []
+    },
+    {
+      "screen": "autoridad--p2-institucional",
+      "violations": []
+    },
+    {
+      "screen": "autoridad-convocatoria",
+      "violations": []
+    },
+    {
+      "screen": "autoridad-expediente",
+      "violations": []
+    },
+    {
+      "screen": "revisor-inicio",
+      "violations": []
+    },
+    {
+      "screen": "revisor--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "revisor--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "revisor--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "revisor--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "revisor-convocatoria",
+      "violations": []
+    },
+    {
+      "screen": "revisor-expediente",
+      "violations": []
+    },
+    {
+      "screen": "docente-inicio",
+      "violations": []
+    },
+    {
+      "screen": "docente--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "docente--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "docente--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "docente--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "docente-convocatoria",
+      "violations": []
+    },
+    {
+      "screen": "docente-expediente",
+      "violations": []
+    },
+    {
+      "screen": "estudiante-inicio",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-postulaciones",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "estudiante--p2-adjudicaciones",
+      "violations": []
+    },
+    {
+      "screen": "estudiante-convocatoria",
+      "violations": []
+    },
+    {
+      "screen": "estudiante-expediente",
+      "violations": []
+    },
+    {
+      "screen": "tema-ninos-dia-contraste-200",
+      "violations": []
+    },
+    {
+      "screen": "tema-ninos-noche-contraste-200",
+      "violations": []
+    },
+    {
+      "screen": "tema-jovenes-dia-contraste-200",
+      "violations": []
+    },
+    {
+      "screen": "tema-jovenes-noche-contraste-200",
+      "violations": []
+    },
+    {
+      "screen": "tema-adultos-dia-contraste-200",
+      "violations": []
+    },
+    {
+      "screen": "tema-adultos-noche-contraste-200",
+      "violations": []
+    }
+  ],
+  "responsive": [
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "dia",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "ninos",
+      "mode": "noche",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "dia",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "jovenes",
+      "mode": "noche",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "dia",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "100",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "100",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "100",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "100",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "200",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "200",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "200",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "theme": "adultos",
+      "mode": "noche",
+      "font": "200",
+      "width": 1440,
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "scope": "Existing local application, real PostgreSQL, synthetic demo users; read-only academic routes. Preferences temporarily exercised and restored. No remote deployment. axe is automated coverage, not a human accessibility certification."
+}

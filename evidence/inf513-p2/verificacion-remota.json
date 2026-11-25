@@ -1,0 +1,32 @@
+{
+  "result": "PASS",
+  "health": {
+    "result": "PASS",
+    "php": "8.4.28",
+    "bcmath_native": false,
+    "bcadd": "0.30",
+    "schema": "ficct_p2",
+    "tables": 41,
+    "triggers": 9,
+    "users": 8,
+    "calls": 4,
+    "lock_sha256": "0e1e57f12cc74935badb148a5b09dc50cbc7ff8980774ab816ebdac2248e6d79",
+    "session_secure": true,
+    "session_path": "/inf513/grupo09sa/proyecto2"
+  },
+  "guided_demo": {
+    "result": "SKIPPED",
+    "reason": "El generador guiado está restringido al entorno local; en el servidor se usarán los procesos autorizados de API."
+  },
+  "protected_paths": {
+    ".ficct_p2_20261121130804/application/.env": 403,
+    ".ficct_p2_20261121130804/application/composer.json": 403,
+    ".ficct_p2_20261121130804/application/.local/ACCESOS_DEMO.txt": 403,
+    "proyecto2/.env": 403
+  },
+  "landing": {
+    "status": 200,
+    "url": "https://www.tecnoweb.org.bo/inf513/grupo09sa/proyecto2/p2",
+    "react_root": true
+  }
+}

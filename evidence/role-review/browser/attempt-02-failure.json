@@ -1,0 +1,468 @@
+{
+  "error": "locator.click: Error: strict mode violation: getByRole('button', { name: 'Cerrar menú', exact: true }) resolved to 2 elements:\n    1) <button tabindex=\"-1\" class=\"sidebar-scrim\" aria-label=\"Cerrar menú\"></button> aka getByLabel('Cerrar menú')\n    2) <button type=\"button\" class=\"secondary sidebar-close\">Cerrar menú</button> aka getByText('Cerrar menú')\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Cerrar menú', exact: true })\u001b[22m\n",
+  "checks": [
+    {
+      "role": "student",
+      "path": "/p2",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/convocatorias",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/postulaciones",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/estadisticas",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/simulacion",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/cuenta",
+      "result": "PASS"
+    },
+    {
+      "role": "student",
+      "path": "/p2/adjudicaciones",
+      "result": "PASS"
+    }
+  ],
+  "requests": [
+    {
+      "role": "student",
+      "path": "/p2",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/convocatorias",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/postulaciones",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/estadisticas",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/metrics",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/simulacion",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/sandbox",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/cuenta",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/adjudicaciones",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/awards",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/p2/postulaciones",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-xIJ2aNVY.css",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/build/assets/main-C4i7BUEK.js",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "role": "student",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

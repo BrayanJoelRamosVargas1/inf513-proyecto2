@@ -1,0 +1,10 @@
+{
+  "checked_at_utc": "2026-11-23T15:28:33.310431+00:00",
+  "protocol": "SFTP",
+  "port": 2222,
+  "user_interpretation": "grup009",
+  "remote_writes": false,
+  "result": "NOT_VERIFIED",
+  "error_type": "AuthenticationException",
+  "error": "Authentication failed."
+}

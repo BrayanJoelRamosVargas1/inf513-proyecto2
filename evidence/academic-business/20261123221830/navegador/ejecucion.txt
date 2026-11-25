@@ -1,0 +1,5 @@
+page.addScriptTag: Executing inline script violates the following Content Security Policy directive 'script-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-9Q+FSRM39oSSkvYLyDscuP1qpxGlYSSfIJ57YCIH8Y4='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
+    at async C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\scripts\academic_business.cjs:123:3 {
+  log: [],
+  name: 'Error'
+}

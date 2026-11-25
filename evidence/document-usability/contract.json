@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "rf_rows": 30,
+  "referenced_tests_in_current_run": 127,
+  "canonical_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "scope": "Contract and test references; no institutional approval"
+}

@@ -1,0 +1,85 @@
+{
+  "error": "locator.waitFor: Error: strict mode violation: getByRole('button', { name: 'Cerrar menú', exact: true }) resolved to 2 elements:\n    1) <button tabindex=\"-1\" class=\"sidebar-scrim\" aria-label=\"Cerrar menú\"></button> aka getByLabel('Cerrar menú')\n    2) <button type=\"button\" class=\"secondary sidebar-close\">Cerrar menú</button> aka getByText('Cerrar menú')\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Cerrar menú', exact: true }) to be visible\u001b[22m\n",
+  "checks": [
+    {
+      "screen": "ingreso",
+      "result": "PASS"
+    },
+    {
+      "screen": "registro",
+      "result": "PASS"
+    },
+    {
+      "screen": "contador-publico-idempotencia-y-CSRF",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin-inicio",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-convocatorias",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-estadisticas",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-simulacion",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-cuenta",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin--p2-administracion",
+      "result": "PASS"
+    },
+    {
+      "screen": "admin-convocatoria",
+      "result": "PASS"
+    }
+  ],
+  "accessibility": [
+    {
+      "screen": "ingreso",
+      "violations": []
+    },
+    {
+      "screen": "registro",
+      "violations": []
+    },
+    {
+      "screen": "admin-inicio",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-convocatorias",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-estadisticas",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-simulacion",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-cuenta",
+      "violations": []
+    },
+    {
+      "screen": "admin--p2-administracion",
+      "violations": []
+    },
+    {
+      "screen": "admin-convocatoria",
+      "violations": []
+    }
+  ],
+  "responsive": [],
+  "errors": []
+}

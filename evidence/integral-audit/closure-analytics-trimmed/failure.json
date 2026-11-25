@@ -1,0 +1,40 @@
+{
+  "error": "Command failed: C:/Program Files/PostgreSQL/15/bin/psql.exe -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -p 55442 -U ficct_validation -d ficct_applicants_20261123222404 -tAc WITH effective AS (SELECT call_id,role FROM memberships WHERE user_id=54 AND revoked_at IS NULL AND (starts_at IS NULL OR starts_at<=CURRENT_TIMESTAMP) AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)), visible_calls AS (SELECT c.* FROM calls c WHERE c.id IN (SELECT call_id FROM effective) OR (TRUE AND c.status<>'draft') OR EXISTS(SELECT 1 FROM applications a JOIN offers o ON o.id=a.offer_id WHERE a.user_id=54 AND o.call_id=c.id)), visible_offers AS (SELECT o.* FROM offers o JOIN visible_calls c ON c.id=o.call_id WHERE TRUE), visible_apps AS (SELECT a.*,o.call_id FROM applications a JOIN offers o ON o.id=a.offer_id WHERE a.user_id=54 OR EXISTS(SELECT 1 FROM effective e WHERE e.call_id=o.call_id AND (e.role IN ('authority','reviewer') OR (e.role='evaluator' AND EXISTS(SELECT 1 FROM assignments x WHERE x.offer_id=o.id AND x.user_id=54))))) SELECT json_build_object('calls',(SELECT coalesce(json_agg(id),'[]'::json)FROM visible_calls WHERE title ILIKE '%Electrónica%'),'offers',(SELECT coalesce(json_agg(id),'[]'::json)FROM visible_offers WHERE title ILIKE '%Electrónica%' OR category_id IN(SELECT id FROM categories WHERE name ILIKE '%Electrónica%')),'types',(SELECT coalesce(json_agg(id),'[]'::json)FROM categories WHERE name ILIKE '%Electrónica%' AND id IN(SELECT category_id FROM visible_offers)))\nERROR:  invalid byte sequence for encoding \"UTF8\": 0xf3 0x6e 0x69 0x63\r\n",
+  "checks": [
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "Competencia",
+      "total": 20,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "c277e0a41e",
+      "total": 13,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "SOFTWARE",
+      "total": 20,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "software",
+      "total": 20,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "  software  ",
+      "total": 20,
+      "result": "PASS"
+    }
+  ]
+}

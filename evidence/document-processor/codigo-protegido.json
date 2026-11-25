@@ -1,0 +1,9 @@
+{
+  "resultado": "PASS",
+  "identicos_a_entrega_anterior": {
+    "app/Domain/Selection.php": "0779424c8dbe43ea1d94a72cba8e5fb13ca6b88605ba675004629cbf245198b2",
+    "app/Domain/Scores.php": "73f487ef59c57cec14eb522b9f7573cd734862af544b6dc41e8349aad8ee2a00",
+    "config/ficct.php": "9b003e080b92bb8bef38004b63ab3804cb4e4c41df9e0eb36347707bed638422",
+    "docs/CU_Y_RF_CANONICOS.md": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2"
+  }
+}

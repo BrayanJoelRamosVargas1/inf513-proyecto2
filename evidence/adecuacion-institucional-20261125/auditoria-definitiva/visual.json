@@ -1,0 +1,357 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "role": "postulante",
+      "variant": "escritorio",
+      "width": 1440,
+      "font": 100,
+      "mode": "noche",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "postulante",
+      "variant": "portatil",
+      "width": 1220,
+      "font": 100,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 103.640625,
+      "sidebar": "flex"
+    },
+    {
+      "role": "postulante",
+      "variant": "claro",
+      "width": 1440,
+      "font": 100,
+      "mode": "dia",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "postulante",
+      "variant": "movil",
+      "width": 390,
+      "font": 100,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 175.421875,
+      "sidebar": "none"
+    },
+    {
+      "role": "postulante",
+      "variant": "ampliado",
+      "width": 1220,
+      "font": 150,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 181.3125,
+      "sidebar": "flex"
+    },
+    {
+      "role": "postulante",
+      "variant": "accesible",
+      "width": 390,
+      "font": 200,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 474,
+      "sidebar": "none"
+    },
+    {
+      "role": "postulante",
+      "accessibility": []
+    },
+    {
+      "role": "revisor",
+      "variant": "escritorio",
+      "width": 1440,
+      "font": 100,
+      "mode": "noche",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "revisor",
+      "variant": "portatil",
+      "width": 1220,
+      "font": 100,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 103.640625,
+      "sidebar": "flex"
+    },
+    {
+      "role": "revisor",
+      "variant": "claro",
+      "width": 1440,
+      "font": 100,
+      "mode": "dia",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "revisor",
+      "variant": "movil",
+      "width": 390,
+      "font": 100,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 175.421875,
+      "sidebar": "none"
+    },
+    {
+      "role": "revisor",
+      "variant": "ampliado",
+      "width": 1220,
+      "font": 150,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 181.3125,
+      "sidebar": "flex"
+    },
+    {
+      "role": "revisor",
+      "variant": "accesible",
+      "width": 390,
+      "font": 200,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 485.46875,
+      "sidebar": "none"
+    },
+    {
+      "role": "revisor",
+      "accessibility": []
+    },
+    {
+      "role": "evaluador",
+      "variant": "escritorio",
+      "width": 1440,
+      "font": 100,
+      "mode": "noche",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "evaluador",
+      "variant": "portatil",
+      "width": 1220,
+      "font": 100,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 103.640625,
+      "sidebar": "flex"
+    },
+    {
+      "role": "evaluador",
+      "variant": "claro",
+      "width": 1440,
+      "font": 100,
+      "mode": "dia",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "evaluador",
+      "variant": "movil",
+      "width": 390,
+      "font": 100,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 175.421875,
+      "sidebar": "none"
+    },
+    {
+      "role": "evaluador",
+      "variant": "ampliado",
+      "width": 1220,
+      "font": 150,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 181.3125,
+      "sidebar": "flex"
+    },
+    {
+      "role": "evaluador",
+      "variant": "accesible",
+      "width": 390,
+      "font": 200,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 485.46875,
+      "sidebar": "none"
+    },
+    {
+      "role": "evaluador",
+      "accessibility": []
+    },
+    {
+      "role": "autoridad",
+      "variant": "escritorio",
+      "width": 1440,
+      "font": 100,
+      "mode": "noche",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "autoridad",
+      "variant": "portatil",
+      "width": 1220,
+      "font": 100,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 103.640625,
+      "sidebar": "flex"
+    },
+    {
+      "role": "autoridad",
+      "variant": "claro",
+      "width": 1440,
+      "font": 100,
+      "mode": "dia",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "autoridad",
+      "variant": "movil",
+      "width": 390,
+      "font": 100,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 175.421875,
+      "sidebar": "none"
+    },
+    {
+      "role": "autoridad",
+      "variant": "ampliado",
+      "width": 1220,
+      "font": 150,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 181.3125,
+      "sidebar": "flex"
+    },
+    {
+      "role": "autoridad",
+      "variant": "accesible",
+      "width": 390,
+      "font": 200,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 514.9375,
+      "sidebar": "none"
+    },
+    {
+      "role": "autoridad",
+      "accessibility": []
+    },
+    {
+      "role": "administrador",
+      "variant": "escritorio",
+      "width": 1440,
+      "font": 100,
+      "mode": "noche",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "administrador",
+      "variant": "portatil",
+      "width": 1220,
+      "font": 100,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 103.640625,
+      "sidebar": "flex"
+    },
+    {
+      "role": "administrador",
+      "variant": "claro",
+      "width": 1440,
+      "font": 100,
+      "mode": "dia",
+      "page": 1440,
+      "viewport": 1440,
+      "heading": 109.171875,
+      "sidebar": "flex"
+    },
+    {
+      "role": "administrador",
+      "variant": "movil",
+      "width": 390,
+      "font": 100,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 175.421875,
+      "sidebar": "none"
+    },
+    {
+      "role": "administrador",
+      "variant": "ampliado",
+      "width": 1220,
+      "font": 150,
+      "mode": "noche",
+      "page": 1220,
+      "viewport": 1220,
+      "heading": 181.3125,
+      "sidebar": "flex"
+    },
+    {
+      "role": "administrador",
+      "variant": "accesible",
+      "width": 390,
+      "font": 200,
+      "mode": "noche",
+      "page": 390,
+      "viewport": 390,
+      "heading": 514.9375,
+      "sidebar": "none"
+    },
+    {
+      "role": "administrador",
+      "accessibility": []
+    }
+  ],
+  "errors": [],
+  "transport": "Real headless Chromium against operative local DEMO; read-only preference overrides in test browser; no saved preferences changed"
+}

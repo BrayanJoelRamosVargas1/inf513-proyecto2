@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "created_at_utc": "2026-11-25T20:42:16.693794+00:00",
+  "filename": "2026-2_INF513-P2_grupo09sa.tar.gz",
+  "files": 522,
+  "verified_hashes": 521,
+  "sha256": "671ebcd27cae05f4cc43f94f452a67d6cdb611111c71f7c24255802d5248d9b3",
+  "previous_package_sha256_preserved": null,
+  "known_secret_scan": "PASS",
+  "source_matches_archive": true,
+  "remote_deployment": false,
+  "installed_independently_from_archive": false,
+  "NO_GO_INSTITUCIONAL": true
+}

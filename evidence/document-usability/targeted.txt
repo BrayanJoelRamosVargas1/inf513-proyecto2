@@ -1,0 +1,26 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.30
+Configuration: C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\phpunit.xml
+
+................F...                                              20 / 20 (100%)
+
+Time: 00:12.013, Memory: 60.00 MB
+
+There was 1 failure:
+
+1) Tests\Feature\DocumentExperienceTest::test_e17_api_reviewer_download_is_the_uploaded_original_with_safe_metadata
+Expected file [respaldo.pdf] is not present in Content-Disposition header.
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'respaldo.pdf'
++'documento.pdf'
+
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:470
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\tests\Feature\DocumentExperienceTest.php:247
+
+FAILURES!
+Tests: 20, Assertions: 145, Failures: 1.

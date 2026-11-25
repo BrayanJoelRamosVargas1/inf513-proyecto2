@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "reviewed_at_utc": "2026-11-10T18:37:51.329438+00:00",
+  "base_url": "http://127.0.0.1:8104",
+  "findings": [
+    {
+      "id": "VIS-01",
+      "status": "CLOSED",
+      "evidence": "pantallas/VIS-01-evaluador.png",
+      "observed": "Detalle de revisión restringido, habilitado y nota confirmada; sin criterios pendientes ficticios"
+    },
+    {
+      "id": "VIS-02",
+      "status": "CLOSED",
+      "evidence": "pantallas/VIS-02-autoridad.png",
+      "observed": "1 plaza sin cubrir; 1 plaza retenida por renuncia; otro candidato fuera de cupo y publicaciones v1/v2 conservadas"
+    }
+  ],
+  "phpunit_regressions": [
+    "test_v01_evaluator_sees_restricted_review_without_false_pending_or_private_files",
+    "test_v02_authorized_profiles_keep_actual_review_details",
+    "test_v03_unreviewed_owner_still_sees_genuinely_pending_criteria",
+    "test_v04_retained_vacancy_with_other_candidate_is_not_labeled_insufficiency",
+    "test_v05_insufficient_candidates_without_renunciation",
+    "test_v06_mixed_vacancies_keep_separate_causes_and_total",
+    "test_v07_plural_retained_and_insufficient_vacancies",
+    "test_v08_filled_offer_does_not_invent_a_vacancy_cause"
+  ],
+  "http_response_counts": {
+    "200": 93,
+    "419": 1,
+    "429": 1,
+    "403": 9
+  },
+  "visual_scope": "Dos pantallas finales; insuficiencia, casos mixtos, plurales y ausencia de vacantes se verifican adicionalmente mediante PHPUnit",
+  "institutional_approval": false
+}

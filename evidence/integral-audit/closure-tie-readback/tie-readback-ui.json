@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "action": "Recarga completa: ambas actas y rondas visibles, única publicación sin repetición",
+      "call": 19,
+      "offer": 45
+    }
+  ],
+  "scope": "Read-only visual follow-up; original mutation receipt retained. Screenshot waits for session and ranking to finish loading."
+}

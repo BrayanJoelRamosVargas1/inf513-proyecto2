@@ -1,0 +1,38 @@
+[
+  {
+    "class": "dashboard-hero",
+    "non_css_references": []
+  },
+  {
+    "class": "hero-actions",
+    "non_css_references": []
+  },
+  {
+    "class": "hero-companion",
+    "non_css_references": []
+  },
+  {
+    "class": "hero-seal",
+    "non_css_references": []
+  },
+  {
+    "class": "shortcut-index",
+    "non_css_references": [
+      "resources/js/portal/workspaces.jsx"
+    ]
+  },
+  {
+    "class": "shortcut-arrow",
+    "non_css_references": [
+      "resources/js/portal/workspaces.jsx"
+    ]
+  },
+  {
+    "class": "dashboard-highlights",
+    "non_css_references": []
+  },
+  {
+    "class": "highlight",
+    "non_css_references": []
+  }
+]

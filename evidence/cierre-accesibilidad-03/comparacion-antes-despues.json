@@ -1,0 +1,67 @@
+{
+  "resultado": "PASS",
+  "muestra": [
+    {
+      "perfil": "invitado",
+      "ruta_nueva": "/login",
+      "nodos_contraste_antes": 5,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 320,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    },
+    {
+      "perfil": "admin",
+      "ruta_nueva": "/usuarios",
+      "nodos_contraste_antes": 14,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 359,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    },
+    {
+      "perfil": "autoridad",
+      "ruta_nueva": "/ofertas/1/resultados",
+      "nodos_contraste_antes": 16,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 390,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    },
+    {
+      "perfil": "revisor",
+      "ruta_nueva": "/postulaciones/1",
+      "nodos_contraste_antes": 5,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 390,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    },
+    {
+      "perfil": "evaluador",
+      "ruta_nueva": "/postulaciones/1",
+      "nodos_contraste_antes": 10,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 390,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    },
+    {
+      "perfil": "postulante",
+      "ruta_nueva": "/adjudicaciones",
+      "nodos_contraste_antes": 4,
+      "avisos_axe_despues": 0,
+      "ancho_viewport": 320,
+      "ancho_documento_antes": 320,
+      "ancho_documento_despues": 320,
+      "salto_contenido_teclado": true
+    }
+  ],
+  "fuente_antes": "VALIDACION_TECNICA_FICCT_DEMO_0_3/accesibilidad.json, evidencia histórica conservada",
+  "alcance": "Seis rutas concretas, axe-core y muestreo de teclado/reflujo; no certificación WCAG completa."
+}

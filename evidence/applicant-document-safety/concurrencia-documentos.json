@@ -1,0 +1,31 @@
+{
+  "resultado": "PASS",
+  "procesos_PHP_independientes": 2,
+  "events": [
+    {
+      "elapsed_ms": 453,
+      "utc": "2026-11-22T11:45:20.530029+00:00",
+      "action": "decision_checks_current_bytes_under_document_lock",
+      "actor": "R1",
+      "document": "D1"
+    },
+    {
+      "elapsed_ms": 813,
+      "utc": "2026-11-22T11:45:20.894332+00:00",
+      "action": "postgresql_reports_new_scan_waiting_for_document_lock",
+      "actor": "W1",
+      "blocked": true
+    },
+    {
+      "elapsed_ms": 844,
+      "utc": "2026-11-22T11:45:20.920271+00:00",
+      "action": "verification_transaction_committed_before_new_scan"
+    },
+    {
+      "elapsed_ms": 860,
+      "utc": "2026-11-22T11:45:20.930828+00:00",
+      "action": "new_scan_enqueued_after_commit_returns_document_to_pending"
+    }
+  ],
+  "limites": "Coordinación determinista de la comprobación documental compartida; sin datos reales ni prueba de carga."
+}

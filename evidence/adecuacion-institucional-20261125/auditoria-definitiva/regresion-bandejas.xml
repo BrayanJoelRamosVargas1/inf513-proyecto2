@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="[PROJECT_ROOT]\sistema\phpunit.xml" tests="2" assertions="17" errors="0" failures="0" skipped="0" time="3.026888">
+    <testsuite name="Feature" tests="2" assertions="17" errors="0" failures="0" skipped="0" time="3.026888">
+      <testsuite name="Tests\Feature\ParticipationTest" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" tests="2" assertions="17" errors="0" failures="0" skipped="0" time="3.026888">
+        <testcase name="test_workspace_distinguishes_student_correction_from_reviewer_work" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" line="122" class="Tests\Feature\ParticipationTest" classname="Tests.Feature.ParticipationTest" assertions="10" time="2.673408"/>
+        <testcase name="test_workspace_expired_correction_belongs_to_reviewer_and_respects_membership" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" line="141" class="Tests\Feature\ParticipationTest" classname="Tests.Feature.ParticipationTest" assertions="7" time="0.353480"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

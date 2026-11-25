@@ -1,0 +1,4 @@
+locator.selectOption: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.preferences').getByLabel('Tema', { exact: true })[22m
+

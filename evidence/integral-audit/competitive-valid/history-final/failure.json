@@ -1,0 +1,127 @@
+{
+  "phase": "readback",
+  "error": "locator.selectOption: Timeout 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('details.preferences').locator('[name=\"theme\"]')\u001b[22m\n\u001b[2m    - locator resolved to <select name=\"theme\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    50 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying select option action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+  "checks": [
+    {
+      "action": "Historia utilizable: seleccionados anteriores/nuevos, impacto y acta del desempate anterior",
+      "offer": "software",
+      "old_selected": "B",
+      "new_selected": "D",
+      "old_final": "75.80",
+      "new_final": "88.00",
+      "axe_violations": [],
+      "result": "FUNCIONA Y VERIFICADO"
+    }
+  ],
+  "traffic": [
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits/public",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/applications",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/calls",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/csrf",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/offers/35/ranking",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/visits",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/navigation",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "PUT",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:8119",
+      "path": "/api/v1/me/preferences",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

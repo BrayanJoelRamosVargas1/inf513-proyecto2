@@ -1,0 +1,290 @@
+{
+  "resultado": "PASS",
+  "checks": [
+    "Postulación creada desde la oferta mediante interfaz real",
+    "Carga inválida presenta error en interfaz y no crea documentos; archivo requerido validado por cliente",
+    "Carga por interfaz: versión pendiente sin enlace de descarga y acceso directo 423",
+    "Estudiante envía expediente sin convertir el análisis pendiente en aprobación",
+    "Motor ClamAV real registra clean",
+    "Análisis válido permite descarga exacta y revisión autorizada",
+    "Revisor abre detalles y descarga desde React el PDF original: nombre y bytes coinciden con la carga",
+    "Autoridad y otro estudiante no reciben archivos privados",
+    "Motor ClamAV real registra blocked",
+    "Firma inocua detectada por ClamAV: bloquea la nueva versión sin usar la aprobación anterior",
+    "Motor ClamAV real registra clean",
+    "Segunda subsanación exige su propio análisis, habilita con revisión y conserva las tres versiones",
+    "Pantalla sin fallos JS, sin hallazgos axe en alcance probado y sin desborde a 320 px",
+    "Méritos, asignación, cierre, evaluación y borrador de nota ejecutados mediante formularios; rango inválido rechazado por cliente",
+    "DOC-21: habilitación enabled conservada, nueva nota y cálculo rechazados con 422 y formularios ocultos",
+    "Motor ClamAV real registra clean",
+    "Nuevo análisis ClamAV limpio restablece evaluación; nota 80/100 y resultado 68/100, sin rehacer la habilitación",
+    "Evaluador sin documentos privados ni detalle de revisiones, sin hallazgos axe ni desborde a 320 px en la pantalla probada",
+    "Cálculo 68/100, publicación v1 y manifestación DEMO completados por la interfaz",
+    "Método, intento fallido, pago exitoso, plan y cuota simulada ejecutados desde React",
+    "Administrador crea usuario por formulario y validación de correo funciona en cliente"
+  ],
+  "requests": [
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/archivo",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 423
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/revision",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/revision",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 403
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 403
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/revision",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/amendments",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id/participation",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/documents",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/submission",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/review",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 423
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/review",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/amendments",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id/participation",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/documents",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/submission",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/review",
+      "status": 422
+    },
+    {
+      "method": "POST UI",
+      "route": "/amendments/:id/review",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 423
+    },
+    {
+      "method": "GET",
+      "route": "/documents/:id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id/participation",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/meritos",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/offers/:id/assignments",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/calls/:id/transition",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/calls/:id/transition",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/nota",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "route": "/applications/:id/nota",
+      "status": 422
+    },
+    {
+      "method": "GET",
+      "route": "/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "route": "/applications/:id/calcular",
+      "status": 422
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/nota",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/calcular",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/applications/:id",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/offers/:id/publications",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/calls/:id/transition",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/applications/:id/choices",
+      "status": 200
+    },
+    {
+      "method": "POST UI",
+      "route": "/sandbox/methods",
+      "status": 201
+    },
+    {
+      "method": "POST UI",
+      "route": "/sandbox/payments",
+      "status": 201
+    },
+    {
+      "method": "POST UI",
+      "route": "/sandbox/payments",
+      "status": 201
+    },
+    {
+      "method": "POST UI",
+      "route": "/sandbox/plans",
+      "status": 201
+    },
+    {
+      "method": "POST UI",
+      "route": "/users",
+      "status": 201
+    }
+  ],
+  "errors": [],
+  "scan_acceptance": "ClamAV real: dos versiones limpias y una firma adicional inocua detectada; EICAR NOT_VERIFIED"
+}

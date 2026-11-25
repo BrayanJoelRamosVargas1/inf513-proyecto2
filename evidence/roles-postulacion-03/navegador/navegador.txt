@@ -1,0 +1,13 @@
+Inicio y menú específico: admin
+Inicio y menú específico: autoridad
+Inicio y menú específico: revisor
+Inicio y menú específico: docente
+Registro real crea perfil postulante y explica los pasos
+Borrador con comprobante y envío bloqueado mientras faltan documentos
+Oferta existente permite continuar sin crear un duplicado
+Cinco documentos cargados, envío confirmado y expediente congelado
+Revisor recibe, revisa, habilita y registra CPD
+Autoridad cierra recepción y abre evaluación
+Evaluador califica únicamente sus dos áreas, sin revisión documental
+Autoridad calcula y publica selección DEMO
+Estudiante consulta su adjudicación publicada

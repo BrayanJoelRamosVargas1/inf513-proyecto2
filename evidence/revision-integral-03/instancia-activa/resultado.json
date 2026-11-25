@@ -1,0 +1,57 @@
+{
+  "resultado": "PASS",
+  "instancia": "http://127.0.0.1:8116",
+  "perfiles": [
+    {
+      "rol": "admin",
+      "inicio": "PASS",
+      "menu": "PASS",
+      "ayuda": "PASS",
+      "archivo_original": {
+        "estado": 403,
+        "esperado": 403
+      }
+    },
+    {
+      "rol": "autoridad",
+      "inicio": "PASS",
+      "menu": "PASS",
+      "ayuda": "PASS",
+      "archivo_original": {
+        "estado": 403,
+        "esperado": 403
+      }
+    },
+    {
+      "rol": "revisor",
+      "inicio": "PASS",
+      "menu": "PASS",
+      "ayuda": "PASS",
+      "archivo_original": {
+        "estado": 200,
+        "esperado": 200
+      }
+    },
+    {
+      "rol": "docente",
+      "inicio": "PASS",
+      "menu": "PASS",
+      "ayuda": "PASS",
+      "archivo_original": {
+        "estado": 403,
+        "esperado": 403
+      }
+    },
+    {
+      "rol": "estudiante",
+      "inicio": "PASS",
+      "menu": "PASS",
+      "ayuda": "PASS",
+      "archivo_original": {
+        "estado": 200,
+        "esperado": 200
+      }
+    }
+  ],
+  "alcance": "Consulta real de la instalación activa; solo inicios de sesión registrados, sin modificar postulaciones ni calificaciones"
+}

@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "action": "Decisión anterior conservada sin duplicar solicitud",
+      "request": 3,
+      "status": "rejected"
+    },
+    {
+      "action": "Solicitar retiro conserva participación activa hasta decisión",
+      "request": 4
+    },
+    {
+      "action": "Aprobación de retiro conserva documentos, versión e historial",
+      "request": 4
+    }
+  ]
+}

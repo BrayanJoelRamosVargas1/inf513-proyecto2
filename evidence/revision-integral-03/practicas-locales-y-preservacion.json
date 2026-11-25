@@ -1,0 +1,13 @@
+{
+  "resultado": "PASS",
+  "escenarios": {
+    "recepcion": 7,
+    "evaluacion": 8
+  },
+  "tablas_con_registros_anteriores_identicos": 31,
+  "archivos_anteriores_identicos": 23,
+  "archivos_pdf_agregados": 12,
+  "segunda_ejecucion_sin_cambios": true,
+  "datos_reales_utilizados": false,
+  "fecha_utc": "2026-11-18T21:06:16.922590+00:00"
+}

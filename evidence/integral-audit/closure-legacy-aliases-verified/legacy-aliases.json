@@ -1,0 +1,270 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-078",
+      "web": "/asignaciones/1/reasignar",
+      "endpoint": "/assignments/1/replacement",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-080",
+      "web": "/categorias",
+      "endpoint": "/categories",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-081",
+      "web": "/categorias/14/editar",
+      "endpoint": "/categories/14/configuration",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-082",
+      "web": "/convocatorias",
+      "endpoint": "/calls",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-087",
+      "web": "/convocatorias/19/editar",
+      "endpoint": "/calls/19/configuration",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-088",
+      "web": "/convocatorias/19/estado",
+      "endpoint": "/calls/19/transition",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-089",
+      "web": "/convocatorias/19/ofertas",
+      "endpoint": "/calls/19/offers",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-091",
+      "web": "/desempates/4/continuar",
+      "endpoint": "/ties/4/continuation",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-092",
+      "web": "/desempates/5/resolver",
+      "endpoint": "/ties/5/resolution",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-099",
+      "web": "/ofertas/45/aprobar",
+      "endpoint": "/offers/45/publications",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-100",
+      "web": "/ofertas/45/asignar",
+      "endpoint": "/offers/45/assignments",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-101",
+      "web": "/ofertas/45/desempate",
+      "endpoint": "/offers/45/ties",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-102",
+      "web": "/ofertas/45/postular",
+      "endpoint": "/offers/45/applications",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-104",
+      "web": "/participacion/4/decision",
+      "endpoint": "/participation-requests/4/decision",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-105",
+      "web": "/permisos",
+      "endpoint": "/permissions",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-106",
+      "web": "/permisos/1/revocar",
+      "endpoint": "/permissions/1/revoke",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-108",
+      "web": "/postulaciones/66/aceptacion",
+      "endpoint": "/applications/66/choices",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-109",
+      "web": "/postulaciones/66/participacion",
+      "endpoint": "/applications/66/participation-requests",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-112",
+      "web": "/postulaciones/66/rectificaciones",
+      "endpoint": "/applications/66/corrections",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-113",
+      "web": "/postulaciones/66/subsanaciones",
+      "endpoint": "/applications/66/amendments",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-116",
+      "web": "/rectificaciones/1/decision",
+      "endpoint": "/corrections/1/decision",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-122",
+      "web": "/usuarios",
+      "endpoint": "/users",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-123",
+      "web": "/usuarios/66/perfil",
+      "endpoint": "/users/66/profile",
+      "role": "admin",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/archivo",
+      "endpoint": "/applications/66/archivo",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/enviar",
+      "endpoint": "/applications/66/enviar",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/revision",
+      "endpoint": "/applications/66/revision",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/habilitacion",
+      "endpoint": "/applications/66/habilitacion",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/meritos",
+      "endpoint": "/applications/66/meritos",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-114",
+      "web": "/postulaciones/66/nota",
+      "endpoint": "/applications/66/nota",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-120",
+      "web": "/subsanaciones/4/archivo",
+      "endpoint": "/amendments/4/documents",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-120",
+      "web": "/subsanaciones/4/enviar",
+      "endpoint": "/amendments/4/submission",
+      "role": "student",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-120",
+      "web": "/subsanaciones/4/revisar",
+      "endpoint": "/amendments/4/review",
+      "role": "authority",
+      "status": 422
+    },
+    {
+      "action": "Equivalencia HTTP de validación/rechazo y despacho compartido",
+      "id": "FUN-120",
+      "web": "/subsanaciones/4/vencer",
+      "endpoint": "/amendments/4/expiration",
+      "role": "authority",
+      "status": 422
+    }
+  ],
+  "scope": "Invalid requests through both HTTP adapters, exact validation errors and status. Positive academic effects already proven through shared controller/domain, not repeated. Does not certify legacy form usability."
+}

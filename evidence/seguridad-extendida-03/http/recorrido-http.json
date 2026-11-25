@@ -1,0 +1,836 @@
+{
+  "result": "PASS",
+  "executed_at_utc": "2026-11-11T18:10:03.510457+00:00",
+  "database": "ficct_walkthrough_20261111180719_92cf",
+  "base_url": "http://127.0.0.1:8113",
+  "real_http_csrf_and_sessions": true,
+  "synthetic_data_only": true,
+  "storage_isolated": true,
+  "new_local_execution": true,
+  "roles": [
+    "postulante",
+    "revisor",
+    "evaluador",
+    "autoridad",
+    "administrador"
+  ],
+  "checks": [
+    {
+      "check": "Administrador crea cuentas sintéticas y login de los cinco perfiles con CSRF",
+      "result": "PASS"
+    },
+    {
+      "check": "Autoridad configura y publica; administrador asigna ámbitos",
+      "result": "PASS"
+    },
+    {
+      "check": "Primer expediente se almacena en la carpeta aislada",
+      "result": "PASS"
+    },
+    {
+      "check": "Subsanación por propietario y nueva revisión por revisor habilitan v2",
+      "result": "PASS"
+    },
+    {
+      "check": "VIS-01: propietario conserva revisión real sin aviso de restricción",
+      "result": "PASS"
+    },
+    {
+      "check": "Expediente y documentos originales se conservan byte a byte",
+      "result": "PASS"
+    },
+    {
+      "check": "Administrador, evaluador y extraño respetan los límites del expediente",
+      "result": "PASS"
+    },
+    {
+      "check": "Retiro requiere autoridad y conserva la postulación",
+      "result": "PASS"
+    },
+    {
+      "check": "VIS-01: evaluador ve detalle restringido sin criterios pendientes ficticios",
+      "result": "PASS"
+    },
+    {
+      "check": "VIS-01: documentos privados continúan inaccesibles al evaluador",
+      "result": "PASS"
+    },
+    {
+      "check": "Evaluador asignado confirma notas; postulante no puede calificarse",
+      "result": "PASS"
+    },
+    {
+      "check": "Múltiples adjudicaciones visibles sin exclusión automática",
+      "result": "PASS"
+    },
+    {
+      "check": "Manifestaciones DEMO conservadas sin alterar publicaciones",
+      "result": "PASS"
+    },
+    {
+      "check": "Solicitud por sí sola no cambia adjudicación ni participación",
+      "result": "PASS"
+    },
+    {
+      "check": "Renuncia retiene vacante y exige revisión sin reemplazo automático",
+      "result": "PASS"
+    },
+    {
+      "check": "Nueva publicación no asigna la plaza al siguiente candidato",
+      "result": "PASS"
+    },
+    {
+      "check": "VIS-02: vacante retenida no se atribuye a insuficiencia y usa singular",
+      "result": "PASS"
+    },
+    {
+      "check": "Notas y publicaciones anteriores sobreviven a la renuncia",
+      "result": "PASS"
+    },
+    {
+      "check": "Autoridad consulta auditoría y descarga PDF/XLSX",
+      "result": "PASS"
+    },
+    {
+      "check": "DEMO y archivos privados existentes permanecen idénticos",
+      "result": "PASS"
+    },
+    {
+      "check": "Evidencias históricas permanecen idénticas",
+      "result": "PASS"
+    }
+  ],
+  "http_requests": [
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/login",
+      "status": 419,
+      "expected": 419
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/usuarios",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/categorias",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/permisos",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/permisos",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "retiro",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "retiro",
+      "method": "POST",
+      "path": "/login",
+      "status": 429,
+      "expected": 429,
+      "note": "Throttle activo; se respeta Retry-After sin desactivar protección",
+      "retry_after_seconds": 29
+    },
+    {
+      "role": "retiro",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "retiro",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "externo",
+      "method": "GET",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "externo",
+      "method": "POST",
+      "path": "/login",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "externo",
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias/1/ofertas",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias/1/ofertas",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/ofertas/1/asignar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/ofertas/2/asignar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias/1/estado",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/ofertas/1/postular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/enviar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/1/revision",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/1/subsanaciones",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/postulaciones/1/procesos",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "externo",
+      "method": "GET",
+      "path": "/postulaciones/1",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "externo",
+      "method": "POST",
+      "path": "/subsanaciones/1/archivo",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/subsanaciones/1/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/subsanaciones/1/enviar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/subsanaciones/1/revisar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "GET",
+      "path": "/postulaciones/1",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/postulaciones/1",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "retiro",
+      "method": "POST",
+      "path": "/ofertas/1/postular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "retiro",
+      "method": "POST",
+      "path": "/postulaciones/2/participacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/participacion/1/decision",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/participacion/1/decision",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/ofertas/2/postular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/3/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/3/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/3/enviar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "POST",
+      "path": "/ofertas/1/postular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "POST",
+      "path": "/postulaciones/4/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "POST",
+      "path": "/postulaciones/4/archivo",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "suplente",
+      "method": "POST",
+      "path": "/postulaciones/4/enviar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/3/revision",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/3/habilitacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/4/revision",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/4/habilitacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/1/meritos",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/3/meritos",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "revisor",
+      "method": "POST",
+      "path": "/postulaciones/4/meritos",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias/1/estado",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/convocatorias/1/estado",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/nota",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/postulaciones/1",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "POST",
+      "path": "/postulaciones/1/nota",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/postulaciones/1/calcular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/3/nota",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/postulaciones/3",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/documentos/4",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "evaluador",
+      "method": "POST",
+      "path": "/postulaciones/3/nota",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/postulaciones/3/calcular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/4/nota",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "evaluador",
+      "method": "GET",
+      "path": "/postulaciones/4",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "evaluador",
+      "method": "POST",
+      "path": "/postulaciones/4/nota",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/postulaciones/4/calcular",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/ofertas/1/resultados",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/ofertas/1/aprobar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/ofertas/2/resultados",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/ofertas/2/aprobar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "GET",
+      "path": "/adjudicaciones",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/aceptacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/3/aceptacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "postulante",
+      "method": "POST",
+      "path": "/postulaciones/1/participacion",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/participacion/2/decision",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "POST",
+      "path": "/ofertas/1/aprobar",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/ofertas/1/resultados",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/convocatorias/1/auditoria",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/convocatorias/1/reporte/pdf",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "role": "autoridad",
+      "method": "GET",
+      "path": "/convocatorias/1/reporte/xlsx",
+      "status": 200,
+      "expected": 200
+    }
+  ],
+  "scope": "HTTP actions and database invariants; browser visual review recorded separately; no institutional approval"
+}

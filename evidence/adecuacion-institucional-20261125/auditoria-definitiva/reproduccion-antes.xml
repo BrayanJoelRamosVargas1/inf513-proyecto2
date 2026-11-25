@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="[PROJECT_ROOT]\sistema\phpunit.xml" tests="2" assertions="6" errors="0" failures="2" skipped="0" time="3.166630">
+    <testsuite name="Feature" tests="2" assertions="6" errors="0" failures="2" skipped="0" time="3.166630">
+      <testsuite name="Tests\Feature\ParticipationTest" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" tests="2" assertions="6" errors="0" failures="2" skipped="0" time="3.166630">
+        <testcase name="test_workspace_distinguishes_student_correction_from_reviewer_work" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" line="122" class="Tests\Feature\ParticipationTest" classname="Tests.Feature.ParticipationTest" assertions="2" time="2.832294">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\ParticipationTest::test_workspace_distinguishes_student_correction_from_reviewer_work&#13;
+Failed asserting that null is identical to 'correct_documents'.
+&#13;
+[PROJECT_ROOT]\sistema\vendor\laravel\framework\src\Illuminate\Testing\AssertableJsonString.php:243
+[PROJECT_ROOT]\sistema\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:880
+[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php:127</failure>
+        </testcase>
+        <testcase name="test_workspace_expired_correction_belongs_to_reviewer_and_respects_membership" file="[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php" line="141" class="Tests\Feature\ParticipationTest" classname="Tests.Feature.ParticipationTest" assertions="4" time="0.334337">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\ParticipationTest::test_workspace_expired_correction_belongs_to_reviewer_and_respects_membership&#13;
+Failed asserting that null is identical to 'close_expired_amendment'.
+&#13;
+[PROJECT_ROOT]\sistema\vendor\laravel\framework\src\Illuminate\Testing\AssertableJsonString.php:243
+[PROJECT_ROOT]\sistema\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:880
+[PROJECT_ROOT]\sistema\tests\Feature\ParticipationTest.php:149</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

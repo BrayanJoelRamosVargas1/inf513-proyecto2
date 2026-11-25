@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "original_private_files_preserved": 35,
+  "domain_files_unchanged": 16,
+  "tables_checked": 50,
+  "changed_tables": [
+    "access_events",
+    "audit_events"
+  ],
+  "changed_table_reason": "Local login/logout audit telemetry only",
+  "canonical_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "no_migration": true,
+  "official_status": "NO_GO_INSTITUCIONAL"
+}

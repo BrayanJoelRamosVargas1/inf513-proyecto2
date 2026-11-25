@@ -1,0 +1,4 @@
+
+   INFO  Running migrations.
+
+  2026_11_22_000001_add_document_processor ............................................................. 150.86ms DONE

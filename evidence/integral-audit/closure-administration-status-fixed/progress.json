@@ -1,0 +1,767 @@
+{
+  "checks": [
+    {
+      "action": "Crear y consultar cuenta sintética mediante React",
+      "user": 66,
+      "result": "PASS"
+    },
+    {
+      "action": "Buscar sin tildes, combinar perfil/estado y quitar filtros",
+      "result": "PASS"
+    },
+    {
+      "action": "Editar datos y cambiar perfil con versiones y persistencia",
+      "result": "PASS"
+    },
+    {
+      "action": "Permiso vigente: sesión anterior invalidada, menú de evaluación y expediente sin asignación rechazado",
+      "result": "PASS"
+    },
+    {
+      "action": "Renovación conserva inicio, vencimiento y segundos en hora de Bolivia",
+      "membership": 59,
+      "result": "PASS"
+    },
+    {
+      "action": "Permiso future: menú, indicadores y reporte restringidos",
+      "result": "PASS"
+    },
+    {
+      "action": "Permiso expired: menú, indicadores y reporte restringidos",
+      "result": "PASS"
+    },
+    {
+      "action": "Responsabilidades combinadas conservan ambos espacios y acceso de revisión",
+      "result": "PASS"
+    },
+    {
+      "action": "Revocar ambos permisos invalida sesión y retira acceso sin borrar membresías",
+      "result": "PASS"
+    },
+    {
+      "action": "Desactivar, filtrar y reactivar usuario; sesión desactivada invalidada",
+      "result": "PASS"
+    },
+    {
+      "action": "Autoridad sin administración técnica y administrador sin facultad académica implícita",
+      "result": "PASS"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/users/66/profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/users/66/profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions/60/revoke",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/permissions/59/revoke",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 429
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/users/66/profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/users/66/profile",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 403
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    }
+  ]
+}

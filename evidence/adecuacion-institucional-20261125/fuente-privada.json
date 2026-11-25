@@ -1,0 +1,11 @@
+{
+  "source_id": 1,
+  "dossier_id": 1,
+  "record_id": 6,
+  "scan": {
+    "source_id": 1,
+    "job_id": 39,
+    "state": "clean",
+    "reason": "no_detection"
+  }
+}

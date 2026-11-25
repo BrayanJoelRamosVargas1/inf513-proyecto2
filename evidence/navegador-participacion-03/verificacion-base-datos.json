@@ -1,0 +1,21 @@
+{
+  "resultado": "PASS",
+  "base_y_almacenamiento_aislados": true,
+  "tablas_demo_disponible_sin_cambios": 31,
+  "registros_historicos_comparados": {
+    "publications": 5,
+    "grades": 10,
+    "documents": 22,
+    "dossier_snapshots": 8,
+    "award_choices": 1
+  },
+  "ventana_vencida_cerrada": true,
+  "subsanacion_nueva_revisada": true,
+  "retiro_aprobado": true,
+  "renuncia_vacante_retenida": true,
+  "publicacion_nueva_sin_reemplazo": true,
+  "historia_existente_identica": true,
+  "fecha_utc": "2026-11-15T15:48:16.116560+00:00",
+  "paquete_base_sha256": "af0aa4158cb646de30bfe78da3becda15e3c102365eae945f965c6c5843069b3",
+  "alcance": "Prueba local con navegador real en copia sintética. No validación institucional."
+}

@@ -1,0 +1,19 @@
+{
+    "call_participation": 5,
+    "offers": [
+        14,
+        15,
+        16
+    ],
+    "applications": [
+        4,
+        5,
+        6
+    ],
+    "runner": 7,
+    "call_amendment": 6,
+    "amendment_application": 8,
+    "amendment": 1,
+    "vacancy_retained": true,
+    "no_automatic_replacement": true
+}

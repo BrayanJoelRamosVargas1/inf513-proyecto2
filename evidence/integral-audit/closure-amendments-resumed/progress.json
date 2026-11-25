@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "action": "Expediente enviado con dos PDF originales analizados por trabajador y ClamAV reales",
+      "application": 63,
+      "originals": [
+        {
+          "id": 88,
+          "kind": "ci",
+          "version": 1
+        },
+        {
+          "id": 89,
+          "kind": "cpd",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "action": "Revisor observa y autoriza únicamente CPD con motivo, evidencia y plazo explícito",
+      "amendment": 4
+    }
+  ]
+}

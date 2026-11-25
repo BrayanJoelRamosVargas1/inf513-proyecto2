@@ -1,0 +1,460 @@
+{
+  "checks": [
+    {
+      "action": "CPD ausente: React/Laravel rechazan guardar la oferta, conservan el formulario y no crean oferta incompleta",
+      "call": 17,
+      "result": "PASS"
+    },
+    {
+      "action": "Búsqueda desde cabecera: borrador recién creado y modificado con tildes visible a su autoridad y oculto al postulante",
+      "result": "PASS"
+    },
+    {
+      "action": "CPD corregido: publicación explícita y nueva convocatoria visible al postulante, sin reescribir ofertas históricas",
+      "call": 17,
+      "result": "PASS"
+    }
+  ],
+  "traffic": [
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/management",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/calls/17/offers",
+      "status": 422
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/calls/17/offers",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/calls/17/offers",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17/configuration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 401
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits/public",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/login",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/search",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/search",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/calls/17/transition",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls/17",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/calls",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/search",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/visits",
+      "status": 200
+    }
+  ]
+}

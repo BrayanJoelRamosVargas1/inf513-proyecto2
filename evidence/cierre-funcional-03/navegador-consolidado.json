@@ -1,0 +1,117 @@
+{
+  "resultado": "PASS_EN_MUESTRA",
+  "screens": [
+    {
+      "call": 3,
+      "status": 200,
+      "violations": [],
+      "reflow": {
+        "scroll": 320,
+        "width": 320
+      }
+    },
+    {
+      "call": 5,
+      "status": 200,
+      "violations": [],
+      "reflow": {
+        "scroll": 320,
+        "width": 320
+      }
+    },
+    {
+      "call": 6,
+      "status": 200,
+      "violations": [],
+      "reflow": {
+        "scroll": 320,
+        "width": 320
+      }
+    }
+  ],
+  "authorization": [
+    {
+      "role": "estudiante",
+      "path": "/convocatorias/5/consolidado",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "estudiante",
+      "path": "/convocatorias/5/consolidado/pdf",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "estudiante",
+      "path": "/convocatorias/5/consolidado/xlsx",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "revisor",
+      "path": "/convocatorias/5/consolidado",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "revisor",
+      "path": "/convocatorias/5/consolidado/pdf",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "revisor",
+      "path": "/convocatorias/5/consolidado/xlsx",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "docente",
+      "path": "/convocatorias/5/consolidado",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "docente",
+      "path": "/convocatorias/5/consolidado/pdf",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "docente",
+      "path": "/convocatorias/5/consolidado/xlsx",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "admin",
+      "path": "/convocatorias/5/consolidado",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "admin",
+      "path": "/convocatorias/5/consolidado/pdf",
+      "status": 403,
+      "expected": 403
+    },
+    {
+      "role": "admin",
+      "path": "/convocatorias/5/consolidado/xlsx",
+      "status": 403,
+      "expected": 403
+    }
+  ],
+  "scope_options": [
+    "UAGRM",
+    "faculty",
+    "career"
+  ],
+  "axe_inyectado_con_bypass_csp_solo_en_contexto_de_prueba": true,
+  "exportaciones_descargadas": [
+    "consolidado-demo.pdf",
+    "consolidado-demo.xlsx"
+  ],
+  "alcance": "Pruebas locales, muestra de tres convocatorias. No auditoría externa."
+}

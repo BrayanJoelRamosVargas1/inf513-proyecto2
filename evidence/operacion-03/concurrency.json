@@ -1,0 +1,49 @@
+{
+  "result": "PASS",
+  "database": "PostgreSQL / ficct_test",
+  "two_independent_processes": true,
+  "races": {
+    "apply": [
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      },
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      }
+    ],
+    "grade": [
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      },
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      }
+    ],
+    "approve": [
+      {
+        "exit": 2,
+        "stdout": "REJECTED",
+        "stderr": ""
+      },
+      {
+        "exit": 0,
+        "stdout": "ACCEPTED",
+        "stderr": ""
+      }
+    ]
+  },
+  "counts": {
+    "applications": 4,
+    "selected": 1,
+    "publications": 1,
+    "grades": 1
+  }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\validacion-tecnica-aislada\20261111021700\sistema\phpunit.xml" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="2.816289">
+    <testsuite name="Feature" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="2.816289">
+      <testsuite name="Tests\Feature\SecuritySurfaceTest" file="C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\validacion-tecnica-aislada\20261111021700\sistema\tests\Feature\SecuritySurfaceTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="2.816289">
+        <testcase name="test_s09_cached_routes_keep_identifier_validation_in_a_fresh_process" file="C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\validacion-tecnica-aislada\20261111021700\sistema\tests\Feature\SecuritySurfaceTest.php" line="78" class="Tests\Feature\SecuritySurfaceTest" classname="Tests.Feature.SecuritySurfaceTest" assertions="2" time="2.816289"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

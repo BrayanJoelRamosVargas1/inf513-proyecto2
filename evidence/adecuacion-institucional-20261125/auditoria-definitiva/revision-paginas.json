@@ -1,0 +1,301 @@
+{
+  "physical_pages_inspected": 42,
+  "sources_binary_verified": 3,
+  "notes": "La resolución repite el contenido de los artículos 5, 6 y parte de 7 en páginas físicas 5 y 6; no se cuentan como artículos adicionales. Revisión visual de todas las imágenes realizada en esta sesión. No certifica vigencia institucional.",
+  "pages": [
+    {
+      "source": "resolucion",
+      "physical_page": 1,
+      "render_sha256": "d24185834a1e3ebd1623defef7a78f4d508127fa6f735f3e66158a109ce3b6d1",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 2,
+      "render_sha256": "56db1db9b629c158b9a433fd5e3d8db42b4c5ce23592fe9c2de3ef2b9a911ed4",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 3,
+      "render_sha256": "06828b0e2951c1ffc3105abd8e7faca2a1908900280939668edd5c56926540e8",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 4,
+      "render_sha256": "db121c3c680cdf275d14dc2872c9c3f82bfca4d4a8bf4844836bbc0f7ebdd24b",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 5,
+      "render_sha256": "680ac074e0537429aa55f274e4000245af028a9fe028e8bb984b8acfe55fe2c5",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 6,
+      "render_sha256": "34801eda6d53f06a3fe01986c12790d519a50a96b279ef8fe3849600bab8d179",
+      "visually_inspected": true,
+      "duplicate_content_with_page": 5
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 7,
+      "render_sha256": "d2055b1fca681c61a1447e10669e0a0947b25b0c613f209a070ade4dcbe6a9b3",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 8,
+      "render_sha256": "77bfffdb37344f0077b1680d0d100951654759d5e595dbfcb781e8e7d6d70d18",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 9,
+      "render_sha256": "96f77e9d29b180fc50b65cb9c50c5a328b556c351aeeb90b749f83b91c6f211f",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 10,
+      "render_sha256": "d94a691c393f2b32c706b9d3eee28500f76a52c5fea9a40850140bc8b88cc5a7",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 11,
+      "render_sha256": "624fe17d9e7d42ab52e5d08230a5465de478d0eddb09f4d8bbbcf5a7974d8fc5",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 12,
+      "render_sha256": "71bfa2a8d17d42595ab7643b665ed7935f25a729debab084983a7ca4e9f6cbde",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 13,
+      "render_sha256": "af2002983f4f0f76ddee5f6294179f793ba15164f1fb9704f2caada4f3c1da8d",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 14,
+      "render_sha256": "847ca680b0714e99866981bb37bbbda0b9be9eae6975631864c5e3feb5a5a8e8",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 15,
+      "render_sha256": "b6f48f16d309541d678a9a1d5e71947529a01d011b40cd986ca0b278897517d1",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 16,
+      "render_sha256": "4a7c5cea158a7fc6d6475f4443af3290def66dc081413fba403f0c71a73daee4",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 17,
+      "render_sha256": "72a3e957536ef72ddb74b7d3b40558fb8af16d41c0fbdeeb4b83c0bdb13aa3a4",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 18,
+      "render_sha256": "ce351cee73028c6b5b822df71523358fad3f3918304587a016bb7013910cfb39",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 19,
+      "render_sha256": "685fa0a4c10128a9c696b6e587a20a9febe575b784be339405d85e445e0644df",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 20,
+      "render_sha256": "12a6f5e6b254e6616af28fe12e4af4ffbd456594b00d8c61a9177311323a27c9",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 21,
+      "render_sha256": "ee5efe96a14669238585ce20a3b296f0fb73dd88cf0c5bed7d928d6d2c18b193",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 22,
+      "render_sha256": "8f78e1a114126b9579baa7cb42beb95fd9677db3a4a07aa3d2d3d3531c1ab920",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 23,
+      "render_sha256": "37d8e562d5844a0677709dd9a99c756c55f7c2c73d0054b3fc78ea415f00c570",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 24,
+      "render_sha256": "86ab3d2a3a7a7ca2b9c8795af20be816ca27d4bfeb60e1486339d58f122689c5",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 25,
+      "render_sha256": "a441cd9a1cb87d35a4cdc49129bdb78792c299c18f26fc0ebd8a942e182db62f",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 26,
+      "render_sha256": "dd2f555d35ad71b156cfe654ca830e108a123b402082acac98b6950de715db29",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 27,
+      "render_sha256": "93ebbb86e322d6d5db3e3c598d9ca5ffd726e179b124c8dd91f5082d60dd5b00",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 28,
+      "render_sha256": "b54d9b7c9486b66545bfa0a697bb57ee4c1b4cbe455e25f5ca879a8b33b8bc16",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "resolucion",
+      "physical_page": 29,
+      "render_sha256": "3bc76d578ea7297439b19774c1eb716bf62e8eb4085c32dfb06a82c564410835",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 1,
+      "render_sha256": "2425a3b612e09675d1e7c2011022ce26e2344d49dc55e9117d4d52b622e795b6",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 2,
+      "render_sha256": "28ce0e8f99a4750ad27e4628c2c62da63cfe3ce45e62ea68663bcf510c6ba8fe",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 3,
+      "render_sha256": "402f76cb548c08261eaf00b9d129864dab8335b506f7eaa73d0d1343465fa41a",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 4,
+      "render_sha256": "31a4f1c55433f9645c0e6eca1a67e3d6142992cd223ad5fbad3bac426c504589",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 5,
+      "render_sha256": "5cfac64ee231cbc4b8a7fafb35c11afe7bb3659ebdf1f5593663821e9729bbe8",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 6,
+      "render_sha256": "0cd14d60bc2d9b4dd90f6abbc62b036313738e21065357173a86df95e574426d",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-01",
+      "physical_page": 7,
+      "render_sha256": "fbca081586b19f916b7f0727a63c736afb1c63ce07de57bf993281b1d317c413",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 1,
+      "render_sha256": "242bc4d15e3da4de6967153f70690f9195f3ea2c5ec862d253001979b39b1591",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 2,
+      "render_sha256": "5e15dba93370c9a49dc228f78ef7674aa8eb54ba81c520b6e2fb148ed3d30e6c",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 3,
+      "render_sha256": "01160d3c74fbd070e570786c1853e1539dacc403269557484ce6b68ba1237aac",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 4,
+      "render_sha256": "ba526b2213e758500379b64f16750e2f04abed4dd967369a310656abb9ba593d",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 5,
+      "render_sha256": "f6d054089210589e8f8ad4e8236b857e05ee3294e1160a573849905292f9b8cc",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    },
+    {
+      "source": "convocatoria-02",
+      "physical_page": 6,
+      "render_sha256": "4685c3c4fe2a8abec0bd71098df36b048a01bd39e700c6fba9abeeeed736bd2a",
+      "visually_inspected": true,
+      "duplicate_content_with_page": null
+    }
+  ]
+}

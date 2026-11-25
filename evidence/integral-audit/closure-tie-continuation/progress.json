@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "action": "Postulación, envío, ClamAV real y descarga idéntica",
+      "application": 66,
+      "document": 93
+    },
+    {
+      "action": "Postulación, envío, ClamAV real y descarga idéntica",
+      "application": 67,
+      "document": 94
+    },
+    {
+      "action": "Dos resultados 66.00 empatan por una plaza y no admiten publicación",
+      "call": 19,
+      "offer": 45,
+      "applications": [
+        66,
+        67
+      ]
+    },
+    {
+      "action": "Persistencia conserva ronda uno, participantes y vínculo; publicación prematura 422",
+      "first": 4,
+      "second": 5
+    },
+    {
+      "action": "Resolución expresa de segunda ronda y única aprobación conservan historial",
+      "publication": 18,
+      "winner": 66
+    }
+  ]
+}

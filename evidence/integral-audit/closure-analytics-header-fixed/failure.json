@@ -1,0 +1,33 @@
+{
+  "error": "Search differs A   software   offers",
+  "checks": [
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "Competencia",
+      "total": 20,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "c277e0a41e",
+      "total": 13,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "SOFTWARE",
+      "total": 20,
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Header search against PostgreSQL",
+      "query": "software",
+      "total": 20,
+      "result": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,1474 @@
+{
+  "checks": [
+    {
+      "actor": "A",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 4,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 4
+          }
+        ],
+        "calls": 16,
+        "documents": 4,
+        "confirmed_exams": 7,
+        "active_awards": 3,
+        "registered_users": null,
+        "login_success": 11,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 93
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 19
+          },
+          {
+            "resource": "/",
+            "total": 11
+          },
+          {
+            "resource": "/simulacion",
+            "total": 9
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/40",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 7
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/adjudicaciones",
+            "total": 3
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 3
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 3,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 3
+          }
+        ],
+        "calls": 1,
+        "documents": 3,
+        "confirmed_exams": 5,
+        "active_awards": 3,
+        "registered_users": null,
+        "login_success": 11,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 95
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 19
+          },
+          {
+            "resource": "/",
+            "total": 11
+          },
+          {
+            "resource": "/simulacion",
+            "total": 9
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 7
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/40",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 7
+          },
+          {
+            "resource": "/adjudicaciones",
+            "total": 3
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 3
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "A",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 16,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "reviewer",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 23,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 3
+          },
+          {
+            "eligibility": "enabled",
+            "total": 20
+          }
+        ],
+        "calls": 2,
+        "documents": 23,
+        "confirmed_exams": 0,
+        "active_awards": 12,
+        "registered_users": null,
+        "login_success": 5,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 92
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/",
+            "total": 5
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/46",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/45",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/44",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/40",
+            "total": 3
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "reviewer",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 19,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 1
+          },
+          {
+            "eligibility": "enabled",
+            "total": 18
+          }
+        ],
+        "calls": 1,
+        "documents": 19,
+        "confirmed_exams": 0,
+        "active_awards": 11,
+        "registered_users": null,
+        "login_success": 5,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 94
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/",
+            "total": 5
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/46",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/45",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/44",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/40",
+            "total": 3
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "reviewer",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator0",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 7,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 7
+          }
+        ],
+        "calls": 2,
+        "documents": 7,
+        "confirmed_exams": 7,
+        "active_awards": 4,
+        "registered_users": null,
+        "login_success": 6,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 36
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/",
+            "total": 6
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/46",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/48",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/59",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/45",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/60",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/44",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator0",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 7,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 7
+          }
+        ],
+        "calls": 1,
+        "documents": 7,
+        "confirmed_exams": 7,
+        "active_awards": 4,
+        "registered_users": null,
+        "login_success": 6,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 38
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/",
+            "total": 6
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/46",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/48",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/59",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/45",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/60",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/44",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator0",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator1",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 4,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 4
+          }
+        ],
+        "calls": 2,
+        "documents": 4,
+        "confirmed_exams": 4,
+        "active_awards": 2,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 24
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/50",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/52",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/58",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator1",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 4,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 4
+          }
+        ],
+        "calls": 1,
+        "documents": 4,
+        "confirmed_exams": 4,
+        "active_awards": 2,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 26
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/50",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/52",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/58",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator1",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator2",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 6,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 1
+          },
+          {
+            "eligibility": "enabled",
+            "total": 5
+          }
+        ],
+        "calls": 2,
+        "documents": 6,
+        "confirmed_exams": 5,
+        "active_awards": 3,
+        "registered_users": null,
+        "login_success": 7,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 36
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/",
+            "total": 7
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/postulaciones/53",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/50",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/51",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/52",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/58",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator2",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 6,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 1
+          },
+          {
+            "eligibility": "enabled",
+            "total": 5
+          }
+        ],
+        "calls": 1,
+        "documents": 6,
+        "confirmed_exams": 5,
+        "active_awards": 3,
+        "registered_users": null,
+        "login_success": 7,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 38
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/",
+            "total": 7
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/postulaciones/53",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/50",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/51",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/52",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/41",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/58",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator2",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator3",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 7,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 2
+          },
+          {
+            "eligibility": "enabled",
+            "total": 5
+          }
+        ],
+        "calls": 2,
+        "documents": 7,
+        "confirmed_exams": 5,
+        "active_awards": 4,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 25
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/55",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/62",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/57",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator3",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 3,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 3
+          }
+        ],
+        "calls": 1,
+        "documents": 3,
+        "confirmed_exams": 3,
+        "active_awards": 3,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 27
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/55",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/62",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/43",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/57",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator3",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator4",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 8,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 8
+          }
+        ],
+        "calls": 2,
+        "documents": 8,
+        "confirmed_exams": 8,
+        "active_awards": 5,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 28
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/61",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/47",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/57",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/55",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/49",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/62",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator4",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 6,
+        "eligibility": [
+          {
+            "eligibility": "enabled",
+            "total": 6
+          }
+        ],
+        "calls": 1,
+        "documents": 6,
+        "confirmed_exams": 6,
+        "active_awards": 4,
+        "registered_users": null,
+        "login_success": 3,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 30
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/",
+            "total": 3
+          },
+          {
+            "resource": "/postulaciones/61",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/47",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/57",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/42",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/55",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/49",
+            "total": 1
+          },
+          {
+            "resource": "/postulaciones/62",
+            "total": 1
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "evaluator4",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "authority",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 23,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 3
+          },
+          {
+            "eligibility": "enabled",
+            "total": 20
+          }
+        ],
+        "calls": 2,
+        "documents": 23,
+        "confirmed_exams": 29,
+        "active_awards": 12,
+        "registered_users": null,
+        "login_success": 18,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 159
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/",
+            "total": 18
+          },
+          {
+            "resource": "/ofertas/35/resultados",
+            "total": 12
+          },
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 8
+          },
+          {
+            "resource": "/convocatorias/16",
+            "total": 8
+          },
+          {
+            "resource": "/ofertas/36/resultados",
+            "total": 6
+          },
+          {
+            "resource": "/ofertas/40/resultados",
+            "total": 6
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 5
+          },
+          {
+            "resource": "/ofertas/37/resultados",
+            "total": 4
+          },
+          {
+            "resource": "/convocatorias/15/auditoria",
+            "total": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "authority",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 19,
+        "eligibility": [
+          {
+            "eligibility": "disabled",
+            "total": 1
+          },
+          {
+            "eligibility": "enabled",
+            "total": 18
+          }
+        ],
+        "calls": 1,
+        "documents": 19,
+        "confirmed_exams": 25,
+        "active_awards": 11,
+        "registered_users": null,
+        "login_success": 18,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 161
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/",
+            "total": 18
+          },
+          {
+            "resource": "/ofertas/35/resultados",
+            "total": 12
+          },
+          {
+            "resource": "/buscar",
+            "total": 9
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 8
+          },
+          {
+            "resource": "/convocatorias/16",
+            "total": 8
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 7
+          },
+          {
+            "resource": "/ofertas/36/resultados",
+            "total": 6
+          },
+          {
+            "resource": "/ofertas/40/resultados",
+            "total": 6
+          },
+          {
+            "resource": "/ofertas/37/resultados",
+            "total": 4
+          },
+          {
+            "resource": "/convocatorias/15/auditoria",
+            "total": 4
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "authority",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 2,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": null,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {},
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 16,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": 66,
+        "login_success": 216,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 1150
+          },
+          {
+            "day": "2026-11-23",
+            "total": 85
+          },
+          {
+            "day": "2026-11-22",
+            "total": 167
+          },
+          {
+            "day": "2026-11-21",
+            "total": 17
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/",
+            "total": 223
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 96
+          },
+          {
+            "resource": "/buscar",
+            "total": 91
+          },
+          {
+            "resource": "/administracion",
+            "total": 29
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 27
+          },
+          {
+            "resource": "/convocatorias/12/auditoria",
+            "total": 24
+          },
+          {
+            "resource": "/simulacion",
+            "total": 22
+          },
+          {
+            "resource": "/convocatorias",
+            "total": 22
+          },
+          {
+            "resource": "/convocatorias/13",
+            "total": 20
+          },
+          {
+            "resource": "/adjudicaciones",
+            "total": 18
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "call_id": "15"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 1,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": 66,
+        "login_success": 216,
+        "login_failed": 0,
+        "series": [
+          {
+            "day": "2026-11-24",
+            "total": 1152
+          },
+          {
+            "day": "2026-11-23",
+            "total": 85
+          },
+          {
+            "day": "2026-11-22",
+            "total": 167
+          },
+          {
+            "day": "2026-11-21",
+            "total": 17
+          }
+        ],
+        "popular": [
+          {
+            "resource": "/",
+            "total": 223
+          },
+          {
+            "resource": "/estadisticas",
+            "total": 98
+          },
+          {
+            "resource": "/buscar",
+            "total": 91
+          },
+          {
+            "resource": "/administracion",
+            "total": 29
+          },
+          {
+            "resource": "/convocatorias/15",
+            "total": 27
+          },
+          {
+            "resource": "/convocatorias/12/auditoria",
+            "total": 24
+          },
+          {
+            "resource": "/simulacion",
+            "total": 22
+          },
+          {
+            "resource": "/convocatorias",
+            "total": 22
+          },
+          {
+            "resource": "/convocatorias/13",
+            "total": 20
+          },
+          {
+            "resource": "/adjudicaciones",
+            "total": 18
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "actor": "admin",
+      "action": "Metrics compared to independent PostgreSQL aggregate",
+      "params": {
+        "from": "2099-01-01",
+        "to": "2099-01-02"
+      },
+      "values": {
+        "applications": 0,
+        "eligibility": [],
+        "calls": 16,
+        "documents": 0,
+        "confirmed_exams": 0,
+        "active_awards": 0,
+        "registered_users": 66,
+        "login_success": 0,
+        "login_failed": 0,
+        "series": [],
+        "popular": []
+      },
+      "result": "PASS"
+    }
+  ]
+}

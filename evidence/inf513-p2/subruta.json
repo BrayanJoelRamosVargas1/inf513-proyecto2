@@ -1,0 +1,91 @@
+{
+  "resultado": "PASS",
+  "deep_link": true,
+  "login_api": true,
+  "requests": [
+    {
+      "path": "/inf513/grupo09sa/proyecto2/p2",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/build/assets/main-CW3w4HdY.css",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/build/assets/main-CpB8oCYZ.js",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me",
+      "status": 401
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/login",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/calls",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/applications",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me/navigation",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/p2/convocatorias",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/build/assets/main-CW3w4HdY.css",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/build/assets/main-CpB8oCYZ.js",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/csrf",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me/preferences",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/calls",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/inf513/grupo09sa/proyecto2/api/v1/me/navigation",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "previous_sha256": "0dfed12b495f6c506c42896b36607cc9db8a48492bf33c10e544fb1b0c27dfc3",
+  "current_sha256": "a55faf3f3389d64311b3a092472a249aaf071f1a1bfcafa756ff7d4ab7992c97",
+  "added": [
+    "docs/INSTALACION_DESDE_ENTREGA.md",
+    "evidence/clean-install-current/composer-platform.log",
+    "evidence/clean-install-current/final.json",
+    "evidence/clean-install-current/frontend-build.log",
+    "evidence/clean-install-current/github-current.json",
+    "evidence/clean-install-current/installation.json",
+    "evidence/clean-install-current/installer-tests.log",
+    "evidence/clean-install-current/phpunit.log",
+    "evidence/clean-install-current/phpunit.xml",
+    "evidence/clean-install-current/preservation.json",
+    "evidence/clean-install-current/react-tests.log",
+    "evidence/clean-install-current/remote-current.json",
+    "evidence/clean-install-current/remote-read-only.json",
+    "evidence/clean-install-current/remote-recheck.json",
+    "evidence/clean-install-current/remote-ssh-current.json",
+    "evidence/clean-install-current/remote-ssh.json",
+    "evidence/clean-install-current/vitest.json",
+    "scripts/test_clean_install.py"
+  ],
+  "changed": [
+    "README.md",
+    "docs/CIERRE_INF513_ACTUAL.md",
+    "scripts/package_academic_release.py",
+    "scripts/verify_clean_install.py"
+  ],
+  "removed": [],
+  "academic_document_safety_frontend_locks_and_build_unchanged": true,
+  "remote_writes": false
+}

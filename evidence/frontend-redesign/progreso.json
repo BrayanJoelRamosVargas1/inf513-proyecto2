@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "screen": "detalle-configuracion",
+      "result": "PASS"
+    },
+    {
+      "screen": "detalle-resultados",
+      "result": "PASS"
+    },
+    {
+      "screen": "detalle-participacion-autoridad",
+      "result": "PASS"
+    },
+    {
+      "screen": "detalle-participacion-revisor",
+      "result": "PASS"
+    },
+    {
+      "screen": "detalle-rectificaciones-evaluador",
+      "result": "PASS"
+    },
+    {
+      "screen": "detalle-participacion-estudiante",
+      "result": "PASS"
+    }
+  ],
+  "accessibility": [
+    {
+      "screen": "detalle-configuracion",
+      "violations": []
+    },
+    {
+      "screen": "detalle-resultados",
+      "violations": []
+    },
+    {
+      "screen": "detalle-participacion-autoridad",
+      "violations": []
+    },
+    {
+      "screen": "detalle-participacion-revisor",
+      "violations": []
+    },
+    {
+      "screen": "detalle-rectificaciones-evaluador",
+      "violations": []
+    },
+    {
+      "screen": "detalle-participacion-estudiante",
+      "violations": []
+    }
+  ],
+  "responsive": [],
+  "errors": []
+}

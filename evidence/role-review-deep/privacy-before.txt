@@ -1,0 +1,20 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.30
+Configuration: C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\phpunit.xml
+
+F                                                                   1 / 1 (100%)
+
+Time: 00:03.779, Memory: 50.00 MB
+
+There was 1 failure:
+
+1) Tests\Feature\DeepRoleTest::test_d01_participation_does_not_serialize_other_candidates_publication_snapshot
+Failed asserting that true is false.
+
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\vendor\laravel\framework\src\Illuminate\Testing\AssertableJsonString.php:226
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:988
+C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\tests\Feature\DeepRoleTest.php:56
+
+FAILURES!
+Tests: 1, Assertions: 3, Failures: 1.

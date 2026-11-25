@@ -1,0 +1,13 @@
+{
+  "error": "/institutional/dossiers/1/submission 201 {\"id\":1}",
+  "checks": [
+    {
+      "action": "Crear preparación con otra autoridad del mismo ámbito, sin habilitar concurso oficial",
+      "dossier": 1
+    },
+    {
+      "action": "Fuente cargada, analizada por ClamAV real y descargada con SHA-256 original",
+      "source": 1
+    }
+  ]
+}

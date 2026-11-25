@@ -1,0 +1,35 @@
+{
+  "fuentes_originales": [
+    {
+      "archivo": "Analisis_Actualizado_FICCT.pdf",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Convocatoria_FICCT_01_2026.pdf",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Convocatoria_FICCT_02_2026.pdf",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Foto_apuntes_01.png",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Foto_apuntes_02.png",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Foto_apuntes_03.png",
+      "sha256": "PASS"
+    },
+    {
+      "archivo": "Resolucion_Vicerrectoral_021_2023.pdf",
+      "sha256": "PASS"
+    }
+  ],
+  "contrato_sha256": "fc7bd40b944002fc698eb56234816de4b36ce4ee11486e335673edd8f17e11e2",
+  "roles_fuente": "Análisis actualizado, página 5; RF-01 y CU1 canónicos",
+  "limite": "Atribuciones institucionales propuestas no se convierten en normativa"
+}

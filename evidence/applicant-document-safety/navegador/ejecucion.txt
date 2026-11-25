@@ -1,0 +1,10 @@
+Carga por interfaz: versión pendiente sin enlace de descarga y acceso directo 423
+Estudiante envía expediente sin convertir el análisis pendiente en aprobación
+Motor ClamAV real registra clean
+Análisis válido permite descarga exacta y revisión autorizada
+Autoridad, administrador y otro estudiante no reciben archivos privados
+Motor ClamAV real registra blocked
+Firma inocua detectada por ClamAV: bloquea la nueva versión sin usar la aprobación anterior
+Motor ClamAV real registra clean
+Segunda subsanación exige su propio análisis, habilita con revisión y conserva las tres versiones
+Pantalla sin fallos JS, sin hallazgos axe en alcance probado y sin desborde a 320 px

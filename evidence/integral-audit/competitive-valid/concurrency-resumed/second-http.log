@@ -1,0 +1,57 @@
+[Tue Nov 24 14:59:04 2026] PHP 8.3.30 Development Server (http://127.0.0.1:8120) started
+[Tue Nov 24 14:59:18 2026] 127.0.0.1:59056 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:59056 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:57985 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:57985 [200]: GET /build/assets/main-dhhVsAbk.css
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:53501 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:53501 [200]: GET /build/assets/main-ZIPFNZgH.js
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:57985 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:53501 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:50543 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:50543 [200]: GET /favicon.ico
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:50543 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:52484 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:52484 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:55535 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:55535 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:58468 Accepted
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:58468 Closing
+[Tue Nov 24 14:59:19 2026] 127.0.0.1:58251 Accepted
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:58251 Closing
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:55851 Accepted
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:55851 Closing
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:60683 Accepted
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:60683 Closing
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:53734 Accepted
+[Tue Nov 24 14:59:20 2026] 127.0.0.1:57354 Accepted
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:53734 Closing
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:54451 Accepted
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:57354 Closing
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:51887 Accepted
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:54451 Closing
+[Tue Nov 24 14:59:21 2026] 127.0.0.1:51887 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:62686 Accepted
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:62686 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:60825 Accepted
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:60825 [200]: GET /build/assets/main-dhhVsAbk.css
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:52770 Accepted
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:52770 [200]: GET /build/assets/main-ZIPFNZgH.js
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:60825 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:52770 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:64997 Accepted
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:64997 [200]: GET /favicon.ico
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:54773 Accepted
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:54773 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:64997 Closing
+[Tue Nov 24 14:59:22 2026] 127.0.0.1:49826 Accepted
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:49826 Closing
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:62264 Accepted
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:62264 Closing
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:53376 Accepted
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:63529 Accepted
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:53376 Closing
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:65380 Accepted
+[Tue Nov 24 14:59:23 2026] 127.0.0.1:63529 Closing
+[Tue Nov 24 14:59:24 2026] 127.0.0.1:65380 Closing
+[Tue Nov 24 14:59:24 2026] 127.0.0.1:58441 Accepted
+[Tue Nov 24 14:59:24 2026] 127.0.0.1:58441 Closing
