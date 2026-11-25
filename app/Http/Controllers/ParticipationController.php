@@ -29,7 +29,7 @@ final class ParticipationController extends Controller
         $call = Selection::row('calls', $offer->call_id);
         $canOpen = ($authority || $reviewer) && ! $owner && $call->mode === 'DEMO' && in_array($call->status, ['published', 'closed']) && $app->status === 'submitted' && in_array($app->eligibility, ['pending', 'disabled']) && ! $amendments->whereIn('status', ['open', 'submitted'])->count() && DB::table('reviews')->where('application_id', $id)->whereIn('decision', ['observed', 'fails'])->exists();
 
-        return view('participation', compact('canOpen', 'app', 'offer', 'owner', 'authority', 'reviewer', 'amendments', 'snapshots', 'requests', 'decisions', 'documents', 'award'));
+        return view('participation', compact('call', 'canOpen', 'app', 'offer', 'owner', 'authority', 'reviewer', 'amendments', 'snapshots', 'requests', 'decisions', 'documents', 'award'));
     }
 
     public function open(Request $r, int $id, Participation $s)
@@ -91,7 +91,9 @@ final class ParticipationController extends Controller
             }
         }
 
-        return view('awards', ['awards' => $awards, 'groups' => $awards->groupBy('user_id')]);
+        $authorityView = $scope->isNotEmpty();
+
+        return view('awards', ['authorityView' => $authorityView, 'awards' => $awards, 'groups' => $awards->groupBy('user_id')]);
     }
 
     public function choose(Request $r, int $id, Participation $s)
@@ -99,6 +101,6 @@ final class ParticipationController extends Controller
         $d = $r->validate(['publication_id' => 'required|integer', 'version' => 'required|integer|min:0', 'choice' => ['required', Rule::in(['accept', 'defer'])], 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
         $s->choose($r->user(), $id, (int) $d['publication_id'], $d['choice'], (int) $d['version'], $d['reason'], $d['evidence']);
 
-        return back()->with('success','Manifestación DEMO conservada. No certifica compatibilidad ni nombramiento institucional.');
+        return back()->with('success', 'Manifestación DEMO conservada. No certifica compatibilidad ni nombramiento institucional.');
     }
 }

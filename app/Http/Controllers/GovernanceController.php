@@ -54,13 +54,16 @@ final class GovernanceController extends Controller
         Access::require($r->user(), $offer->call_id, ['authority', 'reviewer', 'evaluator']);
         $authority = Access::has($r->user(), $offer->call_id, ['authority']);
         $reviewer = Access::has($r->user(), $offer->call_id, ['reviewer']);
+        $evaluator = Access::has($r->user(), $offer->call_id, ['evaluator']);
         $assignments = DB::table('assignments')->where('offer_id', $offer->id)->get();
-        $grades = DB::table('grades')->where('application_id', $id)->get()->filter(fn ($g) => $authority || $assignments->contains(fn ($a) => $a->id === $g->assignment_id && $a->user_id === $r->user()->id));
+        $grades = DB::table('grades')->where('application_id', $id)->get()->filter(fn ($g) => $authority || ($evaluator && $assignments->contains(fn ($a) => $a->id === $g->assignment_id && $a->user_id === $r->user()->id)));
         abort_unless($authority || $reviewer || $grades->isNotEmpty(), 403);
         $requests = DB::table('correction_requests')->where('application_id', $id)->orderByDesc('id')->get()->filter(fn ($x) => $authority || ($reviewer && $x->kind === 'merit') || $x->requester_id === $r->user()->id);
         $versions = DB::table('score_versions')->where('application_id', $id)->orderBy('id')->get()->filter(fn ($x) => $authority || ($reviewer && ! $x->grade_id) || $grades->contains('id', $x->grade_id));
 
-        return view('corrections', compact('app', 'offer', 'authority', 'reviewer', 'grades', 'requests', 'versions'));
+        $call = Selection::row('calls', $offer->call_id);
+
+        return view('corrections', compact('app', 'offer', 'call', 'authority', 'reviewer', 'grades', 'requests', 'versions'));
     }
 
     public function requestCorrection(Request $r, int $id, Rectifications $service)

@@ -107,9 +107,10 @@ final class Participation
                 if (! in_array($file->getMimeType(), ['application/pdf', 'image/png', 'image/jpeg'])) {
                     Scores::fail('Formato no permitido.');
                 }
-                $stored = $file->store('expedientes', 'local');
+                $stored = $file->store('applicant-quarantine', 'local');
                 $version = (DB::table('documents')->where('application_id', $a->id)->where('kind', $kind)->max('version') ?? 0) + 1;
                 $doc = DB::table('documents')->insertGetId(['application_id' => $a->id, 'amendment_id' => $id, 'kind' => $kind, 'version' => $version, 'path' => $stored, 'name' => basename($file->getClientOriginalName()), 'mime' => $file->getMimeType(), 'sha256' => hash_file('sha256', $file->getRealPath()), 'created_at' => now(), 'updated_at' => now()]);
+                app(DocumentProcessor::class)->enqueue($doc, 'applicant');
                 Selection::audit($u, $c->id, 'amendment.document_uploaded', 'document:'.$doc, null, ['amendment' => $id, 'version' => $version, 'kind' => $kind]);
 
                 return $doc;
@@ -162,19 +163,23 @@ final class Participation
                 Scores::fail('Revisión no disponible o sin motivo.');
             }
             $keys = array_merge(array_map(fn ($k) => 'doc:'.$k, array_keys(Selection::json($o->documents))), array_keys(Selection::json($o->requirements)));
-            if (array_diff($keys, array_keys($decisions)) || array_diff(array_keys($decisions), $keys) || array_diff(array_values($decisions), ['meets', 'fails', 'observed'])) {
+            if (array_diff($keys, array_keys($decisions)) || array_diff(array_keys($decisions), $keys) || array_diff(array_values($decisions), ['meets', 'fails', 'observed', 'not_applicable'])) {
                 Scores::fail('Repita la revisión completa de documentos y requisitos.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertDecisions($a->id, $decisions);
             $before = DB::table('reviews')->where('application_id', $a->id)->get();
             foreach ($decisions as $key => $value) {
+                if ($value === 'not_applicable' && ! Selection::conditionalCriterion($o, $key)) {
+                    Scores::fail('Este criterio obligatorio no admite No aplica.');
+                }
                 DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
             }
-            $enabled = ! array_diff(array_values($decisions), ['meets']);
+            $enabled = collect($decisions)->every(fn ($value, $key) => Selection::criterionSatisfied($o, $key, $value));
             DB::table('applications')->where('id', $a->id)->update(['eligibility' => $enabled ? 'enabled' : 'disabled', 'eligibility_reason' => $reason]);
             DB::table('amendments')->where('id', $id)->update(['status' => 'reviewed', 'updated_at' => now()]);
             $snap = DB::table('dossier_snapshots')->where('application_id', $a->id)->orderByDesc('id')->first();
             self::snapshot($a->id, $a->dossier_version, 'reviewed', $u->id, Selection::json($snap->snapshot)['documents']);
-            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, ['decisions' => $decisions, 'eligibility' => $enabled ? 'enabled' : 'disabled', 'version' => $a->dossier_version], $reason);
+            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, ['decisions' => $decisions, 'eligibility' => $enabled ? 'enabled' : 'disabled', 'version' => $a->dossier_version, 'document_checks' => $documentChecks], $reason);
         });
     }
 
@@ -184,6 +189,7 @@ final class Participation
             $m = Selection::row('amendments', $id);
             [$a,$o,$c] = $this->context($m->application_id);
             Access::require($u, $c->id, ['reviewer', 'authority']);
+            abort_if($a->user_id === $u->id, 403, 'No puede decidir sobre su propia subsanación.');
             if ($m->status !== 'open' || now()->lte($m->deadline) || mb_strlen(trim($reason)) < 10) {
                 Scores::fail('Solo una ventana vencida y no enviada puede cerrarse por vencimiento.');
             }
@@ -285,18 +291,18 @@ final class Participation
             abort_unless($a->user_id === $u->id, 403);
             $this->evidence($reason, $evidence);
             $pub = self::award($a);
-            if (! $pub || $pub->id !== $publication || ! in_array($choice,['accept', 'defer'])) {
+            if (! $pub || $pub->id !== $publication || ! in_array($choice, ['accept', 'defer'])) {
                 Scores::fail('Adjudicación obsoleta o decisión inválida. Rechazar una plaza requiere solicitar renuncia.');
             }
-            if (DB::table('participation_requests')->where('application_id',$id)->where('status','pending')->exists()) {
+            if (DB::table('participation_requests')->where('application_id', $id)->where('status', 'pending')->exists()) {
                 Scores::fail('Resuelva la solicitud de retiro/renuncia antes de registrar otra manifestación.');
             }
-            $current = DB::table('award_choices')->where('application_id',$id)->where('publication_id',$publication)->max('version') ?? 0;
+            $current = DB::table('award_choices')->where('application_id', $id)->where('publication_id', $publication)->max('version') ?? 0;
             if ($current !== $version) {
                 Scores::fail('La manifestación cambió; recargue la versión actual.');
             }
             DB::table('award_choices')->insert(['application_id' => $id, 'publication_id' => $publication, 'version' => $version + 1, 'user_id' => $u->id, 'choice' => $choice, 'reason' => $reason, 'evidence' => $evidence, 'created_at' => now()]);
-            Selection::audit($u,$c->id,'award.choice_recorded','application:'.$id,['version' => $version],['publication' => $publication, 'version' => $version + 1, 'choice' => $choice, 'compatibility' => 'PENDIENTE_VALIDACION_INSTITUCIONAL'],$reason);
+            Selection::audit($u, $c->id, 'award.choice_recorded', 'application:'.$id, ['version' => $version], ['publication' => $publication, 'version' => $version + 1, 'choice' => $choice, 'compatibility' => 'PENDIENTE_VALIDACION_INSTITUCIONAL'], $reason);
         });
     }
 }

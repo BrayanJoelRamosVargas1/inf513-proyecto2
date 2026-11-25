@@ -6,12 +6,13 @@ use App\Domain\Access;
 use App\Domain\Administration;
 use App\Domain\Scores;
 use App\Domain\Selection;
+use App\Domain\Workspace;
+use App\Http\Controllers\Api\SessionController;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -34,22 +35,17 @@ final class PortalController extends Controller
 
     public function login(Request $r)
     {
-        $d = $r->validate(['email' => 'required|email', 'password' => 'required|string']);
-        if (! Auth::attempt($d + ['active' => true])) {
-            return back()->withErrors(['email' => 'No se pudo iniciar sesión con esas credenciales.'])->onlyInput('email');
+        $response = app(SessionController::class)->login($r);
+        if ($response->getStatusCode() !== 200) {
+            return back()->withErrors($response->getData(true)['errors'])->onlyInput('email');
         }
-        $r->session()->regenerate();
-        $r->session()->put('security_version', $r->user()->security_version);
-        Selection::audit($r->user(), null, 'session.login', 'user:'.$r->user()->id);
 
         return redirect('/');
     }
 
     public function logout(Request $r)
     {
-        Auth::logout();
-        $r->session()->invalidate();
-        $r->session()->regenerateToken();
+        app(SessionController::class)->logout($r);
 
         return redirect('/login');
     }
@@ -67,6 +63,8 @@ final class PortalController extends Controller
 
             return $u;
         });
+        // Load database defaults before recording the session's permission version.
+        $user->refresh();
         Auth::login($user);
         $r->session()->regenerate();
         $r->session()->put('security_version', $r->user()->security_version);
@@ -74,14 +72,38 @@ final class PortalController extends Controller
         return redirect('/');
     }
 
+    public function guide(Request $r)
+    {
+        return view('role-guide', ['roles' => Workspace::roles($r->user())]);
+    }
+
     public function home(Request $r)
     {
         $u = $r->user();
         $ids = Access::effective(DB::table('memberships')->where('user_id', $u->id))->pluck('call_id');
-        $calls = DB::table('calls')->when($u->role !== 'admin', fn ($q) => $q->where(fn ($q) => $q->where('status', '!=', 'draft')->orWhereIn('id', $ids)))->orderByDesc('id')->get();
+        $roles = Workspace::roles($u);
+        $calls = DB::table('calls')->when($u->role !== 'admin', function ($q) use ($u, $ids) {
+            if ($u->role === 'student') {
+                $q->where(fn ($q) => $q->where('status', '!=', 'draft')->orWhereIn('id', $ids));
+            } else {
+                $q->whereIn('id', $ids);
+            }
+        })->orderByDesc('id')->get();
+        if ($u->role === 'student') {
+            $calls = $calls->sortByDesc(fn ($c) => Workspace::receiving($c))->values();
+        }
         $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->select('applications.*', 'offers.title')->get();
 
-        return view('home', compact('calls', 'apps'));
+        $tasks = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('calls', 'calls.id', '=', 'offers.call_id')->join('users', 'users.id', '=', 'applications.user_id')
+            ->where('applications.participation', 'active')->where('applications.status', 'submitted')
+            ->where(function ($q) use ($u) {
+                $reviewCalls = Access::effective(DB::table('memberships')->where('user_id', $u->id)->where('role', 'reviewer'))->pluck('call_id');
+                $evalCalls = Access::effective(DB::table('memberships')->where('user_id', $u->id)->where('role', 'evaluator'))->pluck('call_id');
+                $q->where(fn ($q) => $q->whereIn('calls.id', $reviewCalls)->where('applications.user_id', '!=', $u->id)->whereIn('calls.status', ['published', 'closed', 'evaluation']))
+                    ->orWhere(fn ($q) => $q->whereIn('calls.id', $evalCalls)->where('calls.status', 'evaluation')->where('applications.eligibility', 'enabled')->whereIn('offers.id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id')));
+            })->select('applications.id', 'applications.eligibility', 'offers.title', 'users.name')->orderBy('applications.id')->limit(50)->get();
+
+        return view('home', compact('calls', 'apps', 'roles', 'tasks'));
     }
 
     public function call(Request $r, int $id)
@@ -92,7 +114,7 @@ final class PortalController extends Controller
         $reviewer = Access::has($u, $id, ['reviewer']);
         $evaluator = Access::has($u, $id, ['evaluator']);
         abort_if($call->status === 'draft' && ! $authority && $u->role !== 'admin', 403);
-        $offers = DB::table('offers')->join('categories', 'categories.id', '=', 'offers.category_id')->where('call_id', $id)->select('offers.*', 'categories.name as category')->get();
+        $offers = DB::table('offers')->join('categories', 'categories.id', '=', 'offers.category_id')->where('call_id', $id)->when($evaluator && ! $authority && ! $reviewer && $u->role !== 'student', fn ($q) => $q->whereIn('offers.id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id')))->select('offers.*', 'categories.name as category')->get();
         $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)
             ->when(! $authority && ! $reviewer, fn ($q) => $q->where(function ($q) use ($u, $evaluator) {
                 $q->where('applications.user_id', $u->id);
@@ -104,17 +126,23 @@ final class PortalController extends Controller
         $categories = DB::table('categories')->where('active', true)->get();
         $teachers = User::whereIn('id', Access::effective(DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator'))->pluck('user_id'))->where('active', true)->get();
 
+        $ownApplications = DB::table('applications')->where('user_id', $u->id)->whereIn('offer_id', $offers->pluck('id'))->get()->keyBy('offer_id');
+        $subjects = $ownApplications->whereIn('offer_id', $offers->where('is_subject', true)->pluck('id'))->count();
+        $applicationBlocks = $offers->mapWithKeys(fn ($o) => [$o->id => Workspace::applicationBlock($u, $call, $o, $subjects)]);
+
         $editOffer = null;
         if ($authority && $call->status === 'draft' && $r->filled('editar_oferta')) {
             $editOffer = $offers->firstWhere('id', (int) $r->input('editar_oferta'));
         }
 
-        return view('call', compact('call', 'offers', 'apps', 'categories', 'teachers', 'authority', 'reviewer', 'evaluator', 'editOffer'));
+        return view('call', compact('call', 'offers', 'apps', 'categories', 'teachers', 'authority', 'reviewer', 'evaluator', 'editOffer', 'ownApplications', 'applicationBlocks'));
     }
 
     public function createCall(Request $r)
     {
         $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000', 'parent_id' => 'nullable|exists:calls,id']);
+
+        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
 
         return redirect('/convocatorias/'.$this->service->createCall($r->user(), $d))->with('success', 'Convocatoria DEMO creada en borrador.');
     }
@@ -130,6 +158,7 @@ final class PortalController extends Controller
     public function editCall(Request $r, int $id)
     {
         $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000']);
+        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
         $this->service->editCall($r->user(), $id, $d);
 
         return back()->with('success', 'Borrador actualizado con nueva versión y auditoría.');
@@ -153,7 +182,7 @@ final class PortalController extends Controller
 
     public function saveOffer(Request $r, int $id)
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
+        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'requirement_profile' => ['nullable', Rule::in(['asignatura','sala','laboratorio'])], 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
         foreach (['documents', 'requirements', 'weights'] as $key) {
             $d[$key] = $this->pairs($d[$key]);
         }
@@ -192,15 +221,17 @@ final class PortalController extends Controller
         $student = User::findOrFail($app->user_id);
         $documents = ($owner || $reviewer) ? DB::table('documents')->where('application_id', $id)->orderByDesc('version')->get() : collect();
         $reviews = ($owner || $reviewer || $authority) ? DB::table('reviews')->where('application_id', $id)->get()->keyBy('criterion') : collect();
-        $assignments = DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get();
-        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->where('grades.user_id', $u->id))->select('grades.*', 'assignments.area')->get();
+        $assignments = Access::has($u, $call->id, ['evaluator']) ? DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get() : collect();
+        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->whereIn('grades.assignment_id', $assignments->pluck('id')))->select('grades.*', 'assignments.area')->get();
 
         $hasAmendmentHistory = DB::table('amendments')->where('application_id', $id)->exists();
         $pendingAmendment = DB::table('amendments')->where('application_id', $id)->whereIn('status', ['open', 'submitted'])->exists();
         $currentSnapshot = DB::table('dossier_snapshots')->where('application_id', $id)->orderByDesc('id')->first();
         $effectiveDocuments = $currentSnapshot ? $documents->whereIn('id', array_column(Selection::json($currentSnapshot->snapshot)['documents'], 'id')) : $documents->whereNull('amendment_id');
 
-        return view('application', compact('hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
+        $documentValidation = app(\App\Domain\ApplicantDocuments::class)->readiness($id);
+
+        return view('application', compact('documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
     }
 
     public function action(Request $r, int $id, string $action)
@@ -231,15 +262,6 @@ final class PortalController extends Controller
         return back()->with('success', 'Operación registrada correctamente.');
     }
 
-    public function download(Request $r, int $id)
-    {
-        $d = Selection::row('documents', $id);
-        $app = Selection::row('applications', $d->application_id);
-        Access::privateFile($r->user(), $app);
-
-        return Storage::disk('local')->download($d->path, $d->name, ['Content-Type' => 'application/octet-stream', 'X-Content-Type-Options' => 'nosniff']);
-    }
-
     public function assign(Request $r, int $id)
     {
         $d = $r->validate(['user_id' => 'required|integer', 'area' => 'required|string']);
@@ -253,6 +275,7 @@ final class PortalController extends Controller
         $offer = Selection::row('offers', $id);
         Access::require($r->user(), $offer->call_id, ['authority']);
         $call = Selection::row('calls', $offer->call_id);
+        $documentary_reference = $call->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $call->id)->exists();
         $ranking = null;
         $warning = null;
         try {
@@ -266,7 +289,7 @@ final class PortalController extends Controller
         $revisions = DB::table('result_revisions')->where('offer_id', $id)->orderByDesc('revision')->get();
         $oldTies = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', '!=', $offer->result_revision)->get();
 
-        return view('results', compact('revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
+        return view('results', compact('documentary_reference', 'revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
     }
 
     public function openTie(Request $r, int $id)
@@ -307,8 +330,9 @@ final class PortalController extends Controller
     {
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
+        $filePrefix = $call->mode === 'HISTORICAL' ? 'reporte-referencia-'.$id : 'reporte-demo';
         $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review', 'applications.participation', 'offers.held_vacancies']);
-        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
+        $headers = ['Postulación', 'Postulante', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
         $labels = ['active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
         foreach ($rows as $row) {
             $row->needs_publication_review = $row->needs_publication_review ? 'Sí: sin reasignación automática' : 'No';
@@ -323,11 +347,12 @@ final class PortalController extends Controller
             $pdf->setPaper('A4', 'landscape');
             $pdf->render();
 
-            return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="reporte-demo.pdf"']);
+            return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$filePrefix.'.pdf"']);
         }
         $sheet = new Spreadsheet;
         $page = $sheet->getActiveSheet();
-        $page->setCellValue('A1', 'DEMO ACADÉMICA · Sin validez institucional');
+        $page->setCellValue('A1', $call->mode === 'HISTORICAL' ? 'Referencia histórica · Reporte interno, sin aprobación institucional' : 'DEMO ACADÉMICA · Sin validez institucional');
+        $page->setCellValueExplicit('A2', $call->title, DataType::TYPE_STRING);
         $page->fromArray($headers, null, 'A3');
         foreach ($rows as $i => $row) {
             $col = 1;
@@ -340,7 +365,7 @@ final class PortalController extends Controller
         }$page->getStyle('A3:M3')->getFont()->setBold(true);
         $page->setAutoFilter('A3:M'.max(3, $rows->count() + 3));
 
-        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), 'reporte-demo.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
+        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), $filePrefix.'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
     }
 
     public function users(Request $r)
@@ -377,6 +402,19 @@ final class PortalController extends Controller
         app(Administration::class)->grant($r->user(), (int) $d['call_id'], (int) $d['user_id'], $d['role'], $extra['starts_at'] ?? null, $extra['expires_at'] ?? null, $extra['reason'], isset($extra['version']) ? (int) $extra['version'] : null);
 
         return back()->with('success', 'Permiso asignado en el ámbito indicado.');
+    }
+
+    public function editCategory(Request $r, int $id)
+    {
+        abort_unless($r->user()->role === 'admin', 403);
+        $d = $r->validate(['name' => ['required', 'string', 'max:100', Rule::unique('categories')->ignore($id)],
+            'regime' => ['required', Rule::in(['docencia', 'laboratorio'])], 'active' => 'required|boolean',
+            'reason' => 'required|string|min:10|max:3000']);
+        $reason = $d['reason'];
+        unset($d['reason']);
+        app(Administration::class)->editCategory($r->user(), $id, $d, $reason);
+
+        return back()->with('success', 'Tipo actualizado con auditoría. Las ofertas existentes conservan su configuración.');
     }
 
     public function category(Request $r)

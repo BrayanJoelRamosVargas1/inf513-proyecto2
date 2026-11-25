@@ -27,3 +27,9 @@ yarn-error.log
 /storage/app/private/*
 /storage/logs/*.log
 /database/*.sqlite*
+
+/storage/framework/testing/
+
+__pycache__/
+
+*.pyc

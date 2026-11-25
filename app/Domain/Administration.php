@@ -89,6 +89,22 @@ final class Administration
         });
     }
 
+    public function editCategory(User $actor, int $id, array $data, string $reason): void
+    {
+        Access::transaction($actor, function () use ($actor, $id, $data, $reason) {
+            abort_unless($actor->role === 'admin', 403);
+            $this->reason($reason);
+            $category = Selection::row('categories', $id, true);
+            if (DB::table('offers')->where('category_id', $id)->exists()
+                && ($category->name !== $data['name'] || $category->regime !== $data['regime'])) {
+                Scores::fail('El tipo ya se usa en ofertas: conserve su nombre y régimen. Puede cambiar su disponibilidad para configuraciones futuras.');
+            }
+            $values = array_intersect_key($data, array_flip(['name', 'regime', 'active']));
+            DB::table('categories')->where('id', $id)->update($values + ['updated_at' => now()]);
+            Selection::audit($actor, null, 'category.updated', 'category:'.$id, $category, $values, $reason);
+        });
+    }
+
     public function reassign(User $actor, int $id, int $user, int $version, string $reason): void
     {
         Access::transaction($actor, function () use ($actor, $id, $user, $version, $reason) {

@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(DemoSeeder::class);
+        $this->call(config('portal.experience') === 'institutional' ? InstitutionalReferenceSeeder::class : DemoSeeder::class);
     }
 }

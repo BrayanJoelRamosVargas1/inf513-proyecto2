@@ -7,9 +7,21 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 final class Selection
 {
+    public static function conditionalCriterion(object $offer, string $key): bool
+    {
+        // Article 7(e) only concerns students who have completed the curriculum.
+        return ($offer->requirement_profile ?? null) === 'asignatura' && $key === 'graduacion_mora';
+    }
+
+    public static function criterionSatisfied(object $offer, string $key, ?string $decision): bool
+    {
+        return $decision === 'meets' || ($decision === 'not_applicable' && self::conditionalCriterion($offer, $key));
+    }
+
     public static function row(string $table, int $id, bool $lock = false): object
     {
         $q = DB::table($table)->where('id', $id);
@@ -46,7 +58,7 @@ final class Selection
 
     private static function demo(object $call): void
     {
-        if ($call->mode !== 'DEMO') {
+        if (config('portal.experience') !== 'training' || $call->mode !== 'DEMO') {
             Scores::fail('Operación oficial o histórica bloqueada. Requiere validación institucional.');
         }
     }
@@ -54,17 +66,18 @@ final class Selection
     private static function receiving(object $call): void
     {
         self::demo($call);
-        if ($call->status !== 'published' || now()->lt($call->opens_at) || now()->gt($call->closes_at)) {
+        if (! Workspace::receiving($call)) {
             Scores::fail('La recepción no está abierta. El instante exacto de cierre es inclusivo en DEMO.');
         }
     }
 
     public function createCall(User $u, array $d): int
     {
-        abort_unless($u->active && in_array($u->role, ['admin', 'authority']), 403);
+        abort_unless(config('portal.experience') === 'training', 422, 'Las operaciones de entrenamiento requieren una instalación separada.');
+        abort_unless($u->active && $u->role === 'authority', 403);
 
         return Access::transaction($u, function () use ($u, $d) {
-            abort_unless(in_array($u->role, ['admin', 'authority']), 403);
+            abort_unless($u->role === 'authority', 403);
             $id = DB::table('calls')->insertGetId(array_merge($d, ['mode' => 'DEMO', 'status' => 'draft', 'created_at' => now(), 'updated_at' => now()]));
             if ($u->role === 'authority') {
                 DB::table('memberships')->insert(['call_id' => $id, 'user_id' => $u->id, 'role' => 'authority']);
@@ -91,6 +104,9 @@ final class Selection
 
     public function saveOffer(User $u, int $callId, array $d, ?int $offerId = null): int
     {
+        if (! isset($d['seats']) || filter_var($d['seats'], FILTER_VALIDATE_INT) === false || (int) $d['seats'] < 0) {
+            Scores::fail('Indique una cantidad válida de plazas para una oferta operativa.');
+        }
         return Access::transaction($u, function () use ($u, $callId, $d, $offerId) {
             $call = self::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
@@ -104,6 +120,14 @@ final class Selection
             $category = self::row('categories', (int) $d['category_id']);
             if (! $category->active) {
                 Scores::fail('Tipo de auxiliar no habilitado.');
+            }
+            if (! empty($d['requirement_profile'])) {
+                $modality = app(InstitutionalCatalogue::class)->modality((object) ['is_subject' => ! empty($d['is_subject']), 'category_id' => $d['category_id']]);
+                abort_unless($d['requirement_profile'] === $modality, 422, 'El perfil de requisitos no corresponde al régimen y tipo de oferta.');
+                $profile = app(InstitutionalCatalogue::class)->definitions()['profiles']['convocatoria-01']['modalities'][$modality];
+                unset($d['requirements']['activo'], $d['requirements']['regimen']);
+                $d['requirements'] = $profile['requirements'] + $d['requirements'];
+                $d['documents'] = $profile['documents'] + $d['documents'];
             }
             $d['weights'] = json_encode(Scores::weights($d['weights']));
             foreach (['documents', 'requirements'] as $key) {
@@ -152,6 +176,9 @@ final class Selection
                 }
                 foreach ($offers as $o) {
                     Scores::weights(self::json($o->weights));
+                    if (! array_key_exists('cpd', self::json($o->documents))) {
+                        Scores::fail('La oferta «'.$o->title.'» debe solicitar el respaldo de méritos con la clave cpd. Este sistema lo exige para registrar méritos; corrija el borrador antes de publicar.');
+                    }
                 }
             }
             if (in_array($next, ['results', 'archived']) && DB::table('offers')->where('call_id', $callId)->where('needs_publication_review', true)->exists()) {
@@ -217,9 +244,10 @@ final class Selection
                 if (! in_array($mime, ['application/pdf', 'image/png', 'image/jpeg'])) {
                     Scores::fail('Tipo de archivo no permitido.');
                 }
-                $stored = $file->store('expedientes', 'local');
+                $stored = $file->store('applicant-quarantine', 'local');
                 $version = (DB::table('documents')->where('application_id', $appId)->where('kind', $kind)->max('version') ?? 0) + 1;
                 $id = DB::table('documents')->insertGetId(['application_id' => $appId, 'kind' => $kind, 'version' => $version, 'path' => $stored, 'name' => basename($file->getClientOriginalName()), 'mime' => $mime, 'sha256' => hash_file('sha256', $file->getRealPath()), 'created_at' => now(), 'updated_at' => now()]);
+                app(DocumentProcessor::class)->enqueue($id, 'applicant');
                 self::audit($u, $call->id, 'document.upload', 'document:'.$id, null, ['kind' => $kind, 'version' => $version]);
 
                 return $id;
@@ -255,22 +283,24 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $decisions, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
+            abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::legacyReview($id);
             self::demo($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('La revisión no está abierta.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertDecisions($id, $decisions);
             $criteria = array_merge(array_fill_keys(array_map(fn ($x) => 'doc:'.$x, array_keys(self::json($offer->documents))), ''), self::json($offer->requirements));
             foreach ($decisions as $key => $decision) {
                 if (! array_key_exists($key, $criteria) || ! in_array($decision, ['meets', 'fails', 'observed', 'not_applicable'])) {
                     Scores::fail('Criterio o decisión inválidos.');
                 }
-                if ($decision === 'not_applicable') {
-                    Scores::fail('Los criterios obligatorios de esta DEMO no admiten No aplica sin un procedimiento institucional validado.');
+                if ($decision === 'not_applicable' && (! self::conditionalCriterion($offer, $key) || mb_strlen(trim($reason)) < 10)) {
+                    Scores::fail('No aplica requiere un criterio condicional y fundamento documental.');
                 }
                 $before = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->first();
                 DB::table('reviews')->updateOrInsert(['application_id' => $id, 'criterion' => $key], ['decision' => $decision, 'reason' => $reason, 'user_id' => $u->id, 'updated_at' => now(), 'created_at' => $before?->created_at ?? now()]);
-                self::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, ['criterion' => $key, 'decision' => $decision], $reason);
+                self::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, ['criterion' => $key, 'decision' => $decision, 'document_checks' => $documentChecks], $reason);
             }
         });
     }
@@ -280,22 +310,26 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $enable, $reason) {
             [$app,$offer,$call] = self::lockedApplication($id);
             Access::require($u, $call->id, ['reviewer']);
+            abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::legacyReview($id);
             self::demo($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('Decisión de habilitación no disponible.');
             }
+            $documentChecks = [];
             if ($enable) {
+                $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
                 $keys = array_merge(array_map(fn ($x) => 'doc:'.$x, array_keys(self::json($offer->documents))), array_keys(self::json($offer->requirements)));
                 foreach ($keys as $key) {
-                    if (! DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->where('decision', 'meets')->exists()) {
+                    $decision = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->value('decision');
+                    if (! self::criterionSatisfied($offer, $key, $decision)) {
                         Scores::fail('No se cumplen todos los documentos/requisitos con evidencia.');
                     }
                 }
             }
             $next = $enable ? 'enabled' : 'disabled';
             DB::table('applications')->where('id', $id)->update(['eligibility' => $next, 'eligibility_reason' => $reason, 'updated_at' => now()]);
-            self::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], ['eligibility' => $next], $reason);
+            self::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], ['eligibility' => $next, 'document_checks' => $documentChecks], $reason);
         });
     }
 
@@ -304,6 +338,7 @@ final class Selection
         Access::transaction($u, function () use ($u, $id, $score, $reference) {
             [$app,$o,$c] = self::lockedApplication($id);
             Access::require($u, $c->id, ['reviewer']);
+            abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::noAmendment($id);
             self::demo($c);
             if (! in_array($c->status, ['published', 'closed', 'evaluation']) || $app->status !== 'submitted' || $app->merit !== null) {
@@ -312,10 +347,11 @@ final class Selection
             if (! DB::table('documents')->where('application_id', $id)->where('kind', 'cpd')->exists()) {
                 Scores::fail('Adjunte el formulario CPD de respaldo.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $score = Scores::value($score, '40');
             DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'merit_version' => 1, 'updated_at' => now()]);
             Rectifications::version($id, null, 1, $score, $u->id);
-            self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference]);
+            self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference, 'document_checks' => $documentChecks]);
         });
     }
 
@@ -348,6 +384,7 @@ final class Selection
             [$a,$o,$c] = self::lockedApplication($appId);
             $as = self::row('assignments', $assignmentId);
             Access::require($u, $c->id, ['evaluator']);
+            abort_if($a->user_id === $u->id, 403, 'No puede calificar su propia postulación.');
             self::demo($c);
             abort_unless($as->user_id === $u->id && $as->offer_id === $o->id, 403);
             if ($a->eligibility !== 'enabled' || $c->status !== 'evaluation') {
@@ -360,6 +397,7 @@ final class Selection
             if ($before && $before->status !== 'draft') {
                 Scores::fail('Nota confirmada: use rectificación autorizada.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($appId);
             $score = Scores::value($score);
             $data = ['user_id' => $u->id, 'score' => $score, 'status' => $confirmed ? 'confirmed' : 'draft', 'updated_at' => now()];
             if ($before) {
@@ -371,7 +409,7 @@ final class Selection
             if ($confirmed) {
                 Rectifications::version($appId, $id, 1, $score, $u->id);
             }
-            self::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data);
+            self::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data + ['document_checks' => $documentChecks]);
         });
     }
 
@@ -392,11 +430,12 @@ final class Selection
             if (mb_strlen(trim($reason)) < 10) {
                 Scores::fail('Explique la autorización y motivo de rectificación.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($a->id);
             $score = Scores::value($score);
             DB::table('grades')->where('id', $gradeId)->update(['score' => $score, 'status' => 'corrected', 'version' => $g->version + 1, 'updated_at' => now()]);
             DB::table('applications')->where('id', $a->id)->update(['exam' => null, 'final' => null, 'updated_at' => now()]);
             Rectifications::version($a->id, $gradeId, $g->version + 1, $score, $u->id);
-            self::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score], $reason);
+            self::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score, 'document_checks' => $documentChecks], $reason);
         });
     }
 
@@ -415,17 +454,24 @@ final class Selection
             if (! in_array($o->scheme, ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100']) || $o->rounding !== 'HALF_UP_FINAL') {
                 Scores::fail('Escala/composición/redondeo no definidos.');
             }
+            $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $notes = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->whereIn('grades.status', ['confirmed', 'corrected'])->pluck('grades.score', 'assignments.area')->all();
             $exam = Scores::exam(self::json($o->weights), $notes);
             $final = bcadd(Scores::value($a->merit, '40'), $exam, 2);
             DB::table('applications')->where('id', $id)->update(['exam' => $exam, 'final' => $final, 'updated_at' => now()]);
-            self::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => self::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding]);
+            self::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => self::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding, 'document_checks' => $documentChecks]);
         });
     }
 
     public function ranking(int $offerId): array
     {
         $offer = self::row('offers', $offerId);
+        if ($offer->seats === null) {
+            throw ValidationException::withMessages(['seats' => 'Las plazas de esta oferta documental no están especificadas; no se genera clasificación.']);
+        }
+        if (self::row('calls', $offer->call_id)->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $offer->call_id)->exists()) {
+            Scores::fail('La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
+        }
         $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
         if ($all->contains(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))) {
             Scores::fail('Hay revisiones o resultados pendientes en esta oferta.');
@@ -452,6 +498,7 @@ final class Selection
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('No se puede abrir otro desempate en este estado.');
             }
+            app(ApplicantDocuments::class)->assertOffer($offerId);
             $r = $this->ranking($offerId);
             if (! $r['tied']) {
                 Scores::fail('No hay empate que afecte el corte de plazas.');
@@ -479,6 +526,7 @@ final class Selection
             if (now()->lt($t->scheduled_at)) {
                 Scores::fail('El nuevo examen aún no se realizó.');
             }
+            app(ApplicantDocuments::class)->assertOffer($o->id);
             $participants = self::json($t->participants);
             $keys = array_map('intval', array_keys($results));
             sort($keys);
@@ -513,6 +561,7 @@ final class Selection
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision || now()->lt($t->scheduled_at)) {
                 Scores::fail('La ronda no admite continuidad en este estado.');
             }
+            app(ApplicantDocuments::class)->assertOffer($o->id);
             $participants = self::json($t->participants);
             $expected = $participants;
             sort($expected);
@@ -553,6 +602,7 @@ final class Selection
             if (DB::table('participation_requests')->join('applications', 'applications.id', '=', 'participation_requests.application_id')->where('applications.offer_id', $offerId)->where('participation_requests.status', 'pending')->exists() || DB::table('amendments')->join('applications', 'applications.id', '=', 'amendments.application_id')->where('applications.offer_id', $offerId)->whereIn('amendments.status', ['open', 'submitted'])->exists()) {
                 Scores::fail('Resuelva solicitudes y subsanaciones antes de publicar.');
             }
+            app(ApplicantDocuments::class)->assertOffer($offerId);
             $r = $this->ranking($offerId);
             $winners = array_map(fn ($a) => $a->id, array_slice($r['rank'], 0, $o->seats - $o->held_vacancies));
             if ($r['tied']) {

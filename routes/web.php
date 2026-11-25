@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ConsolidatedResultsController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\GovernanceController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\PortalController;
@@ -10,6 +12,8 @@ Route::post('/login', [PortalController::class, 'login'])->middleware('throttle:
 Route::get('/registro', [PortalController::class, 'registerForm']);
 Route::post('/registro', [PortalController::class, 'register'])->middleware('throttle:6,1');
 Route::middleware('auth')->group(function () {
+    Route::get('/convocatorias/{id}/consolidado', [ConsolidatedResultsController::class, 'show']);
+    Route::get('/convocatorias/{id}/consolidado/{format}', [ConsolidatedResultsController::class, 'export'])->whereIn('format', ['pdf', 'xlsx']);
     Route::get('/adjudicaciones', [ParticipationController::class, 'awards']);
     Route::get('/postulaciones/{id}/procesos', [ParticipationController::class, 'show']);
     Route::post('/postulaciones/{id}/subsanaciones', [ParticipationController::class, 'open']);
@@ -27,7 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/ofertas/{id}/postular', [PortalController::class, 'apply']);
     Route::get('/postulaciones/{id}', [PortalController::class, 'application']);
     Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
-    Route::get('/documentos/{id}', [PortalController::class, 'download']);
+    Route::get('/documentos/{id}/detalle', [DocumentController::class, 'show']);
+    Route::get('/documentos/{id}/ver', [DocumentController::class, 'preview']);
+    Route::get('/documentos/{id}', [DocumentController::class, 'download']);
+    Route::get('/ejemplos/documentos/{kind}', [DocumentController::class, 'sample']);
+    Route::get('/ayuda', [PortalController::class, 'guide']);
     Route::post('/ofertas/{id}/asignar', [PortalController::class, 'assign']);
 
     Route::get('/ofertas/{id}/resultados', [PortalController::class, 'results']);
@@ -48,4 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/usuarios', [PortalController::class, 'saveUser']);
     Route::post('/permisos', [PortalController::class, 'membership']);
     Route::post('/categorias', [PortalController::class, 'category']);
+    Route::post('/categorias/{id}/editar', [PortalController::class, 'editCategory']);
 });
+
+Route::get('/p2/{path?}', fn () => view('spa'))->where('path', '.*');

@@ -77,6 +77,7 @@ final class Rectifications
             $o = Selection::row('offers', $o->id, true);
             $r = Selection::row('correction_requests', $id, true);
             Access::require($u, $c->id, ['authority']);
+            abort_if($a->user_id === $u->id, 403, 'No puede decidir una rectificación de su propia postulación.');
             if ($c->mode !== 'DEMO' || ! in_array($c->status, ['evaluation', 'results'])) {
                 Scores::fail('Etapa cerrada o convocatoria histórica.');
             }
@@ -87,6 +88,7 @@ final class Rectifications
                 Scores::fail('Solicitud ya decidida o justificación insuficiente.');
             }
             if ($approve) {
+                app(ApplicantDocuments::class)->assertEffective($a->id);
                 $g = $r->grade_id ? Selection::row('grades', $r->grade_id, true) : null;
                 if (($g ? $g->version : $a->merit_version) !== $r->base_version || bccomp($g ? $g->score : $a->merit, $r->old_value, 2) !== 0) {
                     Scores::fail('Propuesta obsoleta: existe otra versión. Rechace y solicite una nueva.');
