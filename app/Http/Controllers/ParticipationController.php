@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Access;
 use App\Domain\Participation;
 use App\Domain\Selection;
+use App\Http\Operations\ParticipationOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -32,44 +33,30 @@ final class ParticipationController extends Controller
         return view('participation', compact('call', 'canOpen', 'app', 'offer', 'owner', 'authority', 'reviewer', 'amendments', 'snapshots', 'requests', 'decisions', 'documents', 'award'));
     }
 
-    public function open(Request $r, int $id, Participation $s)
+    public function open(Request $r, int $id, ParticipationOperations $ops)
     {
-        $d = $r->validate(['kinds' => 'required|array|min:1', 'kinds.*' => 'required|string', 'deadline' => 'required|date', 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
-        $s->open($r->user(), $id, $d['kinds'], $d['deadline'], $d['reason'], $d['evidence']);
+        $ops->open($r, $id);
 
         return back()->with('success', 'Ventana DEMO autorizada con plazo explícito. El expediente enviado se conserva.');
     }
 
-    public function amendment(Request $r, int $id, string $action, Participation $s)
+    public function amendment(Request $r, int $id, string $action, ParticipationOperations $ops)
     {
-        if ($action === 'archivo') {
-            $d = $r->validate(['kind' => 'required|string', 'file' => 'required|file']);
-            $s->upload($r->user(), $id, $d['kind'], $d['file']);
-        } elseif ($action === 'enviar') {
-            $s->submit($r->user(), $id);
-        } elseif ($action === 'revisar') {
-            $d = $r->validate(['decisions' => 'required|array', 'decisions.*' => 'required|string', 'reason' => 'required|string|min:10|max:3000']);
-            $s->review($r->user(), $id, $d['decisions'], $d['reason']);
-        } else {
-            $d = $r->validate(['reason' => 'required|string|min:10|max:3000']);
-            $s->expire($r->user(), $id, $d['reason']);
-        }
+        $ops->amendment($r, $id, $action);
 
         return back()->with('success', 'Movimiento registrado con sus versiones e historial.');
     }
 
-    public function request(Request $r, int $id, Participation $s)
+    public function request(Request $r, int $id, ParticipationOperations $ops)
     {
-        $d = $r->validate(['kind' => ['required', Rule::in(['withdrawal', 'renunciation'])], 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
-        $s->request($r->user(), $id, $d['kind'], $d['reason'], $d['evidence']);
+        $ops->request($r, $id);
 
         return back()->with('success', 'Solicitud pendiente de otra autoridad. Todavía no cambió la participación ni la adjudicación.');
     }
 
-    public function decide(Request $r, int $id, Participation $s)
+    public function decide(Request $r, int $id, ParticipationOperations $ops)
     {
-        $d = $r->validate(['approved' => 'required|boolean', 'reason' => 'required|string|min:10|max:3000']);
-        $s->decide($r->user(), $id, (bool) $d['approved'], $d['reason']);
+        $ops->decide($r, $id);
 
         return back()->with('success', 'Decisión conservada. Revise el ranking y la publicación cuando corresponda; no se asignaron reemplazantes.');
     }
@@ -96,10 +83,9 @@ final class ParticipationController extends Controller
         return view('awards', ['authorityView' => $authorityView, 'awards' => $awards, 'groups' => $awards->groupBy('user_id')]);
     }
 
-    public function choose(Request $r, int $id, Participation $s)
+    public function choose(Request $r, int $id, ParticipationOperations $ops)
     {
-        $d = $r->validate(['publication_id' => 'required|integer', 'version' => 'required|integer|min:0', 'choice' => ['required', Rule::in(['accept', 'defer'])], 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
-        $s->choose($r->user(), $id, (int) $d['publication_id'], $d['choice'], (int) $d['version'], $d['reason'], $d['evidence']);
+        $ops->choose($r, $id);
 
         return back()->with('success', 'Manifestación DEMO conservada. No certifica compatibilidad ni nombramiento institucional.');
     }

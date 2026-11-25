@@ -10,6 +10,10 @@ use App\Domain\Workspace;
 use App\Http\Controllers\Api\SessionController;
 use App\Models\User;
 use App\ReadModels\PortalScope;
+use App\Http\Operations\AdministrationOperations;
+use App\Http\Operations\ApplicationOperations;
+use App\Http\Operations\CallOperations;
+use App\Http\Operations\ResultsOperations;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -140,67 +144,29 @@ final class PortalController extends Controller
         return view('call', compact('call', 'offers', 'apps', 'categories', 'teachers', 'authority', 'reviewer', 'evaluator', 'editOffer', 'ownApplications', 'applicationBlocks'));
     }
 
-    public function createCall(Request $r)
+    public function createCall(Request $r, CallOperations $ops)
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000', 'parent_id' => 'nullable|exists:calls,id']);
-
-        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
-
-        return redirect('/convocatorias/'.$this->service->createCall($r->user(), $d))->with('success', 'Convocatoria DEMO creada en borrador.');
+        return redirect('/convocatorias/'.$ops->createCall($r))->with('success', 'Convocatoria DEMO creada en borrador.');
     }
 
-    public function transition(Request $r, int $id)
+    public function transition(Request $r, int $id, CallOperations $ops)
     {
-        $d = $r->validate(['status' => 'required|string']);
-        $this->service->transition($r->user(), $id, $d['status']);
+        $ops->transition($r, $id);
 
         return back()->with('success', 'Etapa actualizada con auditoría.');
     }
 
-    public function editCall(Request $r, int $id)
+    public function editCall(Request $r, int $id, CallOperations $ops)
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000']);
-        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
-        $this->service->editCall($r->user(), $id, $d);
+        $ops->editCall($r, $id);
 
         return back()->with('success', 'Borrador actualizado con nueva versión y auditoría.');
     }
 
-    private function pairs(string $text): array
-    {
-        $out = [];
-        foreach (preg_split('/\R/', trim($text)) as $line) {
-            $parts = explode('=', trim($line), 2);
-            if (count($parts) !== 2 || ! trim($parts[0]) || ! trim($parts[1])) {
-                Scores::fail('Use una fila clave=valor por elemento.');
-            }$key = trim($parts[0]);
-            if (array_key_exists($key, $out)) {
-                Scores::fail('Hay claves duplicadas.');
-            }$out[$key] = trim($parts[1]);
-        }
 
-        return $out;
-    }
-
-    public function saveOffer(Request $r, int $id)
+    public function saveOffer(Request $r, int $id, CallOperations $ops)
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'requirement_profile' => ['nullable', Rule::in(['asignatura','sala','laboratorio'])], 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
-        foreach (['documents', 'requirements', 'weights'] as $key) {
-            $d[$key] = $this->pairs($d[$key]);
-        }
-        if (! array_key_exists('cpd', $d['documents'])) {
-            Scores::fail('Incluya el documento cpd=Formulario CPD.');
-        }
-        foreach (['documents', 'requirements'] as $field) {
-            foreach (array_keys($d[$field]) as $key) {
-                if (! preg_match('/^[a-z0-9_]{1,50}$/D', $key)) {
-                    Scores::fail('Claves: minúsculas, números y guion bajo.');
-                }
-            }
-        }
-        $d['is_subject'] = $r->boolean('is_subject');
-        $r->validate(['offer_id' => 'nullable|integer']);
-        $this->service->saveOffer($r->user(), $id, $d, $r->filled('offer_id') ? (int) $r->input('offer_id') : null);
+        $ops->saveOffer($r, $id);
 
         return back()->with('success', 'Oferta configurada. Pesos validados.');
     }
@@ -236,38 +202,16 @@ final class PortalController extends Controller
         return view('application', compact('documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
     }
 
-    public function action(Request $r, int $id, string $action)
+    public function action(Request $r, int $id, string $action, ApplicationOperations $ops)
     {
-        $u = $r->user();
-        switch ($action) {
-            case 'archivo':$d = $r->validate(['kind' => 'required|string|max:50', 'file' => 'required|file']);
-                $this->service->upload($u, $id, $d['kind'], $d['file']);
-                break;
-            case 'enviar':$this->service->submit($u, $id);
-                break;
-            case 'revision':$d = $r->validate(['decisions' => 'required|array|min:1', 'decisions.*' => 'required|string', 'reason' => 'required|string|min:10|max:3000']);
-                $this->service->review($u, $id, $d['decisions'], $d['reason']);
-                break;
-            case 'habilitacion':$d = $r->validate(['enabled' => 'required|boolean', 'reason' => 'required|string|min:10|max:3000']);
-                $this->service->eligibility($u, $id, (bool) $d['enabled'], $d['reason']);
-                break;
-            case 'meritos':$d = $r->validate(['score' => 'required|string', 'reference' => 'required|string|max:150']);
-                $this->service->merit($u, $id, $d['score'], $d['reference']);
-                break;
-            case 'nota':$d = $r->validate(['assignment_id' => 'required|integer', 'score' => 'required|string', 'intent' => ['nullable', Rule::in(['draft', 'confirm'])]]);
-                $this->service->grade($u, $id, (int) $d['assignment_id'], $d['score'], ($d['intent'] ?? 'confirm') === 'confirm');
-                break;
-            case 'calcular':$this->service->calculate($u, $id);
-                break;
-        }
+        $ops->action($r, $id, $action);
 
         return back()->with('success', 'Operación registrada correctamente.');
     }
 
-    public function assign(Request $r, int $id)
+    public function assign(Request $r, int $id, CallOperations $ops)
     {
-        $d = $r->validate(['user_id' => 'required|integer', 'area' => 'required|string']);
-        $this->service->assign($r->user(), $id, (int) $d['user_id'], $d['area']);
+        $ops->assign($r, $id);
 
         return back()->with('success', 'Responsable asignado.');
     }
@@ -294,27 +238,23 @@ final class PortalController extends Controller
         return view('results', compact('documentary_reference', 'revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
     }
 
-    public function openTie(Request $r, int $id)
+    public function openTie(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['commission' => 'required|string|max:1500', 'conditions' => 'required|string|min:20|max:5000', 'scheduled_at' => 'required|date']);
-        $d['commission'] = array_values(array_filter(array_map('trim', explode(',', $d['commission']))));
-        $this->service->openTie($r->user(), $id, $d);
+        $ops->openTie($r, $id);
 
         return back()->with('success', 'Nuevo examen de desempate registrado para los aspirantes empatados.');
     }
 
-    public function resolveTie(Request $r, int $id)
+    public function resolveTie(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['results' => 'required|array', 'results.*' => 'required|string|max:1000', 'winners' => 'required|array', 'winners.*' => 'required|integer', 'minutes' => 'required|string|min:20|max:8000']);
-        $this->service->resolveTie($r->user(), $id, $d['results'], array_map('intval', $d['winners']), $d['minutes']);
+        $ops->resolveTie($r, $id);
 
         return back()->with('success', 'Resultados y decisión de comisión conservados. Falta aprobar la selección.');
     }
 
-    public function approve(Request $r, int $id)
+    public function approve(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['minutes' => 'required|string|min:20|max:8000']);
-        $this->service->approve($r->user(), $id, $d['minutes']);
+        $ops->approve($r, $id);
 
         return back()->with('success', 'Snapshot aprobado en DEMO; no constituye nombramiento oficial.');
     }
@@ -381,57 +321,30 @@ final class PortalController extends Controller
         return view('users', ['users' => User::orderBy('id')->get(), 'calls' => DB::table('calls')->get(), 'memberships' => DB::table('memberships')->get(), 'history' => DB::table('audit_events')->whereIn('action', ['permission.granted', 'permission.revoked', 'user.profile_changed', 'assignment.reassigned'])->orderByDesc('id')->limit(100)->get(), 'categories' => DB::table('categories')->get()]);
     }
 
-    public function saveUser(Request $r)
+    public function saveUser(Request $r, AdministrationOperations $ops)
     {
-        abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|unique:users|max:150', 'password' => 'required|string|min:12', 'role' => ['required', Rule::in(['student', 'staff', 'authority'])], 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80']);
-        Access::transaction($r->user(), function () use ($r, $d) {
-            abort_unless($r->user()->role === 'admin', 403);
-            $u = new User;
-            foreach ($d as $key => $v) {
-                $u->$key = $v;
-            }$u->save();
-            Selection::audit($r->user(), null, 'user.created', 'user:'.$u->id, null, ['role' => $u->role]);
-        });
+        $ops->saveUser($r);
 
         return back()->with('success', 'Cuenta creada. Asigne permisos por convocatoria.');
     }
 
-    public function membership(Request $r)
+    public function membership(Request $r, AdministrationOperations $ops)
     {
-        abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['call_id' => 'required|integer|exists:calls,id', 'user_id' => 'required|integer|exists:users,id', 'role' => ['required', Rule::in(['reviewer', 'evaluator', 'authority'])]]);
-        if ((int) $d['user_id'] === $r->user()->id) {
-            Scores::fail('No puede elevar sus propios permisos. Otro administrador debe asignar el ámbito.');
-        }
-        $extra = $r->validate(['starts_at' => 'nullable|date', 'expires_at' => 'nullable|date', 'reason' => 'required|string|min:10|max:3000', 'version' => 'nullable|integer']);
-        app(Administration::class)->grant($r->user(), (int) $d['call_id'], (int) $d['user_id'], $d['role'], $extra['starts_at'] ?? null, $extra['expires_at'] ?? null, $extra['reason'], isset($extra['version']) ? (int) $extra['version'] : null);
+        $ops->membership($r);
 
         return back()->with('success', 'Permiso asignado en el ámbito indicado.');
     }
 
-    public function editCategory(Request $r, int $id)
+    public function editCategory(Request $r, int $id, AdministrationOperations $ops)
     {
-        abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['name' => ['required', 'string', 'max:100', Rule::unique('categories')->ignore($id)],
-            'regime' => ['required', Rule::in(['docencia', 'laboratorio'])], 'active' => 'required|boolean',
-            'reason' => 'required|string|min:10|max:3000']);
-        $reason = $d['reason'];
-        unset($d['reason']);
-        app(Administration::class)->editCategory($r->user(), $id, $d, $reason);
+        $ops->editCategory($r, $id);
 
         return back()->with('success', 'Tipo actualizado con auditoría. Las ofertas existentes conservan su configuración.');
     }
 
-    public function category(Request $r)
+    public function category(Request $r, AdministrationOperations $ops)
     {
-        abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['name' => 'required|string|max:100|unique:categories', 'regime' => ['required', Rule::in(['docencia', 'laboratorio'])], 'active' => 'nullable|boolean']);
-        Access::transaction($r->user(), function () use ($r, $d) {
-            abort_unless($r->user()->role === 'admin', 403);
-            $id = DB::table('categories')->insertGetId($d + ['created_at' => now(), 'updated_at' => now()]);
-            Selection::audit($r->user(), null, 'category.created', 'category:'.$id, null, $d);
-        });
+        $ops->category($r);
 
         return back()->with('success', 'Tipo de auxiliatura registrado para configuración.');
     }

@@ -9,6 +9,8 @@ use App\Domain\Workspace;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use App\ReadModels\PortalScope;
+use App\Http\Operations\ApplicationOperations;
+use App\Domain\Scores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -148,12 +150,12 @@ final class SelectionController extends Controller
             'can_review' => $canReview,
             'can_merit' => $v['documentValidation']['ready'] && $active && $v['reviewer'] && ! $v['owner'] && ! $v['pendingAmendment'] && $app->status === 'submitted' && $app->merit === null && in_array($v['call']->status, ['published', 'closed', 'evaluation']),
             'can_grade' => $v['documentValidation']['ready'] && $active && $hasEditableArea && ! $v['owner'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && ! $frozen,
-            'can_calculate' => $v['documentValidation']['ready'] && $active && $v['authority'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && $app->merit !== null && $allConfirmed && in_array($offer->scheme, ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100']) && $offer->rounding === 'HALF_UP_FINAL' && ! $frozen]);
+            'can_calculate' => $v['documentValidation']['ready'] && $active && $v['authority'] && $app->eligibility === 'enabled' && $v['call']->status === 'evaluation' && $app->merit !== null && $allConfirmed && in_array($offer->scheme, Scores::CALCULABLE_SCHEMES) && $offer->rounding === 'HALF_UP_FINAL' && ! $frozen]);
     }
 
     public function action(Request $r, int $id, string $action)
     {
-        app(PortalController::class)->action($r, $id, $action);
+        app(ApplicationOperations::class)->action($r, $id, $action);
 
         return response()->json(['message' => 'Operación registrada correctamente.']);
     }

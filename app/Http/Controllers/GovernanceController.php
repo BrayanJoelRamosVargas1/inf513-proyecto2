@@ -6,6 +6,8 @@ use App\Domain\Access;
 use App\Domain\Administration;
 use App\Domain\Rectifications;
 use App\Domain\Selection;
+use App\Http\Operations\AdministrationOperations;
+use App\Http\Operations\ResultsOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -23,26 +25,23 @@ final class GovernanceController extends Controller
         return view('correction-queue', compact('requests'));
     }
 
-    public function profile(Request $r, int $id, Administration $service)
+    public function profile(Request $r, int $id, AdministrationOperations $ops)
     {
-        $d = $r->validate(['name' => 'required|string|max:100', 'email' => ['required', 'email', 'max:150', Rule::unique('users')->ignore($id)], 'role' => ['required', Rule::in(['admin', 'authority', 'staff', 'student'])], 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80', 'active' => 'required|boolean', 'version' => 'required|integer', 'reason' => 'required|string|min:10|max:3000']);
-        $service->profile($r->user(), $id, $d, (int) $d['version'], $d['reason']);
+        $ops->profile($r, $id);
 
         return back()->with('success', 'Perfil actualizado; las sesiones anteriores quedan invalidadas.');
     }
 
-    public function revoke(Request $r, int $id, Administration $service)
+    public function revoke(Request $r, int $id, AdministrationOperations $ops)
     {
-        $d = $r->validate(['version' => 'required|integer', 'reason' => 'required|string|min:10|max:3000']);
-        $service->revoke($r->user(), $id, (int) $d['version'], $d['reason']);
+        $ops->revoke($r, $id);
 
         return back()->with('success', 'Permiso revocado y sesiones invalidadas.');
     }
 
-    public function reassign(Request $r, int $id, Administration $service)
+    public function reassign(Request $r, int $id, AdministrationOperations $ops)
     {
-        $d = $r->validate(['user_id' => 'required|integer|exists:users,id', 'version' => 'required|integer', 'reason' => 'required|string|min:10|max:3000']);
-        $service->reassign($r->user(), $id, (int) $d['user_id'], (int) $d['version'], $d['reason']);
+        $ops->reassign($r, $id);
 
         return back()->with('success', 'Responsabilidad reasignada; las notas confirmadas conservan su autor original.');
     }
@@ -66,27 +65,23 @@ final class GovernanceController extends Controller
         return view('corrections', compact('app', 'offer', 'call', 'authority', 'reviewer', 'grades', 'requests', 'versions'));
     }
 
-    public function requestCorrection(Request $r, int $id, Rectifications $service)
+    public function requestCorrection(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['grade_id' => 'nullable|integer', 'score' => 'required|string', 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
-        $service->request($r->user(), $id, isset($d['grade_id']) ? (int) $d['grade_id'] : null, $d['score'], $d['reason'], $d['evidence']);
+        $ops->requestCorrection($r, $id);
 
         return back()->with('success', 'Solicitud pendiente. Requiere decisión de otra autoridad autorizada.');
     }
 
-    public function decide(Request $r, int $id, Rectifications $service)
+    public function decide(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['approved' => 'required|boolean', 'reason' => 'required|string|min:10|max:3000']);
-        $service->decide($r->user(), $id, (bool) $d['approved'], $d['reason']);
+        $ops->decideCorrection($r, $id);
 
         return back()->with('success', 'Decisión conservada. Una aprobación exige revisar el ranking y publicar una nueva versión.');
     }
 
-    public function continueTie(Request $r, int $id, Selection $service)
+    public function continueTie(Request $r, int $id, ResultsOperations $ops)
     {
-        $d = $r->validate(['results' => 'required|array', 'results.*' => 'required|string|max:1000', 'minutes' => 'required|string|min:20|max:8000', 'commission' => 'required|string|max:1500', 'conditions' => 'required|string|min:20|max:5000', 'scheduled_at' => 'required|date']);
-        $d['commission'] = array_values(array_filter(array_map('trim', explode(',', $d['commission']))));
-        $service->continueTie($r->user(), $id, $d['results'], $d);
+        $ops->continueTie($r, $id);
 
         return back()->with('success', 'Ronda conservada; nuevo examen pendiente sin adjudicar plazas.');
     }

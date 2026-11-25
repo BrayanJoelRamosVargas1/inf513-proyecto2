@@ -10,6 +10,10 @@ use App\Http\Controllers\GovernanceController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\PortalController;
 use App\Models\User;
+use App\Http\Operations\AdministrationOperations;
+use App\Http\Operations\CallOperations;
+use App\Http\Operations\ParticipationOperations;
+use App\Http\Operations\ResultsOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -91,36 +95,55 @@ final class ProcessController extends Controller
         return response()->json(['events' => DB::table('audit_events')->where('call_id', $id)->orderByDesc('id')->paginate(40)]);
     }
 
+    /**
+     * Operación => [clase, método, requiere {id}, acción, estado HTTP si tiene éxito].
+     * Cada clase valida la petición y ejecuta la regla de dominio; aquí solo se arma la respuesta JSON.
+     */
+    private const OPERATIONS = [
+        'create-call' => [CallOperations::class, 'createCall', false, null, 201],
+        'edit-call' => [CallOperations::class, 'editCall', true, null, 200],
+        'offer' => [CallOperations::class, 'saveOffer', true, null, 201],
+        'assign' => [CallOperations::class, 'assign', true, null, 200],
+        'user' => [AdministrationOperations::class, 'saveUser', false, null, 201],
+        'permission' => [AdministrationOperations::class, 'membership', false, null, 201],
+        'category' => [AdministrationOperations::class, 'category', false, null, 201],
+        'edit-category' => [AdministrationOperations::class, 'editCategory', true, null, 200],
+        'profile' => [AdministrationOperations::class, 'profile', true, null, 200],
+        'revoke' => [AdministrationOperations::class, 'revoke', true, null, 200],
+        'reassign' => [AdministrationOperations::class, 'reassign', true, null, 200],
+        'correction' => [ResultsOperations::class, 'requestCorrection', true, null, 201],
+        'decide-correction' => [ResultsOperations::class, 'decideCorrection', true, null, 200],
+        'tie' => [ResultsOperations::class, 'openTie', true, null, 200],
+        'resolve-tie' => [ResultsOperations::class, 'resolveTie', true, null, 200],
+        'continue-tie' => [ResultsOperations::class, 'continueTie', true, null, 200],
+        'approve' => [ResultsOperations::class, 'approve', true, null, 200],
+        'open-amendment' => [ParticipationOperations::class, 'open', true, null, 201],
+        'amendment-upload' => [ParticipationOperations::class, 'amendment', true, 'archivo', 200],
+        'amendment-submit' => [ParticipationOperations::class, 'amendment', true, 'enviar', 200],
+        'amendment-review' => [ParticipationOperations::class, 'amendment', true, 'revisar', 200],
+        'amendment-expire' => [ParticipationOperations::class, 'amendment', true, 'vencer', 200],
+        'participation-request' => [ParticipationOperations::class, 'request', true, null, 201],
+        'participation-decision' => [ParticipationOperations::class, 'decide', true, null, 200],
+        'choice' => [ParticipationOperations::class, 'choose', true, null, 200],
+    ];
+
     public function mutate(Request $r)
     {
-        $operation = $r->route('operation');
-        $id = $r->route('id');
-        $operations = [
-            'create-call' => [PortalController::class, 'createCall'], 'edit-call' => [PortalController::class, 'editCall'], 'offer' => [PortalController::class, 'saveOffer'],
-            'user' => [PortalController::class, 'saveUser'], 'permission' => [PortalController::class, 'membership'], 'category' => [PortalController::class, 'category'], 'edit-category' => [PortalController::class, 'editCategory'],
-            'profile' => [GovernanceController::class, 'profile'], 'revoke' => [GovernanceController::class, 'revoke'], 'reassign' => [GovernanceController::class, 'reassign'], 'assign' => [PortalController::class, 'assign'],
-            'correction' => [GovernanceController::class, 'requestCorrection'], 'decide-correction' => [GovernanceController::class, 'decide'],
-            'tie' => [PortalController::class, 'openTie'], 'resolve-tie' => [PortalController::class, 'resolveTie'], 'continue-tie' => [GovernanceController::class, 'continueTie'], 'approve' => [PortalController::class, 'approve'],
-            'open-amendment' => [ParticipationController::class, 'open'], 'amendment-upload' => [ParticipationController::class, 'amendment', 'archivo'], 'amendment-submit' => [ParticipationController::class, 'amendment', 'enviar'], 'amendment-review' => [ParticipationController::class, 'amendment', 'revisar'], 'amendment-expire' => [ParticipationController::class, 'amendment', 'vencer'],
-            'participation-request' => [ParticipationController::class, 'request'], 'participation-decision' => [ParticipationController::class, 'decide'], 'choice' => [ParticipationController::class, 'choose'],
-        ];
-        $target = $operations[$operation] ?? abort(404);
-        $parameters = ['r' => $r];
-        $method = new \ReflectionMethod($target[0], $target[1]);
-        foreach ($method->getParameters() as $parameter) {
-            if ($parameter->getName() === 'id') {
-                $parameters['id'] = $id ?? abort(404);
-            }
-            if ($parameter->getName() === 'action') {
-                $parameters['action'] = $target[2];
-            }
+        $operation = (string) $r->route('operation');
+        [$class, $method, $needsId, $action, $status] = self::OPERATIONS[$operation] ?? abort(404);
+        $arguments = [$r];
+        if ($needsId) {
+            $arguments[] = $r->route('id') ?? abort(404);
         }
-        $response = app()->call([app($target[0]), $target[1]], $parameters);
+        if ($action !== null) {
+            $arguments[] = $action;
+        }
+        $result = app($class)->{$method}(...$arguments);
         $data = ['message' => 'Operación registrada con los controles del dominio.'];
-        if ($operation === 'create-call' && preg_match('~/convocatorias/([0-9]+)~', $response->getTargetUrl(), $match)) {
-            $data['id'] = (int) $match[1];
+        if ($operation === 'create-call') {
+            $data['id'] = $result;
         }
 
-        return response()->json($data, in_array($operation, ['create-call', 'user', 'permission', 'category', 'offer', 'correction', 'open-amendment', 'participation-request']) ? 201 : 200);
+        return response()->json($data, $status);
     }
 }
