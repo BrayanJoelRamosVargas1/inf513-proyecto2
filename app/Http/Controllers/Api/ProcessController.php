@@ -81,8 +81,9 @@ final class ProcessController extends Controller
     public function awards(Request $r)
     {
         $v = app(AwardsView::class)->data($r);
-        $v['awards'] = $v['awards']->map(function ($a) {
-            $call = Selection::row('calls', $a->call_id);
+        $calls = [];
+        $v['awards'] = $v['awards']->map(function ($a) use (&$calls) {
+            $call = $calls[$a->call_id] ??= Selection::row('calls', $a->call_id);
             $a->publication = collect((array) $a->publication)->only(['id', 'version', 'created_at']);
 
             return collect((array) $a)->only(['id', 'user_id', 'name', 'title', 'call_id', 'participation', 'selection', 'publication', 'choice', 'choices'])->put('can_choose', $call->mode === 'DEMO' && in_array($call->status, ['results', 'evaluation']));

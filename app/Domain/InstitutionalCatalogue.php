@@ -19,9 +19,15 @@ final class InstitutionalCatalogue
         return $offer->is_subject ? 'asignatura' : (Selection::row('categories', $offer->category_id)->regime === 'laboratorio' ? 'laboratorio' : 'sala');
     }
 
+    /** Se decodifica una sola vez por petición y archivo; la clave incluye fecha y tamaño para no servir un catálogo modificado. */
+    private static array $definitionsCache = [];
+
     public function definitions(): array
     {
-        return json_decode(file_get_contents($this->path('catalogue.json')), true, 512, JSON_THROW_ON_ERROR);
+        $path = $this->path('catalogue.json');
+        $key = $path.'|'.filemtime($path).'|'.filesize($path);
+
+        return self::$definitionsCache[$key] ??= json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function original(string $key): array
