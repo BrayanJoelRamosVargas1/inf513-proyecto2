@@ -61,6 +61,7 @@ final class GovernanceTest extends TestCase
     {
         foreach (['cpd', 'ci'] as $kind) {
             $this->s->upload($u ?? $this->student, $id, $kind, UploadedFile::fake()->image($kind.'.png'));
+            $this->scanApplicantFixtures();
         }
     }
 

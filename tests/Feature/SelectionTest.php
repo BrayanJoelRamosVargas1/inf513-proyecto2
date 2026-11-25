@@ -59,6 +59,7 @@ final class SelectionTest extends TestCase
     {
         foreach (['cpd', 'ci'] as $kind) {
             $this->s->upload($u ?? $this->student, $id, $kind, UploadedFile::fake()->image($kind.'.png'));
+            $this->scanApplicantFixtures();
         }
     }
 
@@ -186,6 +187,7 @@ final class SelectionTest extends TestCase
         $id = $this->app();
         $this->documents($id);
         $this->s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('segunda.png'));
+        $this->scanApplicantFixtures();
         $this->assertDatabaseHas('documents', ['application_id' => $id, 'kind' => 'cpd', 'version' => 2]);
         $this->rejects(fn () => $this->s->upload($this->student, $id, 'cpd', UploadedFile::fake()->createWithContent('malicioso.php', '<?php echo 1;')));
         $doc = DB::table('documents')->first();
