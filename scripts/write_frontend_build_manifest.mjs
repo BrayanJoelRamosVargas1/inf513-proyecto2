@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const files=dir=>fs.readdirSync(path.join(root,dir),{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(`${dir}/${e.name}`):[`${dir}/${e.name}`]);
+const hash=name=>crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');
+const sources=[...files('resources/js/portal').filter(n=>!n.includes('.test.')), 'package.json','package-lock.json','vite.config.js','scripts/write_frontend_build_manifest.mjs'].sort();
+const artifacts=files('public/build').filter(n=>!n.endsWith('/source-hashes.json')).sort();
+fs.writeFileSync(path.join(root,'public/build/source-hashes.json'),JSON.stringify({version:1,asset_base:process.env.VITE_ASSET_BASE||'/build/',sources:Object.fromEntries(sources.map(n=>[n,hash(n)])),artifacts:Object.fromEntries(artifacts.map(n=>[n,hash(n)]))},null,2)+'\n');
+console.log('Registro de fuentes y recursos compilados generado.');

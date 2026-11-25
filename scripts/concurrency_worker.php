@@ -13,6 +13,7 @@ $app->make(Kernel::class)->bootstrap();
 if (config('database.connections.'.config('database.default').'.database') !== 'ficct_test') {
     throw new RuntimeException('Solo ficct_test.');
 }
+require __DIR__.'/concurrency_documents.php';
 $s = app(Selection::class);
 $d = json_decode(file_get_contents($argv[1]), true);
 $mode = $argv[2];
@@ -41,8 +42,12 @@ try {
         $offer = $s->saveOffer($u['authority'], $selection, ['category_id' => $category, 'title' => 'Last seat', 'seats' => 1, 'is_subject' => false, 'modality' => 'DEMO', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture']);
         $s->transition($u['authority'], $selection, 'published');
         $candidate = $s->apply($u['student'], $offer);
-        // Estado de entrada sintético del ensayo, no evidencia de habilitación institucional.
-        DB::table('applications')->where('id', $candidate)->update(['status' => 'submitted', 'eligibility' => 'enabled', 'merit' => '40', 'exam' => '60', 'final' => '100']);
+        DB::table('memberships')->insert(['call_id' => $selection, 'user_id' => $u['authority']->id, 'role' => 'reviewer']);
+        ficctRaceDocument($u['student'], $candidate);
+        $s->submit($u['student'], $candidate);
+        $s->review($u['authority'], $candidate, ['doc:cpd' => 'meets', 'activo' => 'meets'], 'Cotejo sintético para ensayo de concurrencia.');
+        $s->eligibility($u['authority'], $candidate, true, 'Habilitación sintética, sin valor institucional.');
+        $s->merit($u['authority'], $candidate, '40', 'CPD sintético de ensayo');
         DB::table('memberships')->insert(['call_id' => $selection, 'user_id' => $u['teacher']->id, 'role' => 'evaluator']);
         $s->assign($u['authority'], $offer, $u['teacher']->id, 'Software');
         $s->transition($u['authority'], $selection, 'closed');
@@ -57,6 +62,9 @@ try {
     }
     if ($mode === 'apply') {
         $s->apply(User::findOrFail($d['student']), (int) $argv[3]);
+    }
+    if ($mode === 'calculate') {
+        $s->calculate(User::findOrFail($d['authority']), $d['candidate']);
     }
     if ($mode === 'approve') {
         $s->approve(User::findOrFail($d['authority']), $d['selection_offer'], 'Acta de prueba concurrente sobre última plaza DEMO.');

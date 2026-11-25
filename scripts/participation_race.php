@@ -15,6 +15,7 @@ $app->make(Kernel::class)->bootstrap();
 if (config('database.connections.'.config('database.default').'.database') !== 'ficct_test') {
     throw new RuntimeException('Solo ficct_test.');
 }
+require __DIR__.'/concurrency_documents.php';
 $s = app(Selection::class);
 $p = app(Participation::class);
 $d = json_decode(file_get_contents($argv[1]), true);
@@ -41,7 +42,7 @@ try {
         }
         foreach ($offers as $j => $offer) {
             $apps[$j] = $s->apply($u['student'], $offer);
-            $s->upload($u['student'], $apps[$j], 'cpd', UploadedFile::fake()->image('cpd.png'));
+            ficctRaceDocument($u['student'], $apps[$j]);
             $s->submit($u['student'], $apps[$j]);
             $s->review($u['reviewer'], $apps[$j], ['doc:cpd' => $j === 0 ? 'observed' : 'meets', 'activo' => 'meets'], 'Evidencia sintética para carrera concurrente.');
             if ($j) {
@@ -51,7 +52,7 @@ try {
             }
         }
         $m = $p->open($u['reviewer'], $apps[0], ['cpd'], now()->addHour()->toIso8601String(), 'Ventana sintética concurrente.', 'ACTA-SINTETICA-CONCURRENCIA');
-        $p->upload($u['student'], $m, 'cpd', UploadedFile::fake()->image('corregido.png'));
+        ficctRaceDocument($u['student'], $apps[0], $m);
         $s->transition($u['authority'], $calls[1], 'closed');
         $s->transition($u['authority'], $calls[1], 'evaluation');
         foreach ([1, 2] as $j) {
@@ -85,13 +86,13 @@ try {
     }
     if ($mode === 'prepare_upload') {
         $d['next_amendment'] = $p->open($reviewer, $d['apps'][0], ['cpd'], now()->addHour()->toIso8601String(), 'Nueva ventana técnica de ensayo.', 'ACTA-SINTETICA-NUEVA-VENTANA');
-        $p->upload($student, $d['next_amendment'], 'cpd', UploadedFile::fake()->image('base-carrera.png'));
+        ficctRaceDocument($student, $d['apps'][0], $d['next_amendment']);
         file_put_contents($argv[1], json_encode($d));
         echo 'READY';
         exit;
     }
     if ($mode === 'upload') {
-        $p->upload($student, $d['next_amendment'], 'cpd', UploadedFile::fake()->image('carga-concurrente.png'));
+        ficctRaceDocument($student, $d['apps'][0], $d['next_amendment']);
     }
     if ($mode === 'seal') {
         $p->submit($student, $d['next_amendment']);

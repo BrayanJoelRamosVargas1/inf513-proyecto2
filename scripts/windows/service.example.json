@@ -1,0 +1,10 @@
+{
+  "service_name": "FICCTDocumentProcessor",
+  "root": "C:\\FICCT\\sistema",
+  "python": "C:\\FICCT\\runtime\\python.exe",
+  "php": "C:\\FICCT\\runtime\\php.exe",
+  "worker_name": "windows-service",
+  "environment": {},
+  "required_services": [],
+  "external_database": false
+}
