@@ -37,7 +37,7 @@ final class SelectionController extends Controller
             $offer->application_block = Workspace::applicationBlock($r->user(), $call, $offer, $subjects);
         }
 
-        return response()->json(['call' => $call, 'offers' => $offers, 'authority' => $authority, 'reviewer' => $reviewer, 'evaluator' => $evaluator, 'applications' => PortalScope::applications($r->user())->where('offers.call_id', $id)->orderBy('applications.id')->get(['applications.id', 'applications.status', 'applications.eligibility', 'applications.participation', 'offers.title', 'users.name'])]);
+        return response()->json(['call' => $call, 'documentary' => app(\App\Domain\InstitutionalCatalogue::class)->forCall($id), 'offers' => $offers, 'authority' => $authority, 'reviewer' => $reviewer, 'evaluator' => $evaluator, 'applications' => PortalScope::applications($r->user())->where('offers.call_id', $id)->orderBy('applications.id')->get(['applications.id', 'applications.status', 'applications.eligibility', 'applications.participation', 'offers.title', 'users.name'])]);
     }
 
     public function applications(Request $r)
@@ -101,10 +101,17 @@ final class SelectionController extends Controller
         $hasEditableArea = $v['assignments']->contains(fn ($assignment) => ! $v['grades']->contains(fn ($grade) => $grade->assignment_id === $assignment->id && $grade->status !== 'draft'));
         $canCorrect = $v['reviewer'] || $v['authority'] || (Access::has($r->user(), $v['call']->id, ['evaluator']) && $v['grades']->isNotEmpty());
         $canReview = $active && $v['reviewer'] && ! $v['owner'] && ! $v['hasAmendmentHistory'] && $app->status === 'submitted' && $app->eligibility === 'pending' && in_array($v['call']->status, ['published', 'closed']);
-        $allCriteriaMet = collect(array_keys($criteria))->every(fn ($key) => ($v['reviews']->get($key)?->decision) === 'meets');
+        $allCriteriaMet = collect(array_keys($criteria))->every(fn ($key) => Selection::criterionSatisfied($offer, $key, $v['reviews']->get($key)?->decision));
+        $cpd = null;
+        if ($v['owner'] || $v['reviewer']) {
+            $catalogue = app(\App\Domain\InstitutionalCatalogue::class);
+            $modality = $catalogue->modality($offer);
+            $cpd = ['modality' => $modality, 'definition' => $catalogue->definitions()['profiles']['convocatoria-01']['modalities'][$modality],
+                'records' => DB::table('institutional_register')->where('call_id', $v['call']->id)->where('kind', 'cpd')->whereRaw("payload->>'application_id' = ?", [(string) $id])->orderByDesc('id')->get()->map(fn ($row) => ['id' => $row->id, 'reference' => $row->reference, 'version' => $row->version, 'recorded_by' => $row->recorded_by, 'created_at' => $row->created_at, 'payload' => Selection::json($row->payload)])];
+        }
 
-        return response()->json(['application' => $data, 'student' => ['name' => $v['student']->name], 'offer' => ['id' => $offer->id, 'title' => $offer->title, 'documents' => Selection::json($offer->documents), 'weights' => Selection::json($offer->weights)], 'call' => collect((array) $v['call'])->only(['id', 'title', 'status', 'mode']),
-            'owner' => $v['owner'], 'reviewer' => $v['reviewer'], 'authority' => $v['authority'], 'criteria' => $v['owner'] || $v['reviewer'] || $v['authority'] ? $criteria : [],
+        return response()->json(['cpd_context' => $cpd, 'application' => $data, 'student' => ['name' => $v['student']->name], 'offer' => ['id' => $offer->id, 'title' => $offer->title, 'documents' => Selection::json($offer->documents), 'weights' => Selection::json($offer->weights)], 'call' => collect((array) $v['call'])->only(['id', 'title', 'status', 'mode']),
+            'owner' => $v['owner'], 'reviewer' => $v['reviewer'], 'authority' => $v['authority'], 'conditional_criteria' => $v['owner'] || $v['reviewer'] || $v['authority'] ? array_values(array_filter(array_keys($criteria), fn ($key) => Selection::conditionalCriterion($offer, $key))) : [], 'criteria' => $v['owner'] || $v['reviewer'] || $v['authority'] ? $criteria : [],
             'documents' => $v['effectiveDocuments']->map(fn ($doc) => collect((array) $doc)->only(['id', 'kind', 'name', 'mime', 'version', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($doc->id)))->values(),
             'reviews' => $v['reviews']->values(), 'grades' => $v['grades'], 'assignments' => $v['assignments'],
             'can_view_corrections' => $canCorrect,

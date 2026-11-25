@@ -3,7 +3,7 @@
 @section('content')
 @php($tieResolved=$ties->contains('status','resolved'))
 @php($canOperate=$call->mode==='DEMO'&&in_array($call->status,['evaluation','results']))
-<a class="back" href="/convocatorias/{{ $call->id }}">← {{ $call->title }}</a><div class="page-heading compact"><div><div class="eyebrow">CONSOLIDADO DE AUTORIDAD</div><h1>{{ $offer->title }}</h1><p>{{ $offer->seats }} {{ $offer->seats==1?'plaza':'plazas' }} · Méritos 40 + Examen 60 · Selección sujeta a aprobación</p></div></div>
+<a class="back" href="/convocatorias/{{ $call->id }}">← {{ $call->title }}</a><div class="page-heading compact"><div><div class="eyebrow">CONSOLIDADO DE AUTORIDAD</div><h1>{{ $offer->title }}</h1>@if($documentary_reference??false)<p>Plazas ofertadas en la fuente: {{ $offer->seats??'No especificadas' }}. Cobertura y vacantes históricas no acreditadas.</p>@else<p>{{ $offer->seats }} {{ $offer->seats==1?'plaza':'plazas' }} · Méritos 40 + Examen 60 · Selección sujeta a aprobación</p>@endif</div></div>
 @if($offer->needs_publication_review)<div class="alert warning"><strong>Revisión {{ $offer->result_revision }} pendiente de publicación.</strong> Las plazas no se reasignaron. Las publicaciones anteriores conservan sus decisiones; revise cambios y nuevos empates antes de aprobar otra versión.</div>@endif
 @if($offer->held_vacancies)<div class="alert warning">{{ $offer->held_vacancies }} {{ $offer->held_vacancies==1?'plaza vacante retenida':'plazas vacantes retenidas' }} tras renuncia. El cupo original de {{ $offer->seats }} se conserva; esta publicación no asignará reemplazantes para {{ $offer->held_vacancies==1?'esa plaza':'esas plazas' }}.</div>@endif
 @if($warning)<div class="alert warning">{{ $warning }}</div>@endif

@@ -1,0 +1,786 @@
+{
+  "sources": {
+    "resolucion": {
+      "file": "resolucion.pdf",
+      "name": "Resolución Vicerrectoral 021/2023",
+      "sha256": "02ea462eec51f81725f9081162045cdc8c1c4c6242f3af7a76ec1942a571171e",
+      "pages": 29
+    },
+    "convocatoria-01": {
+      "file": "convocatoria-01.pdf",
+      "name": "Primera convocatoria FICCT 01/2026",
+      "sha256": "1840f406a749201ce8a915eb6ff85f61b7a85b3d37f08b491800abb1f5a157bd",
+      "pages": 7
+    },
+    "convocatoria-02": {
+      "file": "convocatoria-02.pdf",
+      "name": "Segunda convocatoria FICCT 02/2026",
+      "sha256": "cd2a738f9ab790a39bcd2b02966c48bd9e5bcdd2f7f11a80f229b35af5ae24e4",
+      "pages": 6
+    }
+  },
+  "profiles": {
+    "convocatoria-01": {
+      "number": "01/2026",
+      "source_key": "convocatoria-01",
+      "version": 1,
+      "modalities": {
+        "asignatura": {
+          "title": "Docencia por asignatura",
+          "regime": "docencia",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "No tener permanencia mayor a 8 años desde el ingreso.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "antiguedad": "Un año o dos semestres vencidos, según la carrera.",
+            "nota_asignatura": "Asignatura aprobada con nota ≥51 en periodo regular; no Curso de Verano ni Mesa Examinadora.",
+            "avance_nivel": "80 % de las asignaturas del periodo correspondiente aprobadas.",
+            "niveles_inferiores": "Todas las asignaturas de niveles inferiores aprobadas.",
+            "reprobacion_objeto": "No haber reprobado más de una vez la asignatura a postular en periodo regular.",
+            "limite_asignaturas": "No postular a más de 4 asignaturas; admite presencial y/o virtual.",
+            "ppa": "PPA igual o mayor a 51.",
+            "graduacion_mora": "Si el plan está vencido salvo titulación: hasta 2 periodos semestrales o 1 año en sistema anual."
+          },
+          "documents": {
+            "carta": "Carta de solicitud dirigida al Vicedecano con sigla y asignatura.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Histórico académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado."
+          },
+          "resolution_pages": [
+            5,
+            7,
+            8,
+            9,
+            10
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Escrito": 36,
+              "Práctico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "nota",
+              "label": "Nota de aprobación",
+              "maximum": 24,
+              "bands": [
+                [
+                  51,
+                  60,
+                  6
+                ],
+                [
+                  61,
+                  79,
+                  15
+                ],
+                [
+                  80,
+                  89,
+                  20
+                ],
+                [
+                  90,
+                  100,
+                  24
+                ]
+              ],
+              "decimal_policy": "Pendiente; no interpolar."
+            },
+            {
+              "key": "misma",
+              "label": "Experiencia en la misma asignatura",
+              "maximum": 12,
+              "semester_points": 2,
+              "annual_points": 4
+            },
+            {
+              "key": "otras",
+              "label": "Experiencia en otras asignaturas",
+              "maximum": 4,
+              "semester_points": 1,
+              "annual_points": 2
+            }
+          ],
+          "commission": {
+            "designation": "Director de Carrera y/o Vicedecano, según especialidad/ciclo común.",
+            "members": [
+              "Director de Carrera",
+              "Docente titular o sustituto previsto ante negativa del titular",
+              "Docente invitado"
+            ],
+            "additional": "En ciclo/área común participa Vicedecano.",
+            "observers": "Representante FUAD y delegado Vicerrectorado, previa acreditación 48 h antes."
+          }
+        },
+        "sala": {
+          "title": "Docencia en sala de cómputo",
+          "regime": "docencia",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "No tener permanencia mayor a 8 años desde el ingreso.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "antiguedad": "Dos años o cuatro semestres vencidos, según la carrera.",
+            "ejercicio": "Podrá postularse máximo 2 años."
+          },
+          "documents": {
+            "carta": "Carta al Vicedecano indicando laboratorio/actividad.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Avance académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado.",
+            "cv": "Currículum Vitae con fotocopias de respaldo."
+          },
+          "resolution_pages": [
+            5,
+            7,
+            8,
+            9,
+            10
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Escrito": 36,
+              "Práctico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "ppa",
+              "label": "PPA",
+              "maximum": 24,
+              "bands": [
+                [
+                  51,
+                  69,
+                  6
+                ],
+                [
+                  70,
+                  79,
+                  12
+                ],
+                [
+                  80,
+                  89,
+                  18
+                ],
+                [
+                  90,
+                  100,
+                  24
+                ]
+              ]
+            },
+            {
+              "key": "nivel",
+              "label": "Semestres vencidos",
+              "maximum": 12,
+              "ambiguity": "p. 9: tramos 1–4 y 5–8; determinar con CPD acumulación y máximo. Sin fórmula automática."
+            },
+            {
+              "key": "experiencia",
+              "label": "Experiencia en docencia",
+              "maximum": 4,
+              "semester_points": "0.4"
+            }
+          ],
+          "commission": {
+            "designation": "Director de Carrera y/o Vicedecano según ámbito.",
+            "members": [
+              "Encargado del laboratorio/sala",
+              "Director de Carrera o Vicedecano según ámbito",
+              "Dos docentes invitados como mínimo"
+            ],
+            "observers": "Representante FUAD y delegado Vicerrectorado, previa acreditación 48 h antes."
+          }
+        },
+        "laboratorio": {
+          "title": "Laboratorio de servicio académico y/o social",
+          "regime": "laboratorio",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "Convocatoria: no mayor a 8 años. Reglamento art. 6: Licenciatura ≤8 años y Técnico Superior ≤5; confirmar aplicabilidad del nivel.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "plan": "Plan de estudios aprobado excepto la asignatura de graduación.",
+            "graduacion_mora": "Titulación en mora admisible mientras no se consigne nota final.",
+            "ppa": "PPA igual o mayor a 55.",
+            "ejercicio": "No haber ejercido antes el cargo de Auxiliar de Laboratorio."
+          },
+          "documents": {
+            "carta": "Carta al Decano indicando laboratorio/actividad.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Avance académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado.",
+            "cv": "Currículum Vitae con fotocopias de respaldo."
+          },
+          "resolution_pages": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Práctico": 36,
+              "Teórico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "permanencia",
+              "label": "Permanencia según nivel de carrera",
+              "maximum": 20,
+              "ambiguity": "Separar Licenciatura/Técnico Superior; extremos superpuestos en tabla técnica."
+            },
+            {
+              "key": "tesis",
+              "label": "Tiempo habilitado para defensa de tesis",
+              "maximum": 5
+            },
+            {
+              "key": "ppa",
+              "label": "PPA",
+              "maximum": 15,
+              "printed_bands": [
+                [
+                  51,
+                  69,
+                  "25%",
+                  10
+                ],
+                [
+                  70,
+                  79,
+                  "50%",
+                  11
+                ],
+                [
+                  80,
+                  89,
+                  "75%",
+                  13
+                ],
+                [
+                  90,
+                  100,
+                  "100%",
+                  15
+                ]
+              ],
+              "ambiguity": "Porcentajes y puntos impresos discrepan. No se selecciona una columna."
+            }
+          ],
+          "commission": {
+            "designation": "Decano.",
+            "members": [
+              "Director de Carrera",
+              "Jefe del Laboratorio al que se postula"
+            ],
+            "observers": "Delegado de Vicerrectorado, previa acreditación 48 horas antes del examen.",
+            "ambiguity": "El art. 13 p. 23 dice terna pero enumera Director de Carrera y Jefe del Laboratorio. No se inventa un tercer integrante; requiere aclaración."
+          }
+        }
+      },
+      "calendars": {
+        "asignatura": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-01-30T15:30:00-04:00",
+          "exam_start": "2026-02-02",
+          "exam_end": "2026-02-03",
+          "results_planned": "2026-02-05",
+          "results_actual": null,
+          "timetable_assignment": "2026-02-09",
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": null
+        },
+        "sala": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-01-30T15:30:00-04:00",
+          "exam_start": "2026-01-03",
+          "exam_end": "2026-01-05",
+          "results_planned": "2026-02-07",
+          "results_actual": null,
+          "timetable_assignment": null,
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": "Fechas impresas de enero anteriores al cierre. Pendiente de aclaración; no se reemplazan por febrero."
+        },
+        "laboratorio": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-01-30T15:30:00-04:00",
+          "exam_start": "2026-01-03",
+          "exam_end": "2026-01-05",
+          "results_planned": "2026-02-07",
+          "results_actual": null,
+          "timetable_assignment": null,
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": "Fechas impresas de enero anteriores al cierre. Pendiente de aclaración; no se reemplazan por febrero."
+        }
+      },
+      "cpd": {
+        "issuer": "CPD Facultativo",
+        "request": "A solicitud verbal del interesado, lunes a viernes 08:30–15:30 según convocatoria.",
+        "form_download": null,
+        "status": "Formato auténtico no proporcionado; no existe descarga sustitutiva."
+      },
+      "pending": [
+        "Umbral aprobatorio final",
+        "Rúbricas CPD ambiguas y redondeo",
+        "Composición de áreas con escrito/práctico",
+        "Plazas y carga horaria por asignatura",
+        "Designaciones, firmas y modelos oficiales",
+        "Vigencia y autorización institucional"
+      ],
+      "tie_exam": "Nuevo examen exclusivo para empatados en las últimas plazas: docencia art. 18 p. 10; laboratorio art. 17 p. 24. Condiciones de la comisión; sin fórmula de desempate inventada.",
+      "publication": {
+        "docencia": "Publicación en 48 h e informe de comisión en 24 h según arts. 17–19; aprobación/resolución institucional.",
+        "laboratorio": "Informe en 24 h, resolución de Decanato y designación hasta 15 días según arts. 18–23."
+      },
+      "administrative_scope": "Selección y registro de actos; asistencia, becas, planillas y gestión laboral posterior fuera del alcance aprobado."
+    },
+    "convocatoria-02": {
+      "number": "02/2026",
+      "source_key": "convocatoria-02",
+      "version": 1,
+      "modalities": {
+        "asignatura": {
+          "title": "Docencia por asignatura",
+          "regime": "docencia",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "No tener permanencia mayor a 8 años desde el ingreso.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "antiguedad": "Un año o dos semestres vencidos, según la carrera.",
+            "nota_asignatura": "Asignatura aprobada con nota ≥51 en periodo regular; no Curso de Verano ni Mesa Examinadora.",
+            "avance_nivel": "80 % de las asignaturas del periodo correspondiente aprobadas.",
+            "niveles_inferiores": "Todas las asignaturas de niveles inferiores aprobadas.",
+            "reprobacion_objeto": "No haber reprobado más de una vez la asignatura a postular en periodo regular.",
+            "limite_asignaturas": "No postular a más de 4 asignaturas; admite presencial y/o virtual.",
+            "ppa": "PPA igual o mayor a 51.",
+            "graduacion_mora": "Si el plan está vencido salvo titulación: hasta 2 periodos semestrales o 1 año en sistema anual."
+          },
+          "documents": {
+            "carta": "Carta de solicitud dirigida al Vicedecano con sigla y asignatura.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Histórico académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado."
+          },
+          "resolution_pages": [
+            5,
+            7,
+            8,
+            9,
+            10
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Escrito": 36,
+              "Práctico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "nota",
+              "label": "Nota de aprobación",
+              "maximum": 24,
+              "bands": [
+                [
+                  51,
+                  60,
+                  6
+                ],
+                [
+                  61,
+                  79,
+                  15
+                ],
+                [
+                  80,
+                  89,
+                  20
+                ],
+                [
+                  90,
+                  100,
+                  24
+                ]
+              ],
+              "decimal_policy": "Pendiente; no interpolar."
+            },
+            {
+              "key": "misma",
+              "label": "Experiencia en la misma asignatura",
+              "maximum": 12,
+              "semester_points": 2,
+              "annual_points": 4
+            },
+            {
+              "key": "otras",
+              "label": "Experiencia en otras asignaturas",
+              "maximum": 4,
+              "semester_points": 1,
+              "annual_points": 2
+            }
+          ],
+          "commission": {
+            "designation": "Director de Carrera y/o Vicedecano, según especialidad/ciclo común.",
+            "members": [
+              "Director de Carrera",
+              "Docente titular o sustituto previsto ante negativa del titular",
+              "Docente invitado"
+            ],
+            "additional": "En ciclo/área común participa Vicedecano.",
+            "observers": "Representante FUAD y delegado Vicerrectorado, previa acreditación 48 h antes."
+          }
+        },
+        "sala": {
+          "title": "Docencia en sala de cómputo",
+          "regime": "docencia",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "No tener permanencia mayor a 8 años desde el ingreso.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "antiguedad": "Dos años o cuatro semestres vencidos, según la carrera.",
+            "ejercicio": "Podrá postularse máximo 2 años."
+          },
+          "documents": {
+            "carta": "Carta al Vicedecano indicando laboratorio/actividad.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Avance académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado.",
+            "cv": "Currículum Vitae con fotocopias de respaldo."
+          },
+          "resolution_pages": [
+            5,
+            7,
+            8,
+            9,
+            10
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Escrito": 36,
+              "Práctico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "ppa",
+              "label": "PPA",
+              "maximum": 24,
+              "bands": [
+                [
+                  51,
+                  69,
+                  6
+                ],
+                [
+                  70,
+                  79,
+                  12
+                ],
+                [
+                  80,
+                  89,
+                  18
+                ],
+                [
+                  90,
+                  100,
+                  24
+                ]
+              ]
+            },
+            {
+              "key": "nivel",
+              "label": "Semestres vencidos",
+              "maximum": 12,
+              "ambiguity": "p. 9: tramos 1–4 y 5–8; determinar con CPD acumulación y máximo. Sin fórmula automática."
+            },
+            {
+              "key": "experiencia",
+              "label": "Experiencia en docencia",
+              "maximum": 4,
+              "semester_points": "0.4"
+            }
+          ],
+          "commission": {
+            "designation": "Director de Carrera y/o Vicedecano según ámbito.",
+            "members": [
+              "Encargado del laboratorio/sala",
+              "Director de Carrera o Vicedecano según ámbito",
+              "Dos docentes invitados como mínimo"
+            ],
+            "observers": "Representante FUAD y delegado Vicerrectorado, previa acreditación 48 h antes."
+          }
+        },
+        "laboratorio": {
+          "title": "Laboratorio de servicio académico y/o social",
+          "regime": "laboratorio",
+          "requirements": {
+            "matricula": "Estudiante activo UAGRM con al menos una materia inscrita.",
+            "autonomia": "No haber atentado contra la autonomía ni haber sido sancionado por conducta irregular.",
+            "permanencia": "Convocatoria: no mayor a 8 años. Reglamento art. 6: Licenciatura ≤8 años y Técnico Superior ≤5; confirmar aplicabilidad del nivel.",
+            "reprobaciones": "No haber reprobado una asignatura más de 3 veces en periodos regulares.",
+            "beneficios": "No gozar de otros beneficios remunerados por UAGRM.",
+            "cpd_actualizado": "Formulario original de evaluación de méritos emitido por CPD Facultativo, actualizado a la fecha.",
+            "plan": "Plan de estudios aprobado excepto la asignatura de graduación.",
+            "graduacion_mora": "Titulación en mora admisible mientras no se consigne nota final.",
+            "ppa": "PPA igual o mayor a 55.",
+            "ejercicio": "No haber ejercido antes el cargo de Auxiliar de Laboratorio."
+          },
+          "documents": {
+            "carta": "Carta al Decano indicando laboratorio/actividad.",
+            "cpd": "Formulario original de evaluación de méritos emitido por CPD Facultativo.",
+            "ci": "Fotocopia de cédula de identidad.",
+            "academico": "Avance académico impreso del Perfil.",
+            "autonomia": "Certificado de autonomía emitido por Secretaría General, edificio Rectorado.",
+            "cv": "Currículum Vitae con fotocopias de respaldo."
+          },
+          "resolution_pages": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25
+          ],
+          "verification": "Revisión documental manual; sin integración académica automática.",
+          "physical_delivery": "Folder amarillo, foliado, según convocatoria. La copia digital no acredita por sí sola su sustitución.",
+          "exam": {
+            "maximum": 60,
+            "components": {
+              "Práctico": 36,
+              "Teórico": 24
+            },
+            "practical_criteria": [
+              "Conocimiento",
+              "Preparación",
+              "Metodología",
+              "Respuestas"
+            ],
+            "presentation_minutes": 20,
+            "questions_minutes": 10,
+            "areas_composition": "Pendiente de homologación cuando se combinen áreas y componentes."
+          },
+          "merit_maximum": 40,
+          "final_approval_threshold": null,
+          "rounding": "Pendiente CPD",
+          "merit_components": [
+            {
+              "key": "permanencia",
+              "label": "Permanencia según nivel de carrera",
+              "maximum": 20,
+              "ambiguity": "Separar Licenciatura/Técnico Superior; extremos superpuestos en tabla técnica."
+            },
+            {
+              "key": "tesis",
+              "label": "Tiempo habilitado para defensa de tesis",
+              "maximum": 5
+            },
+            {
+              "key": "ppa",
+              "label": "PPA",
+              "maximum": 15,
+              "printed_bands": [
+                [
+                  51,
+                  69,
+                  "25%",
+                  10
+                ],
+                [
+                  70,
+                  79,
+                  "50%",
+                  11
+                ],
+                [
+                  80,
+                  89,
+                  "75%",
+                  13
+                ],
+                [
+                  90,
+                  100,
+                  "100%",
+                  15
+                ]
+              ],
+              "ambiguity": "Porcentajes y puntos impresos discrepan. No se selecciona una columna."
+            }
+          ],
+          "commission": {
+            "designation": "Decano.",
+            "members": [
+              "Director de Carrera",
+              "Jefe del Laboratorio al que se postula"
+            ],
+            "observers": "Delegado de Vicerrectorado, previa acreditación 48 horas antes del examen.",
+            "ambiguity": "El art. 13 p. 23 dice terna pero enumera Director de Carrera y Jefe del Laboratorio. No se inventa un tercer integrante; requiere aclaración."
+          }
+        }
+      },
+      "calendars": {
+        "asignatura": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-02-12T18:00:00-04:00",
+          "exam_start": "2026-02-13",
+          "exam_end": "2026-02-14",
+          "results_planned": "2026-02-18",
+          "results_actual": null,
+          "timetable_assignment": null,
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": null
+        },
+        "sala": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-02-12T18:00:00-04:00",
+          "exam_start": "2026-02-13",
+          "exam_end": "2026-02-14",
+          "results_planned": "2026-02-18",
+          "results_actual": null,
+          "timetable_assignment": null,
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": null
+        },
+        "laboratorio": {
+          "timezone": "America/La_Paz",
+          "opening": null,
+          "closing": "2026-02-12T18:00:00-04:00",
+          "exam_start": "2026-02-13",
+          "exam_end": "2026-02-14",
+          "results_planned": "2026-02-18",
+          "results_actual": null,
+          "timetable_assignment": null,
+          "period": "1/2026 y 2/2026 según calendario universitario",
+          "conflict": null
+        }
+      },
+      "cpd": {
+        "issuer": "CPD Facultativo",
+        "request": "A solicitud verbal del interesado, lunes a viernes 08:30–15:30 según convocatoria.",
+        "form_download": null,
+        "status": "Formato auténtico no proporcionado; no existe descarga sustitutiva."
+      },
+      "pending": [
+        "Umbral aprobatorio final",
+        "Rúbricas CPD ambiguas y redondeo",
+        "Composición de áreas con escrito/práctico",
+        "Plazas y carga horaria por asignatura",
+        "Designaciones, firmas y modelos oficiales",
+        "Vigencia y autorización institucional"
+      ],
+      "tie_exam": "Nuevo examen exclusivo para empatados en las últimas plazas: docencia art. 18 p. 10; laboratorio art. 17 p. 24. Condiciones de la comisión; sin fórmula de desempate inventada.",
+      "publication": {
+        "docencia": "Publicación en 48 h e informe de comisión en 24 h según arts. 17–19; aprobación/resolución institucional.",
+        "laboratorio": "Informe en 24 h, resolución de Decanato y designación hasta 15 días según arts. 18–23."
+      },
+      "administrative_scope": "Selección y registro de actos; asistencia, becas, planillas y gestión laboral posterior fuera del alcance aprobado."
+    }
+  }
+}

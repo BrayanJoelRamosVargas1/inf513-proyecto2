@@ -163,15 +163,18 @@ final class Participation
                 Scores::fail('Revisión no disponible o sin motivo.');
             }
             $keys = array_merge(array_map(fn ($k) => 'doc:'.$k, array_keys(Selection::json($o->documents))), array_keys(Selection::json($o->requirements)));
-            if (array_diff($keys, array_keys($decisions)) || array_diff(array_keys($decisions), $keys) || array_diff(array_values($decisions), ['meets', 'fails', 'observed'])) {
+            if (array_diff($keys, array_keys($decisions)) || array_diff(array_keys($decisions), $keys) || array_diff(array_values($decisions), ['meets', 'fails', 'observed', 'not_applicable'])) {
                 Scores::fail('Repita la revisión completa de documentos y requisitos.');
             }
             $documentChecks = app(ApplicantDocuments::class)->assertDecisions($a->id, $decisions);
             $before = DB::table('reviews')->where('application_id', $a->id)->get();
             foreach ($decisions as $key => $value) {
+                if ($value === 'not_applicable' && ! Selection::conditionalCriterion($o, $key)) {
+                    Scores::fail('Este criterio obligatorio no admite No aplica.');
+                }
                 DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
             }
-            $enabled = ! array_diff(array_values($decisions), ['meets']);
+            $enabled = collect($decisions)->every(fn ($value, $key) => Selection::criterionSatisfied($o, $key, $value));
             DB::table('applications')->where('id', $a->id)->update(['eligibility' => $enabled ? 'enabled' : 'disabled', 'eligibility_reason' => $reason]);
             DB::table('amendments')->where('id', $id)->update(['status' => 'reviewed', 'updated_at' => now()]);
             $snap = DB::table('dossier_snapshots')->where('application_id', $a->id)->orderByDesc('id')->first();

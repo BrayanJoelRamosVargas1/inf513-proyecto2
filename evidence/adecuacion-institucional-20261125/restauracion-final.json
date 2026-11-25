@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "tables_identical": 54,
+  "triggers_restored": 18,
+  "private_files_identical": 74,
+  "new_tables": {
+    "institutional_subjects": 49,
+    "institutional_call_profiles": 2,
+    "institutional_subject_offers": 66,
+    "institutional_register": 7
+  },
+  "constraints": [
+    {
+      "table_name": "institutional_call_profiles",
+      "name": "institutional_call_profiles_call_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (call_id) REFERENCES calls(id)"
+    },
+    {
+      "table_name": "institutional_call_profiles",
+      "name": "institutional_call_profiles_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (call_id)"
+    },
+    {
+      "table_name": "institutional_call_profiles",
+      "name": "institutional_call_profiles_source_key_unique",
+      "type": "u",
+      "definition": "UNIQUE (source_key)"
+    },
+    {
+      "table_name": "institutional_register",
+      "name": "institutional_register_call_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (call_id) REFERENCES calls(id)"
+    },
+    {
+      "table_name": "institutional_register",
+      "name": "institutional_register_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "institutional_register",
+      "name": "institutional_register_recorded_by_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (recorded_by) REFERENCES users(id)"
+    },
+    {
+      "table_name": "institutional_register",
+      "name": "institutional_register_source_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (source_id) REFERENCES institutional_sources(id)"
+    },
+    {
+      "table_name": "institutional_register",
+      "name": "institutional_register_version_unique",
+      "type": "u",
+      "definition": "UNIQUE (call_id, kind, record_scope, reference, version)"
+    },
+    {
+      "table_name": "institutional_subject_offers",
+      "name": "institutional_subject_offers_call_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (call_id) REFERENCES calls(id)"
+    },
+    {
+      "table_name": "institutional_subject_offers",
+      "name": "institutional_subject_offers_call_id_subject_id_unique",
+      "type": "u",
+      "definition": "UNIQUE (call_id, subject_id)"
+    },
+    {
+      "table_name": "institutional_subject_offers",
+      "name": "institutional_subject_offers_offer_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (offer_id) REFERENCES offers(id)"
+    },
+    {
+      "table_name": "institutional_subject_offers",
+      "name": "institutional_subject_offers_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (offer_id)"
+    },
+    {
+      "table_name": "institutional_subject_offers",
+      "name": "institutional_subject_offers_subject_id_foreign",
+      "type": "f",
+      "definition": "FOREIGN KEY (subject_id) REFERENCES institutional_subjects(id)"
+    },
+    {
+      "table_name": "institutional_subjects",
+      "name": "institutional_subjects_code_unique",
+      "type": "u",
+      "definition": "UNIQUE (code)"
+    },
+    {
+      "table_name": "institutional_subjects",
+      "name": "institutional_subjects_pkey",
+      "type": "p",
+      "definition": "PRIMARY KEY (id)"
+    }
+  ],
+  "source_listener_stopped": true,
+  "operative_listener_or_database_changed": false,
+  "scope": "Complete isolated PostgreSQL and private-file restoration; operating-system service/reboot acceptance not repeated."
+}

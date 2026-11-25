@@ -1,0 +1,21 @@
+﻿id,solicitud,unidad,base_documental,funcionalidad,prioridad,estado,alternativa_legitima,desbloquea
+SOL-01,Formulario CPD vacío y ejemplo anonimizado para asignatura,CPD Facultativo,D11–D13,CPD y mérito,P0,PENDIENTE_NO_ENVIADA,Solicitar original; cargar documento aportado sin formato ficticio,Contrastar campos y homologar el registro
+SOL-02,Formulario CPD vacío y ejemplo anonimizado para salas,CPD Facultativo,D12,CPD sala,P0,PENDIENTE_NO_ENVIADA,Registrar componentes recibidos con fundamento,Homologar campos de la modalidad
+SOL-03,Formulario CPD vacío y ejemplo anonimizado de laboratorio,CPD Facultativo,L10–L12,CPD laboratorio,P0,PENDIENTE_NO_ENVIADA,Registrar puntuación certificada y conservar diferencias,Homologar datos y controles
+SOL-04,Aclaración de porcentajes/puntos de PPA en laboratorio,CPD / autoridad competente,"L11, p22",Rúbrica 15 puntos,P0,PENDIENTE_NO_ENVIADA,No calcular franjas ambiguas,Implementar rúbrica confirmada
+SOL-05,Tratamiento de decimales y límites de franjas,CPD / comisión,D12/L11,Méritos,P0,PENDIENTE_NO_ENVIADA,No interpolar,Validar precisión de la rúbrica
+SOL-06,Nota mínima final aprobatoria,Vicedecanato / Decanato / comisión competente,D20/L19,Selección y desierta,P0,PENDIENTE_NO_ENVIADA,Ranking DEMO no es aprobación institucional,Aplicar umbral confirmado
+SOL-07,Composición áreas/componentes por sala y laboratorio,Comisiones / Vicedecanato,D15–D17/L14–L16; convocatorias,Exámenes,P0,PENDIENTE_NO_ENVIADA,Conservar matrices sin asumir producto de pesos,Configurar composición oficial
+SOL-08,Cantidad de plazas por asignatura,Vicedecanato / Direcciones,D8; convocatorias,Ofertas y adjudicación,P0,PENDIENTE_NO_ENVIADA,NULL y ranking bloqueado en historial,Configurar cupos reales
+SOL-09,Carga horaria por oferta y compatibilidad de horarios,Direcciones / Vicedecanato,D35/L34,Ofertas y aceptación,P1,PENDIENTE_NO_ENVIADA,No inventar horas ni incompatibilidades,Revisar compatibilidad autorizada
+SOL-10,Aclaración de fechas de salas de primera convocatoria,Vicedecanato / unidad emisora,Convocatoria 01/2026,Calendario,P0,PENDIENTE_NO_ENVIADA,Mostrar conflicto impreso,Registrar fe de erratas con fuente
+SOL-11,Documento de designación y composición de comisiones,Decanato / Vicedecanato,D14/L13,Comisiones,P0,PENDIENTE_NO_ENVIADA,Registro interno sin atribuciones automáticas,Validar autoridad y competencias
+SOL-12,Aclaración de la terna de laboratorio,Decanato,L13 p23,Comisión laboratorio,P0,PENDIENTE_NO_ENVIADA,No inventar tercer integrante,Validar composición
+SOL-13,Modelos de actas de desempate y condiciones de nuevo examen,Comisión evaluadora,D18/L17,Desempate,P1,PENDIENTE_NO_ENVIADA,Registrar examen DEMO sin ganador automático,Homologar acta y condiciones
+SOL-14,"Modelos de resoluciones, actas y designaciones",Decanato / HCF,D19–D22/L18–L23,Actos administrativos,P1,PENDIENTE_NO_ENVIADA,Reportes internos sin sellos ni firmas,Vincular originales autenticados
+SOL-15,Equivalencia y recepción válida del expediente digital,Autoridad competente / Secretaría,D8/D11/L10,Envío de expediente,P0,PENDIENTE_NO_ENVIADA,Constancia interna que no sustituye el procedimiento físico,Formalizar recepción digital
+SOL-16,Plazos y autoridades de subsanación,Responsables académicos,Revisión de requisitos; procedimiento no confirmado,Subsanaciones,P0,PENDIENTE_NO_ENVIADA,Ventanas DEMO con versiones,Aplicar procedimiento aprobado
+SOL-17,"Efectos de retiro, renuncia y vacante",Decanato / comisión,D20/D25/L19,Participación,P1,PENDIENTE_NO_ENVIADA,No adjudicar reemplazo automáticamente,Homologar decisiones
+SOL-18,Aceptación y adjudicaciones múltiples,Autoridad competente,Pendiente sin regla completa confirmada,Adjudicación,P0,PENDIENTE_NO_ENVIADA,Detectar concurrencia sin prohibición inventada,Configurar incompatibilidades confirmadas
+SOL-19,Autorización y vigencia normativa institucional,Decanato / asesoría competente,RES1–RES4,Operación oficial,P0,PENDIENTE_NO_ENVIADA,Mantener NO_GO_INSTITUCIONAL,Aceptar operación mediante procedimiento autorizado
+SOL-20,"Verificación autorizada de matrícula, historial y autonomía",DICAA / CPD / Secretaría General,D7/L6,Requisitos,P1,PENDIENTE_NO_ENVIADA,Revisión documental trazable; sin acceso a bases privadas,Integración autorizada o cotejo formal

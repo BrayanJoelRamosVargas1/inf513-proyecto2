@@ -109,3 +109,12 @@ Artisan::command('ficct:demo-recorrido', function () {
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('ficct:import-sources {--first= : ID histórico de 01/2026} {--second= : ID histórico de 02/2026}', function () {
+    if (! ctype_digit((string) $this->option('first')) || ! ctype_digit((string) $this->option('second'))) {
+        $this->error('Indique ambos identificadores históricos explícitamente.');
+        return 1;
+    }
+    $this->line(json_encode(app(\App\Domain\InstitutionalCatalogue::class)->import((int) $this->option('first'), (int) $this->option('second')), JSON_UNESCAPED_UNICODE));
+    return 0;
+})->purpose('Importar fuentes 2026 verificadas sin reabrir procesos ni inventar plazas');

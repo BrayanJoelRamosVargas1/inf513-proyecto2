@@ -4,7 +4,7 @@ import {render,screen,cleanup,fireEvent,waitFor} from '@testing-library/react';
 import {MemoryRouter} from 'react-router-dom';
 import {Auth,FooterVisitCounter} from './main';
 import {Session} from './shared';
-import {api} from './api';
+import {api,csrf} from './api';
 
 vi.mock('./api',async importOriginal=>{
   const original=await importOriginal();
@@ -12,6 +12,14 @@ vi.mock('./api',async importOriginal=>{
 });
 afterEach(()=>{cleanup();vi.clearAllMocks();});
 describe('Acceso renovado y contador público',()=>{
+  it('recupera el contador tras invalidar la sesión sin duplicar el recibo',async()=>{
+    api.post.mockRejectedValueOnce({response:{status:419}}).mockResolvedValueOnce({data:{total:9}});
+    render(<MemoryRouter><FooterVisitCounter pathOverride="/ingresar" isPublic/></MemoryRouter>);
+    await screen.findByText('Visitas de esta vista: 9');
+    expect(csrf).toHaveBeenCalledTimes(1);
+    expect(api.post).toHaveBeenCalledTimes(2);
+    expect(api.post.mock.calls[1]).toEqual(api.post.mock.calls[0]);
+  });
   it('cuenta acceso y registro por separado sin repetir al cambiar campos',async()=>{
     api.post.mockResolvedValue({data:{total:8}});
     render(<MemoryRouter><Session.Provider value={{setSession:vi.fn()}}><Auth/></Session.Provider></MemoryRouter>);

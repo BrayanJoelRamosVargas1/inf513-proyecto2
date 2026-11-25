@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->web(append: [SecureResponse::class, SubpathLinks::class]);
+        $middleware->web(append: [\App\Http\Middleware\InstitutionalExperience::class, SecureResponse::class, SubpathLinks::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(fn (Response $response) => SecureResponse::secure($response));

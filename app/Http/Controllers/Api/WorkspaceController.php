@@ -19,6 +19,7 @@ final class WorkspaceController extends Controller
         $roles = array_unique(array_merge([$r->user()->role], $effectiveRoles));
         $items = DB::table('navigation_items')->where('active', true)->whereIn('id', DB::table('navigation_roles')->whereIn('role', $roles)->select('navigation_item_id'))
             ->when($r->user()->role !== 'student', fn ($q) => $q->where('path', '!=', '/simulacion'))
+            ->when(config('portal.experience') !== 'training', fn ($q) => $q->where('path', '!=', '/simulacion'))
             ->when(! in_array('authority', $effectiveRoles), fn ($q) => $q->whereNotIn('path', ['/expedientes', '/institucional']))
             ->orderBy('position')->orderBy('id')->get(['id', 'label', 'path']);
 

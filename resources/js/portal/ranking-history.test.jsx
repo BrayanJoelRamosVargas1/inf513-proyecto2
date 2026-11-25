@@ -34,3 +34,12 @@ it('describe una ronda continuada sin presentarla como pendiente cuando la sigui
   expect(screen.queryByRole('button',{name:'Aprobar publicación DEMO'})).not.toBeInTheDocument();
   expect(screen.queryByRole('heading',{name:'Persiste el empate: nueva ronda'})).not.toBeInTheDocument();
 });
+
+it('no presenta las plazas ofertadas históricas como vacantes sin resultados acreditados',async()=>{
+ vi.spyOn(api,'get').mockResolvedValue({data:{call:{id:1,mode:'HISTORICAL',status:'archived'},offer:{id:1,title:'Sala de cómputo',seats:20,held_vacancies:0},documentary_reference:true,ranking:null,warning:'No se infieren ganadores, cobertura ni vacantes.',ties:[],publications:[],revisions:[],oldTies:[]}});
+ render(<MemoryRouter initialEntries={['/ofertas/1/resultados']}><Routes><Route path="/ofertas/:id/resultados" element={<Ranking/>}/></Routes></MemoryRouter>);
+ expect(await screen.findByText(/Plazas ofertadas en la fuente: 20/)).toBeVisible();
+ expect(screen.getByText(/No se infieren ganadores/)).toBeVisible();
+ expect(screen.queryByText(/Vacantes totales:/)).toBeNull();
+ expect(screen.queryByText(/retenidas por renuncia/)).toBeNull();
+});

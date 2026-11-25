@@ -1,44 +1,17 @@
 {
-  "junit": "evidence/doc21-readiness/instalacion-phpunit.xml",
-  "tests": 270,
-  "assertions": 1675,
-  "previous_test_identifiers_preserved": 255,
-  "new_tests": 15,
-  "react_tests": 31,
-  "php_syntax_files": 115,
-  "DOC21": "REPRODUCED_AND_FIXED",
-  "http_evidence": "evidence/doc21-readiness/navegador/recorrido-http.json",
-  "concurrency": "PASS: Selection::calculate y nuevo análisis en dos procesos independientes",
-  "restore": "49 tablas, 16 triggers, 42 archivos privados de la copia aislada",
-  "operative_preservation": "49 tablas y 35 archivos privados idénticos",
-  "academic_decisions": "Conservadas; validación técnica calculada independiente",
-  "local_worker": "Proceso local activo; no es servicio permanente",
-  "eicar": "NOT_VERIFIED",
-  "scope": "WIN01 corregido localmente; servicio SCM y reinicio pendientes; sin despliegue remoto; NO_GO_INSTITUCIONAL",
-  "php_reexecuted_this_intervention": false,
-  "react_reexecuted_this_intervention": false,
-  "windows_service": {
-    "source_implemented": true,
-    "real_process_lifecycle_console": "PASS: once controles; ocho controles del comprobador portable",
-    "health_classifier_tests": 8,
-    "SCM_installed": false,
-    "Windows_reboot": "NOT_VERIFIED",
-    "blockers": [
-      "Administrative token unavailable",
-      "Runtime permissions for per-service SID unverified",
-      "Isolated PostgreSQL startup not prepared"
-    ],
-    "evidence": "evidence/windows-service-preparation/ciclo-de-vida.json",
-    "external_alert_delivery": false
-  },
-  "win01": {
-    "state": "REPRODUCED_AND_FIXED",
-    "powershell_regressions": 11,
-    "delivery_copy_regressions": 11,
-    "evidence": "evidence/win01-installed-configuration/regresiones-entrega.json",
-    "source": "installed service.json only for management",
-    "SCM_acceptance": "NOT_VERIFIED",
-    "LocalService": "NOT_VERIFIED",
-    "reboot": "NOT_VERIFIED"
-  }
+  "checked_at": "2026-11-25T12:54:40.134698",
+  "status": "TECHNICAL_ACCEPTANCE_PASSED_RELEASE_PENDING",
+  "junit": "evidence/adecuacion-institucional-20261125/phpunit-close.xml",
+  "tests": 341,
+  "assertions": 2112,
+  "react_tests": 70,
+  "react_evidence": "evidence/adecuacion-institucional-20261125/react-close.json",
+  "preservation": "evidence/adecuacion-institucional-20261125/preservacion.json",
+  "downloads": "evidence/adecuacion-institucional-20261125/descargas.json",
+  "remote_publication": "NOT_PERFORMED",
+  "institutional_status": "NO_GO_INSTITUCIONAL",
+  "limitations": [
+    "Final candidate installation pending.",
+    "Official formats, ambiguous rubrics and final pass threshold need institutional confirmation."
+  ]
 }

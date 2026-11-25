@@ -52,15 +52,19 @@ export function Applications({embedded=false,workspace='own'}){
 export function Calls({embedded=false}){
   const {session}=useContext(Session);
   const [d,error]=useData('/calls');
+  const [filter,setFilter]=useState('all');
   if(!d)return <Loading error={error}/>;
   const receiving=c=>c.mode==='DEMO'&&c.status==='published'&&Date.now()>=Date.parse(c.opens_at)&&Date.now()<=Date.parse(c.closes_at);
   const calls=session.user.role==='student'?[...d.calls].sort((a,b)=>Number(receiving(b))-Number(receiving(a))):d.calls;
-  return <section>{!embedded&&<h1>Convocatorias</h1>}
-    {session.user.role==='authority'&&<p><Link className="button" to="/convocatorias/nueva">Crear convocatoria DEMO</Link></p>}
-    <div className="grid">{(embedded?calls.slice(0,3):calls).map(c=><article className="card" key={c.id}>
-      <span className="badge">{c.status==='published'?(receiving(c)?'Recepción vigente':'Recepción fuera de plazo'):label(c.status)} · {c.mode}</span><h2><Link to={'/convocatorias/'+c.id}>{c.title}</Link></h2>
-      <p>Recepción: {new Date(c.opens_at).toLocaleString('es-BO')} — {new Date(c.closes_at).toLocaleString('es-BO')}</p><p>{label(c.scope)} {c.scope_value}</p>
-    </article>)}</div>{!d.calls.length&&<p>No hay convocatorias visibles en tu ámbito.</p>}
+  const visible=calls.filter(c=>filter==='all'||(filter==='open'?receiving(c):c.mode==='HISTORICAL'));
+  return <section className="calls-section">{!embedded&&<div className="page-intro"><div><p className="eyebrow">Explora las oportunidades</p><h1>Convocatorias</h1><p>Encuentra las fechas y requisitos de cada proceso. Las referencias históricas se conservan para consulta.</p></div>{session.user.role==='authority'&&<Link className="button" to="/convocatorias/nueva">Crear convocatoria DEMO</Link>}</div>}
+    {!embedded&&<div className="filter-tabs" role="group" aria-label="Filtrar convocatorias">{[['all','Todas'],['open','Recepción vigente'],['historical','Históricas']].map(([value,text])=>{const count=calls.filter(c=>value==='all'||(value==='open'?receiving(c):c.mode==='HISTORICAL')).length;return <button key={value} type="button" aria-label={`${text}: ${count}`} aria-pressed={filter===value} onClick={()=>setFilter(value)}><span className="filter-label">{value==='open'?'Vigentes':text}</span><span className="filter-count">{count}</span></button>;})}</div>}
+    <div className="grid call-cards">{(embedded?visible.slice(0,3):visible).map(c=><article className="card call-card" key={c.id}>
+      <div className="call-card-top"><span className="call-mark" aria-hidden="true">{c.mode==='HISTORICAL'?'H':'C'}</span><span className="badge">{c.status==='published'?(receiving(c)?'Recepción vigente':'Recepción fuera de plazo'):label(c.status)} · {c.mode}</span></div>
+      <p className="eyebrow">{c.mode==='HISTORICAL'?'Referencia histórica':'Proceso de demostración'}</p><h2><Link to={'/convocatorias/'+c.id}>{c.title}</Link></h2>
+      <dl className="call-dates"><div><dt>Apertura de recepción</dt><dd>{c.mode==='HISTORICAL'?'No especificada en la fuente':new Date(c.opens_at).toLocaleString('es-BO')}</dd></div><div><dt>Cierre de recepción</dt><dd>{new Date(c.closes_at).toLocaleString('es-BO')}</dd></div></dl>
+      <div className="call-card-bottom"><span>{label(c.scope)} {c.scope_value}</span><Link className="call-detail-link" to={'/convocatorias/'+c.id}>Ver detalle <span aria-hidden="true">↗</span></Link></div>
+    </article>)}</div>{!d.calls.length?<p className="empty-state">No hay convocatorias visibles en tu ámbito.</p>:!visible.length&&<p className="empty-state">No hay convocatorias que coincidan con este filtro.</p>}
   </section>;
 }
 
@@ -71,12 +75,14 @@ export function Home(){
   const responsibilities=['reviewer','evaluator','authority'].filter(r=>session.roles.includes(r));
   const titles={student:'Tu camino a la auxiliatura comienza aquí.',admin:'Administración del sistema',authority:'Gestión de convocatorias'};
   const title=titles[session.user.role]||(responsibilities.length===1?workspaces[responsibilities[0]].title:responsibilities.length?'Mis responsabilidades académicas':'Cuenta sin responsabilidad académica');
+  const shortcuts=admin?[['Usuarios y permisos','Organiza cuentas y responsabilidades.','/administracion'],['Actividad del portal','Consulta los accesos y las métricas.','/estadisticas']]:student?[['Explorar oportunidades','Consulta las convocatorias disponibles.','/convocatorias'],['Preparar mi expediente','Continúa tus borradores y su seguimiento.','/postulaciones'],['Consultar adjudicaciones','Revisa las decisiones sobre tus plazas.','/adjudicaciones']]:[...(authority?[['Configurar procesos','Revisa tus convocatorias y sus etapas.','/convocatorias']]:[]),...responsibilities.map(r=>[r==='reviewer'?'Revisar documentos':r==='evaluator'?'Registrar mis notas':'Supervisar expedientes',workspaces[r].description,workspaces[r].path])];
   return <>
     <section className="dashboard-hero" aria-label="Bienvenida al portal"><div>
       <p className="eyebrow">Mi espacio de trabajo · {roleName(session)}</p><h1>{title}</h1>
       <p>{admin?'Administra usuarios, accesos y catálogos. El perfil técnico no autoriza a calificar ni a aprobar resultados.':student?'Explora convocatorias, prepara tus documentos y sigue cada postulación.':authority?'Configura tus convocatorias y supervisa las etapas y decisiones de sus responsables.':'Las bandejas siguientes corresponden únicamente a tus responsabilidades vigentes por convocatoria.'}</p>
       <div className="hero-actions"><Link className="button" to={admin?'/administracion':student||authority?'/convocatorias':responsibilities.length?workspaces[responsibilities[0]].path:'/cuenta'}>{admin?'Gestionar accesos':student?'Buscar una convocatoria':authority?'Gestionar convocatorias':responsibilities.length?'Abrir mi bandeja':'Consultar mi cuenta'}</Link><Link className="button secondary" to="/cuenta">Mi cuenta y ayuda</Link></div>
-    </div></section>
+    </div><div className="hero-companion" aria-hidden="true"><span className="hero-seal">F</span><span>Selección de auxiliares</span><strong>Una tarea.<br/>Un siguiente paso.</strong><small>Tu espacio según tus responsabilidades.</small></div></section>
+    {shortcuts.length>0&&<nav className="workspace-shortcuts" aria-label="Accesos de mi responsabilidad">{shortcuts.map(([name,description,path],i)=><Link className="shortcut-card" key={path} to={path}><span className="shortcut-index" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><strong>{name}</strong><p>{description}</p><span className="shortcut-arrow" aria-hidden="true">↗</span></Link>)}</nav>}
     {admin&&<section className="card"><h2>Control técnico de la instalación</h2><p>Gestiona usuarios y responsabilidades desde Administración.</p><Link to="/estadisticas">Consultar estadísticas de acceso →</Link></section>}
     {student&&<><div className="dashboard-section-title"><h2>Mis postulaciones</h2><Link to="/postulaciones">Ver seguimiento</Link></div><Applications workspace="own" embedded/></>}
     {responsibilities.map(role=><section key={role}>

@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "method": "Interacciones reales mediante navegador; base y archivos aislados",
+  "checks": [
+    {
+      "role": "authority",
+      "result": "Comisión, calendario, formato pendiente, acto interno y plan de examen creados desde React y persistentes tras recarga",
+      "status": "PASS"
+    },
+    {
+      "role": "student",
+      "result": "Carga, envío, descarga binariamente idéntica del CPD de ensayo y constancia interna",
+      "status": "PASS"
+    },
+    {
+      "role": "reviewer",
+      "result": "Descarga idéntica del original recibido, componentes CPD conservados, criterios revisados y habilitación de caso sintético",
+      "status": "PASS"
+    },
+    {
+      "role": "evaluator",
+      "result": "Vista sin archivos privados ni componentes CPD; explicación de la etapa para calificar",
+      "status": "PASS"
+    },
+    {
+      "role": "admin",
+      "result": "Espacio técnico sin atribuciones académicas",
+      "status": "PASS"
+    },
+    {
+      "role": "catalogue-01",
+      "result": "49 asignaturas, búsqueda INF312, plazas desconocidas y cierre histórico visibles",
+      "status": "PASS"
+    },
+    {
+      "role": "catalogue-02",
+      "result": "17 asignaturas de la segunda convocatoria visibles",
+      "status": "PASS"
+    },
+    {
+      "role": "responsive",
+      "result": "390×844: sin desborde global; vista temporal restablecida",
+      "status": "PASS"
+    }
+  ],
+  "scope": "No es una repetición visual exhaustiva de las 123 acciones históricas ni certificación humana de accesibilidad."
+}

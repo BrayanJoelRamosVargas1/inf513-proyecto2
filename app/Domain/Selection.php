@@ -7,9 +7,21 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 final class Selection
 {
+    public static function conditionalCriterion(object $offer, string $key): bool
+    {
+        // Article 7(e) only concerns students who have completed the curriculum.
+        return ($offer->requirement_profile ?? null) === 'asignatura' && $key === 'graduacion_mora';
+    }
+
+    public static function criterionSatisfied(object $offer, string $key, ?string $decision): bool
+    {
+        return $decision === 'meets' || ($decision === 'not_applicable' && self::conditionalCriterion($offer, $key));
+    }
+
     public static function row(string $table, int $id, bool $lock = false): object
     {
         $q = DB::table($table)->where('id', $id);
@@ -46,7 +58,7 @@ final class Selection
 
     private static function demo(object $call): void
     {
-        if ($call->mode !== 'DEMO') {
+        if (config('portal.experience') !== 'training' || $call->mode !== 'DEMO') {
             Scores::fail('Operación oficial o histórica bloqueada. Requiere validación institucional.');
         }
     }
@@ -61,6 +73,7 @@ final class Selection
 
     public function createCall(User $u, array $d): int
     {
+        abort_unless(config('portal.experience') === 'training', 422, 'Las operaciones de entrenamiento requieren una instalación separada.');
         abort_unless($u->active && $u->role === 'authority', 403);
 
         return Access::transaction($u, function () use ($u, $d) {
@@ -91,6 +104,9 @@ final class Selection
 
     public function saveOffer(User $u, int $callId, array $d, ?int $offerId = null): int
     {
+        if (! isset($d['seats']) || filter_var($d['seats'], FILTER_VALIDATE_INT) === false || (int) $d['seats'] < 0) {
+            Scores::fail('Indique una cantidad válida de plazas para una oferta operativa.');
+        }
         return Access::transaction($u, function () use ($u, $callId, $d, $offerId) {
             $call = self::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
@@ -104,6 +120,14 @@ final class Selection
             $category = self::row('categories', (int) $d['category_id']);
             if (! $category->active) {
                 Scores::fail('Tipo de auxiliar no habilitado.');
+            }
+            if (! empty($d['requirement_profile'])) {
+                $modality = app(InstitutionalCatalogue::class)->modality((object) ['is_subject' => ! empty($d['is_subject']), 'category_id' => $d['category_id']]);
+                abort_unless($d['requirement_profile'] === $modality, 422, 'El perfil de requisitos no corresponde al régimen y tipo de oferta.');
+                $profile = app(InstitutionalCatalogue::class)->definitions()['profiles']['convocatoria-01']['modalities'][$modality];
+                unset($d['requirements']['activo'], $d['requirements']['regimen']);
+                $d['requirements'] = $profile['requirements'] + $d['requirements'];
+                $d['documents'] = $profile['documents'] + $d['documents'];
             }
             $d['weights'] = json_encode(Scores::weights($d['weights']));
             foreach (['documents', 'requirements'] as $key) {
@@ -271,8 +295,8 @@ final class Selection
                 if (! array_key_exists($key, $criteria) || ! in_array($decision, ['meets', 'fails', 'observed', 'not_applicable'])) {
                     Scores::fail('Criterio o decisión inválidos.');
                 }
-                if ($decision === 'not_applicable') {
-                    Scores::fail('Los criterios obligatorios de esta DEMO no admiten No aplica sin un procedimiento institucional validado.');
+                if ($decision === 'not_applicable' && (! self::conditionalCriterion($offer, $key) || mb_strlen(trim($reason)) < 10)) {
+                    Scores::fail('No aplica requiere un criterio condicional y fundamento documental.');
                 }
                 $before = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->first();
                 DB::table('reviews')->updateOrInsert(['application_id' => $id, 'criterion' => $key], ['decision' => $decision, 'reason' => $reason, 'user_id' => $u->id, 'updated_at' => now(), 'created_at' => $before?->created_at ?? now()]);
@@ -297,7 +321,8 @@ final class Selection
                 $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
                 $keys = array_merge(array_map(fn ($x) => 'doc:'.$x, array_keys(self::json($offer->documents))), array_keys(self::json($offer->requirements)));
                 foreach ($keys as $key) {
-                    if (! DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->where('decision', 'meets')->exists()) {
+                    $decision = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->value('decision');
+                    if (! self::criterionSatisfied($offer, $key, $decision)) {
                         Scores::fail('No se cumplen todos los documentos/requisitos con evidencia.');
                     }
                 }
@@ -440,7 +465,13 @@ final class Selection
 
     public function ranking(int $offerId): array
     {
+        if (self::row('offers', $offerId)->seats === null) {
+            throw ValidationException::withMessages(['seats' => 'Las plazas de esta oferta documental no están especificadas; no se genera clasificación.']);
+        }
         $offer = self::row('offers', $offerId);
+        if (self::row('calls', $offer->call_id)->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $offer->call_id)->exists()) {
+            Scores::fail('La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
+        }
         $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
         if ($all->contains(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))) {
             Scores::fail('Hay revisiones o resultados pendientes en esta oferta.');

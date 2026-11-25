@@ -182,7 +182,7 @@ final class PortalController extends Controller
 
     public function saveOffer(Request $r, int $id)
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
+        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'requirement_profile' => ['nullable', Rule::in(['asignatura','sala','laboratorio'])], 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
         foreach (['documents', 'requirements', 'weights'] as $key) {
             $d[$key] = $this->pairs($d[$key]);
         }
@@ -275,6 +275,7 @@ final class PortalController extends Controller
         $offer = Selection::row('offers', $id);
         Access::require($r->user(), $offer->call_id, ['authority']);
         $call = Selection::row('calls', $offer->call_id);
+        $documentary_reference = $call->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $call->id)->exists();
         $ranking = null;
         $warning = null;
         try {
@@ -288,7 +289,7 @@ final class PortalController extends Controller
         $revisions = DB::table('result_revisions')->where('offer_id', $id)->orderByDesc('revision')->get();
         $oldTies = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', '!=', $offer->result_revision)->get();
 
-        return view('results', compact('revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
+        return view('results', compact('documentary_reference', 'revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
     }
 
     public function openTie(Request $r, int $id)
@@ -329,8 +330,9 @@ final class PortalController extends Controller
     {
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
+        $filePrefix = $call->mode === 'HISTORICAL' ? 'reporte-referencia-'.$id : 'reporte-demo';
         $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review', 'applications.participation', 'offers.held_vacancies']);
-        $headers = ['Postulación', 'Postulante ficticio', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
+        $headers = ['Postulación', 'Postulante', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
         $labels = ['active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
         foreach ($rows as $row) {
             $row->needs_publication_review = $row->needs_publication_review ? 'Sí: sin reasignación automática' : 'No';
@@ -345,11 +347,12 @@ final class PortalController extends Controller
             $pdf->setPaper('A4', 'landscape');
             $pdf->render();
 
-            return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="reporte-demo.pdf"']);
+            return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$filePrefix.'.pdf"']);
         }
         $sheet = new Spreadsheet;
         $page = $sheet->getActiveSheet();
-        $page->setCellValue('A1', 'DEMO ACADÉMICA · Sin validez institucional');
+        $page->setCellValue('A1', $call->mode === 'HISTORICAL' ? 'Referencia histórica · Reporte interno, sin aprobación institucional' : 'DEMO ACADÉMICA · Sin validez institucional');
+        $page->setCellValueExplicit('A2', $call->title, DataType::TYPE_STRING);
         $page->fromArray($headers, null, 'A3');
         foreach ($rows as $i => $row) {
             $col = 1;
@@ -362,7 +365,7 @@ final class PortalController extends Controller
         }$page->getStyle('A3:M3')->getFont()->setBold(true);
         $page->setAutoFilter('A3:M'.max(3, $rows->count() + 3));
 
-        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), 'reporte-demo.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
+        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), $filePrefix.'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
     }
 
     public function users(Request $r)

@@ -82,6 +82,7 @@ final class DocumentController extends Controller
 
     public function sample(string $kind)
     {
+        abort_unless(config('portal.experience') === 'training' && request()->user()?->role === 'student', 404);
         abort_unless(in_array($kind, ['carta', 'cpd', 'ci', 'academico', 'autonomia', 'cv']), 404);
 
         return response()->download(resource_path('demo-documents/'.$kind.'.pdf'), 'MUESTRA-'.$kind.'.pdf', ['Content-Type' => 'application/pdf']);

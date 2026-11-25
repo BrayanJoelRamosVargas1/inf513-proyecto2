@@ -48,7 +48,7 @@ final class SessionController extends Controller
 
     public function me(Request $r)
     {
-        return response()->json(['user' => $r->user()->only(['id', 'name', 'email', 'faculty', 'career', 'role']), 'token' => $r->session()->token(), 'roles' => Workspace::roles($r->user())]);
+        return response()->json(['user' => $r->user()->only(['id', 'name', 'email', 'faculty', 'career', 'role']), 'token' => $r->session()->token(), 'roles' => Workspace::roles($r->user()), 'training_enabled' => config('portal.experience') === 'training']);
     }
 
     public function logout(Request $r)

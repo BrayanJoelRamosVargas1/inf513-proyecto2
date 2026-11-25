@@ -22,6 +22,7 @@ def collect(root):
         for p in (root / folder).rglob('*'):
             if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ('.pyc', '.dump', '.sqlite'):
                 names.add(p.relative_to(root).as_posix())
+    names.add('evidence/current-validation.json')
     names.update(['artisan','bootstrap/app.php','bootstrap/providers.php','README.md','.gitignore',
                   '.editorconfig','.env.example','composer.json','composer.lock','package.json',
                   'package-lock.json','phpunit.xml','vite.config.js'])
@@ -29,7 +30,7 @@ def collect(root):
     names.update(p.relative_to(root).as_posix() for p in (root/'public/build').rglob('*') if p.is_file())
     # Evidence for this archive's own installation stays external, under
     # evidence/release-acceptance: including its own hash would be circular.
-    for folder in ('evidence/frontend-redesign', 'evidence/academic-close', 'evidence/clean-install-current'):
+    for folder in ('evidence/frontend-redesign', 'evidence/academic-close', 'evidence/clean-install-current', 'evidence/adecuacion-institucional-20261125'):
         for p in (root/folder).rglob('*'):
             if p.is_file() and not any(x in p.name for x in ('fallo','failure','intento','diagnostico','progreso')):
                 if p != root/'evidence/academic-close/package.json':

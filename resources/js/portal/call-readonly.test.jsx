@@ -5,7 +5,7 @@ import {MemoryRouter,Routes,Route} from 'react-router-dom';
 import {Call} from './main';
 import {Session} from './shared';
 const fixture=vi.hoisted(()=>({data:null}));
-vi.mock('./shared',async original=>({...await original(),useData:()=>[fixture.data,'',vi.fn()]}));
+vi.mock('./shared',async original=>({...await original(),useData:path=>[path.endsWith('/institutional-register')?{records:[],sources:[]}:fixture.data,'',vi.fn()]}));
 afterEach(cleanup);
 it('permite consultar historia y reportes históricos sin ofrecer cambios de etapa',()=>{
  fixture.data={call:{id:7,title:'Convocatoria histórica',mode:'HISTORICAL',status:'published',source:'Antecedente conservado'},authority:true,offers:[],applications:[]};

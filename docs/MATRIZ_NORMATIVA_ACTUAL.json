@@ -1,0 +1,1998 @@
+{
+  "alcance": "82 artículos: evaluación histórica conservada y adenda técnica por artículo. Paráfrasis; no es dictamen jurídico ni autorización. No confundir representación documental con cumplimiento.",
+  "articulos": [
+    {
+      "id": "RES-01",
+      "grupo": "RES",
+      "articulo": 1,
+      "paginas_fisicas": [
+        2
+      ],
+      "regla_parafraseada": "Abrogación de resoluciones anteriores 158/2010 y 037/2013",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "No se verificó el registro institucional de vigencia ni normas posteriores.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se verificó el registro institucional de vigencia ni normas posteriores.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "RES-02",
+      "grupo": "RES",
+      "articulo": 2,
+      "paginas_fisicas": [
+        2
+      ],
+      "regla_parafraseada": "Aprobación de los dos reglamentos anexos",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Docencia y laboratorio requieren identificar el régimen aplicable; una categoría informática no sustituye esa clasificación.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Docencia y laboratorio requieren identificar el régimen aplicable; una categoría informática no sustituye esa clasificación.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "RES-03",
+      "grupo": "RES",
+      "articulo": 3,
+      "paginas_fisicas": [
+        2,
+        3
+      ],
+      "regla_parafraseada": "Sistematización anual DICAA y firmas diferenciadas de certificados",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "Los reportes DEMO no son certificados DICAA ni incorporan el circuito de firmas.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Los reportes DEMO no son certificados DICAA ni incorporan el circuito de firmas.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "NO_IMPLEMENTADO"
+    },
+    {
+      "id": "RES-04",
+      "grupo": "RES",
+      "articulo": 4,
+      "paginas_fisicas": [
+        3
+      ],
+      "regla_parafraseada": "Unidades responsables de cumplir la resolución",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Los roles de software requieren correspondencia institucional y responsables acreditados.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Los roles de software requieren correspondencia institucional y responsables acreditados.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "D-01",
+      "grupo": "D",
+      "articulo": 1,
+      "paginas_fisicas": [
+        4
+      ],
+      "regla_parafraseada": "Objeto del reglamento de auxiliares de docencia",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "El sistema cubre selección; no toda la relación posterior del auxiliar.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "El sistema cubre selección; no toda la relación posterior del auxiliar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "D-02",
+      "grupo": "D",
+      "articulo": 2,
+      "paginas_fisicas": [
+        4
+      ],
+      "regla_parafraseada": "Definición del auxiliar de docencia",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "No confundir publicación DEMO con designación y beca institucional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No confundir publicación DEMO con designación y beca institucional.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "D-03",
+      "grupo": "D",
+      "articulo": 3,
+      "paginas_fisicas": [
+        4
+      ],
+      "regla_parafraseada": "Funciones de apoyo a la docencia",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se implementa gestión del trabajo docente posterior.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se implementa gestión del trabajo docente posterior.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-04",
+      "grupo": "D",
+      "articulo": 4,
+      "paginas_fisicas": [
+        4
+      ],
+      "regla_parafraseada": "Modalidades de asignatura y laboratorio o sala de cómputo de docencia",
+      "estado": "PARCIAL",
+      "referencia": "DemoSeeder.php::run",
+      "limite_o_pendiente": "Las categorías existen, pero el régimen debe confirmarse por oferta; una sala no equivale al régimen de laboratorio académico/social.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/database/seeders/DemoSeeder.php",
+        "metodo": "run",
+        "linea": 15,
+        "sha256": "5a2cfa6fc46fdd5807a8a3968ccc72051df5ef14bda8587f4247efbabb32046f"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-05",
+      "grupo": "D",
+      "articulo": 5,
+      "paginas_fisicas": [
+        5,
+        6
+      ],
+      "regla_parafraseada": "Asignaturas troncales o cuantitativas susceptibles de auxiliatura",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::saveOffer",
+      "limite_o_pendiente": "La oferta es configurable; no existe homologación automática con el catálogo académico oficial.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "saveOffer",
+        "linea": 92,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-06",
+      "grupo": "D",
+      "articulo": 6,
+      "paginas_fisicas": [
+        5,
+        6
+      ],
+      "regla_parafraseada": "Identificación de laboratorios o salas sujetos al reglamento",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::saveOffer",
+      "limite_o_pendiente": "Debe acreditarse la unidad y régimen institucional de cada oferta.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "saveOffer",
+        "linea": 92,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-07",
+      "grupo": "D",
+      "articulo": 7,
+      "paginas_fisicas": [
+        5,
+        6,
+        7
+      ],
+      "regla_parafraseada": "Requisitos generales y específicos académicos de postulación",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::eligibility",
+      "limite_o_pendiente": "Revisión de criterios configurados, no consulta académica oficial; los criterios simplificados de las semillas no certifican todos los requisitos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "eligibility",
+        "linea": 278,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-08",
+      "grupo": "D",
+      "articulo": 8,
+      "paginas_fisicas": [
+        7
+      ],
+      "regla_parafraseada": "Contenido y presentación de la convocatoria y recepción de solicitudes",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::createCall",
+      "limite_o_pendiente": "No existe aprobación formal ni certificación de la recepción física por Dirección o Vicedecanato.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "createCall",
+        "linea": 62,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-09",
+      "grupo": "D",
+      "articulo": 9,
+      "paginas_fisicas": [
+        7
+      ],
+      "regla_parafraseada": "Aprobación de convocatoria y comunicaciones institucionales",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "Selection.php::transition",
+      "limite_o_pendiente": "Publicar una convocatoria DEMO no equivale a resolución del HCF ni a comunicación formal.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "transition",
+        "linea": 132,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-10",
+      "grupo": "D",
+      "articulo": 10,
+      "paginas_fisicas": [
+        7
+      ],
+      "regla_parafraseada": "Publicación previa al inicio de actividades académicas",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::transition",
+      "limite_o_pendiente": "Se validan fechas técnicas; falta calendario oficial y prueba de difusión institucional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "transition",
+        "linea": 132,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-11",
+      "grupo": "D",
+      "articulo": 11,
+      "paginas_fisicas": [
+        8
+      ],
+      "regla_parafraseada": "Solicitud, carta, formulario CPD y cédula de identidad",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::submit",
+      "limite_o_pendiente": "Se controla presencia de documentos configurados; falta equivalencia formal de entrega digital y validación de originales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "submit",
+        "linea": 234,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-12",
+      "grupo": "D",
+      "articulo": 12,
+      "paginas_fisicas": [
+        8,
+        9
+      ],
+      "regla_parafraseada": "Formulario CPD oficial y rúbricas de méritos hasta 40 puntos",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::merit",
+      "limite_o_pendiente": "Se registra puntaje y respaldo; no se calcula la rúbrica oficial. Porcentajes y puntos impresos requieren aclaración antes de automatizar.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "merit",
+        "linea": 302,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro CPD versionado asociado al documento vigente; componentes y diferencias fundamentados, sin sustituir el mérito ni interpolar rúbricas contradictorias.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_cpd_components_are_preserved_without_replacing_the_existing_merit",
+      "contrato": "CU4; RF-15",
+      "dependencia_externa": "CPD auténtico, decimales, franjas y contradicciones requieren aclaración de la unidad emisora.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; institutional-register.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-13",
+      "grupo": "D",
+      "articulo": 13,
+      "paginas_fisicas": [
+        9
+      ],
+      "regla_parafraseada": "Habilitación mediante formulario oficial legible, completo y control de requisitos",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::eligibility",
+      "limite_o_pendiente": "Presencia de archivo y revisión humana no acreditan emisión CPD ni verificación académica institucional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "eligibility",
+        "linea": 278,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-14",
+      "grupo": "D",
+      "articulo": 14,
+      "paginas_fisicas": [
+        9
+      ],
+      "regla_parafraseada": "Designación y composición de comisiones y acreditación de veedores 48 horas antes",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::assign",
+      "limite_o_pendiente": "La asignación técnica por área no acredita composición, nombramiento, suplencias ni veedores de la comisión.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "assign",
+        "linea": 322,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro de integrantes, responsabilidades, oferta, vigencia, veedores y respaldo con versiones. No concede RBAC ni constituye formalmente una comisión.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_commission_offer_must_belong_to_its_call",
+      "contrato": "CU2/CU7; RF-02/RF-30",
+      "dependencia_externa": "Competencias y designación auténtica pendientes. L13 menciona terna pero enumera solo dos cargos; no inventar el tercero. No se automatizan 48h sin decisión validada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; institutional-register.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-15",
+      "grupo": "D",
+      "articulo": 15,
+      "paginas_fisicas": [
+        9,
+        10
+      ],
+      "regla_parafraseada": "Exámenes escrito y práctico, contenidos, lugar y exposición máxima de 30 minutos",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::grade",
+      "limite_o_pendiente": "Se almacenan notas; no se acredita temario, presencia, secuencia ni control 20 minutos de exposición y 10 de preguntas.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "grade",
+        "linea": 345,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Plan y criterios de examen registrables; perfiles documentales distinguen 36 escrito/24 práctico en docencia y 36 práctico/24 teórico en laboratorio.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_examination_regimes_remain_distinct_and_lab_terna_ambiguity_is_visible",
+      "contrato": "CU5; RF-16",
+      "dependencia_externa": "Composición entre áreas y componentes por confirmar; el modelo DEMO no equivale a una fórmula oficial homologada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; InstitutionalRegister.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-16",
+      "grupo": "D",
+      "articulo": 16,
+      "paginas_fisicas": [
+        10
+      ],
+      "regla_parafraseada": "Examen escrito 60 por ciento, 36 puntos; práctico 40 por ciento, 24 puntos",
+      "estado": "PARCIAL",
+      "referencia": "Scores.php::exam",
+      "limite_o_pendiente": "La fórmula puede representarse en DEMO_COMPONENTS_100; la composición con áreas de sala no está confirmada institucionalmente.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Scores.php",
+        "metodo": "exam",
+        "linea": 51,
+        "sha256": "73f487ef59c57cec14eb522b9f7573cd734862af544b6dc41e8349aad8ee2a00"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Plan y criterios de examen registrables; perfiles documentales distinguen 36 escrito/24 práctico en docencia y 36 práctico/24 teórico en laboratorio.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_examination_regimes_remain_distinct_and_lab_terna_ambiguity_is_visible",
+      "contrato": "CU5; RF-16",
+      "dependencia_externa": "Composición entre áreas y componentes por confirmar; el modelo DEMO no equivale a una fórmula oficial homologada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; InstitutionalRegister.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-17",
+      "grupo": "D",
+      "articulo": 17,
+      "paginas_fisicas": [
+        10
+      ],
+      "regla_parafraseada": "Méritos 40 y examen 60; comunicación y publicación dentro de 48 horas",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::calculate",
+      "limite_o_pendiente": "La suma está representada; no se implementa control institucional del plazo de 48 horas ni publicación oficial.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "calculate",
+        "linea": 403,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-18",
+      "grupo": "D",
+      "articulo": 18,
+      "paginas_fisicas": [
+        10
+      ],
+      "regla_parafraseada": "Nuevo examen exclusivo de empatados por últimas plazas, condiciones de la comisión",
+      "estado": "REPRESENTADO_DEMO",
+      "referencia": "Selection.php::openTie",
+      "limite_o_pendiente": "Se registran participantes, condiciones, examen y resultados; la comisión decide ganadores. Debe acreditarse la comisión y su acta; no es un desempate automático.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "openTie",
+        "linea": 444,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "REPRESENTADO_DEMO",
+      "adenda_tecnica": "Se conservan méritos/examen y rondas DEMO de desempate; fuentes distinguen los artículos de nuevo examen para las últimas plazas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_admission_thresholds_are_not_final_approval_thresholds",
+      "contrato": "CU5/CU6; RF-19/RF-25/RF-26",
+      "dependencia_externa": "Nota aprobatoria final y condiciones de comisión sin confirmar. PPA 51/55 no se usa como aprobación final.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-19",
+      "grupo": "D",
+      "articulo": 19,
+      "paginas_fisicas": [
+        10,
+        11
+      ],
+      "regla_parafraseada": "Informe y formularios dentro de 24 horas, resolución HCF y orden descendente",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::approve",
+      "limite_o_pendiente": "Ranking y publicación versionada no sustituyen informe en plazo, resolución, carga horaria, registro DICAA ni código DDHH.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "approve",
+        "linea": 536,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-20",
+      "grupo": "D",
+      "articulo": 20,
+      "paginas_fisicas": [
+        11,
+        12
+      ],
+      "regla_parafraseada": "Desierta y vacante; nuevas convocatorias y vías excepcionales documentadas",
+      "estado": "PARCIAL",
+      "referencia": "Participation.php::decide",
+      "limite_o_pendiente": "Retiene vacantes DEMO sin reemplazo; no acredita designación ni ejecuta el circuito formal, dos convocatorias consecutivas, actas o autorización excepcional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Participation.php",
+        "metodo": "decide",
+        "linea": 234,
+        "sha256": "4276d530719717744bf5cb852c17ba0455dac47fdd7c55d7334f5780ba85f079"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-21",
+      "grupo": "D",
+      "articulo": 21,
+      "paginas_fisicas": [
+        12
+      ],
+      "regla_parafraseada": "Nombramiento de una gestión sin ratificación automática",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "No existe nombramiento institucional ni renovación de cargos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-22",
+      "grupo": "D",
+      "articulo": 22,
+      "paginas_fisicas": [
+        12
+      ],
+      "regla_parafraseada": "Duración de dos semestres o un año y calendario de nombramiento",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "La gestión de convocatoria no constituye control del período laboral o de beca.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-23",
+      "grupo": "D",
+      "articulo": 23,
+      "paginas_fisicas": [
+        13
+      ],
+      "regla_parafraseada": "Seguimiento institucional del desempeño",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se implementa seguimiento posterior al nombramiento.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se implementa seguimiento posterior al nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-24",
+      "grupo": "D",
+      "articulo": 24,
+      "paginas_fisicas": [
+        13
+      ],
+      "regla_parafraseada": "Suspensión, controles iniciales y declaratoria de vacancia",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No trasladar estas sanciones laborales al retiro de una postulación DEMO.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No trasladar estas sanciones laborales al retiro de una postulación DEMO.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-25",
+      "grupo": "D",
+      "articulo": 25,
+      "paginas_fisicas": [
+        14
+      ],
+      "regla_parafraseada": "Vacancia posterior por abandono, renuncia, licencia o expulsión",
+      "estado": "PARCIAL",
+      "referencia": "Participation.php::decide",
+      "limite_o_pendiente": "La renuncia DEMO a publicación no acredita cargo asumido; falta expediente formal de vacancia según artículos 20 y 25.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Participation.php",
+        "metodo": "decide",
+        "linea": 234,
+        "sha256": "4276d530719717744bf5cb852c17ba0455dac47fdd7c55d7334f5780ba85f079"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "D-26",
+      "grupo": "D",
+      "articulo": 26,
+      "paginas_fisicas": [
+        14
+      ],
+      "regla_parafraseada": "Derechos del auxiliar",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se gestiona la relación posterior al nombramiento.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se gestiona la relación posterior al nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-27",
+      "grupo": "D",
+      "articulo": 27,
+      "paginas_fisicas": [
+        14
+      ],
+      "regla_parafraseada": "Obligaciones del auxiliar",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se gestiona cumplimiento laboral o académico del cargo.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se gestiona cumplimiento laboral o académico del cargo.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-28",
+      "grupo": "D",
+      "articulo": 28,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Dependencias académicas y administrativas",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Los permisos técnicos no certifican estas dependencias formales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Los permisos técnicos no certifican estas dependencias formales.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "D-29",
+      "grupo": "D",
+      "articulo": 29,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Registro diario de asistencia",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Asistencia no forma parte de la selección implementada.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Asistencia no forma parte de la selección implementada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-30",
+      "grupo": "D",
+      "articulo": 30,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Control de asistencia y registros habilitados",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Sin integración biométrica ni registros laborales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Sin integración biométrica ni registros laborales.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-31",
+      "grupo": "D",
+      "articulo": 31,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Justificación de ausencias por salud",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se implementa procedimiento médico o laboral.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se implementa procedimiento médico o laboral.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-32",
+      "grupo": "D",
+      "articulo": 32,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Informes mensuales",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Los reportes de selección no sustituyen informes de trabajo.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Los reportes de selección no sustituyen informes de trabajo.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-33",
+      "grupo": "D",
+      "articulo": 33,
+      "paginas_fisicas": [
+        15
+      ],
+      "regla_parafraseada": "Consolidación de informes para pago",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No hay nómina o autorización de pagos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No hay nómina o autorización de pagos.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-34",
+      "grupo": "D",
+      "articulo": 34,
+      "paginas_fisicas": [
+        16
+      ],
+      "regla_parafraseada": "Beca económica",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No hay cálculo o pago de beca.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No hay cálculo o pago de beca.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-35",
+      "grupo": "D",
+      "articulo": 35,
+      "paginas_fisicas": [
+        16,
+        17
+      ],
+      "regla_parafraseada": "Carga horaria, máximo mensual, salas y ausencia de cruce con materias inscritas",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "Participation.php::choose",
+      "limite_o_pendiente": "Múltiples adjudicaciones no se prohíben globalmente; falta comprobar horarios y límites aplicables. No extrapolar estos límites al otro régimen.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Participation.php",
+        "metodo": "choose",
+        "linea": 281,
+        "sha256": "4276d530719717744bf5cb852c17ba0455dac47fdd7c55d7334f5780ba85f079"
+      },
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Múltiples adjudicaciones no se prohíben globalmente; falta comprobar horarios y límites aplicables. No extrapolar estos límites al otro régimen.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "NO_IMPLEMENTADO"
+    },
+    {
+      "id": "D-36",
+      "grupo": "D",
+      "articulo": 36,
+      "paginas_fisicas": [
+        17
+      ],
+      "regla_parafraseada": "Registro CPD y documentación institucional del auxiliar designado",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "Cargar formulario CPD del postulante no equivale a registrar un auxiliar designado.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Cargar formulario CPD del postulante no equivale a registrar un auxiliar designado.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "NO_IMPLEMENTADO"
+    },
+    {
+      "id": "D-37",
+      "grupo": "D",
+      "articulo": 37,
+      "paginas_fisicas": [
+        17
+      ],
+      "regla_parafraseada": "Condiciones y documentación para pago mensual",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No hay gestión de planillas o pago.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No hay gestión de planillas o pago.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-38",
+      "grupo": "D",
+      "articulo": 38,
+      "paginas_fisicas": [
+        18
+      ],
+      "regla_parafraseada": "Prohibición de auxiliares ad honorem o con carga cero",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se crean nombramientos ni cargas laborales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se crean nombramientos ni cargas laborales.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "D-39",
+      "grupo": "D",
+      "articulo": 39,
+      "paginas_fisicas": [
+        18
+      ],
+      "regla_parafraseada": "Auxiliar no puede evaluar estudiantes de la asignatura por el docente",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Distinguir estudiantes de la asignatura y postulantes al concurso; no implica impedir que un evaluador autorizado califique el concurso.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Distinguir estudiantes de la asignatura y postulantes al concurso; no implica impedir que un evaluador autorizado califique el concurso.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "D-40",
+      "grupo": "D",
+      "articulo": 40,
+      "paginas_fisicas": [
+        18
+      ],
+      "regla_parafraseada": "Sanciones por incumplimiento de autoridades",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "La auditoría informática no impone sanciones institucionales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "La auditoría informática no impone sanciones institucionales.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-01",
+      "grupo": "L",
+      "articulo": 1,
+      "paginas_fisicas": [
+        19
+      ],
+      "regla_parafraseada": "Objeto del reglamento de auxiliares de laboratorio",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Identificar régimen de laboratorio de servicio académico o social por oferta.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Identificar régimen de laboratorio de servicio académico o social por oferta.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "L-02",
+      "grupo": "L",
+      "articulo": 2,
+      "paginas_fisicas": [
+        19
+      ],
+      "regla_parafraseada": "Definición de auxiliar de laboratorio",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "No equivale automáticamente a auxiliar de sala bajo docencia.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No equivale automáticamente a auxiliar de sala bajo docencia.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "L-03",
+      "grupo": "L",
+      "articulo": 3,
+      "paginas_fisicas": [
+        19
+      ],
+      "regla_parafraseada": "Funciones del auxiliar de laboratorio",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "El sistema no gestiona el trabajo posterior del auxiliar.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "El sistema no gestiona el trabajo posterior del auxiliar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-04",
+      "grupo": "L",
+      "articulo": 4,
+      "paginas_fisicas": [
+        19
+      ],
+      "regla_parafraseada": "Modalidades de servicio social y académico",
+      "estado": "PARCIAL",
+      "referencia": "DemoSeeder.php::run",
+      "limite_o_pendiente": "Categoría configurable; falta homologación institucional de cada laboratorio.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/database/seeders/DemoSeeder.php",
+        "metodo": "run",
+        "linea": 15,
+        "sha256": "5a2cfa6fc46fdd5807a8a3968ccc72051df5ef14bda8587f4247efbabb32046f"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-05",
+      "grupo": "L",
+      "articulo": 5,
+      "paginas_fisicas": [
+        19,
+        20
+      ],
+      "regla_parafraseada": "Laboratorios y requisitos para creación, equipamiento, presupuesto e inspección",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::saveOffer",
+      "limite_o_pendiente": "Crear oferta técnica no crea un laboratorio institucional ni acredita autorización DICAA.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "saveOffer",
+        "linea": 92,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-06",
+      "grupo": "L",
+      "articulo": 6,
+      "paginas_fisicas": [
+        20,
+        21
+      ],
+      "regla_parafraseada": "Requisitos generales y específicos, PPA mínimo 55 y no haber sido auxiliar de laboratorio",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::eligibility",
+      "limite_o_pendiente": "No existe integración académica ni comprobación histórica institucional; los criterios deben configurarse exhaustivamente y revisarse con evidencia.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "eligibility",
+        "linea": 278,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-07",
+      "grupo": "L",
+      "articulo": 7,
+      "paginas_fisicas": [
+        21
+      ],
+      "regla_parafraseada": "Convocatoria por Decano y comunicación previa a DICAA",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "Selection.php::createCall",
+      "limite_o_pendiente": "La creación DEMO no acredita firma del Decano ni comunicación a DICAA.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "createCall",
+        "linea": 62,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-08",
+      "grupo": "L",
+      "articulo": 8,
+      "paginas_fisicas": [
+        21
+      ],
+      "regla_parafraseada": "Publicación por Decano para laboratorios autorizados",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "Selection.php::transition",
+      "limite_o_pendiente": "No se verifica autorización institucional del laboratorio ni difusión oficial.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "transition",
+        "linea": 132,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-09",
+      "grupo": "L",
+      "articulo": 9,
+      "paginas_fisicas": [
+        21
+      ],
+      "regla_parafraseada": "Publicación previa al inicio de actividades académicas",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::transition",
+      "limite_o_pendiente": "Falta calendario oficial y constancia de publicación.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "transition",
+        "linea": 132,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Catálogo original 49/17 relaciones, modalidades y calendarios de ambas fuentes; no inventa cupos de asignaturas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_import_preserves_unknown_seats_and_inserts_49_subjects_and_66_relations",
+      "contrato": "CU2; RF-02..RF-04",
+      "dependencia_externa": "Plazas, horas, autorizaciones y vigencia oficial por confirmar.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-10",
+      "grupo": "L",
+      "articulo": 10,
+      "paginas_fisicas": [
+        21
+      ],
+      "regla_parafraseada": "Solicitud al Decano, formulario CPD, identidad y currículum",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::submit",
+      "limite_o_pendiente": "Documentos configurables; falta validar original físico y recepción institucional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "submit",
+        "linea": 234,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-11",
+      "grupo": "L",
+      "articulo": 11,
+      "paginas_fisicas": [
+        22
+      ],
+      "regla_parafraseada": "Méritos hasta 40: permanencia 20, titulación 5, PPA 15",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::merit",
+      "limite_o_pendiente": "Se registra total CPD; no se reconstruye la tabla: porcentajes PPA y puntajes impresos discrepan, y rangos técnicos se superponen.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "merit",
+        "linea": 302,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro CPD versionado asociado al documento vigente; componentes y diferencias fundamentados, sin sustituir el mérito ni interpolar rúbricas contradictorias.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_cpd_components_are_preserved_without_replacing_the_existing_merit",
+      "contrato": "CU4; RF-15",
+      "dependencia_externa": "CPD auténtico, decimales, franjas y contradicciones requieren aclaración de la unidad emisora.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; institutional-register.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-12",
+      "grupo": "L",
+      "articulo": 12,
+      "paginas_fisicas": [
+        22
+      ],
+      "regla_parafraseada": "Habilitación por formulario oficial completo y control de requisitos",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::eligibility",
+      "limite_o_pendiente": "Revisión DEMO no acredita verificación oficial CPD.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "eligibility",
+        "linea": 278,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Requisitos y documentos por modalidad configurables y revisables individualmente; condición de graduación permite no aplica con motivo.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_only_documented_conditional_requirement_can_be_not_applicable_with_a_reason",
+      "contrato": "CU3/CU4; RF-04/RF-09/RF-11/RF-12",
+      "dependencia_externa": "La revisión documental no consulta DICAA automáticamente ni certifica autenticidad. Equivalencia física/digital y formularios pendientes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; Participation.php; main.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-13",
+      "grupo": "L",
+      "articulo": 13,
+      "paginas_fisicas": [
+        23
+      ],
+      "regla_parafraseada": "Comisión designada por Decano y acreditación de veedor 48 horas antes",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::assign",
+      "limite_o_pendiente": "La fuente dice terna pero enumera Director y Jefe; composición requiere aclaración, sin inventar un tercer miembro.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "assign",
+        "linea": 322,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro de integrantes, responsabilidades, oferta, vigencia, veedores y respaldo con versiones. No concede RBAC ni constituye formalmente una comisión.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_commission_offer_must_belong_to_its_call",
+      "contrato": "CU2/CU7; RF-02/RF-30",
+      "dependencia_externa": "Competencias y designación auténtica pendientes. L13 menciona terna pero enumera solo dos cargos; no inventar el tercero. No se automatizan 48h sin decisión validada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; institutional-register.jsx",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-14",
+      "grupo": "L",
+      "articulo": 14,
+      "paginas_fisicas": [
+        23
+      ],
+      "regla_parafraseada": "Examen teórico y práctico en predios universitarios y exposición de 30 minutos",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::grade",
+      "limite_o_pendiente": "Se guardan notas; no se acredita lugar, secuencia, contenido ni duración 20 más 10 minutos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "grade",
+        "linea": 345,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Plan y criterios de examen registrables; perfiles documentales distinguen 36 escrito/24 práctico en docencia y 36 práctico/24 teórico en laboratorio.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_examination_regimes_remain_distinct_and_lab_terna_ambiguity_is_visible",
+      "contrato": "CU5; RF-16",
+      "dependencia_externa": "Composición entre áreas y componentes por confirmar; el modelo DEMO no equivale a una fórmula oficial homologada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; InstitutionalRegister.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-15",
+      "grupo": "L",
+      "articulo": 15,
+      "paginas_fisicas": [
+        23
+      ],
+      "regla_parafraseada": "Práctico 60 por ciento, 36 puntos; teórico 40 por ciento, 24 puntos",
+      "estado": "PARCIAL",
+      "referencia": "Scores.php::exam",
+      "limite_o_pendiente": "Representable por componentes DEMO; falta configuración institucional de áreas internas para este régimen.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Scores.php",
+        "metodo": "exam",
+        "linea": 51,
+        "sha256": "73f487ef59c57cec14eb522b9f7573cd734862af544b6dc41e8349aad8ee2a00"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Plan y criterios de examen registrables; perfiles documentales distinguen 36 escrito/24 práctico en docencia y 36 práctico/24 teórico en laboratorio.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_examination_regimes_remain_distinct_and_lab_terna_ambiguity_is_visible",
+      "contrato": "CU5; RF-16",
+      "dependencia_externa": "Composición entre áreas y componentes por confirmar; el modelo DEMO no equivale a una fórmula oficial homologada.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalCatalogue.php; InstitutionalRegister.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-16",
+      "grupo": "L",
+      "articulo": 16,
+      "paginas_fisicas": [
+        23
+      ],
+      "regla_parafraseada": "Méritos 40 y examen de competencia 60",
+      "estado": "REPRESENTADO_DEMO",
+      "referencia": "Selection.php::calculate",
+      "limite_o_pendiente": "La suma está implementada; el artículo no establece el plazo de 48 horas que sí aparece en docencia. No trasladarlo automáticamente.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "calculate",
+        "linea": 403,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "REPRESENTADO_DEMO",
+      "adenda_tecnica": "Se conservan méritos/examen y rondas DEMO de desempate; fuentes distinguen los artículos de nuevo examen para las últimas plazas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_admission_thresholds_are_not_final_approval_thresholds",
+      "contrato": "CU5/CU6; RF-19/RF-25/RF-26",
+      "dependencia_externa": "Nota aprobatoria final y condiciones de comisión sin confirmar. PPA 51/55 no se usa como aprobación final.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-17",
+      "grupo": "L",
+      "articulo": 17,
+      "paginas_fisicas": [
+        24
+      ],
+      "regla_parafraseada": "Nuevo examen exclusivo por empate en últimas plazas, condiciones de comisión",
+      "estado": "REPRESENTADO_DEMO",
+      "referencia": "Selection.php::resolveTie",
+      "limite_o_pendiente": "Registro de resultado y decisión, sin fórmula de ganador; falta acta y acreditación institucional de la comisión.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "resolveTie",
+        "linea": 466,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "REPRESENTADO_DEMO",
+      "adenda_tecnica": "Se conservan méritos/examen y rondas DEMO de desempate; fuentes distinguen los artículos de nuevo examen para las últimas plazas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_admission_thresholds_are_not_final_approval_thresholds",
+      "contrato": "CU5/CU6; RF-19/RF-25/RF-26",
+      "dependencia_externa": "Nota aprobatoria final y condiciones de comisión sin confirmar. PPA 51/55 no se usa como aprobación final.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "Selection.php; resources/institutional/catalogue.json",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-18",
+      "grupo": "L",
+      "articulo": 18,
+      "paginas_fisicas": [
+        24
+      ],
+      "regla_parafraseada": "Informe en 24 horas, aprobación por resolución del Decano y orden descendente",
+      "estado": "PARCIAL",
+      "referencia": "Selection.php::approve",
+      "limite_o_pendiente": "No hay resolución formal ni control de entrega en 24 horas; publicar DEMO no nombra al auxiliar.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Selection.php",
+        "metodo": "approve",
+        "linea": 536,
+        "sha256": "36834e537c8ff59a0af1b44dc8d1e77db26bb6a7bc654e903b2e4e6c14f567de"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-19",
+      "grupo": "L",
+      "articulo": 19,
+      "paginas_fisicas": [
+        24,
+        25
+      ],
+      "regla_parafraseada": "Desierta y vacante, nuevas convocatorias y excepciones documentadas",
+      "estado": "PARCIAL",
+      "referencia": "Participation.php::decide",
+      "limite_o_pendiente": "La vacante retenida DEMO no acredita el procedimiento Decano/Jefe, actas, dos convocatorias ni autorización DICAA.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Participation.php",
+        "metodo": "decide",
+        "linea": 234,
+        "sha256": "4276d530719717744bf5cb852c17ba0455dac47fdd7c55d7334f5780ba85f079"
+      },
+      "estado_historico": "PARCIAL",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-20",
+      "grupo": "L",
+      "articulo": 20,
+      "paginas_fisicas": [
+        25
+      ],
+      "regla_parafraseada": "Requisitos para nombramiento",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "No se implementa expediente formal de nombramiento.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-21",
+      "grupo": "L",
+      "articulo": 21,
+      "paginas_fisicas": [
+        25
+      ],
+      "regla_parafraseada": "Nombramiento por Decano en plazo no mayor a 15 días",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "No hay emisión de nombramiento ni control de este plazo institucional.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-22",
+      "grupo": "L",
+      "articulo": 22,
+      "paginas_fisicas": [
+        25
+      ],
+      "regla_parafraseada": "Nombramiento de una gestión y restricción de haber ejercido antes laboratorio",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "Sin historial institucional de cargos previos ni nombramiento; los datos sintéticos no acreditan elegibilidad real.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-23",
+      "grupo": "L",
+      "articulo": 23,
+      "paginas_fisicas": [
+        25,
+        26
+      ],
+      "regla_parafraseada": "Duración y calendario según servicio social o académico",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "",
+      "limite_o_pendiente": "No se controlan períodos efectivos de ejercicio del cargo.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Registro versionado de actos y plazos como evidencia interna; aprobación externa requiere respaldo. No emite nombramientos, no automatiza reemplazos ni reabre llamadas históricas.",
+      "verificacion_nueva": "tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source",
+      "contrato": "CU6/CU7/CU8; RF-26/RF-28/RF-30",
+      "dependencia_externa": "Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "implementacion": "InstitutionalRegister.php; CallConsolidation.php",
+      "estado_actual": "PARCIAL_TECNICO_Y_DOCUMENTAL"
+    },
+    {
+      "id": "L-24",
+      "grupo": "L",
+      "articulo": 24,
+      "paginas_fisicas": [
+        26
+      ],
+      "regla_parafraseada": "Seguimiento de funciones del auxiliar",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No hay control de desempeño posterior.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No hay control de desempeño posterior.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-25",
+      "grupo": "L",
+      "articulo": 25,
+      "paginas_fisicas": [
+        26
+      ],
+      "regla_parafraseada": "Suspensión y vacancia durante ejercicio del cargo",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No convertir sanciones del cargo en exclusiones automáticas de postulantes.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No convertir sanciones del cargo en exclusiones automáticas de postulantes.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-26",
+      "grupo": "L",
+      "articulo": 26,
+      "paginas_fisicas": [
+        27
+      ],
+      "regla_parafraseada": "Derechos del auxiliar de laboratorio",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Relación posterior al nombramiento fuera del alcance.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Relación posterior al nombramiento fuera del alcance.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-27",
+      "grupo": "L",
+      "articulo": 27,
+      "paginas_fisicas": [
+        27
+      ],
+      "regla_parafraseada": "Obligaciones del auxiliar de laboratorio",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se gestiona cumplimiento del cargo.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se gestiona cumplimiento del cargo.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-28",
+      "grupo": "L",
+      "articulo": 28,
+      "paginas_fisicas": [
+        27
+      ],
+      "regla_parafraseada": "Dependencias académicas y administrativas",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "Roles técnicos requieren homologación institucional, no equivalencia automática.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Roles técnicos requieren homologación institucional, no equivalencia automática.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "L-29",
+      "grupo": "L",
+      "articulo": 29,
+      "paginas_fisicas": [
+        27
+      ],
+      "regla_parafraseada": "Registro diario de asistencia",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Sin gestión de asistencia laboral.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Sin gestión de asistencia laboral.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-30",
+      "grupo": "L",
+      "articulo": 30,
+      "paginas_fisicas": [
+        28
+      ],
+      "regla_parafraseada": "Control de asistencia y registro biométrico",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Sin integración biométrica.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Sin integración biométrica.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-31",
+      "grupo": "L",
+      "articulo": 31,
+      "paginas_fisicas": [
+        28
+      ],
+      "regla_parafraseada": "Justificación por enfermedad",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Sin trámite médico o laboral.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Sin trámite médico o laboral.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-32",
+      "grupo": "L",
+      "articulo": 32,
+      "paginas_fisicas": [
+        28
+      ],
+      "regla_parafraseada": "Informes de actividades",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Reportes de selección no son informes mensuales del cargo.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Reportes de selección no son informes mensuales del cargo.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-33",
+      "grupo": "L",
+      "articulo": 33,
+      "paginas_fisicas": [
+        28
+      ],
+      "regla_parafraseada": "Beca económica",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "Sin cálculo de becas.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "Sin cálculo de becas.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-34",
+      "grupo": "L",
+      "articulo": 34,
+      "paginas_fisicas": [
+        28
+      ],
+      "regla_parafraseada": "Designaciones, presupuesto y carga de ocho horas diarias o cuarenta semanales",
+      "estado": "NO_IMPLEMENTADO",
+      "referencia": "Participation.php::choose",
+      "limite_o_pendiente": "No se validan cargas ni presupuesto; no aplicar como límite global la carga mensual del régimen de docencia.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "codigo": {
+        "archivo": "codigo_base/app/Domain/Participation.php",
+        "metodo": "choose",
+        "linea": 281,
+        "sha256": "4276d530719717744bf5cb852c17ba0455dac47fdd7c55d7334f5780ba85f079"
+      },
+      "estado_historico": "NO_IMPLEMENTADO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se validan cargas ni presupuesto; no aplicar como límite global la carga mensual del régimen de docencia.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "NO_IMPLEMENTADO"
+    },
+    {
+      "id": "L-35",
+      "grupo": "L",
+      "articulo": 35,
+      "paginas_fisicas": [
+        29
+      ],
+      "regla_parafraseada": "Condiciones y documentación para pago",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No hay nómina ni comprobación para desembolsos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No hay nómina ni comprobación para desembolsos.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-36",
+      "grupo": "L",
+      "articulo": 36,
+      "paginas_fisicas": [
+        29
+      ],
+      "regla_parafraseada": "Prohibición de auxiliares ad honorem",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "No se emiten nombramientos.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No se emiten nombramientos.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    },
+    {
+      "id": "L-37",
+      "grupo": "L",
+      "articulo": 37,
+      "paginas_fisicas": [
+        29
+      ],
+      "regla_parafraseada": "El auxiliar no debe evaluar estudiantes de asignaturas por el profesor",
+      "estado": "CONTEXTO",
+      "referencia": "",
+      "limite_o_pendiente": "No confundir con la calificación del concurso por sus evaluadores autorizados.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "CONTEXTO",
+      "adenda_tecnica": "Sin nueva implementación específica en esta fase; se conserva el análisis y el límite anterior.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "No confundir con la calificación del concurso por sus evaluadores autorizados.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "CONTEXTO"
+    },
+    {
+      "id": "L-38",
+      "grupo": "L",
+      "articulo": 38,
+      "paginas_fisicas": [
+        29
+      ],
+      "regla_parafraseada": "Sanciones por incumplimiento de autoridades",
+      "estado": "FUERA_ALCANCE",
+      "referencia": "",
+      "limite_o_pendiente": "La aplicación no impone sanciones institucionales.",
+      "fuente": "fuentes/Resolucion_Vicerrectoral_021_2023.pdf",
+      "vigencia": "PENDIENTE_CONFIRMACION_INSTITUCIONAL",
+      "estado_historico": "FUERA_ALCANCE",
+      "adenda_tecnica": "Fuera del motor de selección: no se añaden asistencia, planillas, becas o seguimiento de personal. Pagos INF513 siguen simulados.",
+      "verificacion_nueva": "No se añade una aceptación de cumplimiento para este artículo.",
+      "contrato": "Ver trazabilidad canónica; no se crea un CU o RF adicional.",
+      "dependencia_externa": "La aplicación no impone sanciones institucionales.",
+      "fuente_actual": "resources/institutional/resolucion.pdf",
+      "estado_actual": "FUERA_ALCANCE"
+    }
+  ],
+  "fecha_revision": "2026-11-25"
+}
