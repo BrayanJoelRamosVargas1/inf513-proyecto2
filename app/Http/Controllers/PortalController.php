@@ -9,6 +9,7 @@ use App\Domain\Selection;
 use App\Domain\Workspace;
 use App\Http\Controllers\Api\SessionController;
 use App\Models\User;
+use App\ReadModels\PortalScope;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -113,7 +114,8 @@ final class PortalController extends Controller
         $authority = Access::has($u, $id, ['authority']);
         $reviewer = Access::has($u, $id, ['reviewer']);
         $evaluator = Access::has($u, $id, ['evaluator']);
-        abort_if($call->status === 'draft' && ! $authority && $u->role !== 'admin', 403);
+        // Misma política de lectura que la API (PortalScope): membresía, postulación propia o convocatoria publicada para postulantes.
+        abort_unless(PortalScope::calls($u)->where('calls.id', $id)->exists(), 403);
         $offers = DB::table('offers')->join('categories', 'categories.id', '=', 'offers.category_id')->where('call_id', $id)->when($evaluator && ! $authority && ! $reviewer && $u->role !== 'student', fn ($q) => $q->whereIn('offers.id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id')))->select('offers.*', 'categories.name as category')->get();
         $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)
             ->when(! $authority && ! $reviewer, fn ($q) => $q->where(function ($q) use ($u, $evaluator) {
@@ -326,6 +328,10 @@ final class PortalController extends Controller
         return view('audit', compact('events', 'call'));
     }
 
+    /**
+     * Reporte plano heredado, conservado por compatibilidad (scripts y pruebas de la versión anterior).
+     * El reporte vigente y completo es ConsolidatedResultsController::export.
+     */
     public function report(Request $r, int $id, string $format)
     {
         Access::require($r->user(), $id, ['authority']);

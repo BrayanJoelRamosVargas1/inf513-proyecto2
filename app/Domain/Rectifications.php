@@ -55,7 +55,7 @@ final class Rectifications
             if ($old === null) {
                 Scores::fail('No hay calificación original confirmada.');
             }
-            $score = Scores::value($score, $g ? '100' : '40');
+            $score = Scores::value($score, $g ? '100' : Scores::MERIT_MAX);
             if (bccomp($old, $score, 2) === 0) {
                 Scores::fail('La propuesta debe cambiar el valor.');
             }

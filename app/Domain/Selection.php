@@ -217,17 +217,13 @@ final class Selection
             if (Access::has($u, $call->id, ['authority', 'reviewer', 'evaluator'])) {
                 Scores::fail('Tiene un permiso de gestión en esta convocatoria; no puede postular en ella.');
             }
-            if (($call->scope === 'faculty' && $u->faculty !== $call->scope_value) || ($call->scope === 'career' && $u->career !== $call->scope_value)) {
-                Scores::fail('El perfil no pertenece al ámbito de la convocatoria.');
-            }
             if (DB::table('applications')->where('offer_id', $offerId)->where('user_id', $u->id)->exists()) {
                 Scores::fail('Ya tiene una postulación a esta oferta.');
             }
-            if ($o->is_subject && $call->subject_limit !== null) {
-                $count = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->where('offers.call_id', $call->id)->where('offers.is_subject', true)->count();
-                if ($count >= $call->subject_limit) {
-                    Scores::fail('Alcanzó el límite de asignaturas de esta convocatoria (incluye borradores DEMO).');
-                }
+            // Misma regla que muestra la interfaz (Workspace::applicationBlock): ámbito y límite de asignaturas.
+            $subjects = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->where('offers.call_id', $call->id)->where('offers.is_subject', true)->count();
+            if (($block = Workspace::applicationBlock($u, $call, $o, $subjects)) !== null) {
+                Scores::fail($block);
             }
             $snapshot = ['offer' => (array) $o, 'call_version' => $call->version, 'scale' => '0..100', 'rounding' => $o->rounding, 'mode' => $call->mode];
             $id = DB::table('applications')->insertGetId(['offer_id' => $offerId, 'user_id' => $u->id, 'snapshot' => json_encode($snapshot), 'created_at' => now(), 'updated_at' => now()]);
@@ -360,7 +356,7 @@ final class Selection
                 Scores::fail('Adjunte el formulario CPD de respaldo.');
             }
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
-            $score = Scores::value($score, '40');
+            $score = Scores::value($score, Scores::MERIT_MAX);
             DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'merit_version' => 1, 'updated_at' => now()]);
             Rectifications::version($id, null, 1, $score, $u->id);
             self::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference, 'document_checks' => $documentChecks]);
@@ -471,7 +467,7 @@ final class Selection
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $notes = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->whereIn('grades.status', ['confirmed', 'corrected'])->pluck('grades.score', 'assignments.area')->all();
             $exam = Scores::exam(self::json($o->weights), $notes);
-            $final = bcadd(Scores::value($a->merit, '40'), $exam, 2);
+            $final = bcadd(Scores::value($a->merit, Scores::MERIT_MAX), $exam, 2);
             DB::table('applications')->where('id', $id)->update(['exam' => $exam, 'final' => $final, 'updated_at' => now()]);
             self::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => self::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding, 'document_checks' => $documentChecks]);
         });

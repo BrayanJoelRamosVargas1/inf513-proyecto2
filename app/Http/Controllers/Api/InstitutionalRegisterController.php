@@ -41,7 +41,7 @@ final class InstitutionalRegisterController extends Controller
                 $details = isset($p['members']) ? implode('; ', array_map(fn ($m) => $m['name'].' / '.$m['responsibility'], $p['members'])) : implode('; ', $p['fields'] ?? $p['criteria'] ?? []);
                 $calendar = $row->kind === 'calendar' ? implode('; ', array_map(fn ($key, $label) => $label.': '.($p[$key] ?? 'No especificado'), array_keys(InstitutionalRegister::CALENDAR_FIELDS), InstitutionalRegister::CALENDAR_FIELDS)).'; '.($p['timezone'] ?? '') : '';
                 $values = [InstitutionalRegister::KINDS[$row->kind] ?? $row->kind, $row->reference, $row->version, $p['modality'], InstitutionalRegister::STATES[$p['record_state'] ?? 'internal'], $p['issued_on'] ?? $p['starts_at'] ?? '', $p['authority'] ?? $p['issuer'] ?? '', $row->source_id ?? '', $details, $calendar, $p['offer_id'] ?? '', $p['notes'], $row->recorded_by, $row->created_at, 'Reporte interno; el registro no acredita aprobación institucional.'];
-                $values = array_map(fn ($v) => preg_match('/^[=+@\-]/', (string) $v) ? "'".$v : $v, $values);
+                $values = array_map(InstitutionalRegister::csvCell(...), $values);
                 fputcsv($stream, $values, ';', '"', '');
             }
             fclose($stream);

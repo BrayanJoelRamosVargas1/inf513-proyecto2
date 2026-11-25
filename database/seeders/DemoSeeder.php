@@ -21,6 +21,15 @@ final class DemoSeeder extends Seeder
             return;
         }
         File::ensureDirectoryExists(base_path('.local'));
+        // B-32: todo o nada. Si falla a mitad no queda una base parcial que la siguiente ejecución dé por existente.
+        $credentials = DB::transaction(fn () => $this->seed());
+        File::put(base_path('.local/ACCESOS_DEMO.txt'), "CUENTAS LOCALES FICTICIAS. NO PUBLICAR.\n".implode("\n", $credentials)."\n");
+        $this->command?->info('DEMO creada sin datos reales. Accesos aleatorios: .local/ACCESOS_DEMO.txt (archivo privado).');
+    }
+
+    /** @return list<string> credenciales ficticias generadas, para guardarlas solo si la siembra se confirma */
+    private function seed(): array
+    {
         $credentials = [];
         $users = [];
         foreach (['admin' => ['Administración DEMO', 'admin'], 'autoridad' => ['Vicedecanato DEMO', 'authority'], 'revisor' => ['Revisión DEMO', 'staff'], 'docente' => ['Docente DEMO', 'staff'], 'estudiante' => ['Andrea Ejemplo', 'student'], 'bruno' => ['Bruno Ejemplo', 'student'], 'carla' => ['Carla Ejemplo', 'student']] as $key => [$name,$role]) {
@@ -30,7 +39,6 @@ final class DemoSeeder extends Seeder
             $users[$key] = $u;
             $credentials[] = $u->email.' | '.$password;
         }
-        File::put(base_path('.local/ACCESOS_DEMO.txt'), "CUENTAS LOCALES FICTICIAS. NO PUBLICAR.\n".implode("\n", $credentials)."\n");
         foreach (['Docencia por asignatura' => 'docencia', 'Sala de cómputo' => 'docencia', 'Redes' => 'docencia', 'Software' => 'docencia', 'Electrónica' => 'docencia', 'Laboratorio académico/social' => 'laboratorio'] as $name => $regime) {
             DB::table('categories')->insert(['name' => $name, 'regime' => $regime, 'active' => true, 'created_at' => now(), 'updated_at' => now()]);
         }
@@ -64,6 +72,7 @@ final class DemoSeeder extends Seeder
         $s->transition($authority, $call, 'published');
         // Una postulación borrador permite comenzar la demo sin alterar un proceso evaluado.
         $s->apply($users['estudiante'], $offers['Sala de cómputo']);
-        $this->command?->info('DEMO creada sin datos reales. Accesos aleatorios: .local/ACCESOS_DEMO.txt (archivo privado).');
+
+        return $credentials;
     }
 }

@@ -67,6 +67,10 @@ final class SecureResponse
         $response->headers->set('Referrer-Policy', 'same-origin');
         $response->headers->set('Content-Security-Policy', "default-src 'self'; style-src 'self'; img-src 'self' data:; script-src ".(request()->is('p2', 'p2/*') ? "'self'" : "'none'")."; object-src 'none'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'");
         $response->headers->set('Cache-Control', 'no-store, private');
+        $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
+        if (request()->isSecure()) {
+            $response->headers->set('Strict-Transport-Security', 'max-age=31536000');
+        }
 
         return $response;
     }

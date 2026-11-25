@@ -9,6 +9,13 @@ final class Scores
     /** Esquemas de composición que el sistema sabe calcular; PENDING_COMPOSITION no es calculable. */
     public const CALCULABLE_SCHEMES = ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100'];
 
+    /** Máximos de la escala DEMO: mérito /40 + examen /60 = final /100. */
+    public const MERIT_MAX = '40';
+
+    public const EXAM_MAX = '60';
+
+    public const EXAM_FACTOR = '0.6';
+
     public static function value(mixed $value, string $max = '100'): string
     {
         if (! is_string($value) && ! is_int($value)) {
@@ -63,7 +70,7 @@ final class Scores
             $sum = bcadd($sum, bcmul(self::value($notes[$area]), $weight, 8), 8);
         }
 
-        return self::round(bcmul(bcdiv($sum, '100', 8), '0.6', 8));
+        return self::round(bcmul(bcdiv($sum, '100', 8), self::EXAM_FACTOR, 8));
     }
 
     public static function fail(string $message): never

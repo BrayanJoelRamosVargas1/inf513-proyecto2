@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('api/v1')->middleware('web')->group(function () {
     Route::get('reference-sources/{key}', [\App\Http\Controllers\Api\ReferenceController::class, 'download'])->whereIn('key', ['resolucion', 'convocatoria-01', 'convocatoria-02']);
     Route::post('visits/public', [WorkspaceController::class, 'publicVisit'])->middleware('throttle:30,1,public-visits:');
-    Route::get('csrf', [SessionController::class, 'csrf']);
+    Route::get('csrf', [SessionController::class, 'csrf'])->middleware('throttle:60,1');
     Route::post('login', [SessionController::class, 'login'])->middleware('throttle:6,1');
     Route::post('register', [SessionController::class, 'register'])->middleware('throttle:6,1');
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'throttle:mutations'])->group(function () {
         Route::get('me', [SessionController::class, 'me']);
         Route::get('institutional/dossiers', [InstitutionalController::class, 'index']);
         Route::post('institutional/dossiers', [InstitutionalController::class, 'create'])->middleware('throttle:20,1');
@@ -43,7 +43,7 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
         Route::get('applications/{id}', [SelectionController::class, 'application']);
         Route::get('applications/{id}/receipt', [\App\Http\Controllers\SubmissionReceiptController::class, 'download']);
         Route::post('offers/{id}/applications', [SelectionController::class, 'apply']);
-        Route::post('applications/{id}/{action}', [SelectionController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
+        Route::post('applications/{id}/{action}', [SelectionController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular'])->middleware('throttle:uploads');
         Route::get('documents/{id}', [DocumentController::class, 'preview']);
         Route::get('documents/{id}/download', [DocumentController::class, 'download']);
         Route::get('documents/{id}/metadata', [DocumentController::class, 'metadata']);

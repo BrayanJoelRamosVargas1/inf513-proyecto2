@@ -3,13 +3,16 @@
 namespace Tests\Feature;
 
 use App\Domain\Administration;
+use App\Domain\InstitutionalRegister;
 use App\Domain\ScanRenewal;
 use App\Domain\Scores;
 use App\Domain\Selection;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
@@ -221,5 +224,63 @@ final class AuditCorrectionsTest extends TestCase
     {
         $this->assertSame(config('app.timezone'), config('database.connections.pgsql.timezone'));
         $this->assertSame(config('app.timezone'), DB::selectOne('show timezone')->TimeZone);
+    }
+
+    public function test_b10_missing_indexes_exist(): void
+    {
+        $names = DB::table('pg_indexes')->where('schemaname', 'public')->pluck('indexname')->all();
+        foreach (['applications_user_id_index', 'memberships_user_id_index', 'audit_events_call_id_id_index', 'institutional_scan_events_job_id_index', 'participation_requests_application_id_index'] as $index) {
+            $this->assertContains($index, $names);
+        }
+    }
+
+    public function test_b09_secure_responses_add_hsts_only_over_https(): void
+    {
+        $plain = $this->get('/login');
+        $plain->assertHeader('Permissions-Policy');
+        $plain->assertHeaderMissing('Strict-Transport-Security');
+        $this->get('https://localhost/login')->assertHeader('Strict-Transport-Security', 'max-age=31536000');
+    }
+
+    public function test_b23_csv_cells_neutralize_formula_prefixes(): void
+    {
+        foreach (['=1+1', '+1', '-1', '@SUM(A1)', "\tcmd", "\rcmd"] as $dangerous) {
+            $this->assertSame("'".$dangerous, InstitutionalRegister::csvCell($dangerous));
+        }
+        $this->assertSame('texto normal', InstitutionalRegister::csvCell('texto normal'));
+        $this->assertSame(7, InstitutionalRegister::csvCell(7));
+    }
+
+    public function test_b26_mutations_and_uploads_are_rate_limited_but_reads_are_not(): void
+    {
+        $this->assertNotNull(RateLimiter::limiter('mutations'));
+        $this->assertNotNull(RateLimiter::limiter('uploads'));
+        $post = app('router')->getRoutes()->match(Request::create('/api/v1/calls', 'POST'));
+        $this->assertContains('throttle:mutations', $post->gatherMiddleware());
+        $upload = app('router')->getRoutes()->match(Request::create('/api/v1/applications/1/archivo', 'POST'));
+        $this->assertContains('throttle:uploads', $upload->gatherMiddleware());
+        $this->assertInstanceOf(\Illuminate\Cache\RateLimiting\Unlimited::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'GET')));
+        $this->assertInstanceOf(\Illuminate\Cache\RateLimiting\Limit::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'POST')));
+    }
+
+    public function test_b12_web_call_page_uses_the_same_visibility_policy_as_the_api(): void
+    {
+        $draft = $this->newCall();
+        // Un revisor con permiso vigente sobre un borrador lo ve (antes recibía 403 en la vista web).
+        DB::table('memberships')->insert(['user_id' => $this->reviewer->id, 'call_id' => $draft, 'role' => 'reviewer']);
+        $this->actingAs($this->reviewer)->get('/convocatorias/'.$draft)->assertOk();
+        // Un postulante no ve un borrador ajeno, igual que en la API.
+        $this->actingAs($this->student)->get('/convocatorias/'.$draft)->assertForbidden();
+        // Una convocatoria publicada sigue visible para postulantes.
+        $this->actingAs($this->student)->get('/convocatorias/'.$this->call)->assertOk();
+        // Personal sin permiso en esa convocatoria no la ve (política de PortalScope).
+        $outsider = User::factory()->create(['role' => 'staff']);
+        $this->actingAs($outsider)->get('/convocatorias/'.$this->call)->assertForbidden();
+    }
+
+    public function test_b30_score_scale_constants_are_consistent(): void
+    {
+        $this->assertSame('100', bcadd(Scores::MERIT_MAX, Scores::EXAM_MAX, 0));
+        $this->assertSame('0.6', Scores::EXAM_FACTOR);
     }
 }

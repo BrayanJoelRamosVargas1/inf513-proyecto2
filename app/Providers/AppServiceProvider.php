@@ -5,7 +5,10 @@ namespace App\Providers;
 use App\Domain\ClamAvScanner;
 use App\Domain\DocumentScanner;
 use App\Domain\Workspace;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // B-26: limites generosos que frenan abusos y bucles sin afectar el uso normal ni las lecturas.
+        RateLimiter::for('mutations', fn (Request $r) => in_array($r->method(), ['GET', 'HEAD', 'OPTIONS'], true)
+            ? Limit::none()
+            : Limit::perMinute(180)->by('mutations:'.($r->user()?->id ?? $r->ip())));
+        RateLimiter::for('uploads', fn (Request $r) => Limit::perMinute(40)->by('uploads:'.($r->user()?->id ?? $r->ip())));
         Route::bind('id', function (string $value): int {
             $id = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
             abort_if($id === false, 404);

@@ -11,7 +11,7 @@ Route::get('/login', [PortalController::class, 'loginForm'])->name('login');
 Route::post('/login', [PortalController::class, 'login'])->middleware('throttle:6,1');
 Route::get('/registro', [PortalController::class, 'registerForm']);
 Route::post('/registro', [PortalController::class, 'register'])->middleware('throttle:6,1');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'throttle:mutations'])->group(function () {
     Route::get('/convocatorias/{id}/consolidado', [ConsolidatedResultsController::class, 'show']);
     Route::get('/convocatorias/{id}/consolidado/{format}', [ConsolidatedResultsController::class, 'export'])->whereIn('format', ['pdf', 'xlsx']);
     Route::get('/adjudicaciones', [ParticipationController::class, 'awards']);

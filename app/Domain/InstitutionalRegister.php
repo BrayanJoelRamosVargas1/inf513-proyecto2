@@ -12,6 +12,12 @@ final class InstitutionalRegister
 {
     public const KINDS = ['commission' => 'Comisión evaluadora', 'act' => 'Acto administrativo', 'template' => 'Plantilla institucional', 'exam_plan' => 'Plan de examen', 'calendar' => 'Calendario por modalidad'];
     public const STATES = ['draft' => 'Borrador', 'internal' => 'Registro interno', 'documented' => 'Documento respaldado', 'external_approval_recorded' => 'Aprobación externa registrada, sujeta a verificación'];
+    /** Neutraliza la inyección de fórmulas: una celda que empiece por = + - @ tabulador o retorno de carro se antepone con comilla. */
+    public static function csvCell(mixed $value): mixed
+    {
+        return preg_match('/^[=+@\-\t\r]/', (string) $value) ? "'".$value : $value;
+    }
+
     public const CALENDAR_FIELDS = ['opening' => 'Apertura propuesta', 'closing' => 'Cierre propuesto', 'exam_start' => 'Inicio de exámenes', 'exam_end' => 'Fin de exámenes', 'results_planned' => 'Publicación prevista', 'results_actual' => 'Publicación efectiva documentada', 'timetable_assignment' => 'Asignación de horarios'];
     public function record(User $user, int $call, array $input): int
     {
