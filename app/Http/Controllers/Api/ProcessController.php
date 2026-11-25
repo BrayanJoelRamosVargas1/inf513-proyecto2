@@ -14,6 +14,10 @@ use App\Http\Operations\AdministrationOperations;
 use App\Http\Operations\CallOperations;
 use App\Http\Operations\ParticipationOperations;
 use App\Http\Operations\ResultsOperations;
+use App\ReadModels\ResultsView;
+use App\ReadModels\CorrectionsView;
+use App\ReadModels\ParticipationView;
+use App\ReadModels\AwardsView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +40,7 @@ final class ProcessController extends Controller
 
     public function ranking(Request $r, int $id)
     {
-        $v = app(PortalController::class)->results($r, $id)->getData();
+        $v = app(ResultsView::class)->data($r, $id);
         if ($v['ranking']) {
             $v['ranking']['rank'] = collect($v['ranking']['rank'])->map(fn ($a) => collect((array) $a)->only(['id', 'name', 'merit', 'exam', 'final', 'selection']))->values();
         }
@@ -46,7 +50,7 @@ final class ProcessController extends Controller
 
     public function corrections(Request $r, int $id)
     {
-        $v = app(GovernanceController::class)->corrections($r, $id)->getData();
+        $v = app(CorrectionsView::class)->data($r, $id);
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'merit', 'participation']);
         if (! $v['authority'] && ! $v['reviewer']) {
             $v['app']->forget('merit');
@@ -60,7 +64,7 @@ final class ProcessController extends Controller
 
     public function participation(Request $r, int $id)
     {
-        $v = app(ParticipationController::class)->show($r, $id)->getData();
+        $v = app(ParticipationView::class)->data($r, $id);
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'status', 'participation', 'dossier_version', 'eligibility']);
         // A participant needs their award reference, never the full ranking snapshot.
         $v['award'] = $v['award'] ? collect((array) $v['award'])->only(['id', 'version', 'created_at']) : null;
@@ -76,7 +80,7 @@ final class ProcessController extends Controller
 
     public function awards(Request $r)
     {
-        $v = app(ParticipationController::class)->awards($r)->getData();
+        $v = app(AwardsView::class)->data($r);
         $v['awards'] = $v['awards']->map(function ($a) {
             $call = Selection::row('calls', $a->call_id);
             $a->publication = collect((array) $a->publication)->only(['id', 'version', 'created_at']);

@@ -11,6 +11,7 @@ use App\Http\Controllers\PortalController;
 use App\ReadModels\PortalScope;
 use App\Http\Operations\ApplicationOperations;
 use App\Domain\Scores;
+use App\ReadModels\ApplicationView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -108,7 +109,7 @@ final class SelectionController extends Controller
     public function application(Request $r, int $id)
     {
         // Reuse the existing read policy and sealed-document selection; serialize an explicit allow-list.
-        $v = app(PortalController::class)->application($r, $id)->getData();
+        $v = app(ApplicationView::class)->data($r, $id);
         $app = $v['app'];
         $data = collect((array) $app)->only(['id', 'offer_id', 'user_id', 'status', 'eligibility', 'participation', 'selection', 'dossier_version']);
         if ($v['owner'] || $v['authority']) {

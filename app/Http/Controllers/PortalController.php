@@ -14,6 +14,10 @@ use App\Http\Operations\AdministrationOperations;
 use App\Http\Operations\ApplicationOperations;
 use App\Http\Operations\CallOperations;
 use App\Http\Operations\ResultsOperations;
+use App\ReadModels\HomeView;
+use App\ReadModels\CallView;
+use App\ReadModels\ApplicationView;
+use App\ReadModels\ResultsView;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -82,66 +86,14 @@ final class PortalController extends Controller
         return view('role-guide', ['roles' => Workspace::roles($r->user())]);
     }
 
-    public function home(Request $r)
+    public function home(Request $r, HomeView $view)
     {
-        $u = $r->user();
-        $ids = Access::effective(DB::table('memberships')->where('user_id', $u->id))->pluck('call_id');
-        $roles = Workspace::roles($u);
-        $calls = DB::table('calls')->when($u->role !== 'admin', function ($q) use ($u, $ids) {
-            if ($u->role === 'student') {
-                $q->where(fn ($q) => $q->where('status', '!=', 'draft')->orWhereIn('id', $ids));
-            } else {
-                $q->whereIn('id', $ids);
-            }
-        })->orderByDesc('id')->get();
-        if ($u->role === 'student') {
-            $calls = $calls->sortByDesc(fn ($c) => Workspace::receiving($c))->values();
-        }
-        $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->select('applications.*', 'offers.title')->get();
-
-        $tasks = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('calls', 'calls.id', '=', 'offers.call_id')->join('users', 'users.id', '=', 'applications.user_id')
-            ->where('applications.participation', 'active')->where('applications.status', 'submitted')
-            ->where(function ($q) use ($u) {
-                $reviewCalls = Access::effective(DB::table('memberships')->where('user_id', $u->id)->where('role', 'reviewer'))->pluck('call_id');
-                $evalCalls = Access::effective(DB::table('memberships')->where('user_id', $u->id)->where('role', 'evaluator'))->pluck('call_id');
-                $q->where(fn ($q) => $q->whereIn('calls.id', $reviewCalls)->where('applications.user_id', '!=', $u->id)->whereIn('calls.status', ['published', 'closed', 'evaluation']))
-                    ->orWhere(fn ($q) => $q->whereIn('calls.id', $evalCalls)->where('calls.status', 'evaluation')->where('applications.eligibility', 'enabled')->whereIn('offers.id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id')));
-            })->select('applications.id', 'applications.eligibility', 'offers.title', 'users.name')->orderBy('applications.id')->limit(50)->get();
-
-        return view('home', compact('calls', 'apps', 'roles', 'tasks'));
+        return view('home', $view->data($r));
     }
 
-    public function call(Request $r, int $id)
+    public function call(Request $r, int $id, CallView $view)
     {
-        $call = Selection::row('calls', $id);
-        $u = $r->user();
-        $authority = Access::has($u, $id, ['authority']);
-        $reviewer = Access::has($u, $id, ['reviewer']);
-        $evaluator = Access::has($u, $id, ['evaluator']);
-        // Misma política de lectura que la API (PortalScope): membresía, postulación propia o convocatoria publicada para postulantes.
-        abort_unless(PortalScope::calls($u)->where('calls.id', $id)->exists(), 403);
-        $offers = DB::table('offers')->join('categories', 'categories.id', '=', 'offers.category_id')->where('call_id', $id)->when($evaluator && ! $authority && ! $reviewer && $u->role !== 'student', fn ($q) => $q->whereIn('offers.id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id')))->select('offers.*', 'categories.name as category')->get();
-        $apps = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)
-            ->when(! $authority && ! $reviewer, fn ($q) => $q->where(function ($q) use ($u, $evaluator) {
-                $q->where('applications.user_id', $u->id);
-                if ($evaluator) {
-                    $q->orWhereIn('applications.offer_id', DB::table('assignments')->where('user_id', $u->id)->pluck('offer_id'));
-                }
-            }))
-            ->select('applications.*', 'offers.title', 'users.name')->orderBy('applications.id')->paginate(30);
-        $categories = DB::table('categories')->where('active', true)->get();
-        $teachers = User::whereIn('id', Access::effective(DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator'))->pluck('user_id'))->where('active', true)->get();
-
-        $ownApplications = DB::table('applications')->where('user_id', $u->id)->whereIn('offer_id', $offers->pluck('id'))->get()->keyBy('offer_id');
-        $subjects = $ownApplications->whereIn('offer_id', $offers->where('is_subject', true)->pluck('id'))->count();
-        $applicationBlocks = $offers->mapWithKeys(fn ($o) => [$o->id => Workspace::applicationBlock($u, $call, $o, $subjects)]);
-
-        $editOffer = null;
-        if ($authority && $call->status === 'draft' && $r->filled('editar_oferta')) {
-            $editOffer = $offers->firstWhere('id', (int) $r->input('editar_oferta'));
-        }
-
-        return view('call', compact('call', 'offers', 'apps', 'categories', 'teachers', 'authority', 'reviewer', 'evaluator', 'editOffer', 'ownApplications', 'applicationBlocks'));
+        return view('call', $view->data($r, $id));
     }
 
     public function createCall(Request $r, CallOperations $ops)
@@ -176,30 +128,9 @@ final class PortalController extends Controller
         return redirect('/postulaciones/'.$this->service->apply($r->user(), $id))->with('success', 'Borrador creado. Complete el expediente para enviarlo.');
     }
 
-    public function application(Request $r, int $id)
+    public function application(Request $r, int $id, ApplicationView $view)
     {
-        $app = Selection::row('applications', $id);
-        Access::viewApplication($r->user(), $app);
-        $offer = Selection::row('offers', $app->offer_id);
-        $call = Selection::row('calls', $offer->call_id);
-        $u = $r->user();
-        $owner = $app->user_id === $u->id;
-        $reviewer = Access::has($u, $call->id, ['reviewer']);
-        $authority = Access::has($u, $call->id, ['authority']);
-        $student = User::findOrFail($app->user_id);
-        $documents = ($owner || $reviewer) ? DB::table('documents')->where('application_id', $id)->orderByDesc('version')->get() : collect();
-        $reviews = ($owner || $reviewer || $authority) ? DB::table('reviews')->where('application_id', $id)->get()->keyBy('criterion') : collect();
-        $assignments = Access::has($u, $call->id, ['evaluator']) ? DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get() : collect();
-        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->whereIn('grades.assignment_id', $assignments->pluck('id')))->select('grades.*', 'assignments.area')->get();
-
-        $hasAmendmentHistory = DB::table('amendments')->where('application_id', $id)->exists();
-        $pendingAmendment = DB::table('amendments')->where('application_id', $id)->whereIn('status', ['open', 'submitted'])->exists();
-        $currentSnapshot = DB::table('dossier_snapshots')->where('application_id', $id)->orderByDesc('id')->first();
-        $effectiveDocuments = $currentSnapshot ? $documents->whereIn('id', array_column(Selection::json($currentSnapshot->snapshot)['documents'], 'id')) : $documents->whereNull('amendment_id');
-
-        $documentValidation = app(\App\Domain\ApplicantDocuments::class)->readiness($id);
-
-        return view('application', compact('documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority'));
+        return view('application', $view->data($r, $id));
     }
 
     public function action(Request $r, int $id, string $action, ApplicationOperations $ops)
@@ -216,26 +147,9 @@ final class PortalController extends Controller
         return back()->with('success', 'Responsable asignado.');
     }
 
-    public function results(Request $r, int $id)
+    public function results(Request $r, int $id, ResultsView $view)
     {
-        $offer = Selection::row('offers', $id);
-        Access::require($r->user(), $offer->call_id, ['authority']);
-        $call = Selection::row('calls', $offer->call_id);
-        $documentary_reference = $call->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $call->id)->exists();
-        $ranking = null;
-        $warning = null;
-        try {
-            $ranking = $this->service->ranking($id);
-        } catch (ValidationException $e) {
-            $warning = $e->validator->errors()->first();
-        }
-        $ties = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', $offer->result_revision)->get();
-        $publications = DB::table('publications')->where('offer_id', $id)->get();
-
-        $revisions = DB::table('result_revisions')->where('offer_id', $id)->orderByDesc('revision')->get();
-        $oldTies = DB::table('tie_exams')->where('offer_id', $id)->where('result_revision', '!=', $offer->result_revision)->get();
-
-        return view('results', compact('documentary_reference', 'revisions', 'oldTies', 'offer', 'call', 'ranking', 'warning', 'ties', 'publications'));
+        return view('results', $view->data($r, $id));
     }
 
     public function openTie(Request $r, int $id, ResultsOperations $ops)
