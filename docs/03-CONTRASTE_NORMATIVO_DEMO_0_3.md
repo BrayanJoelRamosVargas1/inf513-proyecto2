@@ -1,3 +1,5 @@
+> **Actualización documental — 10/11/2026, recuperación posterior al cierre visual.** Los cuatro PDF y tres fotografías originales están recuperados localmente; 7/7 hashes coinciden con el inventario. Se realizó el contraste estático de los 82 artículos del corpus recibido y de las convocatorias, con pendientes expresos. Consultar [adenda y matriz](../../ADENDA_NORMATIVA_FICCT_DEMO_0_3/README.md). La recuperación queda cerrada; la conformidad normativa integral, vigencia y autorización institucional siguen pendientes. Los apartados anteriores sobre originales ausentes describen la revisión histórica, no la disponibilidad actual. El código, contrato, evidencia y ZIP de cierre visual no cambian.
+
 # Contraste de fuentes — DEMO 0.3
 
 Fecha de consulta: 10/11/2026. No se modifican los ocho CU ni RF-01..RF-30. Se distingue evidencia heredada, fuentes consultadas ahora y decisiones técnicas. Este informe no confirma vigencia normativa ni sustituye la revisión institucional.
@@ -38,7 +40,13 @@ No se adoptaron copias de terceros como sustituto autenticado de los archivos or
 | Límite de cuatro asignaturas después de retirar | PENDIENTE_VALIDACION_INSTITUCIONAL | No se libera automáticamente el conteo existente por retiro. Tampoco se elimina la postulación para postular otra vez a la misma oferta. |
 | Reemplazo, firmas, recursos y efectos laborales | PENDIENTE_VALIDACION_INSTITUCIONAL | No se automatizan ni se simulan como confirmados. |
 
-## Validación todavía necesaria
+## Estado posterior del contraste — 15/11/2026
+
+La recuperación de las fuentes que se consideraba pendiente en la implementación inicial ya se resolvió: los cuatro PDF y las tres fotografías se recuperaron y cotejaron por hash. La adenda normativa del proyecto registra el contraste de 82 artículos y las discrepancias por fuente, incluida la falta de un umbral final inequívoco y la discrepancia aritmética de la rúbrica de laboratorio. No se modificaron los originales ni se automatizaron interpretaciones de esas ambigüedades.
+
+El apartado siguiente conserva el estado inicial como antecedente. Su `NOT_VERIFIED` describe aquella ejecución, no el estado de recuperación actual. Siguen pendientes la vigencia, las aclaraciones y la validación institucional de la implementación.
+
+## Antecedente: validación pendiente en la implementación inicial
 
 Recuperar los cuatro PDF y tres fotografías originales y comprobar sus hashes; revisar texto íntegro y vigencia; confirmar plazos, responsables, recursos, reaperturas posteriores a evaluación, efectos de renunciar, aceptación, compatibilidades y eventual cobertura de vacantes. Las decisiones técnicas DEMO quedan localizadas para sustituirlas por reglas institucionales confirmadas, conservando los históricos.
 

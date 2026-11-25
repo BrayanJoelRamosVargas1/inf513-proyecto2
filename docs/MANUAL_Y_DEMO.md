@@ -1,42 +1,44 @@
-# Manual breve y guion de demostración
+# Manual de uso y presentación — DEMO 0.3
 
-Abre http://127.0.0.1:8099. Las contraseñas aleatorias se guardan en `.local/ACCESOS_DEMO.txt`; no se publican en el repositorio ni en el ZIP de código. Son cuentas ficticias del equipo local. Si trasladas el proyecto, el seed genera otras.
+Actualizado el 18/11/2026. Aplicación local: http://127.0.0.1:8116. El iniciador del equipo es `ABRIR_DEMO_FICCT_VALIDADA.ps1`, en la carpeta del proyecto. Las credenciales ficticias se guardan de forma privada en `sistema/.local/operacion-03/runtime/sistema/.local/ACCESOS_DEMO.txt`. No son cuentas de personas reales.
 
-## Por perfil
+## Escenarios para presentar
 
-Administrador (`admin@ficct.test`): Usuarios y permisos → crear usuario → asignar responsabilidad y convocatoria. No descarga expedientes. Catálogos permiten crear tipos para nuevas ofertas.
+- **Práctica guiada · Postulación y revisión documental:** recepción abierta; Carla tiene un expediente enviado con seis PDF A4 de muestra para el revisor; Bruno tiene un borrador vacío para practicar la carga. Un estudiante nuevo puede postular a esa oferta. Los plazos se indican en pantalla.
+- **Práctica guiada · Evaluación con expediente PDF:** Andrea está habilitada, con respaldo de mérito 20.00 de ejemplo. El evaluador tiene Software asignado para registrar su nota. La autoridad puede calcular y publicar después de su confirmación.
+- Los escenarios anteriores se conservan. Algunos contienen imágenes pequeñas usadas como pruebas técnicas: no son documentación oficial. La pantalla Revisar archivo indica formato, tamaño y dimensiones antes de abrir o descargar.
 
-Autoridad (`autoridad@ficct.test`): ver convocatorias y sus ofertas; crear convocatoria DEMO en borrador, agregar ofertas con documentos/requisitos/pesos; publicar; cerrar recepción; abrir evaluación; asignar docentes; calcular resultados; abrir consolidado; gestionar examen adicional si hay empate; aprobar snapshot; descargar PDF/XLSX y consultar auditoría. Las operaciones irreversibles se indican en la pantalla. Los históricos 01/02 no se pueden operar.
+Las prácticas se agregan una sola vez mediante `php artisan ficct:demo-documental` en entorno local. Volver a ejecutarlo no renueva plazos ni reemplaza expedientes. No ejecutar seeds, reinicios ni restauraciones para abrir la demostración.
 
-Postulante (`estudiante@ficct.test`): ya tiene un borrador en la convocatoria abierta. Adjuntar los documentos ficticios requeridos (PNG/JPG/PDF hasta 5 MB) → verificar lista → confirmar envío definitivo. Su resultado en una oferta no se comparte con otras. Puede crear otras postulaciones permitidas; no vuelve a enviar la misma oferta.
+## Qué hace cada perfil
 
-Revisor (`revisor@ficct.test`): abrir convocatoria → expediente → descargar evidencia autorizada → registrar decisión por cada criterio y motivo → habilitar o inhabilitar con fundamento. Para habilitar deben cumplir todos los criterios obligatorios. Registrar formulario CPD/fecha como referencia y puntaje sobre 40. Un archivo subido no equivale a una validación CPD.
+| Perfil | Recorrido | Fuera de su función base |
+|---|---|---|
+| Postulante | Cuenta → convocatoria abierta → oferta → iniciar/continuar → cargar documentos → confirmar envío → consultar estado y resultados propios | Revisar requisitos, calificarse, aprobar resultados o ver expedientes ajenos |
+| Revisor | Bandeja → expediente enviado → revisar archivo original → registrar criterios y motivo → habilitar/inhabilitar → registrar CPD y méritos; atender subsanaciones | Calificar exámenes o publicar selección |
+| Evaluador | Convocatoria/oferta asignada → habilitados → nota por área → guardar borrador/confirmar; solicitar rectificación documentada cuando corresponda | Documentos privados, habilitación, edición de notas ajenas o publicación |
+| Autoridad | Configurar borrador → ofertas/plazas/requisitos → publicar → asignar evaluadores → cerrar recepción → evaluación → consolidar → resolver empates mediante comisión → aprobar publicación y reportes | Ingresar notas por otro evaluador; acceso implícito a los archivos privados |
+| Administrador técnico | Usuarios y permisos → crear/editar/desactivar → asignar o revocar responsabilidad por convocatoria → tipos de auxiliatura | Crear convocatoria académica, revisar documentos, calificar o aprobar por el solo perfil técnico |
 
-Docente (`docente@ficct.test`): abrir convocatoria asignada → expediente habilitado → área propia → guardar borrador o confirmar nota DEMO sobre 100 en etapa de evaluación. Una nota confirmada no se sobrescribe desde su formulario; la rectificación autorizada conserva auditoría.
+Las responsabilidades se asignan por convocatoria y vigencia. Una cuenta puede acumular funciones legítimas, pero no revisar ni calificar su propio expediente. Si una cuenta cambió de perfil, sus expedientes anteriores se conservan como historia personal. Director de Carrera no tiene una atribución inventada: su estructura final sigue pendiente. CPD es una dependencia externa, sin integración automática.
 
-## Recorrido de 8–12 minutos
+## Documentos y descargas
 
-1. (1 min) Mostrar panel y las diferencias históricas 01/02. Explicar la convocatoria ficticia abierta y el aviso DEMO.
-2. (2 min) Entrar como postulante, revisar borrador y lista documental. Usar solo archivos sintéticos.
-3. (2 min) Revisor: revisar por criterio y mostrar separación entre presencia, cumplimiento y habilitación. Mostrar el CPD ficticio como evidencia manual.
-4. (2 min) En `Recorrido probado · Evaluación y desempate DEMO`, mostrar docente/áreas, 20.10 de mérito, 48.00 de examen y 68.10 final. No mezclar este fixture ya ejecutado con la convocatoria abierta.
-5. (2 min) Autoridad: abrir consolidado. Los dos aspirantes conservan 68.10 inicial; el nuevo examen tiene condiciones, participantes, resultados y acta. La decisión de comisión se registra; el programa no inventa ganador.
-6. (1 min) Descargar PDF/XLSX, mostrar auditoría y snapshot. Aclarar qué falta para uso institucional.
+En **Qué puedo hacer** el postulante y el revisor encuentran seis PDF de ejemplo, todos A4 y marcados MUESTRA. Sirven para practicar, no para acreditar requisitos. No hay certificados oficiales precargados.
 
-`php artisan ficct:demo-recorrido` crea ese segundo recorrido si aún no existe, ejecutando los servicios reales con documentos ficticios. No reinicia ni sobrescribe una convocatoria existente. Sus estados se avanzan de forma acelerada para demostrar la secuencia, no como cronograma de concurso real.
+En el expediente, **Revisar archivo** muestra nombre original, versión, formato, tamaño y dimensiones cuando es imagen. **Abrir original** lo presenta en otra pestaña; **Descargar original** devuelve los mismos bytes cargados y el tipo correcto. El sistema comprueba el hash antes de entregar el archivo. No convierte un PDF en una imagen pequeña. Solo propietario y revisor autorizado pueden acceder; autoridad, administrador y evaluador no obtienen esos archivos por defecto.
 
-## Operaciones deliberadamente bloqueadas
+## Cómo presentar en orden
 
-OFICIAL e históricos, fechas incoherentes para publicación operativa, composición de examen pendiente, faltantes convertidos a cero, acceso ajeno, duplicados, notas confirmadas editadas silenciosamente, aprobación con empate sin nuevo examen/acta y exceso de plazas.
+1. Administrador: mostrar los permisos separados por convocatoria.
+2. Bruno o estudiante nuevo: cargar PDF de muestra y confirmar envío; mostrar que un borrador incompleto no se envía.
+3. Revisor: abrir el expediente de Carla del escenario documental, consultar un PDF y registrar revisión.
+4. Evaluador: abrir el escenario de evaluación, registrar y confirmar Software sobre 100.
+5. Autoridad: calcular mérito + examen, revisar ranking y aprobar publicación DEMO; descargar consolidado PDF/Excel.
+6. Andrea: consultar el resultado de su propia postulación.
 
-Subsanación tras envío, renuncias, reclamos, revisión de comisión con firmas formales y recálculo después de publicar requieren completar su procedimiento y validación; no se anuncian como resueltos.
+## Procedimientos adicionales y límites
 
-## Continuación DEMO 0.2
+Subsanaciones, retiros, renuncias, manifestaciones sobre adjudicaciones y rectificaciones están implementados como procedimientos DEMO con versiones y decisiones separadas. No representan validación institucional de plazos, compatibilidades o autoridades formales. Una renuncia no selecciona reemplazantes; una rectificación no sustituye automáticamente una publicación histórica. En convocatorias archivadas se consulta el historial, sin ofrecer operaciones cerradas.
 
-El recorrido original sigue disponible y no se reescribe. Para usuarios, temporalidad, revocación, reasignación y rectificaciones con decisión separada, seguir DEMO_0_2_CAMBIOS_Y_VALIDACION.md, sección Inicio y demostración. La cola está en /rectificaciones; cada expediente enlaza solicitudes y versiones. La evidencia se registra por referencia a un respaldo custodiado, sin firma institucional. Las plazas no se reasignan al aprobar una rectificación: requieren revisar y aprobar una nueva publicación.
-
-## Continuación DEMO 0.3
-
-Desde cada expediente, abrir Expediente y participación. Un expediente observado antes de evaluar permite al responsable autorizar una ventana con documentos y vencimiento explícitos. El propietario carga y envía; el revisor repite todos los criterios. Las cargas vencidas o pendientes quedan en historial, no reemplazan el expediente enviado.
-
-El propietario solicita retiro si no tiene adjudicación vigente o renuncia si la tiene. Otra autoridad decide. Una renuncia deja vacante retenida, sin asignar reemplazos, y exige revisar la publicación. En Adjudicaciones se registran manifestaciones de aceptar/diferir por publicación; varias plazas no generan una prohibición automática. Véanse DEMO_0_3_CAMBIOS_Y_VALIDACION.md y 03-CONTRASTE_NORMATIVO_DEMO_0_3.md.
+No se emiten nombramientos, certificados CPD, documentos de identidad ni firmas. El umbral aprobatorio y las ambigüedades de rúbricas y composición siguen sujetos a aclaración institucional. La aprobación de pruebas técnicas no significa cumplimiento normativo integral.

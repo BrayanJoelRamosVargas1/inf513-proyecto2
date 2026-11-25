@@ -1,6 +1,10 @@
-# Arquitectura de la primera versión ejecutable
+# Arquitectura del sistema existente
 
-Monolito modular Laravel 12 / PHP 8.3, PostgreSQL 15, vistas Blade y CSS local. El navegador no calcula notas ni decide permisos. No hay dependencia operativa de Node, Docker, API CPD o nube.
+La interfaz académica actual es una SPA React servida en `/p2`, que consume la API REST de Laravel 12 mediante Axios. PostgreSQL mantiene la persistencia y las restricciones. Las vistas Blade se conservan como interfaz complementaria. Node se utiliza para compilar y probar el frontend; no ejecuta las reglas académicas ni decide permisos. Los apartados de extensiones conservan la evolución histórica de la aplicación.
+
+La capa de presentación reúne navegación por permisos, temas, accesibilidad y formularios. Los controladores API validan las peticiones y delegan las operaciones al dominio compartido (`Selection`, `Participation`, `Rectifications` y los servicios documentales). La capa de datos conserva transacciones, claves, restricciones e históricos protegidos mediante triggers. La autorización se verifica en el servidor, además de controlar qué acciones muestra cada interfaz.
+
+Los documentos permanecen en almacenamiento privado. El procesador compartido y ClamAV gestionan cuarentena y resultados de análisis; una descarga requiere autorización, análisis vigente e integridad de bytes. Los adaptadores de supervisión dependen del entorno de instalación. Su aceptación operativa debe demostrarse por separado en cada servidor.
 
 `PortalController`: formularios/validación HTTP y vistas. `Access`: permisos por convocatoria y propiedad. `Selection`: transacciones y reglas de negocio. `Scores`: decimal exacto, validación y redondeo. Migraciones: integridad referencial, unicidad y rangos CHECK de PostgreSQL. `SecureResponse`: cabeceras de seguridad y rechazo de cuentas inactivas. No se usa ocultación de botones como autorización.
 
@@ -49,7 +53,7 @@ flowchart LR
 
 Se bloquea la fila de convocatoria antes de postulación/oferta/nota en las mutaciones del dominio. Esta serialización conservadora evita carreras de límite, cupo y publicación en la escala de la DEMO. Las restricciones únicas protegen persona/oferta, asignación de área y nota por asignación/postulación. Las pruebas `scripts/concurrency.py` usan dos procesos PHP independientes y conexiones PostgreSQL, no una base en memoria.
 
-La publicación congela las ofertas de una convocatoria. Cada postulación guarda snapshot; cada resultado audita notas y pesos usados; aprobar conserva publicación inmutable para el portal. La versión actual no permite reemplazar silenciosamente publicaciones: rectificaciones posteriores requieren un futuro procedimiento de nueva versión. `.parent_id` permite relacionar convocatorias. Los históricos conservan ofertas distintas 01/02 y su fuente.
+La publicación congela las ofertas de una convocatoria. Cada postulación guarda snapshot; cada resultado audita notas y pesos usados; aprobar conserva publicación inmutable para el portal. Las rectificaciones posteriores utilizan el procedimiento de revisión y nueva publicación implementado en `Rectifications`; no sustituyen silenciosamente las publicaciones históricas. `.parent_id` permite relacionar convocatorias. Los históricos conservan ofertas distintas 01/02 y su fuente.
 
 ## Fórmula del fixture, no normativa de composición
 
@@ -69,7 +73,7 @@ Un usuario puede tener varias membresías en distintos ámbitos. La composición
 
 ## Límites operativos
 
-Servidor PHP de desarrollo y usuario dueño del cluster únicamente para DEMO local; no configuración productiva. Auditoría append-only desde el portal, no invulnerable frente al administrador de infraestructura. Almacenamiento privado con descargas autorizadas, MIME/extensión/tamaño, checksum y nombres generados. No hay sustitución de documentos físicos, integración CPD, nóminas, asistencia o pagos.
+Servidor PHP de desarrollo y usuario dueño del cluster únicamente para DEMO local; no configuración productiva. Auditoría append-only desde el portal, no invulnerable frente al administrador de infraestructura. Almacenamiento privado con descargas autorizadas, MIME/extensión/tamaño, checksum y nombres generados. No hay sustitución de documentos físicos, integración CPD, nóminas ni asistencia. El módulo académico de pagos es una simulación con métodos, transacciones y planes; no cobra dinero ni establece tasas institucionales.
 
 ## Colaboración de clases
 
