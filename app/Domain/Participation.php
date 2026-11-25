@@ -228,15 +228,6 @@ final class Participation
         });
     }
 
-    private function rankingSnapshot(int $offer): array
-    {
-        try {
-            return app(Selection::class)->ranking($offer);
-        } catch (ValidationException $e) {
-            return ['incomplete' => true, 'applications' => DB::table('applications')->where('offer_id', $offer)->get()->all(), 'rank' => [], 'tied' => []];
-        }
-    }
-
     public function decide(User $u, int $id, bool $approve, string $reason): void
     {
         Access::transaction($u, function () use ($u, $id, $approve, $reason) {
@@ -255,7 +246,8 @@ final class Participation
                 if (DB::table('correction_requests')->where('application_id', $a->id)->where('status', 'pending')->exists()) {
                     Scores::fail('Resuelva antes las rectificaciones pendientes del expediente.');
                 }
-                $before = $this->rankingSnapshot($o->id);
+                $revisions = app(ResultRevisions::class);
+                $before = $revisions->snapshot($o->id);
                 DB::table('applications')->where('id', $a->id)->update(['participation' => $award ? 'resigned' : 'withdrawn', 'selection' => $award ? 'resigned' : 'withdrawn', 'updated_at' => now()]);
                 foreach (DB::table('amendments')->where('application_id', $a->id)->whereIn('status', ['open', 'submitted'])->get() as $m) {
                     DB::table('amendments')->where('id', $m->id)->update(['status' => 'cancelled', 'updated_at' => now()]);
@@ -267,12 +259,8 @@ final class Participation
                 }
                 if (in_array($c->status, ['evaluation', 'results']) || $award) {
                     DB::table('applications')->where('offer_id', $o->id)->where('participation', 'active')->where('eligibility', 'enabled')->update(['selection' => 'under_review']);
-                    $after = $this->rankingSnapshot($o->id);
-                    $changes = [];
-                    foreach ($after['rank'] as $i => $entry) {
-                        $j = array_search($entry->id, array_column($before['rank'], 'id'), true);
-                        $changes[] = ['application_id' => $entry->id, 'old_position' => $j === false ? null : $j + 1, 'new_position' => $i + 1, 'old_final' => $j === false ? null : $before['rank'][$j]->final, 'new_final' => $entry->final];
-                    }
+                    $after = $revisions->snapshot($o->id);
+                    $changes = $revisions->changes($before, $after);
                     $changes[] = ['application_id' => $a->id, 'old_position' => null, 'new_position' => null, 'old_final' => $a->final, 'new_final' => $a->final, 'participation' => $award ? 'resigned' : 'withdrawn'];
                     DB::table('result_revisions')->insert(['offer_id' => $o->id, 'revision' => $o->result_revision + 1, 'participation_request_id' => $id, 'before' => json_encode($before), 'after' => json_encode($after), 'changes' => json_encode($changes), 'created_at' => now()]);
                     DB::table('offers')->where('id', $o->id)->update(['result_revision' => $o->result_revision + 1, 'needs_publication_review' => true]);

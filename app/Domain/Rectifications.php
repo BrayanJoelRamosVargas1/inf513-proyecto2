@@ -9,18 +9,6 @@ use Illuminate\Validation\ValidationException;
 /** Procedimiento técnico DEMO; no sustituye una resolución institucional. */
 final class Rectifications
 {
-    private function snapshot(int $offer): array
-    {
-        try {
-            return app(Selection::class)->ranking($offer) + ['incomplete' => false];
-        } catch (ValidationException $e) {
-            $o = Selection::row('offers', $offer);
-            $entries = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('offer_id', $offer)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
-
-            return ['rank' => $entries->where('eligibility', 'enabled')->whereNotNull('final')->sortByDesc('final')->values()->all(), 'tied' => [], 'seats' => $o->seats, 'incomplete' => true, 'pending' => $entries->filter(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))->pluck('id')->all()];
-        }
-    }
-
     public static function version(int $app, ?int $grade, int $version, string $score, ?int $actor, ?int $request = null): void
     {
         DB::table('score_versions')->insert(['application_id' => $app, 'grade_id' => $grade, 'key' => $grade ? 'grade:'.$grade : 'merit:'.$app, 'version' => $version, 'score' => $score, 'recorded_by' => $actor, 'correction_request_id' => $request, 'created_at' => now()]);
@@ -94,7 +82,8 @@ final class Rectifications
                 if (($g ? $g->version : $a->merit_version) !== $r->base_version || bccomp($g ? $g->score : $a->merit, $r->old_value, 2) !== 0) {
                     Scores::fail('Propuesta obsoleta: existe otra versión. Rechace y solicite una nueva.');
                 }
-                $before = $this->snapshot($o->id);
+                $revisions = app(ResultRevisions::class);
+                $before = $revisions->snapshot($o->id);
                 if ($g) {
                     DB::table('grades')->where('id', $g->id)->update(['score' => $r->new_value, 'status' => 'corrected', 'version' => $g->version + 1, 'updated_at' => now()]);
                 } else {
@@ -110,12 +99,8 @@ final class Rectifications
                 $exam = $complete ? Scores::exam(Selection::json($o->weights), $notes) : null;
                 DB::table('applications')->where('id', $a->id)->update(['exam' => $exam, 'final' => $complete ? bcadd($merit, $exam, 2) : null, 'updated_at' => now()]);
                 DB::table('applications')->where('offer_id', $o->id)->where('participation', 'active')->where('eligibility', 'enabled')->update(['selection' => 'under_review']);
-                $after = $this->snapshot($o->id);
-                $changes = [];
-                foreach ($after['rank'] as $i => $entry) {
-                    $oldIndex = array_search($entry->id, array_column($before['rank'], 'id'), true);
-                    $changes[] = ['application_id' => $entry->id, 'old_position' => $oldIndex === false ? null : $oldIndex + 1, 'new_position' => $i + 1, 'old_final' => $oldIndex === false ? null : $before['rank'][$oldIndex]->final, 'new_final' => $entry->final];
-                }
+                $after = $revisions->snapshot($o->id);
+                $changes = $revisions->changes($before, $after);
                 // Captura de todas las versiones de entrada; no se mezclan operaciones gracias al cerrojo común.
                 $after['score_versions'] = DB::table('score_versions')->whereIn('application_id', DB::table('applications')->where('offer_id', $o->id)->select('id'))->orderBy('id')->get()->all();
                 DB::table('result_revisions')->insert(['offer_id' => $o->id, 'revision' => $o->result_revision + 1, 'correction_request_id' => $id, 'before' => json_encode($before), 'after' => json_encode($after), 'changes' => json_encode($changes), 'created_at' => now()]);

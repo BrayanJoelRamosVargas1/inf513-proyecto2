@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Domain\Administration;
 use App\Domain\InstitutionalRegister;
+use App\Domain\ResultRevisions;
 use App\Domain\ScanRenewal;
 use App\Domain\Scores;
 use App\Domain\Selection;
@@ -282,5 +283,51 @@ final class AuditCorrectionsTest extends TestCase
     {
         $this->assertSame('100', bcadd(Scores::MERIT_MAX, Scores::EXAM_MAX, 0));
         $this->assertSame('0.6', Scores::EXAM_FACTOR);
+    }
+
+    private function enabledApplication(string $final, string $merit = '20.00'): int
+    {
+        $u = User::factory()->create();
+
+        return DB::table('applications')->insertGetId(['offer_id' => $this->offer, 'user_id' => $u->id, 'status' => 'submitted', 'participation' => 'active', 'eligibility' => 'enabled', 'merit' => $merit, 'exam' => bcsub($final, $merit, 2), 'final' => $final, 'snapshot' => '{}', 'created_at' => now(), 'updated_at' => now()]);
+    }
+
+    public function test_b08_result_snapshot_keeps_scores_but_no_personal_data(): void
+    {
+        $first = $this->enabledApplication('70.00');
+        $second = $this->enabledApplication('60.00');
+        $snapshot = app(ResultRevisions::class)->snapshot($this->offer);
+        $this->assertFalse($snapshot['incomplete']);
+        $this->assertSame([$first, $second], array_column($snapshot['rank'], 'id'));
+        foreach ($snapshot['rank'] as $entry) {
+            $this->assertSame(['id', 'merit', 'exam', 'final'], array_keys($entry));
+        }
+        $this->assertStringNotContainsString(User::find(DB::table('applications')->where('id', $first)->value('user_id'))->name, json_encode($snapshot));
+    }
+
+    public function test_b13_incomplete_snapshot_has_the_same_format_and_deterministic_order(): void
+    {
+        $a = $this->enabledApplication('50.00');
+        $b = $this->enabledApplication('50.00');
+        // Una postulación enviada sin revisar hace que el ranking completo no exista todavía.
+        $u = User::factory()->create();
+        $pending = DB::table('applications')->insertGetId(['offer_id' => $this->offer, 'user_id' => $u->id, 'status' => 'submitted', 'participation' => 'active', 'eligibility' => 'pending', 'snapshot' => '{}', 'created_at' => now(), 'updated_at' => now()]);
+        $snapshot = app(ResultRevisions::class)->snapshot($this->offer);
+        $this->assertTrue($snapshot['incomplete']);
+        $this->assertSame([$a, $b], array_column($snapshot['rank'], 'id'));
+        $this->assertSame([$pending], $snapshot['pending']);
+        $this->assertSame(['rank', 'tied', 'seats', 'incomplete', 'pending'], array_keys($snapshot));
+    }
+
+    public function test_b13_changes_report_new_positions_and_scores(): void
+    {
+        $revisions = app(ResultRevisions::class);
+        $before = ['rank' => [['id' => 1, 'final' => '70.00'], ['id' => 2, 'final' => '60.00']]];
+        $after = ['rank' => [['id' => 2, 'final' => '75.00'], ['id' => 1, 'final' => '70.00'], ['id' => 3, 'final' => '40.00']]];
+        $this->assertSame([
+            ['application_id' => 2, 'old_position' => 2, 'new_position' => 1, 'old_final' => '60.00', 'new_final' => '75.00'],
+            ['application_id' => 1, 'old_position' => 1, 'new_position' => 2, 'old_final' => '70.00', 'new_final' => '70.00'],
+            ['application_id' => 3, 'old_position' => null, 'new_position' => 3, 'old_final' => null, 'new_final' => '40.00'],
+        ], $revisions->changes($before, $after));
     }
 }
