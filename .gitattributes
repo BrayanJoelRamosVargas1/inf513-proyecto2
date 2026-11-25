@@ -1,4 +1,6 @@
-* text=auto eol=lf
+# Preservar los bytes exactos: MANIFIESTO_SHA256.json y las verificaciones
+# comparan hashes, y los PDF/binarios no deben convertirse a CRLF ni a LF.
+* -text
 
 *.blade.php diff=html
 *.css diff=css
