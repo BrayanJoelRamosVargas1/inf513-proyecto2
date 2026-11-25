@@ -164,6 +164,8 @@ final class RoleWorkflowTest extends TestCase
         $id = $this->submitted();
         $this->actingAs($this->reviewer)->get('/postulaciones/'.$id.'/rectificaciones')->assertOk()->assertDontSee('Enviar a decisión de otra autoridad')->assertSee('El historial se conserva');
         $this->s->merit($this->reviewer, $id, '20', 'CPD-FICTICIO');
+        // B-02: la evaluación solo se abre con las postulaciones revisadas; esta prueba trata de rectificaciones.
+        DB::table('applications')->where('id', $id)->update(['eligibility' => 'enabled']);
         $this->s->transition($this->authority, $this->call, 'closed');
         $this->s->transition($this->authority, $this->call, 'evaluation');
         $this->get('/postulaciones/'.$id.'/rectificaciones')->assertSee('Enviar a decisión de otra autoridad');

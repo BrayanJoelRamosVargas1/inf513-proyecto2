@@ -3,8 +3,10 @@
 use App\Domain\DemoJourney;
 use App\Domain\DocumentaryJourney;
 use App\Domain\DocumentProcessor;
+use App\Domain\ScanRenewal;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('ficct:scan-institutional-source {source_id}', function () {
     $id = filter_var($this->argument('source_id'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
@@ -76,6 +78,24 @@ Artisan::command('ficct:scan-maintain {--apply}', function () {
 
     return 0;
 })->purpose('Inspeccionar recuperación y temporales; requiere --apply para cambiar datos');
+
+Artisan::command('ficct:scan-renew {--apply : Encolar los análisis; sin esta opción solo simula} {--margin-hours=6 : Horas previas al vencimiento en que se renueva}', function () {
+    $margin = filter_var($this->option('margin-hours'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => 23]]);
+    if ($margin === false) {
+        $this->error('Margen inválido: use un entero entre 0 y 23 horas.');
+
+        return 1;
+    }
+    $this->line(json_encode(app(ScanRenewal::class)->run((bool) $this->option('apply'), $margin), JSON_UNESCAPED_UNICODE));
+
+    return 0;
+})->purpose('Renovar análisis vencidos o próximos a vencer de documentos vigentes; simulación por defecto, nunca libera archivos');
+
+// El análisis caduca a las 24 h (config/document_safety.php): requiere un planificador del sistema operativo
+// que ejecute `php artisan schedule:run` cada minuto (cron en Linux, Programador de tareas en Windows).
+Schedule::command('ficct:scan-renew --apply')->hourly()->withoutOverlapping();
+Schedule::command('ficct:scan-worker --max-jobs=200 --max-seconds=240')->everyFiveMinutes()->withoutOverlapping();
+Schedule::command('ficct:scan-maintain --apply')->hourly()->withoutOverlapping();
 
 Artisan::command('ficct:scan-queue-status {--check : Devolver código 1 si hay alertas operativas}', function () {
     $status = app(DocumentProcessor::class)->queueStatus();

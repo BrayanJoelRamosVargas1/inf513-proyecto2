@@ -157,6 +157,8 @@ final class DocumentExperienceTest extends TestCase
         $s = app(Selection::class);
         $s->submit($this->student, $this->application);
         $s->merit($this->reviewer, $this->application, '20', 'CPD-MUESTRA');
+        // B-02: la evaluación solo se abre con las postulaciones revisadas; esta prueba trata de rectificaciones.
+        DB::table('applications')->where('id', $this->application)->update(['eligibility' => 'enabled']);
         $s->transition($this->authority, $this->call, 'closed');
         $s->transition($this->authority, $this->call, 'evaluation');
         DB::table('memberships')->insert(['user_id' => $this->student->id, 'call_id' => $this->call, 'role' => 'authority']);

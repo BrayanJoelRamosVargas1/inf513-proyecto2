@@ -56,6 +56,9 @@ final class Administration
             if ($start && $end && strtotime($start) >= strtotime($end)) {
                 Scores::fail('El vencimiento debe ser posterior al inicio.');
             }
+            if (DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $call)->where('applications.user_id', $user)->where('applications.participation', 'active')->exists()) {
+                Scores::fail('La persona postula en esta convocatoria; no puede recibir permisos de gestión sobre ella (conflicto de interés).');
+            }
             $old = DB::table('memberships')->where(['call_id' => $call, 'user_id' => $user, 'role' => $role])->first();
             if ($old && $old->version !== $version) {
                 Scores::fail('Permiso modificado: recargue antes de renovar.');

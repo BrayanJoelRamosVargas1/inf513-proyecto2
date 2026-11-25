@@ -6,6 +6,9 @@ use Illuminate\Validation\ValidationException;
 
 final class Scores
 {
+    /** Esquemas de composición que el sistema sabe calcular; PENDING_COMPOSITION no es calculable. */
+    public const CALCULABLE_SCHEMES = ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100'];
+
     public static function value(mixed $value, string $max = '100'): string
     {
         if (! is_string($value) && ! is_int($value)) {
@@ -31,7 +34,8 @@ final class Scores
         }
         $total = '0';
         foreach ($weights as $area => $weight) {
-            if (! is_string($area) || ! preg_match('/^[\pL\pN _-]{1,70}$/u', $area)) {
+            // PHP convierte la clave "1" en entero al construir el arreglo: se acepta y se valida como texto.
+            if ((! is_string($area) && ! is_int($area)) || ! preg_match('/^[\pL\pN _-]{1,70}$/u', (string) $area)) {
                 self::fail('Nombre de área inválido.');
             }
             $weight = self::value($weight);

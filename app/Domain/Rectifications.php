@@ -33,6 +33,7 @@ final class Rectifications
             Participation::active($a);
             $o = Selection::row('offers', $a->offer_id);
             $c = Selection::row('calls', $o->call_id, true);
+            Access::assertNotApplicant($u, $c->id);
             if ($c->mode !== 'DEMO' || ! in_array($c->status, ['evaluation', 'results'])) {
                 Scores::fail('Rectificación disponible únicamente en evaluación o resultados DEMO.');
             }
@@ -100,7 +101,7 @@ final class Rectifications
                     DB::table('applications')->where('id', $a->id)->update(['merit' => $r->new_value, 'merit_version' => $a->merit_version + 1, 'updated_at' => now()]);
                 }
                 self::version($a->id, $r->grade_id, $r->base_version + 1, $r->new_value, $u->id, $id);
-                if (! in_array($o->scheme, ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100']) || $o->rounding !== 'HALF_UP_FINAL') {
+                if (! in_array($o->scheme, Scores::CALCULABLE_SCHEMES) || $o->rounding !== 'HALF_UP_FINAL') {
                     Scores::fail('Composición no validada.');
                 }
                 $notes = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $a->id)->whereIn('grades.status', ['confirmed', 'corrected'])->pluck('grades.score', 'assignments.area')->all();

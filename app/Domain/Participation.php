@@ -172,7 +172,7 @@ final class Participation
                 if ($value === 'not_applicable' && ! Selection::conditionalCriterion($o, $key)) {
                     Scores::fail('Este criterio obligatorio no admite No aplica.');
                 }
-                DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
+                DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => $before->firstWhere('criterion', $key)?->created_at ?? now(), 'updated_at' => now()]);
             }
             $enabled = collect($decisions)->every(fn ($value, $key) => Selection::criterionSatisfied($o, $key, $value));
             DB::table('applications')->where('id', $a->id)->update(['eligibility' => $enabled ? 'enabled' : 'disabled', 'eligibility_reason' => $reason]);

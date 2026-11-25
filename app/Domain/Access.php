@@ -38,6 +38,19 @@ final class Access
         abort_unless(self::has($user, $call, $roles), 403, 'No tiene permiso en esta convocatoria.');
     }
 
+    /** El usuario tiene una postulación vigente en la convocatoria (no retirada ni renunciada). */
+    public static function isApplicant(User $user, int $call): bool
+    {
+        return DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')
+            ->where('offers.call_id', $call)->where('applications.user_id', $user->id)->where('applications.participation', 'active')->exists();
+    }
+
+    /** Quien postula en una convocatoria no decide sobre sus resultados. */
+    public static function assertNotApplicant(User $user, int $call): void
+    {
+        abort_if(self::isApplicant($user, $call), 403, 'Quien postula en esta convocatoria no puede decidir sobre sus resultados.');
+    }
+
     public static function viewApplication(User $user, $app): void
     {
         $offer = DB::table('offers')->find($app->offer_id);

@@ -79,7 +79,7 @@ final class InstitutionalController extends Controller
         $bytes = $safety->bytes($source);
         $after = $safety->status($id);
         abort_unless($after['download_allowed'] && $after['job_id'] === $before['job_id'], 423, 'El análisis cambió durante la lectura. Descarga bloqueada.');
-        $ext = ['application/pdf' => 'pdf', 'image/jpeg' => 'jpg', 'image/png' => 'png'][$source->mime];
+        $ext = ['application/pdf' => 'pdf', 'image/jpeg' => 'jpg', 'image/png' => 'png'][$source->mime] ?? abort(415, 'Tipo de archivo no permitido.');
 
         // Return the bytes actually hashed, not a pathname that could change before transmission.
         return response($bytes, 200, ['Content-Disposition' => 'attachment; filename="fuente-'.$source->id.'-v'.$source->version.'.'.$ext.'"', 'Content-Type' => $source->mime, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, no-store']);

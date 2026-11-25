@@ -166,6 +166,12 @@ final class Selection
             if (in_array($next, ['evaluation', 'results', 'archived']) && (DB::table('amendments')->join('applications', 'applications.id', '=', 'amendments.application_id')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->whereIn('amendments.status', ['open', 'submitted'])->exists() || DB::table('participation_requests')->join('applications', 'applications.id', '=', 'participation_requests.application_id')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->where('participation_requests.status', 'pending')->exists())) {
                 Scores::fail('Resuelva subsanaciones y solicitudes de participación antes de cerrar la etapa.');
             }
+            if ($next === 'evaluation') {
+                $pending = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->where('applications.eligibility', 'pending')->count();
+                if ($pending > 0) {
+                    Scores::fail('Hay '.$pending.' postulación(es) enviada(s) sin revisar. Revíselas y habilítelas o inhabilítelas antes de abrir la evaluación: después ya no se pueden revisar.');
+                }
+            }
             if ($next === 'published') {
                 if (CarbonImmutable::parse($call->closes_at)->lte(CarbonImmutable::parse($call->opens_at)) || CarbonImmutable::parse($call->exam_at)->lte(CarbonImmutable::parse($call->closes_at))) {
                     Scores::fail('Calendario incoherente. Se conserva la fuente sin corregir automáticamente.');
@@ -175,6 +181,9 @@ final class Selection
                     Scores::fail('Agregue al menos una oferta.');
                 }
                 foreach ($offers as $o) {
+                    if (! in_array($o->scheme, Scores::CALCULABLE_SCHEMES) || $o->rounding !== 'HALF_UP_FINAL') {
+                        Scores::fail('La oferta «'.$o->title.'» tiene una composición de nota pendiente o no calculable. Defina el esquema antes de publicar: una oferta publicada no puede editarse.');
+                    }
                     Scores::weights(self::json($o->weights));
                     if (! array_key_exists('cpd', self::json($o->documents))) {
                         Scores::fail('La oferta «'.$o->title.'» debe solicitar el respaldo de méritos con la clave cpd. Este sistema lo exige para registrar méritos; corrija el borrador antes de publicar.');
@@ -205,6 +214,9 @@ final class Selection
             $o = self::row('offers', $offerId);
             $call = self::row('calls', $o->call_id, true);
             self::receiving($call);
+            if (Access::has($u, $call->id, ['authority', 'reviewer', 'evaluator'])) {
+                Scores::fail('Tiene un permiso de gestión en esta convocatoria; no puede postular en ella.');
+            }
             if (($call->scope === 'faculty' && $u->faculty !== $call->scope_value) || ($call->scope === 'career' && $u->career !== $call->scope_value)) {
                 Scores::fail('El perfil no pertenece al ámbito de la convocatoria.');
             }
@@ -444,6 +456,8 @@ final class Selection
         Access::transaction($u, function () use ($u, $id) {
             [$a,$o,$c] = self::lockedApplication($id);
             Access::require($u, $c->id, ['authority']);
+            abort_if($a->user_id === $u->id, 403, 'No puede calcular su propia postulación.');
+            Access::assertNotApplicant($u, $c->id);
             self::demo($c);
             if ($a->eligibility !== 'enabled' || $c->status !== 'evaluation' || $a->merit === null) {
                 Scores::fail('Requiere habilitación, mérito y etapa de evaluación.');
@@ -451,7 +465,7 @@ final class Selection
             if (DB::table('publications')->where('offer_id', $o->id)->exists() || DB::table('tie_exams')->where('offer_id', $o->id)->exists()) {
                 Scores::fail('Resultados congelados por publicación/desempate.');
             }
-            if (! in_array($o->scheme, ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100']) || $o->rounding !== 'HALF_UP_FINAL') {
+            if (! in_array($o->scheme, Scores::CALCULABLE_SCHEMES) || $o->rounding !== 'HALF_UP_FINAL') {
                 Scores::fail('Escala/composición/redondeo no definidos.');
             }
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
@@ -472,11 +486,11 @@ final class Selection
         if (self::row('calls', $offer->call_id)->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $offer->call_id)->exists()) {
             Scores::fail('La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
         }
-        $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->get();
+        $all = DB::table('applications')->join('users', 'users.id', '=', 'applications.user_id')->where('applications.offer_id', $offerId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->select('applications.*', 'users.name')->orderBy('applications.id')->get();
         if ($all->contains(fn ($a) => $a->eligibility === 'pending' || ($a->eligibility === 'enabled' && $a->final === null))) {
             Scores::fail('Hay revisiones o resultados pendientes en esta oferta.');
         }
-        $rank = $all->where('eligibility', 'enabled')->sort(fn ($a, $b) => bccomp($b->final, $a->final, 2))->values()->all();
+        $rank = $all->where('eligibility', 'enabled')->sort(fn ($a, $b) => bccomp($b->final, $a->final, 2) ?: $a->id <=> $b->id)->values()->all();
         $tied = [];
         $cut = $offer->seats - $offer->held_vacancies;
         if ($cut > 0 && count($rank) > $cut && bccomp($rank[$cut - 1]->final, $rank[$cut]->final, 2) === 0) {
@@ -494,6 +508,7 @@ final class Selection
             $c = self::row('calls', $o->call_id, true);
             $o = self::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
+            Access::assertNotApplicant($u, $c->id);
             self::demo($c);
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('No se puede abrir otro desempate en este estado.');
@@ -519,6 +534,7 @@ final class Selection
             $o = self::row('offers', $o->id, true);
             $t = self::row('tie_exams', $id, true);
             Access::require($u, $c->id, ['authority']);
+            Access::assertNotApplicant($u, $c->id);
             self::demo($c);
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision) {
                 Scores::fail('El nuevo examen no está pendiente.');
@@ -557,6 +573,7 @@ final class Selection
             $o = self::row('offers', $t->offer_id);
             $c = self::row('calls', $o->call_id, true);
             Access::require($u, $c->id, ['authority']);
+            Access::assertNotApplicant($u, $c->id);
             self::demo($c);
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision || now()->lt($t->scheduled_at)) {
                 Scores::fail('La ronda no admite continuidad en este estado.');
@@ -589,6 +606,7 @@ final class Selection
             $c = self::row('calls', $o->call_id, true);
             $o = self::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
+            Access::assertNotApplicant($u, $c->id);
             self::demo($c);
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('La oferta no admite otra aprobación silenciosa.');
