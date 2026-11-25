@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\DB;
 
 final class SessionController extends Controller
@@ -25,11 +26,20 @@ final class SessionController extends Controller
     public function login(Request $r)
     {
         $d = $r->validate(['email' => 'required|email', 'password' => 'required|string']);
+        // B-25: además del límite por IP de la ruta, un límite por cuenta y origen frena la adivinación de claves.
+        $attempts = 'login:'.mb_strtolower($d['email']).'|'.$r->ip();
+        if (RateLimiter::tooManyAttempts($attempts, 5)) {
+            self::event($r, 'login.locked', 429);
+
+            return response()->json(['message' => 'Demasiados intentos fallidos. Espere unos minutos e intente de nuevo.', 'errors' => ['email' => ['Demasiados intentos fallidos. Espere unos minutos.']]], 429);
+        }
         if (! Auth::attempt($d + ['active' => true])) {
+            RateLimiter::hit($attempts, 300);
             self::event($r, 'login.failed', 422);
 
             return response()->json(['message' => 'Credenciales incorrectas o cuenta desactivada.', 'errors' => ['email' => ['No se pudo iniciar sesión.']]], 422);
         }
+        RateLimiter::clear($attempts);
         $r->session()->regenerate();
         $r->session()->put('security_version', $r->user()->security_version);
         self::event($r, 'login.success', 200);

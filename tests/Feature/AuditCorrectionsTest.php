@@ -330,4 +330,63 @@ final class AuditCorrectionsTest extends TestCase
             ['application_id' => 3, 'old_position' => null, 'new_position' => 3, 'old_final' => null, 'new_final' => '40.00'],
         ], $revisions->changes($before, $after));
     }
+
+    private function loginKey(User $u): string
+    {
+        return 'login:'.mb_strtolower($u->email).'|127.0.0.1';
+    }
+
+    public function test_b25_login_is_locked_per_account_after_repeated_failures(): void
+    {
+        $this->student->forceFill(['password' => bcrypt('Clave-Correcta-123')])->save();
+        // Cuatro fallos todavía permiten intentar; el quinto activa el bloqueo de la cuenta.
+        for ($i = 0; $i < 5; $i++) {
+            $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'incorrecta'])->assertStatus(422);
+        }
+        $this->assertTrue(RateLimiter::tooManyAttempts($this->loginKey($this->student), 5));
+        // Con la clave correcta también se bloquea mientras dure la ventana.
+        $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'Clave-Correcta-123'])->assertStatus(429)->assertJsonPath('errors.email.0', 'Demasiados intentos fallidos. Espere unos minutos.');
+    }
+
+    public function test_b25_lock_is_per_account_and_does_not_affect_other_users(): void
+    {
+        for ($i = 0; $i < 5; $i++) {
+            RateLimiter::hit($this->loginKey($this->student), 300);
+        }
+        $other = User::factory()->create(['password' => bcrypt('Otra-Clave-1234')]);
+        $this->postJson('/api/v1/login', ['email' => $other->email, 'password' => 'Otra-Clave-1234'])->assertOk();
+    }
+
+    public function test_b25_a_successful_login_clears_failed_attempts(): void
+    {
+        $this->student->forceFill(['password' => bcrypt('Clave-Correcta-123')])->save();
+        for ($i = 0; $i < 4; $i++) {
+            RateLimiter::hit($this->loginKey($this->student), 300);
+        }
+        $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'Clave-Correcta-123'])->assertOk();
+        $this->assertSame(0, RateLimiter::attempts($this->loginKey($this->student)));
+    }
+
+    public function test_b21_database_rejects_an_unknown_call_status(): void
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+        DB::table('calls')->where('id', $this->call)->update(['status' => 'inventado']);
+    }
+
+    public function test_b21_database_rejects_an_unknown_user_role(): void
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+        DB::table('users')->where('id', $this->student->id)->update(['role' => 'superusuario']);
+    }
+
+    public function test_b21_every_status_used_by_the_workflow_is_accepted(): void
+    {
+        foreach (['draft', 'published', 'closed', 'evaluation', 'results', 'archived'] as $status) {
+            DB::table('calls')->where('id', $this->call)->update(['status' => $status]);
+        }
+        foreach (['pending', 'selected', 'not_selected', 'under_review', 'withdrawn', 'resigned'] as $selection) {
+            DB::table('applications')->where('offer_id', $this->offer)->update(['selection' => $selection]);
+        }
+        $this->assertSame('archived', DB::table('calls')->where('id', $this->call)->value('status'));
+    }
 }
