@@ -2,8 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Domain\Administration;
+use App\Domain\DocumentProcessor;
+use App\Domain\Participation;
+use App\Domain\Rectifications;
 use App\Domain\Selection;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -36,12 +41,30 @@ final class DeepRoleTest extends TestCase
         $this->authority = User::factory()->create(['role' => 'authority']);
         $this->evaluator = User::factory()->create(['role' => 'staff']);
         $s = app(Selection::class);
-        $this->call = $s->createCall($this->authority, ['title' => 'Convocatoria REST de prueba', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintÃ©tico de API']);
+        $this->call = $s->createCall($this->authority, [
+            'title' => 'Convocatoria REST de prueba',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintÃ©tico de API',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->evaluator, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Software API', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Oferta REST', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintÃ©tico de API']);
+        $this->offer = $s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Oferta REST',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintÃ©tico de API',
+        ]);
         $s->assign($this->authority, $this->offer, $this->evaluator->id, 'Software');
         $s->transition($this->authority, $this->call, 'published');
     }
@@ -49,8 +72,19 @@ final class DeepRoleTest extends TestCase
     public function test_d01_participation_does_not_serialize_other_candidates_publication_snapshot(): void
     {
         $id = app(Selection::class)->apply($this->student, $this->offer);
-        $snapshot = json_encode(['selected' => [$id], 'rank' => [['id' => 999, 'eligibility_reason' => 'PRIVADO-DE-OTRO-POSTULANTE', 'cpd_reference' => 'CPD-RESERVADO']]]);
-        $pub = DB::table('publications')->insertGetId(['offer_id' => $this->offer, 'version' => 1, 'snapshot' => $snapshot, 'minutes' => 'Acta sintética de prueba de privacidad', 'user_id' => $this->authority->id, 'created_at' => now(), 'updated_at' => now()]);
+        $snapshot = json_encode([
+            'selected' => [$id],
+            'rank' => [['id' => 999, 'eligibility_reason' => 'PRIVADO-DE-OTRO-POSTULANTE', 'cpd_reference' => 'CPD-RESERVADO']],
+        ]);
+        $pub = DB::table('publications')->insertGetId([
+            'offer_id' => $this->offer,
+            'version' => 1,
+            'snapshot' => $snapshot,
+            'minutes' => 'Acta sintética de prueba de privacidad',
+            'user_id' => $this->authority->id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         $before = DB::table('publications')->find($pub);
         $response = $this->actingAs($this->student)->getJson('/api/v1/applications/'.$id.'/participation')->assertOk();
         $response->assertJsonPath('award.id', $pub)->assertJsonMissingPath('award.snapshot');
@@ -71,7 +105,7 @@ final class DeepRoleTest extends TestCase
         $s->review($this->reviewer, $id, ['activo' => 'meets'], 'Revisión completa sintética documentada');
         $this->getJson('/api/v1/applications/'.$id)->assertJsonPath('can_enable', true);
         $document = DB::table('documents')->where('application_id', $id)->value('id');
-        app(\App\Domain\DocumentProcessor::class)->enqueue($document, 'applicant');
+        app(DocumentProcessor::class)->enqueue($document, 'applicant');
         $this->getJson('/api/v1/applications/'.$id)->assertJsonPath('can_enable', false);
         $this->actingAs($this->student)->getJson('/api/v1/applications/'.$id)->assertJsonPath('can_enable', false);
     }
@@ -80,7 +114,7 @@ final class DeepRoleTest extends TestCase
     {
         $s = app(Selection::class);
         $id = $s->apply($this->student, $this->offer);
-        $participation = app(\App\Domain\Participation::class);
+        $participation = app(Participation::class);
         $request = $participation->request($this->student, $id, 'withdrawal', 'Solicitud sintética del interesado', 'Respaldo sintético de la solicitud');
         $participation->decide($this->authority, $request, false, 'Se rechaza por el motivo sintético registrado');
         $response = $this->actingAs($this->student)->getJson('/api/v1/applications/'.$id.'/participation')->assertOk();
@@ -105,12 +139,16 @@ final class DeepRoleTest extends TestCase
         $grade = DB::table('grades')->where('application_id', $id)->first();
         $next = User::factory()->create(['role' => 'staff']);
         DB::table('memberships')->insert(['user_id' => $next->id, 'call_id' => $this->call, 'role' => 'evaluator']);
-        app(\App\Domain\Administration::class)->reassign($this->authority, $assignment->id, $next->id, $assignment->version, 'Reasignación sintética con historial conservado');
+        app(Administration::class)->reassign($this->authority, $assignment->id, $next->id, $assignment->version, 'Reasignación sintética con historial conservado');
         $this->actingAs($next)->getJson('/api/v1/applications/'.$id)->assertOk()
             ->assertJsonPath('grades.0.id', $grade->id)->assertJsonPath('grades.0.user_id', $this->evaluator->id)
             ->assertJsonPath('grades.0.score', '80.00')->assertJsonPath('can_grade', false)->assertJsonPath('can_view_corrections', true);
         $this->getJson('/api/v1/applications/'.$id.'/corrections')->assertOk()->assertJsonCount(1, 'grades')->assertJsonMissingPath('app.merit');
-        $this->postJson('/api/v1/applications/'.$id.'/nota', ['assignment_id' => $assignment->id, 'score' => '90', 'intent' => 'confirm'])->assertUnprocessable();
+        $this->postJson('/api/v1/applications/'.$id.'/nota', [
+            'assignment_id' => $assignment->id,
+            'score' => '90',
+            'intent' => 'confirm',
+        ])->assertUnprocessable();
         $this->actingAs($this->evaluator)->getJson('/api/v1/applications/'.$id)->assertForbidden();
         $this->assertEquals($grade, DB::table('grades')->find($grade->id));
     }
@@ -129,13 +167,14 @@ final class DeepRoleTest extends TestCase
         $s->transition($this->authority, $this->call, 'evaluation');
         $assignment = DB::table('assignments')->where('offer_id', $this->offer)->first();
         $s->grade($this->evaluator, $id, $assignment->id, '80');
+
         return [$id, DB::table('grades')->where('application_id', $id)->first()];
     }
 
     public function test_d05_metrics_include_a_confirmed_grade_after_authorized_rectification(): void
     {
         [$id, $grade] = $this->evaluatedApplicationForMetrics();
-        $service = app(\App\Domain\Rectifications::class);
+        $service = app(Rectifications::class);
         $request = $service->request($this->evaluator, $id, $grade->id, '90', 'Corrección de transcripción sintética', 'Acta sintética de respaldo');
         $service->decide($this->authority, $request, true, 'Aprobación independiente documentada');
         $this->actingAs($this->student)->getJson('/api/v1/metrics')->assertOk()->assertJsonPath('confirmed_exams', 1);
@@ -150,6 +189,7 @@ final class DeepRoleTest extends TestCase
         DB::table('memberships')->insert(['user_id' => $this->evaluator->id, 'call_id' => $this->call, 'role' => 'reviewer']);
         $this->actingAs($this->evaluator)->getJson('/api/v1/metrics')->assertOk()->assertJsonPath('applications', 1)->assertJsonPath('confirmed_exams', 0);
     }
+
     public function test_d07_revoked_evaluator_retaining_review_permission_cannot_read_exam_grade_history(): void
     {
         [$id] = $this->evaluatedApplicationForMetrics();
@@ -163,7 +203,10 @@ final class DeepRoleTest extends TestCase
     public function test_d08_invalid_document_format_is_explained_in_spanish(): void
     {
         $id = app(Selection::class)->apply($this->student, $this->offer);
-        $response = $this->actingAs($this->student)->post('/api/v1/applications/'.$id.'/archivo', ['kind' => 'cpd', 'file' => UploadedFile::fake()->createWithContent('respaldo.txt', 'Texto de prueba')], ['Accept' => 'application/json'])->assertUnprocessable()->assertJsonValidationErrors('file');
+        $response = $this->actingAs($this->student)->post('/api/v1/applications/'.$id.'/archivo', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->createWithContent('respaldo.txt', 'Texto de prueba'),
+        ], ['Accept' => 'application/json'])->assertUnprocessable()->assertJsonValidationErrors('file');
         $this->assertStringContainsString('formato', $response->json('errors.file.0'));
         $this->assertStringNotContainsString('validation.', $response->getContent());
     }
@@ -172,7 +215,7 @@ final class DeepRoleTest extends TestCase
     {
         $this->actingAs($this->authority)->getJson('/api/v1/calls/'.$this->call.'/audit')
             ->assertOk()->assertJsonPath('events.data.0.action', 'call.transition')->assertJsonFragment(['action' => 'evaluator.assigned']);
-        $key = (string) \Illuminate\Support\Str::uuid();
+        $key = (string) Str::uuid();
         $path = '/convocatorias/'.$this->call.'/auditoria';
         foreach ([1, 2] as $_) {
             $this->postJson('/api/v1/visits', ['path' => $path, 'key' => $key])->assertOk()->assertJsonPath('total', 1);
@@ -190,7 +233,7 @@ final class DeepRoleTest extends TestCase
         $end = now()->addDays(3)->setMicrosecond(0);
         DB::table('memberships')->where('user_id', $this->reviewer->id)->where('call_id', $this->call)->update(['starts_at' => $start, 'expires_at' => $end]);
         $response = $this->actingAs($admin)->get('/usuarios')->assertOk();
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
         @$dom->loadHTML($response->getContent());
         $xpath = new \DOMXPath($dom);
         $form = $xpath->query('//form[@action="/permisos"][input[@name="user_id"][@value="'.$this->reviewer->id.'"]]')->item(0);
@@ -204,15 +247,30 @@ final class DeepRoleTest extends TestCase
         $values['reason'] = 'Renovación de ensayo sin modificar la vigencia existente';
         $this->post('/permisos', $values)->assertSessionHasNoErrors();
         $membership = DB::table('memberships')->where('user_id', $this->reviewer->id)->where('call_id', $this->call)->first();
-        $this->assertSame($end->timestamp, \Carbon\Carbon::parse($membership->expires_at)->timestamp);
+        $this->assertSame($end->timestamp, Carbon::parse($membership->expires_at)->timestamp);
     }
 
     public function test_d09_missing_scope_and_invalid_year_have_spanish_field_messages(): void
     {
-        $response = $this->actingAs($this->authority)->postJson('/api/v1/calls', ['title' => 'Convocatoria sintética', 'opens_at' => now()->toIso8601String(), 'closes_at' => now()->addDay()->toIso8601String(), 'exam_at' => now()->addDays(2)->toIso8601String(), 'scope' => 'faculty', 'source' => 'Fuente sintética', 'management_year' => 23])->assertUnprocessable()->assertJsonValidationErrors(['scope_value']);
+        $response = $this->actingAs($this->authority)->postJson('/api/v1/calls', [
+            'title' => 'Convocatoria sintética',
+            'opens_at' => now()->toIso8601String(),
+            'closes_at' => now()->addDay()->toIso8601String(),
+            'exam_at' => now()->addDays(2)->toIso8601String(),
+            'scope' => 'faculty',
+            'source' => 'Fuente sintética',
+            'management_year' => 23,
+        ])->assertUnprocessable()->assertJsonValidationErrors(['scope_value']);
         $this->assertStringContainsString('facultad o carrera', $response->json('errors.scope_value.0'));
-        $response = $this->postJson('/api/v1/calls', ['title' => 'Convocatoria sintética', 'opens_at' => now()->toIso8601String(), 'closes_at' => now()->addDay()->toIso8601String(), 'exam_at' => now()->addDays(2)->toIso8601String(), 'scope' => 'UAGRM', 'source' => 'Fuente sintética', 'management_year' => 23])->assertUnprocessable()->assertJsonValidationErrors(['management_year']);
+        $response = $this->postJson('/api/v1/calls', [
+            'title' => 'Convocatoria sintética',
+            'opens_at' => now()->toIso8601String(),
+            'closes_at' => now()->addDay()->toIso8601String(),
+            'exam_at' => now()->addDays(2)->toIso8601String(),
+            'scope' => 'UAGRM',
+            'source' => 'Fuente sintética',
+            'management_year' => 23,
+        ])->assertUnprocessable()->assertJsonValidationErrors(['management_year']);
         $this->assertStringContainsString('dígitos', $response->json('errors.management_year.0'));
     }
-
 }

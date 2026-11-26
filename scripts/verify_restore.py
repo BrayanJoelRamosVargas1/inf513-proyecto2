@@ -2,6 +2,7 @@
 from pathlib import Path
 import os,subprocess,json,hashlib,shutil,datetime,sys
 root=Path(__file__).resolve().parents[1]
+(root/'.local'/'salidas').mkdir(parents=True,exist_ok=True)
 config=json.loads((root/'.local/database.json').read_text())
 pg=Path(os.environ.get('FICCT_PG_BIN',r'C:\Program Files\PostgreSQL\15\bin'))
 source_db=sys.argv[1] if len(sys.argv)>1 else 'ficct_demo'
@@ -35,5 +36,5 @@ for item in documents:
  source=root/'storage/app/private'/item['path'];target=dest/'files'/item['path'];target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
  assert hashlib.sha256(target.read_bytes()).hexdigest()==item['sha256'];files.append(item['sha256'])
 report={'status':'PASS','database_source':source_db,'all_table_contents_match':digests,'immutable_triggers_restored':triggers,'database_restored':db,'counts_match':before,'private_files_restored_and_verified':len(files),'dump_sha256':hashlib.sha256((dest/'database.dump').read_bytes()).hexdigest(),'note':'Respaldo privado en .local/backups; no se distribuyen cuentas ni hashes de contraseña.'}
-(root/('evidence/participation-restore.json' if source_db=='ficct_test' else 'evidence/restore.json')).write_text(json.dumps(report,indent=2),encoding='utf-8')
+(root/('.local/salidas/participation-restore.json' if source_db=='ficct_test' else '.local/salidas/restore.json')).write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

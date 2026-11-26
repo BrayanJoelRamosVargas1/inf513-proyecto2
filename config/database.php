@@ -94,6 +94,8 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => env('DB_SEARCH_PATH', 'public'),
+            // B-04: las fechas sin offset (cierres, plazos, desempates) se interpretan en esta zona, igual que en PHP.
+            'timezone' => env('DB_TIMEZONE', 'America/La_Paz'),
             'sslmode' => 'prefer',
         ],
 

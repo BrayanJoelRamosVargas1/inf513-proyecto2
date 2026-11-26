@@ -21,12 +21,25 @@ final class SubmissionReceiptController extends Controller
             abort_unless($application->status === 'submitted', 422, 'La constancia está disponible después del envío.');
             $snapshot = DB::table('dossier_snapshots')->where('application_id', $id)->where('phase', 'submitted')->orderByDesc('version')->first() ?? abort(409, 'No existe un envío conservado para emitir la constancia.');
             $offer = Selection::row('offers', $application->offer_id);
-            return ['application' => $application, 'offer' => $offer, 'call' => Selection::row('calls', $offer->call_id), 'student' => Selection::row('users', $application->user_id), 'snapshot' => $snapshot, 'documents' => Selection::json($snapshot->snapshot)['documents'], 'snapshot_hash' => hash('sha256', $snapshot->snapshot)];
+
+            return [
+                'application' => $application,
+                'offer' => $offer,
+                'call' => Selection::row('calls', $offer->call_id),
+                'student' => Selection::row('users', $application->user_id),
+                'snapshot' => $snapshot,
+                'documents' => Selection::json($snapshot->snapshot)['documents'],
+                'snapshot_hash' => hash('sha256', $snapshot->snapshot),
+            ];
         });
         $pdf = new Dompdf(['isRemoteEnabled' => false]);
         $pdf->loadHtml(view('submission-receipt', $data)->render());
         $pdf->setPaper('A4');
         $pdf->render();
-        return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="constancia-interna-'.$id.'-v'.$data['snapshot']->version.'.pdf"']);
+
+        return response($pdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="constancia-interna-'.$id.'-v'.$data['snapshot']->version.'.pdf"',
+        ]);
     }
 }

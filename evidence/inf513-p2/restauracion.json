@@ -1,8 +1,0 @@
-{
-  "resultado": "PASS",
-  "tablas_restauradas_identicas": 41,
-  "archivos_privados_originales_identicos": 35,
-  "triggers_no_internos": 9,
-  "base_operativa_preservada": true,
-  "fecha_utc": "2026-11-21T16:49:21.436869+00:00"
-}

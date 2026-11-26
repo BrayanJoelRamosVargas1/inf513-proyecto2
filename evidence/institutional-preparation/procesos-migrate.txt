@@ -1,4 +1,0 @@
-
-   INFO  Running migrations.
-
-  2026_11_21_000003_add_institutional_preparation ...................................................... 127.70ms DONE

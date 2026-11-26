@@ -1,9 +1,0 @@
-{
-  "resultado": "PASS",
-  "procesos_PHP_independientes": 2,
-  "bloqueo_observado_por_PostgreSQL": true,
-  "trabajo_nuevo_creado_despues_del_commit": true,
-  "motor_real_en_ambos_analisis": true,
-  "tablas_operativas_identicas": 47,
-  "limites": "Coordinación determinista de consistencia, no benchmark ni prueba de carga representativa."
-}

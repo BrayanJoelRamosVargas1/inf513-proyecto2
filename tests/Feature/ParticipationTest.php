@@ -42,12 +42,31 @@ final class ParticipationTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->teacher = User::factory()->create(['role' => 'staff']);
         $this->student = User::factory()->create();
-        $this->call = $this->s->createCall($this->authority, ['title' => 'Fixture DEMO', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'subject_limit' => 4, 'source' => 'Fixture sintético de aceptación']);
+        $this->call = $this->s->createCall($this->authority, [
+            'title' => 'Fixture DEMO',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'subject_limit' => 4,
+            'source' => 'Fixture sintético de aceptación',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->teacher, 'evaluator']] as [$u,$role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Sala DEMO', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $this->s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Sala A', 'seats' => 2, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
+        $this->offer = $this->s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Sala A',
+            'seats' => 2,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'],
+            'requirements' => ['activo' => 'Estudiante activo'],
+            'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture DEMO',
+        ]);
         $this->s->transition($this->authority, $this->call, 'published');
     }
 
@@ -70,7 +89,11 @@ final class ParticipationTest extends TestCase
         $id = $this->app($u);
         $this->documents($id, $u);
         $this->s->submit($u, $id);
-        $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Evidencia sintética cotejada en DEMO.');
+        $this->s->review($this->reviewer, $id, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Evidencia sintética cotejada en DEMO.');
         $this->s->eligibility($this->reviewer, $id, true, 'Revisión completa documentada en DEMO.');
         $this->s->merit($this->reviewer, $id, '20.10', 'CPD-FICTICIO-01');
 
@@ -109,7 +132,11 @@ final class ParticipationTest extends TestCase
         $id = $this->app();
         $this->documents($id);
         $this->s->submit($this->student, $id);
-        $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'doc:ci' => 'observed', 'activo' => 'meets'], 'Documento observado con evidencia sintética.');
+        $this->s->review($this->reviewer, $id, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'observed',
+            'activo' => 'meets',
+        ], 'Documento observado con evidencia sintética.');
 
         return $id;
     }
@@ -117,6 +144,40 @@ final class ParticipationTest extends TestCase
     private function window(int $id, array $kinds = ['ci']): int
     {
         return app(Participation::class)->open($this->reviewer, $id, $kinds, now()->addHour()->toIso8601String(), 'Observación sintética que requiere subsanar.', 'ACTA-DEMO-OBSERVACION-001');
+    }
+
+    public function test_workspace_distinguishes_student_correction_from_reviewer_work(): void
+    {
+        $id = $this->observed();
+        $window = $this->window($id);
+        $this->actingAs($this->student)->getJson('/api/v1/applications?workspace=own')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', 'correct_documents');
+        $this->actingAs($this->reviewer)->getJson('/api/v1/applications?workspace=reviewer')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', null);
+        $this->seal($window);
+        $this->actingAs($this->student)->getJson('/api/v1/applications?workspace=own')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', null);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/applications?workspace=reviewer')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', 'review_amendment');
+        app(Participation::class)->review($this->reviewer, $window,
+            ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Nueva versión contrastada para la prueba de bandejas.');
+        $this->getJson('/api/v1/applications?workspace=reviewer')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', null);
+    }
+
+    public function test_workspace_expired_correction_belongs_to_reviewer_and_respects_membership(): void
+    {
+        $id = $this->observed();
+        $this->window($id);
+        $this->travel(2)->hours();
+        $this->actingAs($this->student)->getJson('/api/v1/applications?workspace=own')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', null);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/applications?workspace=reviewer')
+            ->assertOk()->assertJsonPath('applications.0.pending_action', 'close_expired_amendment');
+        DB::table('memberships')->where('user_id', $this->reviewer->id)->update(['revoked_at' => now()]);
+        $this->getJson('/api/v1/applications?workspace=reviewer')->assertForbidden();
+        $this->actingAs(User::factory()->create())->getJson('/api/v1/applications?workspace=own')
+            ->assertOk()->assertJsonCount(0, 'applications');
     }
 
     private function seal(int $window): void
@@ -178,7 +239,11 @@ final class ParticipationTest extends TestCase
         $id = $this->observed();
         $m = $this->window($id);
         $this->seal($m);
-        app(Participation::class)->review($this->reviewer, $m, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Nueva revisión completa documentada.');
+        app(Participation::class)->review($this->reviewer, $m, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Nueva revisión completa documentada.');
         $this->assertDatabaseHas('applications', ['id' => $id, 'eligibility' => 'enabled']);
         $this->assertDatabaseHas('amendments', ['id' => $m, 'status' => 'reviewed']);
         $this->assertDatabaseHas('dossier_snapshots', ['application_id' => $id, 'version' => 2, 'phase' => 'reviewed']);
@@ -193,7 +258,11 @@ final class ParticipationTest extends TestCase
         $this->seal($m);
         $s = app(Participation::class);
         $this->rejects(fn () => $s->review($this->reviewer, $m, ['doc:ci' => 'meets'], 'Revisión insuficiente de prueba.'));
-        $s->review($this->reviewer, $m, ['doc:cpd' => 'meets', 'doc:ci' => 'observed', 'activo' => 'meets'], 'Persisten observaciones según evidencia.');
+        $s->review($this->reviewer, $m, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'observed',
+            'activo' => 'meets',
+        ], 'Persisten observaciones según evidencia.');
         $this->assertDatabaseHas('applications', ['id' => $id, 'eligibility' => 'disabled']);
     }
 
@@ -430,7 +499,11 @@ final class ParticipationTest extends TestCase
         $m = $this->window($id);
         $this->seal($m);
         $this->travel(2)->hours();
-        app(Participation::class)->review($this->reviewer, $m, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Revisión posterior de entrega oportuna.');
+        app(Participation::class)->review($this->reviewer, $m, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Revisión posterior de entrega oportuna.');
         $this->assertDatabaseHas('applications', ['id' => $id, 'eligibility' => 'enabled']);
     }
 
@@ -441,7 +514,11 @@ final class ParticipationTest extends TestCase
         $this->seal($m);
         DB::table('memberships')->insert(['call_id' => $this->call, 'user_id' => $this->student->id, 'role' => 'reviewer']);
         $this->expectException(HttpException::class);
-        app(Participation::class)->review($this->student, $m, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Intento de revisión del expediente propio.');
+        app(Participation::class)->review($this->student, $m, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Intento de revisión del expediente propio.');
     }
 
     public function test_p31_acceptance_history_cannot_be_overwritten(): void
@@ -521,7 +598,18 @@ final class ParticipationTest extends TestCase
 
     private function assertVacancyPresentation(array $visible, array $absent): void
     {
-        $tables = ['publications', 'grades', 'documents', 'memberships', 'applications', 'reviews', 'offers', 'vacancy_events', 'award_choices', 'dossier_snapshots'];
+        $tables = [
+            'publications',
+            'grades',
+            'documents',
+            'memberships',
+            'applications',
+            'reviews',
+            'offers',
+            'vacancy_events',
+            'award_choices',
+            'dossier_snapshots',
+        ];
         $before = [];
         foreach ($tables as $table) {
             $before[$table] = DB::table($table)->orderBy('id')->get()->toJson();
@@ -544,42 +632,79 @@ final class ParticipationTest extends TestCase
         [$a] = $this->published(true);
         $this->decide($this->participationRequest($a, 'renunciation'));
         $this->s->approve($this->authority, $this->offer, 'Acta sintética posterior a renuncia sin reemplazante.');
-        $this->assertVacancyPresentation(['1 plaza sin cubrir', '1 plaza retenida por renuncia', '1 plaza · Méritos'], ['insuficiencia de candidatos', 'sin candidato suficiente', '1 plazas']);
+        $this->assertVacancyPresentation([
+            '1 plaza sin cubrir',
+            '1 plaza retenida por renuncia',
+            '1 plaza · Méritos',
+        ], ['insuficiencia de candidatos', 'sin candidato suficiente', '1 plazas']);
         $this->assertSame(1, count($this->s->ranking($this->offer)['rank']));
     }
 
     public function test_v05_insufficient_candidates_without_renunciation(): void
     {
         $this->vacancyScenario(2, 1, 0);
-        $this->assertVacancyPresentation(['1 plaza sin cubrir', '1 plaza sin cubrir por insuficiencia de candidatos'], ['retenida por renuncia', 'retenidas por renuncia', '1 plazas']);
+        $this->assertVacancyPresentation([
+            '1 plaza sin cubrir',
+            '1 plaza sin cubrir por insuficiencia de candidatos',
+        ], ['retenida por renuncia', 'retenidas por renuncia', '1 plazas']);
     }
 
     public function test_v06_mixed_vacancies_keep_separate_causes_and_total(): void
     {
         $this->vacancyScenario(3, 2, 1);
-        $this->assertVacancyPresentation(['2 plazas sin cubrir', '1 plaza retenida por renuncia', '1 plaza sin cubrir por insuficiencia de candidatos'], ['2 plazas retenidas por renuncia', '2 plazas sin cubrir por insuficiencia']);
+        $this->assertVacancyPresentation([
+            '2 plazas sin cubrir',
+            '1 plaza retenida por renuncia',
+            '1 plaza sin cubrir por insuficiencia de candidatos',
+        ], ['2 plazas retenidas por renuncia', '2 plazas sin cubrir por insuficiencia']);
     }
 
     public function test_v07_plural_retained_and_insufficient_vacancies(): void
     {
         $this->vacancyScenario(4, 2, 2);
-        $this->assertVacancyPresentation(['4 plazas sin cubrir', '2 plazas retenidas por renuncia', '2 plazas sin cubrir por insuficiencia de candidatos'], ['1 plazas', '2 plaza retenida']);
+        $this->assertVacancyPresentation([
+            '4 plazas sin cubrir',
+            '2 plazas retenidas por renuncia',
+            '2 plazas sin cubrir por insuficiencia de candidatos',
+        ], ['1 plazas', '2 plaza retenida']);
     }
 
     public function test_v08_filled_offer_does_not_invent_a_vacancy_cause(): void
     {
         $this->vacancyScenario(1, 1, 0);
-        $this->assertVacancyPresentation(['0 plazas sin cubrir', '1 plaza · Méritos'], ['retenida por renuncia', 'retenidas por renuncia', 'insuficiencia de candidatos', '1 plazas']);
+        $this->assertVacancyPresentation(['0 plazas sin cubrir', '1 plaza · Méritos'], [
+            'retenida por renuncia',
+            'retenidas por renuncia',
+            'insuficiencia de candidatos',
+            '1 plazas',
+        ]);
     }
 
     public function test_p26_multiple_awards_are_visible_and_not_prohibited(): void
     {
         [$a] = $this->published();
-        $call = $this->s->createCall($this->authority, ['title' => 'Otra convocatoria DEMO', 'scope' => 'UAGRM', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2)]);
+        $call = $this->s->createCall($this->authority, [
+            'title' => 'Otra convocatoria DEMO',
+            'scope' => 'UAGRM',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->teacher, 'evaluator']] as [$u,$role]) {
             DB::table('memberships')->insert(['call_id' => $call, 'user_id' => $u->id, 'role' => $role]);
         }
-        $offer = $this->s->saveOffer($this->authority, $call, ['category_id' => DB::table('categories')->value('id'), 'title' => 'Otra plaza simultánea', 'modality' => 'DEMO', 'seats' => 1, 'is_subject' => false, 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
+        $offer = $this->s->saveOffer($this->authority, $call, [
+            'category_id' => DB::table('categories')->value('id'),
+            'title' => 'Otra plaza simultánea',
+            'modality' => 'DEMO',
+            'seats' => 1,
+            'is_subject' => false,
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture DEMO',
+        ]);
         $this->s->transition($this->authority, $call, 'published');
         $b = $this->s->apply($this->student, $offer);
         $this->s->upload($this->student, $b, 'cpd', UploadedFile::fake()->image('cpd.png'));

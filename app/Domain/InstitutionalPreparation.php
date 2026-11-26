@@ -73,7 +73,11 @@ final class InstitutionalPreparation
                 $source = DB::table('institutional_sources')->insertGetId($data + ['dossier_id' => $id, 'created_by' => $user->id, 'version' => $version, 'path' => $path, 'sha256' => $sha, 'mime' => $file->getMimeType(), 'bytes' => $file->getSize(), 'created_at' => now()]);
                 app(DocumentProcessor::class)->enqueue($source);
                 DB::table('institutional_dossiers')->where('id', $id)->update(['version' => $d->version + 1, 'updated_at' => now()]);
-                Selection::audit($user, $d->call_id, 'institutional.source.recorded', 'institutional-source:'.$source, null, ['sha256' => $sha, 'version' => $version, 'verification' => 'UNVERIFIED']);
+                Selection::audit($user, $d->call_id, 'institutional.source.recorded', 'institutional-source:'.$source, null, [
+                    'sha256' => $sha,
+                    'version' => $version,
+                    'verification' => 'UNVERIFIED',
+                ]);
 
                 return $source;
             });
@@ -87,17 +91,43 @@ final class InstitutionalPreparation
 
     public function readiness(int $id): array
     {
-        $sources = DB::table('institutional_sources')->where('dossier_id', $id)->orderBy('id')->get(['id', 'reference', 'version', 'gate', 'title', 'issued_on', 'pages', 'classification', 'notes', 'sha256', 'mime', 'bytes', 'created_at']);
+        $sources = DB::table('institutional_sources')->where('dossier_id', $id)->orderBy('id')->get([
+            'id',
+            'reference',
+            'version',
+            'gate',
+            'title',
+            'issued_on',
+            'pages',
+            'classification',
+            'notes',
+            'sha256',
+            'mime',
+            'bytes',
+            'created_at',
+        ]);
         foreach ($sources as $source) {
             $source->security = app(DocumentSafety::class)->status($source->id);
         }
         $latest = $sources->groupBy('reference')->map(fn ($versions) => $versions->last())->values();
         $gates = [];
         foreach (self::GATES as $key => $name) {
-            $gates[] = ['id' => $key, 'name' => $name, 'state' => $latest->where('gate', $key)->isEmpty() ? 'MISSING' : 'DOCUMENTED_UNVERIFIED', 'source_ids' => $latest->where('gate', $key)->pluck('id')->values()];
+            $gates[] = [
+                'id' => $key,
+                'name' => $name,
+                'state' => $latest->where('gate', $key)->isEmpty() ? 'MISSING' : 'DOCUMENTED_UNVERIFIED',
+                'source_ids' => $latest->where('gate', $key)->pluck('id')->values(),
+            ];
         }
 
-        return ['official_activation_allowed' => false, 'decision' => 'NO_GO_INSTITUCIONAL', 'gates' => $gates, 'sources' => $sources, 'latest_source_ids' => $latest->pluck('id')->values(), 'notice' => 'La carga y revisión técnica no prueban autenticidad, vigencia, acreditación ni aceptación institucional. No hay mecanismo de activación oficial en esta fase.'];
+        return [
+            'official_activation_allowed' => false,
+            'decision' => 'NO_GO_INSTITUCIONAL',
+            'gates' => $gates,
+            'sources' => $sources,
+            'latest_source_ids' => $latest->pluck('id')->values(),
+            'notice' => 'La carga y revisión técnica no prueban autenticidad, vigencia, acreditación ni aceptación institucional. No hay mecanismo de activación oficial en esta fase.',
+        ];
     }
 
     public function submit(User $user, int $id, int $version): int
@@ -112,9 +142,24 @@ final class InstitutionalPreparation
             // the same scan jobs that verified the bytes of this decision.
             $readiness = $this->readiness($id);
             // Store the exact string whose hash is returned, rather than relying on JSONB key ordering.
-            $snapshot = json_encode(['dossier' => $d, 'readiness' => $readiness, 'integrity_checks' => $checks], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
-            $submission = DB::table('institutional_submissions')->insertGetId(['dossier_id' => $id, 'created_by' => $user->id, 'dossier_version' => $version, 'snapshot' => json_encode(['serialized' => $snapshot]), 'sha256' => hash('sha256', $snapshot), 'created_at' => now()]);
-            DB::table('institutional_dossiers')->where('id', $id)->update(['status' => 'under_review', 'version' => $version + 1, 'updated_at' => now()]);
+            $snapshot = json_encode([
+                'dossier' => $d,
+                'readiness' => $readiness,
+                'integrity_checks' => $checks,
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+            $submission = DB::table('institutional_submissions')->insertGetId([
+                'dossier_id' => $id,
+                'created_by' => $user->id,
+                'dossier_version' => $version,
+                'snapshot' => json_encode(['serialized' => $snapshot]),
+                'sha256' => hash('sha256', $snapshot),
+                'created_at' => now(),
+            ]);
+            DB::table('institutional_dossiers')->where('id', $id)->update([
+                'status' => 'under_review',
+                'version' => $version + 1,
+                'updated_at' => now(),
+            ]);
             Selection::audit($user, $d->call_id, 'institutional.review.requested', 'institutional:'.$id, null, ['submission_id' => $submission]);
 
             return $submission;
@@ -134,8 +179,18 @@ final class InstitutionalPreparation
                 $checks = app(DocumentSafety::class)->assertCurrentSources($id);
             }
             $submission = DB::table('institutional_submissions')->where('dossier_id', $id)->orderByDesc('id')->first();
-            DB::table('institutional_reviews')->insert(['submission_id' => $submission->id, 'created_by' => $user->id, 'decision' => $data['decision'], 'reason' => $data['reason'], 'created_at' => now()]);
-            DB::table('institutional_dossiers')->where('id', $id)->update(['status' => $data['decision'] === 'observed' ? 'draft' : 'technically_reviewed', 'version' => $d->version + 1, 'updated_at' => now()]);
+            DB::table('institutional_reviews')->insert([
+                'submission_id' => $submission->id,
+                'created_by' => $user->id,
+                'decision' => $data['decision'],
+                'reason' => $data['reason'],
+                'created_at' => now(),
+            ]);
+            DB::table('institutional_dossiers')->where('id', $id)->update([
+                'status' => $data['decision'] === 'observed' ? 'draft' : 'technically_reviewed',
+                'version' => $d->version + 1,
+                'updated_at' => now(),
+            ]);
             Selection::audit($user, $d->call_id, 'institutional.review.recorded', 'institutional:'.$id, null, $data + ['integrity_checks' => $checks], $data['reason']);
         });
     }

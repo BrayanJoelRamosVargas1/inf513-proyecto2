@@ -1,123 +1,139 @@
-# Solicitudes institucionales por gestionar
+# Solicitudes institucionales · 20 pendientes, ninguna enviada
 
-No se han enviado. Pedir modelos vacíos y ejemplos anonimizados; no credenciales ni bases completas de estudiantes. Las unidades indicadas son destinatarios propuestos sujetos a confirmar competencias.
+Solicitar formatos vacíos, aclaraciones y ejemplos anonimizados. Las unidades listadas deben confirmar su competencia; el software no sustituye esa decisión.
 
-**SOL-01 · Formulario CPD vacío y ejemplo anonimizado para asignatura**
+## Autoridad competente
 
-Unidad: CPD Facultativo. Prioridad: P0. Base: D11–D13.
+**SOL-18 · P0 · Aceptación y adjudicaciones múltiples**
+Base: Pendiente sin regla completa confirmada. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Configurar incompatibilidades confirmadas. Mientras tanto: Detectar concurrencia sin prohibición inventada.
 
-Alternativa: Solicitar original; cargar documento aportado sin formato ficticio. Permitiría: Contrastar campos y homologar el registro. Estado: PENDIENTE_NO_ENVIADA.
+## Autoridad competente / Secretaría
 
-**SOL-02 · Formulario CPD vacío y ejemplo anonimizado para salas**
+**SOL-15 · P0 · Equivalencia y recepción válida del expediente digital**
+Base: D8/D11/L10. Estado: PENDIENTE_NO_ENVIADA.
+Consultar a DTIC únicamente viabilidad e identidad digital; la autorización del procedimiento corresponde a la autoridad competente.
+Falta: Formalizar recepción digital. Mientras tanto: Constancia interna que no sustituye el procedimiento físico.
 
-Unidad: CPD Facultativo. Prioridad: P0. Base: D12.
+## CPD / autoridad competente
 
-Alternativa: Registrar componentes recibidos con fundamento. Permitiría: Homologar campos de la modalidad. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-04 · P0 · Aclaración de porcentajes/puntos de PPA en laboratorio**
+Base: L11, p22. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Implementar rúbrica confirmada. Mientras tanto: No calcular franjas ambiguas.
 
-**SOL-03 · Formulario CPD vacío y ejemplo anonimizado de laboratorio**
+## CPD / comisión
 
-Unidad: CPD Facultativo. Prioridad: P0. Base: L10–L12.
+**SOL-05 · P0 · Tratamiento de decimales y límites de franjas**
+Base: D12/L11. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Validar precisión de la rúbrica. Mientras tanto: No interpolar.
 
-Alternativa: Registrar puntuación certificada y conservar diferencias. Permitiría: Homologar datos y controles. Estado: PENDIENTE_NO_ENVIADA.
+## CPD Facultativo
 
-**SOL-04 · Aclaración de porcentajes/puntos de PPA en laboratorio**
+**SOL-01 · P0 · Formulario CPD vacío y ejemplo anonimizado para asignatura**
+Base: D11–D13. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Contrastar campos y homologar el registro. Mientras tanto: Solicitar original; cargar documento aportado sin formato ficticio.
 
-Unidad: CPD / autoridad competente. Prioridad: P0. Base: L11, p22.
+**SOL-02 · P0 · Formulario CPD vacío y ejemplo anonimizado para salas**
+Base: D12. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Homologar campos de la modalidad. Mientras tanto: Registrar componentes recibidos con fundamento.
 
-Alternativa: No calcular franjas ambiguas. Permitiría: Implementar rúbrica confirmada. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-03 · P0 · Formulario CPD vacío y ejemplo anonimizado de laboratorio**
+Base: L10–L12. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Homologar datos y controles. Mientras tanto: Registrar puntuación certificada y conservar diferencias.
 
-**SOL-05 · Tratamiento de decimales y límites de franjas**
+## Comisiones / Vicedecanato
 
-Unidad: CPD / comisión. Prioridad: P0. Base: D12/L11.
+**SOL-07 · P0 · Composición áreas/componentes por sala y laboratorio**
+Base: D15–D17/L14–L16; convocatorias. Estado: PENDIENTE_NO_ENVIADA.
+Precisar composición de áreas y componentes para asignatura, salas y laboratorio; no inventar su combinación.
+Falta: Configurar composición oficial. Mientras tanto: Conservar matrices sin asumir producto de pesos.
 
-Alternativa: No interpolar. Permitiría: Validar precisión de la rúbrica. Estado: PENDIENTE_NO_ENVIADA.
+## Comisión evaluadora
 
-**SOL-06 · Nota mínima final aprobatoria**
+**SOL-13 · P1 · Modelos de actas de desempate y condiciones de nuevo examen**
+Base: D18/L17. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Homologar acta y condiciones. Mientras tanto: Registrar examen DEMO sin ganador automático.
 
-Unidad: Vicedecanato / Decanato / comisión competente. Prioridad: P0. Base: D20/L19.
+## DICAA / CPD / Secretaría General
 
-Alternativa: Ranking DEMO no es aprobación institucional. Permitiría: Aplicar umbral confirmado. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-20 · P1 · Verificación autorizada de matrícula, historial y autonomía**
+Base: D7/L6. Estado: PENDIENTE_NO_ENVIADA.
+Solicitar formato de certificado de autonomía a Secretaría General y verificación autorizada de matrícula/historial ante DICAA; sin obtener bases personales innecesarias. Aclarar aplicación del art.7(e) de docencia a salas: resolución p.5–6 frente a convocatoria01 p.4 y convocatoria02 p.3, que omiten titulación en mora; el perfil sala conserva esa omisión, sin presumir derogación.
+Falta: Integración autorizada o cotejo formal. Mientras tanto: Revisión documental trazable; sin acceso a bases privadas.
 
-**SOL-07 · Composición áreas/componentes por sala y laboratorio**
+## Decanato
 
-Unidad: Comisiones / Vicedecanato. Prioridad: P0. Base: D15–D17/L14–L16; convocatorias.
+**SOL-12 · P0 · Aclaración de la terna de laboratorio**
+Base: L13 p23. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Validar composición. Mientras tanto: No inventar tercer integrante.
 
-Alternativa: Conservar matrices sin asumir producto de pesos. Permitiría: Configurar composición oficial. Estado: PENDIENTE_NO_ENVIADA.
+## Decanato / HCF
 
-**SOL-08 · Cantidad de plazas por asignatura**
+**SOL-14 · P1 · Modelos de resoluciones, actas y designaciones**
+Base: D19–D22/L18–L23. Estado: PENDIENTE_NO_ENVIADA.
+Solicitar además planilla de evaluación y formato de consolidado oficial, junto a actas, resoluciones y designaciones.
+Falta: Vincular originales autenticados. Mientras tanto: Reportes internos sin sellos ni firmas.
 
-Unidad: Vicedecanato / Direcciones. Prioridad: P0. Base: D8; convocatorias.
+## Decanato / Vicedecanato
 
-Alternativa: NULL y ranking bloqueado en historial. Permitiría: Configurar cupos reales. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-11 · P0 · Documento de designación y composición de comisiones**
+Base: D14/L13. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Validar autoridad y competencias. Mientras tanto: Registro interno sin atribuciones automáticas.
 
-**SOL-09 · Carga horaria por oferta y compatibilidad de horarios**
+## Decanato / asesoría competente
 
-Unidad: Direcciones / Vicedecanato. Prioridad: P1. Base: D35/L34.
+**SOL-19 · P0 · Autorización y vigencia normativa institucional**
+Base: RES1–RES4. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Aceptar operación mediante procedimiento autorizado. Mientras tanto: Mantener NO_GO_INSTITUCIONAL.
 
-Alternativa: No inventar horas ni incompatibilidades. Permitiría: Revisar compatibilidad autorizada. Estado: PENDIENTE_NO_ENVIADA.
+## Decanato / comisión
 
-**SOL-10 · Aclaración de fechas de salas de primera convocatoria**
+**SOL-17 · P1 · Efectos de retiro, renuncia y vacante**
+Base: D20/D25/L19. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Homologar decisiones. Mientras tanto: No adjudicar reemplazo automáticamente.
 
-Unidad: Vicedecanato / unidad emisora. Prioridad: P0. Base: Convocatoria 01/2026.
+## Direcciones / Vicedecanato
 
-Alternativa: Mostrar conflicto impreso. Permitiría: Registrar fe de erratas con fuente. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-09 · P1 · Carga horaria por oferta y compatibilidad de horarios**
+Base: D35/L34. Estado: PENDIENTE_NO_ENVIADA.
+Solicitar también planes de estudio y niveles académicos para verificar requisitos y compatibilidad de horarios.
+Falta: Revisar compatibilidad autorizada. Mientras tanto: No inventar horas ni incompatibilidades.
 
-**SOL-11 · Documento de designación y composición de comisiones**
+## Responsables académicos
 
-Unidad: Decanato / Vicedecanato. Prioridad: P0. Base: D14/L13.
+**SOL-16 · P0 · Plazos y autoridades de subsanación**
+Base: Revisión de requisitos; procedimiento no confirmado. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Aplicar procedimiento aprobado. Mientras tanto: Ventanas DEMO con versiones.
 
-Alternativa: Registro interno sin atribuciones automáticas. Permitiría: Validar autoridad y competencias. Estado: PENDIENTE_NO_ENVIADA.
+## Vicedecanato / Decanato / comisión competente
 
-**SOL-12 · Aclaración de la terna de laboratorio**
+**SOL-06 · P0 · Nota mínima final aprobatoria**
+Base: D20/L19. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Aplicar umbral confirmado. Mientras tanto: Ranking DEMO no es aprobación institucional.
 
-Unidad: Decanato. Prioridad: P0. Base: L13 p23.
+## Vicedecanato / Direcciones
 
-Alternativa: No inventar tercer integrante. Permitiría: Validar composición. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-08 · P0 · Cantidad de plazas por asignatura**
+Base: D8; convocatorias. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Configurar cupos reales. Mientras tanto: NULL y ranking bloqueado en historial.
 
-**SOL-13 · Modelos de actas de desempate y condiciones de nuevo examen**
+## Vicedecanato / unidad emisora
 
-Unidad: Comisión evaluadora. Prioridad: P1. Base: D18/L17.
-
-Alternativa: Registrar examen DEMO sin ganador automático. Permitiría: Homologar acta y condiciones. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-14 · Modelos de resoluciones, actas y designaciones**
-
-Unidad: Decanato / HCF. Prioridad: P1. Base: D19–D22/L18–L23.
-
-Alternativa: Reportes internos sin sellos ni firmas. Permitiría: Vincular originales autenticados. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-15 · Equivalencia y recepción válida del expediente digital**
-
-Unidad: Autoridad competente / Secretaría. Prioridad: P0. Base: D8/D11/L10.
-
-Alternativa: Constancia interna que no sustituye el procedimiento físico. Permitiría: Formalizar recepción digital. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-16 · Plazos y autoridades de subsanación**
-
-Unidad: Responsables académicos. Prioridad: P0. Base: Revisión de requisitos; procedimiento no confirmado.
-
-Alternativa: Ventanas DEMO con versiones. Permitiría: Aplicar procedimiento aprobado. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-17 · Efectos de retiro, renuncia y vacante**
-
-Unidad: Decanato / comisión. Prioridad: P1. Base: D20/D25/L19.
-
-Alternativa: No adjudicar reemplazo automáticamente. Permitiría: Homologar decisiones. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-18 · Aceptación y adjudicaciones múltiples**
-
-Unidad: Autoridad competente. Prioridad: P0. Base: Pendiente sin regla completa confirmada.
-
-Alternativa: Detectar concurrencia sin prohibición inventada. Permitiría: Configurar incompatibilidades confirmadas. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-19 · Autorización y vigencia normativa institucional**
-
-Unidad: Decanato / asesoría competente. Prioridad: P0. Base: RES1–RES4.
-
-Alternativa: Mantener NO_GO_INSTITUCIONAL. Permitiría: Aceptar operación mediante procedimiento autorizado. Estado: PENDIENTE_NO_ENVIADA.
-
-**SOL-20 · Verificación autorizada de matrícula, historial y autonomía**
-
-Unidad: DICAA / CPD / Secretaría General. Prioridad: P1. Base: D7/L6.
-
-Alternativa: Revisión documental trazable; sin acceso a bases privadas. Permitiría: Integración autorizada o cotejo formal. Estado: PENDIENTE_NO_ENVIADA.
+**SOL-10 · P0 · Aclaración de fechas de salas de primera convocatoria**
+Base: Convocatoria 01/2026. Estado: PENDIENTE_NO_ENVIADA.
+Conservar alcance descrito; confirmar competencia y recibir documento o aclaración auténticos.
+Falta: Registrar fe de erratas con fuente. Mientras tanto: Mostrar conflicto impreso.

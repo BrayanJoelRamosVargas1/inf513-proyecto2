@@ -4,18 +4,13 @@ namespace App\Domain;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 final class DocumentProcessor
 {
     private function event(?object $task, ?int $source, ?int $job, string $action, array $details = [], ?int $document = null): void
     {
-        DB::table('institutional_scan_events')->insert([
-            'task_id' => $task?->id, 'source_id' => $source, 'document_id' => $task?->document_id ?? $document, 'job_id' => $job,
-            'action' => $action, 'attempt' => $task?->attempts ?? 0,
-            'details' => json_encode($details, JSON_THROW_ON_ERROR), 'created_at' => now(),
-        ]);
+        ScanEvents::record($task, $source, $job, $action, $details, $document);
     }
 
     private function newJob(object $source, ?int $document = null): int
@@ -121,9 +116,21 @@ final class DocumentProcessor
                 'state' => $state, 'available_at' => $available, 'lease_token' => null, 'lease_until' => null, 'updated_at' => now(),
             ]);
             $this->event($task, $task->source_id, $task->job_id, $retry ? 'retry_scheduled' : 'finished',
-                ['result' => $result['state'], 'reason' => $result['reason'], 'task_state' => $state, 'available_at' => $available->toIso8601String()]);
+                [
+                    'result' => $result['state'],
+                    'reason' => $result['reason'],
+                    'task_state' => $state,
+                    'available_at' => $available->toIso8601String(),
+                ]);
 
-            return ['task_id' => $task->id, ...DocumentTarget::fromRow($task)->fields(), 'job_id' => $task->job_id, 'state' => $result['state'], 'task_state' => $state, 'reason' => $result['reason']];
+            return [
+                'task_id' => $task->id,
+                ...DocumentTarget::fromRow($task)->fields(),
+                'job_id' => $task->job_id,
+                'state' => $result['state'],
+                'task_state' => $state,
+                'reason' => $result['reason'],
+            ];
         });
     }
 
@@ -182,13 +189,13 @@ final class DocumentProcessor
             ->orderBy('j.id')->limit(100)->get(['j.id', 'j.source_id', 'j.document_id']);
         $count = $superseded = 0;
         foreach ($old as $row) {
-            if (! $apply || $this->workspaceBusy($row->id)) {
+            if (! $apply || app(ScanWorkspace::class)->busy($row->id)) {
                 continue;
             }
             DB::transaction(function () use ($row, &$count, &$superseded) {
                 $target = DocumentTarget::fromRow($row);
                 $target->row(true);
-                if (DB::table('institutional_scan_results')->where('job_id', $row->id)->exists() || $this->workspaceBusy($row->id)) {
+                if (DB::table('institutional_scan_results')->where('job_id', $row->id)->exists() || app(ScanWorkspace::class)->busy($row->id)) {
                     return;
                 }
                 // Scan starts take this same source lock. Never invalidate a
@@ -214,145 +221,11 @@ final class DocumentProcessor
     /** Read-only operational diagnosis; never authorizes document access. */
     public function queueStatus(): array
     {
-        $now = now()->toImmutable();
-        $ready = DB::table('institutional_scan_tasks')->where('state', 'queued')->where('available_at', '<=', $now);
-        $oldest = (clone $ready)->min('available_at');
-        $age = $oldest === null ? 0 : max(0, $now->getTimestamp() - CarbonImmutable::parse($oldest)->getTimestamp());
-        $expired = DB::table('institutional_scan_tasks')->where('state', 'leased')->where('lease_until', '<=', $now)->count();
-        $failed = DB::table('institutional_scan_tasks as t')->where('state', 'failed')
-            ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_jobs as j')
-                ->whereRaw('(j.source_id = t.source_id OR j.document_id = t.document_id)')->whereColumn('j.id', '>', 't.job_id'))->count();
-        $unmanaged = DB::table('institutional_scan_jobs as j')
-            ->where('j.created_at', '<=', $now->subSeconds(config('document_processor.orphan_seconds')))
-            ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_jobs as n')
-                ->whereRaw('(n.source_id = j.source_id OR n.document_id = j.document_id)')->whereColumn('n.id', '>', 'j.id'))
-            ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_results as r')->whereColumn('r.job_id', 'j.id'))
-            ->whereNotExists(fn ($q) => $q->selectRaw('1')->from('institutional_scan_events as e')->whereColumn('e.job_id', 'j.id'))->count();
-        $threshold = max(1, (int) config('document_processor.backlog_seconds'));
-        $warnings = [];
-        if ($oldest !== null && $age >= $threshold) {
-            $warnings[] = 'QUEUE_OVERDUE';
-        }
-        if ($expired > 0) {
-            $warnings[] = 'LEASES_EXPIRED';
-        }
-        if ($failed > 0) {
-            $warnings[] = 'CURRENT_TASKS_FAILED';
-        }
-        if ($unmanaged > 0) {
-            $warnings[] = 'UNMANAGED_CURRENT_PENDING';
-        }
-
-        return [
-            'observed_at' => $now->toIso8601String(),
-            'tasks' => DB::table('institutional_scan_tasks')->selectRaw('state, count(*) as total')->groupBy('state')->orderBy('state')->get(),
-            'ready' => (clone $ready)->count(),
-            'delayed' => DB::table('institutional_scan_tasks')->where('state', 'queued')->where('available_at', '>', $now)->count(),
-            'expired_leases' => $expired, 'oldest_ready_seconds' => $age,
-            'failed_current' => $failed, 'unmanaged_current' => $unmanaged,
-            'backlog_threshold_seconds' => $threshold,
-            'health' => $warnings === [] ? 'ok' : 'attention', 'warnings' => $warnings,
-        ];
-    }
-
-    private function workspaceBusy(int $job): bool
-    {
-        $path = Storage::disk('local')->path('institutional-scan-work/job-'.$job.'/.lock');
-        if (! is_file($path)) {
-            return false;
-        }
-        if (is_link($path)) {
-            return true;
-        }
-        $handle = @fopen($path, 'r+b');
-        if (! is_resource($handle)) {
-            return true;
-        }
-        $free = flock($handle, LOCK_EX | LOCK_NB);
-        if ($free) {
-            flock($handle, LOCK_UN);
-        }
-        fclose($handle);
-
-        return ! $free;
+        return app(ScanDiagnostics::class)->queueStatus();
     }
 
     public function cleanup(bool $apply = false): array
     {
-        $base = Storage::disk('local')->path('institutional-scan-work');
-        $eligible = $removed = $skipped = $legacy = 0;
-        if (! is_dir($base)) {
-            return compact('eligible', 'removed', 'skipped', 'legacy');
-        }
-        $root = realpath($base);
-        if (is_link($base) || dirname($root) !== realpath(Storage::disk('local')->path(''))) {
-            $skipped++;
-
-            return compact('eligible', 'removed', 'skipped', 'legacy');
-        }
-        foreach (new \DirectoryIterator($base) as $item) {
-            if ($item->isDot()) {
-                continue;
-            }
-            if (! preg_match('/^job-([1-9][0-9]*)$/D', $item->getFilename(), $m) || $item->isLink() || ! $item->isDir()) {
-                $legacy++;
-
-                continue;
-            }
-            $directory = $item->getPathname();
-            if (dirname(realpath($directory)) !== $root) {
-                $skipped++;
-
-                continue;
-            }
-            $job = DB::table('institutional_scan_jobs')->find((int) $m[1]);
-            $ended = $job && DB::table('institutional_scan_results')->where('job_id', $job->id)->exists();
-            $active = $job && DB::table('institutional_scan_tasks')->where('job_id', $job->id)->where('state', 'leased')->where('lease_until', '>', now())->exists();
-            if (! $job || ! $ended || $active || CarbonImmutable::parse($job->created_at)->gt(now()->subSeconds(config('document_processor.cleanup_seconds')))) {
-                $skipped++;
-
-                continue;
-            }
-            $lock = $directory.'/.lock';
-            $payload = $directory.'/payload.bin';
-            if (! file_exists($payload)) {
-                continue; // Keep the stable zero-byte lock marker; no payload to erase.
-            }
-            if (! is_file($payload) || dirname(realpath($payload)) !== realpath($directory) || is_link($lock) || is_link($payload) || array_diff(scandir($directory), ['.', '..', '.lock', 'payload.bin'])) {
-                $skipped++;
-
-                continue;
-            }
-            // A dry run must not create even a missing marker.
-            $handle = @fopen($lock, $apply ? 'c+b' : 'r+b');
-            if (! is_resource($handle) || ! flock($handle, LOCK_EX | LOCK_NB)) {
-                if (is_resource($handle)) {
-                    fclose($handle);
-                }
-                $skipped++;
-
-                continue;
-            }
-            try {
-                $eligible++;
-                if ($apply) {
-                    if (is_file($payload) && ! @unlink($payload)) {
-                        $skipped++;
-
-                        continue;
-                    }
-                    // Keep the locked marker until after the payload is gone.
-                    $this->event(null, $job->source_id, $job->id, 'temporary_payload_cleaned', [], $job->document_id);
-                    $removed++;
-                }
-            } finally {
-                flock($handle, LOCK_UN);
-                fclose($handle);
-            }
-            // Never unlink a lock inode another process could be about to acquire.
-            // The empty marker and directory are retained; only document bytes are removed.
-        }
-
-        return compact('eligible', 'removed', 'skipped', 'legacy');
+        return app(ScanWorkspace::class)->cleanup($apply);
     }
 }

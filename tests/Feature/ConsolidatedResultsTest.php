@@ -47,12 +47,28 @@ final class ConsolidatedResultsTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->teacher = User::factory()->create(['role' => 'staff']);
         $this->student = User::factory()->create(['name' => '=SUM(1,2)']);
-        $this->call = $this->s->createCall($this->authority, ['title' => 'Consolidado sintético', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM']);
+        $this->call = $this->s->createCall($this->authority, [
+            'title' => 'Consolidado sintético',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->teacher, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['call_id' => $this->call, 'user_id' => $u->id, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Tipo sintético', 'regime' => 'docencia', 'active' => true]);
-        $offer = ['category_id' => $category, 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD sintético'], 'requirements' => ['activo' => 'Activo DEMO'], 'weights' => ['Soporte' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintético sin validez institucional'];
+        $offer = [
+            'category_id' => $category,
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD sintético'],
+            'requirements' => ['activo' => 'Activo DEMO'],
+            'weights' => ['Soporte' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintético sin validez institucional',
+        ];
         $this->offer = $this->s->saveOffer($this->authority, $this->call, $offer + ['title' => 'Oferta con candidatos']);
         $this->empty = $this->s->saveOffer($this->authority, $this->call, $offer + ['title' => 'Oferta sin postulaciones']);
         $this->s->transition($this->authority, $this->call, 'published');
@@ -103,7 +119,13 @@ final class ConsolidatedResultsTest extends TestCase
 
     public function test_c02_authority_scope_and_effective_permissions_protect_page_and_exports(): void
     {
-        foreach ([$this->student, $this->reviewer, $this->teacher, User::factory()->create(['role' => 'admin']), User::factory()->create(['role' => 'authority'])] as $u) {
+        foreach ([
+            $this->student,
+            $this->reviewer,
+            $this->teacher,
+            User::factory()->create(['role' => 'admin']),
+            User::factory()->create(['role' => 'authority']),
+        ] as $u) {
             foreach (['', '/pdf', '/xlsx'] as $suffix) {
                 $this->actingAs($u)->get('/convocatorias/'.$this->call.'/consolidado'.$suffix)->assertForbidden();
             }
@@ -151,6 +173,19 @@ final class ConsolidatedResultsTest extends TestCase
         $this->assertSame('73.00', $g['rows'][0]['final']);
         $this->assertTrue($g['rows'][0]['award_active']);
         $this->assertSame($old->snapshot, $g['publication']->snapshot);
+        $this->assertDatabaseCount('publications', 1);
+    }
+
+    public function test_approval_records_the_48_hour_deadline_without_blocking_the_publication(): void
+    {
+        $this->evaluate();
+        $this->confirmScore($this->application);
+        DB::table('grades')->update(['updated_at' => now()->subHours(60)]);
+        $this->s->approve($this->authority, $this->offer, 'Publicación fuera del plazo de 48 horas.');
+        $audit = DB::table('audit_events')->where('action', 'result.approved')->latest('id')->first();
+        $after = json_decode($audit->after, true);
+        $this->assertSame('exceeded', $after['deadline_48h']);
+        $this->assertGreaterThanOrEqual(60, $after['hours_since_last_grade']);
         $this->assertDatabaseCount('publications', 1);
     }
 

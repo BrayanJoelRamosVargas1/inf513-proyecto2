@@ -1,4 +1,0 @@
-
-   INFO  Running migrations.
-
-  2026_11_22_000002_share_scanner_with_applicant_documents .............................................. 25.27ms DONE

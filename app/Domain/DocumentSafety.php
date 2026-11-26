@@ -69,7 +69,13 @@ final class DocumentSafety
             $bytes = $this->bytes($source);
             $after = $this->status($source->id);
             abort_unless($after['download_allowed'] && $before['job_id'] === $after['job_id'], 422, 'El análisis cambió durante la comprobación. Reintenta la operación.');
-            $checks[] = ['source_id' => $source->id, 'source_version' => $source->version, 'sha256' => hash('sha256', $bytes), 'scan_job_id' => $after['job_id'], 'checked_at' => now()->toIso8601String()];
+            $checks[] = [
+                'source_id' => $source->id,
+                'source_version' => $source->version,
+                'sha256' => hash('sha256', $bytes),
+                'scan_job_id' => $after['job_id'],
+                'checked_at' => now()->toIso8601String(),
+            ];
         }
 
         return $checks;
@@ -80,12 +86,23 @@ final class DocumentSafety
         [$source, $job] = DB::transaction(function () use ($sourceId, $kind) {
             $target = new DocumentTarget($sourceId, $kind);
             $source = $target->row(true);
-            $job = DB::table('institutional_scan_jobs')->insertGetId([...$target->fields(), 'sha256' => $source->sha256, 'policy_hash' => self::policyHash(), 'created_at' => now()]);
+            $job = DB::table('institutional_scan_jobs')->insertGetId([
+                ...$target->fields(),
+                'sha256' => $source->sha256,
+                'policy_hash' => self::policyHash(),
+                'created_at' => now(),
+            ]);
 
             return [$source, $job];
         });
         $result = $this->analyse($job);
-        DB::table('institutional_scan_results')->insertOrIgnore(['job_id' => $job, 'state' => $result['state'], 'engine' => $result['engine'], 'reason' => $result['reason'], 'finished_at' => now()]);
+        DB::table('institutional_scan_results')->insertOrIgnore([
+            'job_id' => $job,
+            'state' => $result['state'],
+            'engine' => $result['engine'],
+            'reason' => $result['reason'],
+            'finished_at' => now(),
+        ]);
 
         $persisted = DB::table('institutional_scan_results')->where('job_id', $job)->first();
 

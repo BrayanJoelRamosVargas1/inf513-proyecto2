@@ -1,8 +1,10 @@
 """Pruebas HTTP contra la DEMO local real, con CSRF y sesión habilitados."""
+import os
 from pathlib import Path
 import urllib.request,urllib.error,http.cookiejar,urllib.parse,re,json
 root=Path(__file__).resolve().parents[1]
-base='http://127.0.0.1:8099'
+(root/'.local'/'salidas').mkdir(parents=True,exist_ok=True)
+base=os.environ.get('FICCT_BASE_URL','http://127.0.0.1:8099')  # F-09: elegir otra instancia sin editar el script
 cookies=http.cookiejar.CookieJar();client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
 checks=[]
 def request(path,data=None):
@@ -22,5 +24,5 @@ status,text,_=request('/login',{'_token':token,'email':email,'password':password
 status,_,_=request('/usuarios');check('Postulante sin acceso a administración',status==403)
 status,_,_=request('/.env');check('Archivo de entorno no expuesto por servidor público',status==404)
 status,_,_=request('/ofertas/13/resultados');check('Postulante sin acceso al consolidado de autoridad',status==403)
-(root/'evidence/security-http.json').write_text(json.dumps({'target':base,'checks':checks,'result':'PASS'},ensure_ascii=False,indent=2),encoding='utf-8')
+(root/'.local/salidas/security-http.json').write_text(json.dumps({'target':base,'checks':checks,'result':'PASS'},ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps(checks,ensure_ascii=False,indent=2))

@@ -22,12 +22,22 @@ final class SandboxController extends Controller
         $sum = fn ($items) => $items->reduce(fn ($total, $item) => bcadd($total, $item->amount, 2), '0.00');
 
         return response()->json(['notice' => 'Simulación académica — no se procesa dinero real', 'methods' => DB::table('sandbox_payment_methods')->where('user_id', $u)->get(), 'payments' => $payments, 'plans' => $plans, 'installments' => $installments,
-            'summary' => ['paid' => $sum($payments->where('status', 'paid')), 'failed' => $sum($payments->where('status', 'failed')), 'pending_installments' => $sum($pending)]]);
+            'summary' => [
+                'paid' => $sum($payments->where('status', 'paid')),
+                'failed' => $sum($payments->where('status', 'failed')),
+                'pending_installments' => $sum($pending),
+            ]]);
     }
 
     public function report(Request $r)
     {
-        $rows = DB::table('sandbox_payments')->where('user_id', $r->user()->id)->orderBy('id')->get(['id', 'amount', 'status', 'installment_id', 'created_at']);
+        $rows = DB::table('sandbox_payments')->where('user_id', $r->user()->id)->orderBy('id')->get([
+            'id',
+            'amount',
+            'status',
+            'installment_id',
+            'created_at',
+        ]);
 
         return response()->streamDownload(function () use ($rows) {
             $stream = fopen('php://output', 'w');
@@ -35,7 +45,13 @@ final class SandboxController extends Controller
             fputcsv($stream, ['Simulación académica — no se procesa dinero real'], ',', '"', '');
             fputcsv($stream, ['Registro', 'Importe ficticio Bs', 'Resultado', 'Cuota', 'Fecha'], ',', '"', '');
             foreach ($rows as $row) {
-                fputcsv($stream, [$row->id, $row->amount, $row->status === 'paid' ? 'Éxito simulado' : 'Fallo simulado', $row->installment_id, $row->created_at], ',', '"', '');
+                fputcsv($stream, [
+                    $row->id,
+                    $row->amount,
+                    $row->status === 'paid' ? 'Éxito simulado' : 'Fallo simulado',
+                    $row->installment_id,
+                    $row->created_at,
+                ], ',', '"', '');
             }
             fclose($stream);
         }, 'simulacion-pagos.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
@@ -43,7 +59,11 @@ final class SandboxController extends Controller
 
     public function method(Request $r)
     {
-        $d = $r->validate(['label' => ['required', Rule::in(['Método de práctica A', 'Método de práctica B'])], 'card_number' => 'prohibited', 'cvv' => 'prohibited']);
+        $d = $r->validate([
+            'label' => ['required', Rule::in(['Método de práctica A', 'Método de práctica B'])],
+            'card_number' => 'prohibited',
+            'cvv' => 'prohibited',
+        ]);
         $id = Access::transaction($r->user(), function () use ($r, $d) {
             $id = DB::table('sandbox_payment_methods')->insertGetId($d + ['user_id' => $r->user()->id, 'token' => 'DEMO-'.Str::uuid(), 'created_at' => now()]);
             Selection::audit($r->user(), null, 'sandbox.method_created', 'sandbox_method:'.$id);
@@ -68,7 +88,12 @@ final class SandboxController extends Controller
 
     public function plan(Request $r)
     {
-        $d = $r->validate(['total' => 'required|decimal:0,2|numeric|min:0.01|max:99999', 'description' => ['required', Rule::in(['Plan de práctica'])], 'count' => 'required|integer|min:2|max:12', 'key' => 'required|uuid']);
+        $d = $r->validate([
+            'total' => 'required|decimal:0,2|numeric|min:0.01|max:99999',
+            'description' => ['required', Rule::in(['Plan de práctica'])],
+            'count' => 'required|integer|min:2|max:12',
+            'key' => 'required|uuid',
+        ]);
         $id = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('sandbox_payment_plans')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             if ($existing) {
@@ -78,10 +103,21 @@ final class SandboxController extends Controller
             }
             $cents = (int) bcmul($d['total'], '100', 0);
             abort_if($cents < $d['count'], 422, 'El total no alcanza para distribuir cuotas de al menos un centavo.');
-            $id = DB::table('sandbox_payment_plans')->insertGetId(['user_id' => $r->user()->id, 'total' => $d['total'], 'description' => $d['description'], 'key' => $d['key'], 'created_at' => now()]);
+            $id = DB::table('sandbox_payment_plans')->insertGetId([
+                'user_id' => $r->user()->id,
+                'total' => $d['total'],
+                'description' => $d['description'],
+                'key' => $d['key'],
+                'created_at' => now(),
+            ]);
             for ($i = 1; $i <= $d['count']; $i++) {
                 $amount = intdiv($cents, $d['count']) + ($i <= $cents % $d['count'] ? 1 : 0);
-                DB::table('sandbox_installments')->insert(['plan_id' => $id, 'number' => $i, 'amount' => bcdiv((string) $amount, '100', 2), 'due_at' => now()->addMonthsNoOverflow($i)->toDateString()]);
+                DB::table('sandbox_installments')->insert([
+                    'plan_id' => $id,
+                    'number' => $i,
+                    'amount' => bcdiv((string) $amount, '100', 2),
+                    'due_at' => now()->addMonthsNoOverflow($i)->toDateString(),
+                ]);
             }
             Selection::audit($r->user(), null, 'sandbox.plan_created', 'sandbox_plan:'.$id);
 
@@ -93,7 +129,14 @@ final class SandboxController extends Controller
 
     public function pay(Request $r)
     {
-        $d = $r->validate(['method_id' => 'required|integer|min:1', 'amount' => 'required|decimal:0,2|numeric|min:0.01|max:99999', 'installment_id' => 'nullable|integer|min:1', 'outcome' => ['required', Rule::in(['paid', 'failed'])], 'key' => 'required|uuid', 'confirmed' => 'accepted']);
+        $d = $r->validate([
+            'method_id' => 'required|integer|min:1',
+            'amount' => 'required|decimal:0,2|numeric|min:0.01|max:99999',
+            'installment_id' => 'nullable|integer|min:1',
+            'outcome' => ['required', Rule::in(['paid', 'failed'])],
+            'key' => 'required|uuid',
+            'confirmed' => 'accepted',
+        ]);
         $id = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('sandbox_payments')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             if ($existing) {
@@ -111,7 +154,15 @@ final class SandboxController extends Controller
                 abort_unless(bccomp($part->amount, $d['amount'], 2) === 0, 422, 'Importe distinto de la cuota.');
                 abort_if(DB::table('sandbox_payments')->where('installment_id', $part->id)->where('status', 'paid')->exists(), 409, 'Esta cuota ya se pagó en la simulación.');
             }
-            $id = DB::table('sandbox_payments')->insertGetId(['user_id' => $r->user()->id, 'method_id' => $method->id, 'amount' => $d['amount'], 'installment_id' => $d['installment_id'] ?? null, 'key' => $d['key'], 'status' => $d['outcome'], 'created_at' => now()]);
+            $id = DB::table('sandbox_payments')->insertGetId([
+                'user_id' => $r->user()->id,
+                'method_id' => $method->id,
+                'amount' => $d['amount'],
+                'installment_id' => $d['installment_id'] ?? null,
+                'key' => $d['key'],
+                'status' => $d['outcome'],
+                'created_at' => now(),
+            ]);
             Selection::audit($r->user(), null, 'sandbox.payment_'.$d['outcome'], 'sandbox_payment:'.$id, null, ['amount' => $d['amount']]);
 
             return $id;

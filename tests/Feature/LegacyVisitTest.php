@@ -46,7 +46,10 @@ final class LegacyVisitTest extends TestCase
     public function test_legacy_authentication_records_failed_successful_and_logout_events_with_ip_once(): void
     {
         $user = User::factory()->create(['password' => 'Synthetic-secret-12345']);
-        $this->withServerVariables(['REMOTE_ADDR' => '192.0.2.9'])->post('/login', ['email' => $user->email, 'password' => 'Wrong-secret-12345'])->assertRedirect()->assertSessionHasErrors('email');
+        $this->withServerVariables(['REMOTE_ADDR' => '192.0.2.9'])->post('/login', [
+            'email' => $user->email,
+            'password' => 'Wrong-secret-12345',
+        ])->assertRedirect()->assertSessionHasErrors('email');
         $this->assertDatabaseHas('access_events', ['event' => 'login.failed', 'ip' => '192.0.2.9', 'status' => 422]);
         $this->post('/login', ['email' => $user->email, 'password' => 'Synthetic-secret-12345'])->assertRedirect('/');
         $this->assertAuthenticatedAs($user);
@@ -56,6 +59,7 @@ final class LegacyVisitTest extends TestCase
         $this->assertGuest();
         $this->assertSame(1, DB::table('access_events')->where('event', 'logout')->where('user_id', $user->id)->count());
     }
+
     public function test_legacy_and_api_validation_use_spanish_even_if_environment_locale_is_english(): void
     {
         config(['app.locale' => 'en']);
@@ -64,5 +68,4 @@ final class LegacyVisitTest extends TestCase
         app()->setLocale('en');
         $this->postJson('/api/v1/login', [])->assertUnprocessable()->assertJsonPath('errors.email.0', 'El campo correo es obligatorio.');
     }
-
 }

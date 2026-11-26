@@ -1,6 +1,0 @@
-Carga real de PDF queda en cuarentena y no ofrece descarga
-Descarga directa devuelve 423 al propietario autenticado
-No permite enviar a revisión una fuente sin analizar
-La web no permite forzar un resultado limpio
-El comando real sin ClamAV registra error y conserva el bloqueo
-Estado de cuarentena comprensible, sin errores JS, axe ni desborde móvil

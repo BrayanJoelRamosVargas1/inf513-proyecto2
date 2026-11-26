@@ -15,7 +15,7 @@ final class Workspace
 
     public static function receiving(object $call): bool
     {
-        return $call->mode === 'DEMO' && $call->status === 'published'
+        return Selection::isOperable($call) && $call->status === 'published'
             && now()->gte($call->opens_at) && now()->lte($call->closes_at);
     }
 
@@ -29,7 +29,7 @@ final class Workspace
             return 'Su perfil no pertenece al ámbito de esta convocatoria.';
         }
         if ($offer->is_subject && $call->subject_limit !== null && $subjects >= $call->subject_limit) {
-            return 'Alcanzó el límite de asignaturas de esta convocatoria (incluye borradores DEMO).';
+            return 'Alcanzó el límite de asignaturas de esta convocatoria (incluye borradores).';
         }
 
         return null;
