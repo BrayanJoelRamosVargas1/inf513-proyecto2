@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Domain\InstitutionalCatalogue;
 use Illuminate\Console\Command;
 
 final class ImportSourcesCommand extends Command
@@ -14,9 +15,11 @@ final class ImportSourcesCommand extends Command
     {
         if (! ctype_digit((string) $this->option('first')) || ! ctype_digit((string) $this->option('second'))) {
             $this->error('Indique ambos identificadores históricos explícitamente.');
+
             return 1;
         }
-        $this->line(json_encode(app(\App\Domain\InstitutionalCatalogue::class)->import((int) $this->option('first'), (int) $this->option('second')), JSON_UNESCAPED_UNICODE));
+        $this->line(json_encode(app(InstitutionalCatalogue::class)->import((int) $this->option('first'), (int) $this->option('second')), JSON_UNESCAPED_UNICODE));
+
         return 0;
 
         return self::SUCCESS;

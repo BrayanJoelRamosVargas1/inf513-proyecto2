@@ -1,6 +1,0 @@
-Autoridad crea expediente con revisor distinto y ámbito vigente
-Conserva PDF privado con huella y versión
-Nueva versión conserva anterior y descarga PDF real
-Otra autoridad observa sin borrar el envío original
-Revisión técnica registra decisión y conserva ambos envíos
-Sigue bloqueado para producción; axe y pantalla móvil pasan

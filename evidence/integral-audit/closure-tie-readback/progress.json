@@ -1,9 +1,0 @@
-{
-  "checks": [
-    {
-      "action": "Recarga completa: ambas actas y rondas visibles, única publicación sin repetición",
-      "call": 19,
-      "offer": 45
-    }
-  ]
-}

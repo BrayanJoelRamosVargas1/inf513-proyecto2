@@ -1,4 +1,0 @@
-Error: Scanner returned error; expected clean
-    at assert (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\scripts\academic_business.cjs:5:34)
-    at scan (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\scripts\academic_business.cjs:14:204)
-    at C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\scripts\academic_business.cjs:53:3

@@ -1,4 +1,0 @@
-locator.click: Timeout 25000ms exceeded.
-Call log:
-[2m  - waiting for getByText('Publicación v1 · Revisión 1', { exact: true })[22m
-

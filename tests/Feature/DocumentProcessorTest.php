@@ -36,11 +36,33 @@ final class DocumentProcessorTest extends TestCase
         config(['document_safety.binary' => '', 'document_safety.database' => '']);
         $this->author = User::factory()->create(['role' => 'authority']);
         $this->reviewer = User::factory()->create(['role' => 'authority']);
-        $call = app(Selection::class)->createCall($this->author, ['title' => 'Cuarentena sintética', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(3), 'scope' => 'UAGRM', 'source' => 'Fixture sin valor institucional']);
+        $call = app(Selection::class)->createCall($this->author, [
+            'title' => 'Cuarentena sintética',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(3),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sin valor institucional',
+        ]);
         DB::table('memberships')->insert(['call_id' => $call, 'user_id' => $this->reviewer->id, 'role' => 'authority']);
-        $this->dossier = app(InstitutionalPreparation::class)->create($this->author, ['call_id' => $call, 'reviewer_id' => $this->reviewer->id, 'title' => 'Fixture']);
+        $this->dossier = app(InstitutionalPreparation::class)->create($this->author, [
+            'call_id' => $call,
+            'reviewer_id' => $this->reviewer->id,
+            'title' => 'Fixture',
+        ]);
         $this->url = '/api/v1/institutional/dossiers/'.$this->dossier;
-        $this->source = $this->actingAs($this->author)->post($this->url.'/sources', ['expected_version' => 1, 'reference' => 'MUESTRA', 'gate' => 'G02', 'title' => 'No es normativa real', 'issued_on' => '2026-11-21', 'pages' => '1', 'classification' => 'historical_reference', 'notes' => 'Solo prueba de seguridad.', 'scan_state' => 'clean', 'file' => UploadedFile::fake()->createWithContent('muestra.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf')))], ['Accept' => 'application/json'])->assertCreated()->json('id');
+        $this->source = $this->actingAs($this->author)->post($this->url.'/sources', [
+            'expected_version' => 1,
+            'reference' => 'MUESTRA',
+            'gate' => 'G02',
+            'title' => 'No es normativa real',
+            'issued_on' => '2026-11-21',
+            'pages' => '1',
+            'classification' => 'historical_reference',
+            'notes' => 'Solo prueba de seguridad.',
+            'scan_state' => 'clean',
+            'file' => UploadedFile::fake()->createWithContent('muestra.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf'))),
+        ], ['Accept' => 'application/json'])->assertCreated()->json('id');
     }
 
     private function processor(): DocumentProcessor
@@ -244,7 +266,12 @@ final class DocumentProcessorTest extends TestCase
     public function test_p11_unmanaged_interruption_is_recovered_without_rewriting_history(): void
     {
         $source = DB::table('institutional_sources')->find($this->source);
-        $job = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        $job = DB::table('institutional_scan_jobs')->insertGetId([
+            'source_id' => $source->id,
+            'sha256' => $source->sha256,
+            'policy_hash' => DocumentSafety::policyHash(),
+            'created_at' => now(),
+        ]);
         $path = $this->workspace($job);
         $this->travel(301)->seconds();
         $p = $this->processor();
@@ -305,11 +332,27 @@ final class DocumentProcessorTest extends TestCase
         $this->scanner('clean');
         $this->processor()->runOne();
         $source = DB::table('institutional_sources')->find($this->source);
-        $old = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        $old = DB::table('institutional_scan_jobs')->insertGetId([
+            'source_id' => $source->id,
+            'sha256' => $source->sha256,
+            'policy_hash' => DocumentSafety::policyHash(),
+            'created_at' => now(),
+        ]);
         $this->travel(301)->seconds();
-        $new = DB::table('institutional_scan_jobs')->insertGetId(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        $new = DB::table('institutional_scan_jobs')->insertGetId([
+            'source_id' => $source->id,
+            'sha256' => $source->sha256,
+            'policy_hash' => DocumentSafety::policyHash(),
+            'created_at' => now(),
+        ]);
         if ($laterState !== 'pending') {
-            DB::table('institutional_scan_results')->insert(['job_id' => $new, 'state' => $laterState, 'engine' => 'TEST-ONLY', 'reason' => 'fixture', 'finished_at' => now()]);
+            DB::table('institutional_scan_results')->insert([
+                'job_id' => $new,
+                'state' => $laterState,
+                'engine' => 'TEST-ONLY',
+                'reason' => 'fixture',
+                'finished_at' => now(),
+            ]);
         }
 
         return [$old, $new];

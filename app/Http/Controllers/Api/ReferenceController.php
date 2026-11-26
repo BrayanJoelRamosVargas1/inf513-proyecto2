@@ -11,6 +11,13 @@ final class ReferenceController extends Controller
     {
         [$source, $bytes] = $catalogue->original($key);
 
-        return response($bytes, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$source['file'].'"', 'Content-Length' => strlen($bytes), 'X-Content-Type-Options' => 'nosniff', 'X-Document-SHA256' => $source['sha256'], 'Cache-Control' => 'private, no-store']);
+        return response($bytes, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="'.$source['file'].'"',
+            'Content-Length' => strlen($bytes),
+            'X-Content-Type-Options' => 'nosniff',
+            'X-Document-SHA256' => $source['sha256'],
+            'Cache-Control' => 'private, no-store',
+        ]);
     }
 }

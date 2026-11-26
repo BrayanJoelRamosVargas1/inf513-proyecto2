@@ -3,6 +3,7 @@
 namespace App\ReadModels;
 
 use App\Domain\Access;
+use App\Domain\InstitutionalCatalogue;
 use App\Domain\Selection;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +98,7 @@ final class CallConsolidation
                 'covered' => $covered, 'vacant' => $covered === null || $offer->seats === null ? null : max(0, $offer->seats - $covered)];
         }
 
-        return ['call' => $call, 'groups' => $groups, 'generated_at' => now(), 'institutional_records' => DB::table('institutional_register')->where('call_id', $id)->where('kind', '!=', 'cpd')->orderBy('id')->get(), 'documentary' => app(\App\Domain\InstitutionalCatalogue::class)->forCall($id),
+        return ['call' => $call, 'groups' => $groups, 'generated_at' => now(), 'institutional_records' => DB::table('institutional_register')->where('call_id', $id)->where('kind', '!=', 'cpd')->orderBy('id')->get(), 'documentary' => app(InstitutionalCatalogue::class)->forCall($id),
             'totals' => ['offers' => $offers->count(), 'applications' => $apps->count(), 'seats' => $offers->sum('seats'), 'offers_with_unspecified_seats' => $offers->whereNull('seats')->count(),
                 'enabled' => $apps->where('eligibility', 'enabled')->where('participation', 'active')->count(),
                 'disabled' => $apps->where('eligibility', 'disabled')->count(),

@@ -26,7 +26,13 @@ final class Evaluation
             if (DB::table('assignments')->where('offer_id', $offerId)->where('area', $area)->exists()) {
                 Scores::fail('Ya existe responsable. La reasignación requiere procedimiento documentado; no se promedian docentes automáticamente.');
             }
-            $id = DB::table('assignments')->insertGetId(['offer_id' => $offerId, 'user_id' => $teacher, 'area' => $area, 'created_at' => now(), 'updated_at' => now()]);
+            $id = DB::table('assignments')->insertGetId([
+                'offer_id' => $offerId,
+                'user_id' => $teacher,
+                'area' => $area,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             Selection::audit($u, $c->id, 'evaluator.assigned', 'assignment:'.$id, null, ['user_id' => $teacher, 'area' => $area]);
         });
     }
@@ -62,7 +68,10 @@ final class Evaluation
             if ($confirmed) {
                 Rectifications::version($appId, $id, 1, $score, $u->id);
             }
-            Selection::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? ['score' => $before->score, 'status' => $before->status] : null, $data + ['document_checks' => $documentChecks]);
+            Selection::audit($u, $c->id, $confirmed ? 'grade.confirmed' : 'grade.draft_saved', 'grade:'.$id, $before ? [
+                'score' => $before->score,
+                'status' => $before->status,
+            ] : null, $data + ['document_checks' => $documentChecks]);
         });
     }
 
@@ -85,10 +94,18 @@ final class Evaluation
             }
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($a->id);
             $score = Scores::value($score);
-            DB::table('grades')->where('id', $gradeId)->update(['score' => $score, 'status' => 'corrected', 'version' => $g->version + 1, 'updated_at' => now()]);
+            DB::table('grades')->where('id', $gradeId)->update([
+                'score' => $score,
+                'status' => 'corrected',
+                'version' => $g->version + 1,
+                'updated_at' => now(),
+            ]);
             DB::table('applications')->where('id', $a->id)->update(['exam' => null, 'final' => null, 'updated_at' => now()]);
             Rectifications::version($a->id, $gradeId, $g->version + 1, $score, $u->id);
-            Selection::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], ['score' => $score, 'document_checks' => $documentChecks], $reason);
+            Selection::audit($u, $c->id, 'grade.corrected', 'grade:'.$gradeId, ['score' => $g->score], [
+                'score' => $score,
+                'document_checks' => $documentChecks,
+            ], $reason);
         });
     }
 
@@ -114,7 +131,15 @@ final class Evaluation
             $exam = Scores::exam(Selection::json($o->weights), $notes);
             $final = bcadd(Scores::value($a->merit, Scores::MERIT_MAX), $exam, 2);
             DB::table('applications')->where('id', $id)->update(['exam' => $exam, 'final' => $final, 'updated_at' => now()]);
-            Selection::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], ['notes' => $notes, 'weights' => Selection::json($o->weights), 'exam' => $exam, 'final' => $final, 'scheme' => $o->scheme, 'rounding' => $o->rounding, 'document_checks' => $documentChecks]);
+            Selection::audit($u, $c->id, 'result.calculated', 'application:'.$id, ['exam' => $a->exam, 'final' => $a->final], [
+                'notes' => $notes,
+                'weights' => Selection::json($o->weights),
+                'exam' => $exam,
+                'final' => $final,
+                'scheme' => $o->scheme,
+                'rounding' => $o->rounding,
+                'document_checks' => $documentChecks,
+            ]);
         });
     }
 }

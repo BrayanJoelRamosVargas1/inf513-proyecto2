@@ -1,5 +1,0 @@
-
-> test
-> vitest run --reporter=json --outputFile=C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\release-install-acceptance\20261123133111-032508\vitest.json
-
-JSON report written to C:/Users/ElCremosasWee/Documents/ChatGPT/tecnoproyectoCABa/sistema/.local/release-install-acceptance/20261123133111-032508/vitest.json

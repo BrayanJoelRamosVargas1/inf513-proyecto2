@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Access;
+use App\Domain\InstitutionalRegister;
 use App\Domain\Selection;
 use App\ReadModels\CallConsolidation;
 use Dompdf\Dompdf;
@@ -69,39 +70,120 @@ final class ConsolidatedResultsController extends Controller
     {
         $label = app('view')->shared('label');
         $tables = [
-            'Resultados' => ['headers' => ['Postulación', 'Postulante', 'Oferta', 'Habilitación', 'Participación', 'Mérito /40', 'Examen /60', 'Final /100', 'Posición por puntaje', 'Estado actual', 'Última publicación', 'Adjudicación activa'], 'rows' => []],
+            'Resultados' => [
+                'headers' => [
+                    'Postulación',
+                    'Postulante',
+                    'Oferta',
+                    'Habilitación',
+                    'Participación',
+                    'Mérito /40',
+                    'Examen /60',
+                    'Final /100',
+                    'Posición por puntaje',
+                    'Estado actual',
+                    'Última publicación',
+                    'Adjudicación activa',
+                ],
+                'rows' => [],
+            ],
             'Áreas' => ['headers' => ['Postulación', 'Oferta', 'Área', 'Peso %', 'Nota /100', 'Estado'], 'rows' => []],
-            'Documentación' => ['headers' => ['Postulación', 'Oferta', 'Documento requerido', 'Presente en expediente', 'Versión', 'Revisión'], 'rows' => []],
-            'Plazas' => ['headers' => ['Oferta', 'Cupos', 'Última publicación', 'Adjudicaciones activas', 'Sin cubrir', 'Retenidas por renuncia', 'Nueva publicación pendiente'], 'rows' => []],
+            'Documentación' => [
+                'headers' => ['Postulación', 'Oferta', 'Documento requerido', 'Presente en expediente', 'Versión', 'Revisión'],
+                'rows' => [],
+            ],
+            'Plazas' => [
+                'headers' => [
+                    'Oferta',
+                    'Cupos',
+                    'Última publicación',
+                    'Adjudicaciones activas',
+                    'Sin cubrir',
+                    'Retenidas por renuncia',
+                    'Nueva publicación pendiente',
+                ],
+                'rows' => [],
+            ],
         ];
         foreach ($data['groups'] as $g) {
             $o = $g['offer'];
             $publication = $g['publication'] ? 'v'.$g['publication']->version : 'Sin publicación';
-            $tables['Plazas']['rows'][] = [$o->title, $o->seats ?? 'No especificadas', $publication, $g['covered'], $g['vacant'], $o->held_vacancies, $o->needs_publication_review ? 'Sí' : 'No'];
+            $tables['Plazas']['rows'][] = [
+                $o->title,
+                $o->seats ?? 'No especificadas',
+                $publication,
+                $g['covered'],
+                $g['vacant'],
+                $o->held_vacancies,
+                $o->needs_publication_review ? 'Sí' : 'No',
+            ];
             foreach ($g['rows'] as $r) {
-                $tables['Resultados']['rows'][] = [$r['id'], $r['name'], $o->title, $label($r['eligibility']), $label($r['participation']), $r['merit'], $r['exam'], $r['final'], $r['position'], $label($r['selection']), $publication, $r['award_active'] ? 'Sí' : 'No'];
+                $tables['Resultados']['rows'][] = [
+                    $r['id'],
+                    $r['name'],
+                    $o->title,
+                    $label($r['eligibility']),
+                    $label($r['participation']),
+                    $r['merit'],
+                    $r['exam'],
+                    $r['final'],
+                    $r['position'],
+                    $label($r['selection']),
+                    $publication,
+                    $r['award_active'] ? 'Sí' : 'No',
+                ];
                 foreach ($r['areas'] as $a) {
                     $tables['Áreas']['rows'][] = [$r['id'], $o->title, $a['area'], $a['weight'], $a['score'], $label($a['status'])];
                 }
                 foreach ($r['documents'] as $d) {
-                    $tables['Documentación']['rows'][] = [$r['id'], $o->title, $d['title'], $d['present'] ? 'Sí' : 'No', $d['version'], $label($d['review'])];
+                    $tables['Documentación']['rows'][] = [
+                        $r['id'],
+                        $o->title,
+                        $d['title'],
+                        $d['present'] ? 'Sí' : 'No',
+                        $d['version'],
+                        $label($d['review']),
+                    ];
                 }
             }
         }
 
         if ($data['institutional_records']->isNotEmpty()) {
-            $tables['Registro institucional'] = ['headers' => ['Tipo', 'Referencia', 'Versión', 'Modalidad', 'Estado documental', 'Fecha', 'Emisor', 'Respaldo', 'Fundamento'], 'rows' => []];
+            $tables['Registro institucional'] = [
+                'headers' => ['Tipo', 'Referencia', 'Versión', 'Modalidad', 'Estado documental', 'Fecha', 'Emisor', 'Respaldo', 'Fundamento'],
+                'rows' => [],
+            ];
             foreach ($data['institutional_records'] as $record) {
-                $p = \App\Domain\Selection::json($record->payload);
-                $tables['Registro institucional']['rows'][] = [\App\Domain\InstitutionalRegister::KINDS[$record->kind] ?? $record->kind, $record->reference, $record->version, $p['modality'], \App\Domain\InstitutionalRegister::STATES[$p['record_state'] ?? 'internal'], $p['issued_on'] ?? $p['starts_at'] ?? null, $p['authority'] ?? $p['issuer'] ?? null, $record->source_id, $p['notes']];
+                $p = Selection::json($record->payload);
+                $tables['Registro institucional']['rows'][] = [
+                    InstitutionalRegister::KINDS[$record->kind] ?? $record->kind,
+                    $record->reference,
+                    $record->version,
+                    $p['modality'],
+                    InstitutionalRegister::STATES[$p['record_state'] ?? 'internal'],
+                    $p['issued_on'] ?? $p['starts_at'] ?? null,
+                    $p['authority'] ?? $p['issuer'] ?? null,
+                    $record->source_id,
+                    $p['notes'],
+                ];
             }
         }
 
         foreach ($data['institutional_records']->where('kind', 'calendar') as $record) {
-            $p = \App\Domain\Selection::json($record->payload);
-            $tables['Calendarios registrados'] ??= ['headers' => ['Referencia', 'Versión', 'Modalidad', 'Fecha documentada', 'Valor', 'Zona horaria'], 'rows' => []];
-            foreach (\App\Domain\InstitutionalRegister::CALENDAR_FIELDS as $key => $title) {
-                $tables['Calendarios registrados']['rows'][] = [$record->reference, $record->version, $p['modality'], $title, $p[$key] ?? 'No especificado', $p['timezone']];
+            $p = Selection::json($record->payload);
+            $tables['Calendarios registrados'] ??= [
+                'headers' => ['Referencia', 'Versión', 'Modalidad', 'Fecha documentada', 'Valor', 'Zona horaria'],
+                'rows' => [],
+            ];
+            foreach (InstitutionalRegister::CALENDAR_FIELDS as $key => $title) {
+                $tables['Calendarios registrados']['rows'][] = [
+                    $record->reference,
+                    $record->version,
+                    $p['modality'],
+                    $title,
+                    $p[$key] ?? 'No especificado',
+                    $p['timezone'],
+                ];
             }
         }
         if ($data['documentary']) {
@@ -109,11 +191,17 @@ final class ConsolidatedResultsController extends Controller
             foreach ($data['documentary']['calendars'] as $mode => $calendar) {
                 foreach ($calendar as $key => $value) {
                     if ($key !== 'conflict') {
-                        $tables['Calendario documental']['rows'][] = [$mode, $key, $value ?? 'No especificado', $calendar['conflict'] ?? 'Referencia documental histórica'];
+                        $tables['Calendario documental']['rows'][] = [
+                            $mode,
+                            $key,
+                            $value ?? 'No especificado',
+                            $calendar['conflict'] ?? 'Referencia documental histórica',
+                        ];
                     }
                 }
             }
         }
+
         return $tables;
     }
 }

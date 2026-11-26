@@ -24,7 +24,14 @@ final class MultipleApplicationAuditTest extends TestCase
         $reviewer = User::factory()->create(['role' => 'staff']);
         $evaluator = User::factory()->create(['role' => 'staff']);
         $student = User::factory()->create();
-        $call = $service->createCall($authority, ['title' => 'Auditoría de independencia', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Datos exclusivamente sintéticos']);
+        $call = $service->createCall($authority, [
+            'title' => 'Auditoría de independencia',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Datos exclusivamente sintéticos',
+        ]);
         foreach ([[$reviewer, 'reviewer'], [$evaluator, 'evaluator']] as [$user, $role]) {
             DB::table('memberships')->insert(['user_id' => $user->id, 'call_id' => $call, 'role' => $role]);
         }
@@ -32,12 +39,44 @@ final class MultipleApplicationAuditTest extends TestCase
         // Resultados esperados calculados fuera del motor: 35.25+81*0.60,
         // 20.10+75*0.60 y 40.00+64*0.60, respectivamente.
         $cases = [
-            ['weights' => ['Soporte' => '50', 'Redes' => '30', 'Software' => '20'], 'notes' => ['Soporte' => '80', 'Redes' => '90', 'Software' => '70'], 'merit' => '35.25', 'exam' => '48.60', 'final' => '83.85', 'kind' => 'cpd'],
-            ['weights' => ['Software' => '100'], 'notes' => ['Software' => '75'], 'merit' => '20.10', 'exam' => '45.00', 'final' => '65.10', 'kind' => 'ci'],
-            ['weights' => ['Soporte' => '25', 'Electronica' => '75'], 'notes' => ['Soporte' => '100', 'Electronica' => '52'], 'merit' => '40.00', 'exam' => '38.40', 'final' => '78.40', 'kind' => 'academico'],
+            [
+                'weights' => ['Soporte' => '50', 'Redes' => '30', 'Software' => '20'],
+                'notes' => ['Soporte' => '80', 'Redes' => '90', 'Software' => '70'],
+                'merit' => '35.25',
+                'exam' => '48.60',
+                'final' => '83.85',
+                'kind' => 'cpd',
+            ],
+            [
+                'weights' => ['Software' => '100'],
+                'notes' => ['Software' => '75'],
+                'merit' => '20.10',
+                'exam' => '45.00',
+                'final' => '65.10',
+                'kind' => 'ci',
+            ],
+            [
+                'weights' => ['Soporte' => '25', 'Electronica' => '75'],
+                'notes' => ['Soporte' => '100', 'Electronica' => '52'],
+                'merit' => '40.00',
+                'exam' => '38.40',
+                'final' => '78.40',
+                'kind' => 'academico',
+            ],
         ];
         foreach ($cases as $i => &$case) {
-            $case['offer'] = $service->saveOffer($authority, $call, ['category_id' => $category, 'title' => 'Oferta '.($i + 1), 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD sintético', $case['kind'] => 'Respaldo propio'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => $case['weights'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Ejercicio técnico sin rúbrica institucional']);
+            $case['offer'] = $service->saveOffer($authority, $call, [
+                'category_id' => $category,
+                'title' => 'Oferta '.($i + 1),
+                'seats' => 1,
+                'is_subject' => false,
+                'modality' => 'Presencial',
+                'documents' => ['cpd' => 'CPD sintético', $case['kind'] => 'Respaldo propio'],
+                'requirements' => ['activo' => 'Estudiante activo'],
+                'weights' => $case['weights'],
+                'scheme' => 'DEMO_AREAS_100',
+                'source' => 'Ejercicio técnico sin rúbrica institucional',
+            ]);
             foreach (array_keys($case['weights']) as $area) {
                 $service->assign($authority, $case['offer'], $evaluator->id, $area);
             }
@@ -52,7 +91,11 @@ final class MultipleApplicationAuditTest extends TestCase
             }
             $this->scanApplicantFixtures();
             $service->submit($student, $id);
-            $service->review($reviewer, $id, ['doc:cpd' => 'meets', 'doc:'.$case['kind'] => 'meets', 'activo' => 'meets'], 'Documento cotejado en escenario sintético');
+            $service->review($reviewer, $id, [
+                'doc:cpd' => 'meets',
+                'doc:'.$case['kind'] => 'meets',
+                'activo' => 'meets',
+            ], 'Documento cotejado en escenario sintético');
             $service->eligibility($reviewer, $id, true, 'Requisitos sintéticos comprobados');
             $service->merit($reviewer, $id, $case['merit'], 'Respaldo CPD sintético independiente');
         }
@@ -64,7 +107,12 @@ final class MultipleApplicationAuditTest extends TestCase
                 $service->grade($evaluator, $case['application'], $assignment->id, $case['notes'][$assignment->area]);
             }
             $service->calculate($authority, $case['application']);
-            $this->assertDatabaseHas('applications', ['id' => $case['application'], 'merit' => $case['merit'], 'exam' => $case['exam'], 'final' => $case['final']]);
+            $this->assertDatabaseHas('applications', [
+                'id' => $case['application'],
+                'merit' => $case['merit'],
+                'exam' => $case['exam'],
+                'final' => $case['final'],
+            ]);
             $ranking = $service->ranking($case['offer']);
             $this->assertSame([$case['application']], array_column($ranking['rank'], 'id'));
             $this->assertSame([], $ranking['tied']);
@@ -82,7 +130,12 @@ final class MultipleApplicationAuditTest extends TestCase
         $rectifications = app(Rectifications::class);
         $request = $rectifications->request($evaluator, $first['application'], $grade->id, '90', 'Corrección sintética de una única oferta', 'Acta sintética de respaldo independiente');
         $rectifications->decide($authority, $request, true, 'Aprobación por responsable distinto al solicitante');
-        $this->assertDatabaseHas('applications', ['id' => $first['application'], 'exam' => '51.60', 'final' => '86.85', 'selection' => 'under_review']);
+        $this->assertDatabaseHas('applications', [
+            'id' => $first['application'],
+            'exam' => '51.60',
+            'final' => '86.85',
+            'selection' => 'under_review',
+        ]);
         foreach (array_slice($cases, 1) as $case) {
             $this->assertEquals($beforeApps[$case['application']], DB::table('applications')->find($case['application']));
         }

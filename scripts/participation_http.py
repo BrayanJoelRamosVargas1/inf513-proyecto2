@@ -5,6 +5,7 @@ import urllib.request,urllib.parse,http.cookiejar,re,json,io
 from pypdf import PdfReader
 from openpyxl import load_workbook
 root=Path(__file__).resolve().parents[1]
+(root/'.local'/'salidas').mkdir(parents=True,exist_ok=True)
 base=os.environ.get('FICCT_BASE_URL','http://127.0.0.1:8099')  # F-09: elegir otra instancia sin editar el script
 client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 def request(path,data=None):
@@ -27,7 +28,7 @@ assert 'Versiones de calificaciones' in request('/postulaciones/2/rectificacione
 assert 'Versiones inmutables del expediente' in request('/postulaciones/2/procesos').decode('utf-8')
 assert 'Adjudicaciones y manifestaciones' in request('/adjudicaciones').decode('utf-8')
 pdf=request('/convocatorias/4/reporte/pdf');xlsx=request('/convocatorias/4/reporte/xlsx')
-(root/'evidence/reporte-demo-03.pdf').write_bytes(pdf);(root/'evidence/reporte-demo-03.xlsx').write_bytes(xlsx)
+(root/'.local/salidas/reporte-demo-03.pdf').write_bytes(pdf);(root/'.local/salidas/reporte-demo-03.xlsx').write_bytes(xlsx)
 reader=PdfReader(io.BytesIO(pdf));text=' '.join(' '.join(p.extract_text() for p in reader.pages).split())
 assert 'Revisión' in text and 'Publicación pendiente' in text and '68.10' in text
 sheet=load_workbook(io.BytesIO(xlsx)).active
@@ -35,5 +36,5 @@ assert sheet['J3'].value=='Revisión' and sheet['K3'].value=='Publicación pendi
 assert sheet['J4'].data_type=='s'
 assert sheet.max_column==13 and sheet['L3'].value=='Participación' and sheet['M3'].value=='Vacantes retenidas'
 report={'result':'PASS','csrf_session_login_logout':True,'admin_profiles_and_temporal_permissions_ui':True,'authority_scoped_queue_and_versions_ui':True,'pdf_pages':len(reader.pages),'xlsx_columns':sheet.max_column,'xlsx_string_cells':True,'synthetic_applications':sheet.max_row-3,'note':'Lecturas de la DEMO existente; ninguna decisión nueva sobre calificaciones o permisos.'}
-(root/'evidence/participation-http.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+(root/'.local/salidas/participation-http.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps(report,ensure_ascii=False,indent=2))

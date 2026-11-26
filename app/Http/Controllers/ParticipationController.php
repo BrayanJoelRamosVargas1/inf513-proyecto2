@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Access;
-use App\Domain\Participation;
-use App\Domain\Selection;
 use App\Http\Operations\ParticipationOperations;
-use App\ReadModels\ParticipationView;
 use App\ReadModels\AwardsView;
+use App\ReadModels\ParticipationView;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 final class ParticipationController extends Controller
 {

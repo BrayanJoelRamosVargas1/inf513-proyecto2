@@ -16,7 +16,12 @@ final class CallLifecycle
 
         return Access::transaction($u, function () use ($u, $d) {
             abort_unless($u->role === 'authority', 403);
-            $id = DB::table('calls')->insertGetId(array_merge($d, ['mode' => 'DEMO', 'status' => 'draft', 'created_at' => now(), 'updated_at' => now()]));
+            $id = DB::table('calls')->insertGetId(array_merge($d, [
+                'mode' => 'DEMO',
+                'status' => 'draft',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
             if ($u->role === 'authority') {
                 DB::table('memberships')->insert(['call_id' => $id, 'user_id' => $u->id, 'role' => 'authority']);
             }
@@ -45,6 +50,7 @@ final class CallLifecycle
         if (! isset($d['seats']) || filter_var($d['seats'], FILTER_VALIDATE_INT) === false || (int) $d['seats'] < 0) {
             Scores::fail('Indique una cantidad válida de plazas para una oferta operativa.');
         }
+
         return Access::transaction($u, function () use ($u, $callId, $d, $offerId) {
             $call = Selection::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
@@ -97,7 +103,13 @@ final class CallLifecycle
             $call = Selection::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
             Selection::demo($call);
-            $allowed = ['draft' => 'published', 'published' => 'closed', 'closed' => 'evaluation', 'evaluation' => 'results', 'results' => 'archived'];
+            $allowed = [
+                'draft' => 'published',
+                'published' => 'closed',
+                'closed' => 'evaluation',
+                'evaluation' => 'results',
+                'results' => 'archived',
+            ];
             if (($allowed[$call->status] ?? null) !== $next) {
                 Scores::fail('Transición de convocatoria inválida.');
             }

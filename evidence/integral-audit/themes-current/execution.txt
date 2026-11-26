@@ -1,4 +1,0 @@
-locator.waitFor: Timeout 30000ms exceeded.
-Call log:
-[2m  - waiting for locator('nav[aria-label=Principal]')[22m
-

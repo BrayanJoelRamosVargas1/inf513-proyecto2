@@ -90,7 +90,13 @@ final class ApplicantDocuments
             $bytes = $safety->bytes($doc);
             $after = $safety->status($id, 'applicant');
             abort_unless($after['download_allowed'] && $before['job_id'] === $after['job_id'], 422, 'El análisis cambió durante la revisión.');
-            $checks[] = ['document_id' => $id, 'version' => $doc->version, 'sha256' => hash('sha256', $bytes), 'scan_job_id' => $after['job_id'], 'checked_at' => now()->toIso8601String()];
+            $checks[] = [
+                'document_id' => $id,
+                'version' => $doc->version,
+                'sha256' => hash('sha256', $bytes),
+                'scan_job_id' => $after['job_id'],
+                'checked_at' => now()->toIso8601String(),
+            ];
         }
 
         return $checks;

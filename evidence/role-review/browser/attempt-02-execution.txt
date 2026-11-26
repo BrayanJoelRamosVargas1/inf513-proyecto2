@@ -1,7 +1,0 @@
-locator.click: Error: strict mode violation: getByRole('button', { name: 'Cerrar menú', exact: true }) resolved to 2 elements:
-    1) <button tabindex="-1" class="sidebar-scrim" aria-label="Cerrar menú"></button> aka getByLabel('Cerrar menú')
-    2) <button type="button" class="secondary sidebar-close">Cerrar menú</button> aka getByText('Cerrar menú')
-
-Call log:
-[2m  - waiting for getByRole('button', { name: 'Cerrar menú', exact: true })[22m
-

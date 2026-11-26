@@ -3,19 +3,26 @@
 namespace Tests\Feature;
 
 use App\Domain\Administration;
+use App\Domain\ApplicantDocuments;
+use App\Domain\DocumentProcessor;
 use App\Domain\InstitutionalRegister;
 use App\Domain\ResultRevisions;
 use App\Domain\ScanRenewal;
 use App\Domain\Scores;
 use App\Domain\Selection;
 use App\Models\User;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Cache\RateLimiting\Unlimited;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\TestCase;
 
 /**
@@ -59,14 +66,35 @@ final class AuditCorrectionsTest extends TestCase
 
     private function newCall(): int
     {
-        return $this->s->createCall($this->authority, ['title' => 'Auditoría DEMO', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'subject_limit' => 4, 'source' => 'Fixture sintético de auditoría', 'management_year' => 2026, 'call_number' => random_int(1000, 999999)]);
+        return $this->s->createCall($this->authority, [
+            'title' => 'Auditoría DEMO',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'subject_limit' => 4,
+            'source' => 'Fixture sintético de auditoría',
+            'management_year' => 2026,
+            'call_number' => random_int(1000, 999999),
+        ]);
     }
 
     private function offer(int $call, array $override = []): int
     {
-        $category = DB::table('categories')->where('name', 'Sala DEMO')->value('id') ?? DB::table('categories')->insertGetId(['name' => 'Sala DEMO', 'regime' => 'docencia', 'active' => true]);
+        $category = DB::table('categories')->where('name', 'Sala DEMO')->value('id') ?? DB::table('categories')->insertGetId([
+            'name' => 'Sala DEMO',
+            'regime' => 'docencia',
+            'active' => true,
+        ]);
 
-        return $this->s->saveOffer($this->authority, $call, $override + ['category_id' => $category, 'title' => 'Sala A '.random_int(1, 99999), 'seats' => 2, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
+        return $this->s->saveOffer($this->authority, $call, $override + ['category_id' => $category, 'title' => 'Sala A '.random_int(1, 99999), 'seats' => 2, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => [
+            'cpd' => 'Formulario CPD',
+            'ci' => 'Identidad sintética',
+        ], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => [
+            'Soporte' => '50',
+            'Redes' => '25',
+            'Software' => '25',
+        ], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
     }
 
     private function submitted(?User $u = null): int
@@ -106,7 +134,11 @@ final class AuditCorrectionsTest extends TestCase
     public function test_b02_evaluation_opens_once_every_review_is_resolved(): void
     {
         $id = $this->submitted();
-        $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Evidencia sintética cotejada en DEMO.');
+        $this->s->review($this->reviewer, $id, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Evidencia sintética cotejada en DEMO.');
         $this->s->eligibility($this->reviewer, $id, true, 'Revisión completa documentada en DEMO.');
         $this->s->transition($this->authority, $this->call, 'closed');
         $this->s->transition($this->authority, $this->call, 'evaluation');
@@ -143,7 +175,7 @@ final class AuditCorrectionsTest extends TestCase
         $id = $this->submitted();
         // Una autoridad con postulación propia no aprueba, calcula ni abre desempates.
         DB::table('memberships')->insert(['user_id' => $this->student->id, 'call_id' => $this->call, 'role' => 'authority']);
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        $this->expectException(HttpException::class);
         $this->s->calculate($this->student, $id);
     }
 
@@ -152,7 +184,19 @@ final class AuditCorrectionsTest extends TestCase
         $ids = [];
         foreach ([0, 1, 2] as $i) {
             $u = User::factory()->create();
-            $a = DB::table('applications')->insertGetId(['offer_id' => $this->offer, 'user_id' => $u->id, 'status' => 'submitted', 'participation' => 'active', 'eligibility' => 'enabled', 'merit' => '20.00', 'exam' => '30.00', 'final' => '50.00', 'snapshot' => '{}', 'created_at' => now(), 'updated_at' => now()]);
+            $a = DB::table('applications')->insertGetId([
+                'offer_id' => $this->offer,
+                'user_id' => $u->id,
+                'status' => 'submitted',
+                'participation' => 'active',
+                'eligibility' => 'enabled',
+                'merit' => '20.00',
+                'exam' => '30.00',
+                'final' => '50.00',
+                'snapshot' => '{}',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             $ids[] = $a;
         }
         $order = array_map(fn ($a) => $a->id, $this->s->ranking($this->offer)['rank']);
@@ -210,10 +254,10 @@ final class AuditCorrectionsTest extends TestCase
         $this->assertSame(2, $report['by_reason']['expired']);
         $this->useApplicantFixtureScanner();
         foreach ($report['tasks'] as $task) {
-            app(\App\Domain\DocumentProcessor::class)->runOne($task);
+            app(DocumentProcessor::class)->runOne($task);
         }
         $this->assertSame(0, app(ScanRenewal::class)->run(true, 6)['renewed']);
-        app(\App\Domain\ApplicantDocuments::class)->assertEffective($id);
+        app(ApplicantDocuments::class)->assertEffective($id);
     }
 
     public function test_b01_renew_command_rejects_invalid_margin(): void
@@ -230,7 +274,13 @@ final class AuditCorrectionsTest extends TestCase
     public function test_b10_missing_indexes_exist(): void
     {
         $names = DB::table('pg_indexes')->where('schemaname', 'public')->pluck('indexname')->all();
-        foreach (['applications_user_id_index', 'memberships_user_id_index', 'audit_events_call_id_id_index', 'institutional_scan_events_job_id_index', 'participation_requests_application_id_index'] as $index) {
+        foreach ([
+            'applications_user_id_index',
+            'memberships_user_id_index',
+            'audit_events_call_id_id_index',
+            'institutional_scan_events_job_id_index',
+            'participation_requests_application_id_index',
+        ] as $index) {
             $this->assertContains($index, $names);
         }
     }
@@ -260,8 +310,8 @@ final class AuditCorrectionsTest extends TestCase
         $this->assertContains('throttle:mutations', $post->gatherMiddleware());
         $upload = app('router')->getRoutes()->match(Request::create('/api/v1/applications/1/archivo', 'POST'));
         $this->assertContains('throttle:uploads', $upload->gatherMiddleware());
-        $this->assertInstanceOf(\Illuminate\Cache\RateLimiting\Unlimited::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'GET')));
-        $this->assertInstanceOf(\Illuminate\Cache\RateLimiting\Limit::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'POST')));
+        $this->assertInstanceOf(Unlimited::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'GET')));
+        $this->assertInstanceOf(Limit::class, RateLimiter::limiter('mutations')(Request::create('/api/v1/calls', 'POST')));
     }
 
     public function test_b12_web_call_page_uses_the_same_visibility_policy_as_the_api(): void
@@ -289,7 +339,19 @@ final class AuditCorrectionsTest extends TestCase
     {
         $u = User::factory()->create();
 
-        return DB::table('applications')->insertGetId(['offer_id' => $this->offer, 'user_id' => $u->id, 'status' => 'submitted', 'participation' => 'active', 'eligibility' => 'enabled', 'merit' => $merit, 'exam' => bcsub($final, $merit, 2), 'final' => $final, 'snapshot' => '{}', 'created_at' => now(), 'updated_at' => now()]);
+        return DB::table('applications')->insertGetId([
+            'offer_id' => $this->offer,
+            'user_id' => $u->id,
+            'status' => 'submitted',
+            'participation' => 'active',
+            'eligibility' => 'enabled',
+            'merit' => $merit,
+            'exam' => bcsub($final, $merit, 2),
+            'final' => $final,
+            'snapshot' => '{}',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     public function test_b08_result_snapshot_keeps_scores_but_no_personal_data(): void
@@ -311,7 +373,16 @@ final class AuditCorrectionsTest extends TestCase
         $b = $this->enabledApplication('50.00');
         // Una postulación enviada sin revisar hace que el ranking completo no exista todavía.
         $u = User::factory()->create();
-        $pending = DB::table('applications')->insertGetId(['offer_id' => $this->offer, 'user_id' => $u->id, 'status' => 'submitted', 'participation' => 'active', 'eligibility' => 'pending', 'snapshot' => '{}', 'created_at' => now(), 'updated_at' => now()]);
+        $pending = DB::table('applications')->insertGetId([
+            'offer_id' => $this->offer,
+            'user_id' => $u->id,
+            'status' => 'submitted',
+            'participation' => 'active',
+            'eligibility' => 'pending',
+            'snapshot' => '{}',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         $snapshot = app(ResultRevisions::class)->snapshot($this->offer);
         $this->assertTrue($snapshot['incomplete']);
         $this->assertSame([$a, $b], array_column($snapshot['rank'], 'id'));
@@ -345,7 +416,10 @@ final class AuditCorrectionsTest extends TestCase
         }
         $this->assertTrue(RateLimiter::tooManyAttempts($this->loginKey($this->student), 5));
         // Con la clave correcta también se bloquea mientras dure la ventana.
-        $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'Clave-Correcta-123'])->assertStatus(429)->assertJsonPath('errors.email.0', 'Demasiados intentos fallidos. Espere unos minutos.');
+        $this->postJson('/api/v1/login', [
+            'email' => $this->student->email,
+            'password' => 'Clave-Correcta-123',
+        ])->assertStatus(429)->assertJsonPath('errors.email.0', 'Demasiados intentos fallidos. Espere unos minutos.');
     }
 
     public function test_b25_lock_is_per_account_and_does_not_affect_other_users(): void
@@ -369,13 +443,13 @@ final class AuditCorrectionsTest extends TestCase
 
     public function test_b21_database_rejects_an_unknown_call_status(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         DB::table('calls')->where('id', $this->call)->update(['status' => 'inventado']);
     }
 
     public function test_b21_database_rejects_an_unknown_user_role(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         DB::table('users')->where('id', $this->student->id)->update(['role' => 'superusuario']);
     }
 
@@ -411,6 +485,9 @@ final class AuditCorrectionsTest extends TestCase
 
     public function test_f19_training_screen_visit_is_recorded(): void
     {
-        $this->actingAs($this->student)->postJson('/api/v1/visits', ['path' => '/entrenamiento', 'key' => (string) \Illuminate\Support\Str::uuid()])->assertSuccessful();
+        $this->actingAs($this->student)->postJson('/api/v1/visits', [
+            'path' => '/entrenamiento',
+            'key' => (string) Str::uuid(),
+        ])->assertSuccessful();
     }
 }

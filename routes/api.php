@@ -1,18 +1,24 @@
 <?php
 
-use App\Http\Controllers\Api\ProcessController;
 use App\Http\Controllers\Api\InstitutionalController;
+use App\Http\Controllers\Api\InstitutionalRegisterController;
+use App\Http\Controllers\Api\ProcessController;
+use App\Http\Controllers\Api\ReferenceController;
 use App\Http\Controllers\Api\SandboxController;
 use App\Http\Controllers\Api\SelectionController;
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Controllers\Api\WorkspaceController;
 use App\Http\Controllers\ConsolidatedResultsController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SubmissionReceiptController;
 use Illuminate\Support\Facades\Route;
 
 // First-party, same-origin JSON API: uses the web session and CSRF middleware, never bearer tokens in localStorage.
 Route::prefix('api/v1')->middleware('web')->group(function () {
-    Route::get('reference-sources/{key}', [\App\Http\Controllers\Api\ReferenceController::class, 'download'])->whereIn('key', ['resolucion', 'convocatoria-01', 'convocatoria-02']);
+    Route::get('reference-sources/{key}', [
+        ReferenceController::class,
+        'download',
+    ])->whereIn('key', ['resolucion', 'convocatoria-01', 'convocatoria-02']);
     Route::post('visits/public', [WorkspaceController::class, 'publicVisit'])->middleware('throttle:30,1,public-visits:');
     Route::get('csrf', [SessionController::class, 'csrf'])->middleware('throttle:60,1');
     Route::post('login', [SessionController::class, 'login'])->middleware('throttle:6,1');
@@ -35,15 +41,26 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
         Route::get('metrics', [WorkspaceController::class, 'metrics']);
         Route::get('calls', [SelectionController::class, 'calls']);
         Route::get('calls/{id}', [SelectionController::class, 'call']);
-        Route::get('calls/{id}/institutional-register', [\App\Http\Controllers\Api\InstitutionalRegisterController::class, 'index']);
-        Route::get('calls/{id}/institutional-register/export', [\App\Http\Controllers\Api\InstitutionalRegisterController::class, 'export']);
-        Route::post('calls/{id}/institutional-register', [\App\Http\Controllers\Api\InstitutionalRegisterController::class, 'store'])->middleware('throttle:20,1');
+        Route::get('calls/{id}/institutional-register', [InstitutionalRegisterController::class, 'index']);
+        Route::get('calls/{id}/institutional-register/export', [InstitutionalRegisterController::class, 'export']);
+        Route::post('calls/{id}/institutional-register', [
+            InstitutionalRegisterController::class,
+            'store',
+        ])->middleware('throttle:20,1');
         Route::post('calls/{id}/transition', [SelectionController::class, 'transition']);
         Route::get('applications', [SelectionController::class, 'applications']);
         Route::get('applications/{id}', [SelectionController::class, 'application']);
-        Route::get('applications/{id}/receipt', [\App\Http\Controllers\SubmissionReceiptController::class, 'download']);
+        Route::get('applications/{id}/receipt', [SubmissionReceiptController::class, 'download']);
         Route::post('offers/{id}/applications', [SelectionController::class, 'apply']);
-        Route::post('applications/{id}/{action}', [SelectionController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular'])->middleware('throttle:uploads');
+        Route::post('applications/{id}/{action}', [SelectionController::class, 'action'])->whereIn('action', [
+            'archivo',
+            'enviar',
+            'revision',
+            'habilitacion',
+            'meritos',
+            'nota',
+            'calcular',
+        ])->middleware('throttle:uploads');
         Route::get('documents/{id}', [DocumentController::class, 'preview']);
         Route::get('documents/{id}/download', [DocumentController::class, 'download']);
         Route::get('documents/{id}/metadata', [DocumentController::class, 'metadata']);

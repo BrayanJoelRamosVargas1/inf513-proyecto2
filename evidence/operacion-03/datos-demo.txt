@@ -1,7 +1,0 @@
-
-   INFO  Seeding database.  
-
-  Database\Seeders\DemoSeeder ................................................................................ RUNNING  
-DEMO creada sin datos reales. Accesos aleatorios: .local/ACCESOS_DEMO.txt (archivo privado).
-  Database\Seeders\DemoSeeder ............................................................................ 400 ms DONE  
-

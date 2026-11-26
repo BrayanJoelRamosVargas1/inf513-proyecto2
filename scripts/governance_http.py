@@ -5,6 +5,7 @@ import urllib.request,urllib.parse,http.cookiejar,re,json,io
 from pypdf import PdfReader
 from openpyxl import load_workbook
 root=Path(__file__).resolve().parents[1]
+(root/'.local'/'salidas').mkdir(parents=True,exist_ok=True)
 base=os.environ.get('FICCT_BASE_URL','http://127.0.0.1:8099')  # F-09: elegir otra instancia sin editar el script
 client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 def request(path,data=None):
@@ -25,12 +26,12 @@ login('autoridad@ficct.test')
 assert 'Solicitudes y decisiones' in request('/rectificaciones').decode('utf-8')
 assert 'Versiones de calificaciones' in request('/postulaciones/2/rectificaciones').decode('utf-8')
 pdf=request('/convocatorias/4/reporte/pdf');xlsx=request('/convocatorias/4/reporte/xlsx')
-(root/'evidence/reporte-demo-02.pdf').write_bytes(pdf);(root/'evidence/reporte-demo-02.xlsx').write_bytes(xlsx)
+(root/'.local/salidas/reporte-demo-02.pdf').write_bytes(pdf);(root/'.local/salidas/reporte-demo-02.xlsx').write_bytes(xlsx)
 reader=PdfReader(io.BytesIO(pdf));text='\n'.join(p.extract_text() for p in reader.pages)
 assert 'Revisión' in text and 'Publicación pendiente' in text and '68.10' in text
 sheet=load_workbook(io.BytesIO(xlsx)).active
 assert sheet['J3'].value=='Revisión' and sheet['K3'].value=='Publicación pendiente' and sheet['K4'].value=='No'
 assert sheet['J4'].data_type=='s'
 report={'result':'PASS','csrf_session_login_logout':True,'admin_profiles_and_temporal_permissions_ui':True,'authority_scoped_queue_and_versions_ui':True,'pdf_pages':len(reader.pages),'xlsx_columns':sheet.max_column,'xlsx_string_cells':True,'synthetic_applications':sheet.max_row-3,'note':'Lecturas de la DEMO existente; ninguna decisión nueva sobre calificaciones o permisos.'}
-(root/'evidence/governance-http.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+(root/'.local/salidas/governance-http.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(json.dumps(report,ensure_ascii=False,indent=2))

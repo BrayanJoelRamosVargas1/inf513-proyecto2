@@ -16,7 +16,13 @@ final class ParticipationOperations
     public function open(Request $r, int $id): void
     {
         $s = app(Participation::class);
-        $d = $r->validate(['kinds' => 'required|array|min:1', 'kinds.*' => 'required|string', 'deadline' => 'required|date', 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
+        $d = $r->validate([
+            'kinds' => 'required|array|min:1',
+            'kinds.*' => 'required|string',
+            'deadline' => 'required|date',
+            'reason' => 'required|string|min:10|max:3000',
+            'evidence' => 'required|string|min:10|max:3000',
+        ]);
         $s->open($r->user(), $id, $d['kinds'], $d['deadline'], $d['reason'], $d['evidence']);
     }
 
@@ -40,7 +46,11 @@ final class ParticipationOperations
     public function request(Request $r, int $id): void
     {
         $s = app(Participation::class);
-        $d = $r->validate(['kind' => ['required', Rule::in(['withdrawal', 'renunciation'])], 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
+        $d = $r->validate([
+            'kind' => ['required', Rule::in(['withdrawal', 'renunciation'])],
+            'reason' => 'required|string|min:10|max:3000',
+            'evidence' => 'required|string|min:10|max:3000',
+        ]);
         $s->request($r->user(), $id, $d['kind'], $d['reason'], $d['evidence']);
     }
 
@@ -54,7 +64,13 @@ final class ParticipationOperations
     public function choose(Request $r, int $id): void
     {
         $s = app(Participation::class);
-        $d = $r->validate(['publication_id' => 'required|integer', 'version' => 'required|integer|min:0', 'choice' => ['required', Rule::in(['accept', 'defer'])], 'reason' => 'required|string|min:10|max:3000', 'evidence' => 'required|string|min:10|max:3000']);
+        $d = $r->validate([
+            'publication_id' => 'required|integer',
+            'version' => 'required|integer|min:0',
+            'choice' => ['required', Rule::in(['accept', 'defer'])],
+            'reason' => 'required|string|min:10|max:3000',
+            'evidence' => 'required|string|min:10|max:3000',
+        ]);
         $s->choose($r->user(), $id, (int) $d['publication_id'], $d['choice'], (int) $d['version'], $d['reason'], $d['evidence']);
     }
 }

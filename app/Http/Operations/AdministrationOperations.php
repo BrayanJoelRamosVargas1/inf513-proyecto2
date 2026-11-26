@@ -21,7 +21,14 @@ final class AdministrationOperations
     public function saveUser(Request $r): void
     {
         abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|unique:users|max:150', 'password' => 'required|string|min:12', 'role' => ['required', Rule::in(['student', 'staff', 'authority'])], 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80']);
+        $d = $r->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users|max:150',
+            'password' => 'required|string|min:12',
+            'role' => ['required', Rule::in(['student', 'staff', 'authority'])],
+            'faculty' => 'required|string|max:80',
+            'career' => 'required|string|max:80',
+        ]);
         Access::transaction($r->user(), function () use ($r, $d) {
             abort_unless($r->user()->role === 'admin', 403);
             $u = new User;
@@ -35,18 +42,31 @@ final class AdministrationOperations
     public function membership(Request $r): void
     {
         abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['call_id' => 'required|integer|exists:calls,id', 'user_id' => 'required|integer|exists:users,id', 'role' => ['required', Rule::in(['reviewer', 'evaluator', 'authority'])]]);
+        $d = $r->validate([
+            'call_id' => 'required|integer|exists:calls,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'role' => ['required', Rule::in(['reviewer', 'evaluator', 'authority'])],
+        ]);
         if ((int) $d['user_id'] === $r->user()->id) {
             Scores::fail('No puede elevar sus propios permisos. Otro administrador debe asignar el ámbito.');
         }
-        $extra = $r->validate(['starts_at' => 'nullable|date', 'expires_at' => 'nullable|date', 'reason' => 'required|string|min:10|max:3000', 'version' => 'nullable|integer']);
+        $extra = $r->validate([
+            'starts_at' => 'nullable|date',
+            'expires_at' => 'nullable|date',
+            'reason' => 'required|string|min:10|max:3000',
+            'version' => 'nullable|integer',
+        ]);
         app(Administration::class)->grant($r->user(), (int) $d['call_id'], (int) $d['user_id'], $d['role'], $extra['starts_at'] ?? null, $extra['expires_at'] ?? null, $extra['reason'], isset($extra['version']) ? (int) $extra['version'] : null);
     }
 
     public function category(Request $r): void
     {
         abort_unless($r->user()->role === 'admin', 403);
-        $d = $r->validate(['name' => 'required|string|max:100|unique:categories', 'regime' => ['required', Rule::in(['docencia', 'laboratorio'])], 'active' => 'nullable|boolean']);
+        $d = $r->validate([
+            'name' => 'required|string|max:100|unique:categories',
+            'regime' => ['required', Rule::in(['docencia', 'laboratorio'])],
+            'active' => 'nullable|boolean',
+        ]);
         Access::transaction($r->user(), function () use ($r, $d) {
             abort_unless($r->user()->role === 'admin', 403);
             $id = DB::table('categories')->insertGetId($d + ['created_at' => now(), 'updated_at' => now()]);
@@ -68,7 +88,16 @@ final class AdministrationOperations
     public function profile(Request $r, int $id): void
     {
         $service = app(Administration::class);
-        $d = $r->validate(['name' => 'required|string|max:100', 'email' => ['required', 'email', 'max:150', Rule::unique('users')->ignore($id)], 'role' => ['required', Rule::in(['admin', 'authority', 'staff', 'student'])], 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80', 'active' => 'required|boolean', 'version' => 'required|integer', 'reason' => 'required|string|min:10|max:3000']);
+        $d = $r->validate([
+            'name' => 'required|string|max:100',
+            'email' => ['required', 'email', 'max:150', Rule::unique('users')->ignore($id)],
+            'role' => ['required', Rule::in(['admin', 'authority', 'staff', 'student'])],
+            'faculty' => 'required|string|max:80',
+            'career' => 'required|string|max:80',
+            'active' => 'required|boolean',
+            'version' => 'required|integer',
+            'reason' => 'required|string|min:10|max:3000',
+        ]);
         $service->profile($r->user(), $id, $d, (int) $d['version'], $d['reason']);
     }
 
@@ -82,7 +111,11 @@ final class AdministrationOperations
     public function reassign(Request $r, int $id): void
     {
         $service = app(Administration::class);
-        $d = $r->validate(['user_id' => 'required|integer|exists:users,id', 'version' => 'required|integer', 'reason' => 'required|string|min:10|max:3000']);
+        $d = $r->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'version' => 'required|integer',
+            'reason' => 'required|string|min:10|max:3000',
+        ]);
         $service->reassign($r->user(), $id, (int) $d['user_id'], (int) $d['version'], $d['reason']);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\ReadModels;
 
 use App\Domain\Access;
+use App\Domain\ApplicantDocuments;
 use App\Domain\Selection;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,7 +36,7 @@ final class ApplicationView
         $currentSnapshot = DB::table('dossier_snapshots')->where('application_id', $id)->orderByDesc('id')->first();
         $effectiveDocuments = $currentSnapshot ? $documents->whereIn('id', array_column(Selection::json($currentSnapshot->snapshot)['documents'], 'id')) : $documents->whereNull('amendment_id');
 
-        $documentValidation = app(\App\Domain\ApplicantDocuments::class)->readiness($id);
+        $documentValidation = app(ApplicantDocuments::class)->readiness($id);
 
         return compact('documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority');
     }

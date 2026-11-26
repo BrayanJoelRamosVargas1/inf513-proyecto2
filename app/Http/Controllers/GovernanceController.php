@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Access;
-use App\Domain\Administration;
-use App\Domain\Rectifications;
-use App\Domain\Selection;
 use App\Http\Operations\AdministrationOperations;
 use App\Http\Operations\ResultsOperations;
 use App\ReadModels\CorrectionsView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 final class GovernanceController extends Controller
 {

@@ -1,4 +1,0 @@
-locator.setInputFiles: Timeout 20000ms exceeded.
-Call log:
-[2m  - waiting for locator('section').filter({ has: getByRole('heading', { name: 'Subsanación #4 · Ventana abierta', exact: true }) }).last().locator('input[type=file]')[22m
-

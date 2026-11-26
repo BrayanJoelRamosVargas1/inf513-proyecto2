@@ -6,18 +6,15 @@ use App\Domain\Access;
 use App\Domain\ApplicantDocuments;
 use App\Domain\Selection;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\GovernanceController;
-use App\Http\Controllers\ParticipationController;
-use App\Http\Controllers\PortalController;
-use App\Models\User;
 use App\Http\Operations\AdministrationOperations;
 use App\Http\Operations\CallOperations;
 use App\Http\Operations\ParticipationOperations;
 use App\Http\Operations\ResultsOperations;
-use App\ReadModels\ResultsView;
+use App\Models\User;
+use App\ReadModels\AwardsView;
 use App\ReadModels\CorrectionsView;
 use App\ReadModels\ParticipationView;
-use App\ReadModels\AwardsView;
+use App\ReadModels\ResultsView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,21 +25,48 @@ final class ProcessController extends Controller
     {
         abort_unless($r->user()->role === 'admin', 403);
 
-        return response()->json(['users' => User::orderBy('id')->get()->map(fn ($u) => $u->only(['id', 'name', 'email', 'role', 'faculty', 'career', 'active', 'profile_version'])), 'calls' => DB::table('calls')->orderByDesc('id')->get(['id', 'title']), 'memberships' => DB::table('memberships')->orderBy('id')->get(), 'categories' => DB::table('categories')->get()]);
+        return response()->json([
+            'users' => User::orderBy('id')->get()->map(fn ($u) => $u->only([
+                'id',
+                'name',
+                'email',
+                'role',
+                'faculty',
+                'career',
+                'active',
+                'profile_version',
+            ])),
+            'calls' => DB::table('calls')->orderByDesc('id')->get(['id', 'title']),
+            'memberships' => DB::table('memberships')->orderBy('id')->get(),
+            'categories' => DB::table('categories')->get(),
+        ]);
     }
 
     public function configuration(Request $r, int $id)
     {
         Access::require($r->user(), $id, ['authority']);
 
-        return response()->json(['call' => Selection::row('calls', $id), 'categories' => DB::table('categories')->where('active', true)->get(), 'teachers' => User::whereIn('id', Access::effective(DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator'))->select('user_id'))->where('active', true)->get()->map(fn ($u) => $u->only(['id', 'name'])), 'offers' => DB::table('offers')->where('call_id', $id)->get(), 'assignments' => DB::table('assignments')->whereIn('offer_id', DB::table('offers')->where('call_id', $id)->select('id'))->get()]);
+        return response()->json([
+            'call' => Selection::row('calls', $id),
+            'categories' => DB::table('categories')->where('active', true)->get(),
+            'teachers' => User::whereIn('id', Access::effective(DB::table('memberships')->where('call_id', $id)->where('role', 'evaluator'))->select('user_id'))->where('active', true)->get()->map(fn ($u) => $u->only(['id', 'name'])),
+            'offers' => DB::table('offers')->where('call_id', $id)->get(),
+            'assignments' => DB::table('assignments')->whereIn('offer_id', DB::table('offers')->where('call_id', $id)->select('id'))->get(),
+        ]);
     }
 
     public function ranking(Request $r, int $id)
     {
         $v = app(ResultsView::class)->data($r, $id);
         if ($v['ranking']) {
-            $v['ranking']['rank'] = collect($v['ranking']['rank'])->map(fn ($a) => collect((array) $a)->only(['id', 'name', 'merit', 'exam', 'final', 'selection']))->values();
+            $v['ranking']['rank'] = collect($v['ranking']['rank'])->map(fn ($a) => collect((array) $a)->only([
+                'id',
+                'name',
+                'merit',
+                'exam',
+                'final',
+                'selection',
+            ]))->values();
         }
 
         return response()->json($v);
@@ -68,9 +92,18 @@ final class ProcessController extends Controller
         $v['app'] = collect((array) $v['app'])->only(['id', 'user_id', 'status', 'participation', 'dossier_version', 'eligibility']);
         // A participant needs their award reference, never the full ranking snapshot.
         $v['award'] = $v['award'] ? collect((array) $v['award'])->only(['id', 'version', 'created_at']) : null;
-        $v['documents'] = ($v['owner'] || $v['reviewer']) ? $v['documents']->map(fn ($d) => collect((array) $d)->only(['id', 'name', 'kind', 'version', 'amendment_id', 'created_at'])->put('security', app(ApplicantDocuments::class)->status($d->id))) : [];
+        $v['documents'] = ($v['owner'] || $v['reviewer']) ? $v['documents']->map(fn ($d) => collect((array) $d)->only([
+            'id',
+            'name',
+            'kind',
+            'version',
+            'amendment_id',
+            'created_at',
+        ])->put('security', app(ApplicantDocuments::class)->status($d->id))) : [];
         $v['snapshots'] = $v['snapshots']->map(function ($snapshot) {
-            $snapshot->snapshot = ['documents' => collect(Selection::json($snapshot->snapshot)['documents'])->map(fn ($d) => collect((array) $d)->only(['id', 'kind', 'version']))->values()];
+            $snapshot->snapshot = [
+                'documents' => collect(Selection::json($snapshot->snapshot)['documents'])->map(fn ($d) => collect((array) $d)->only(['id', 'kind', 'version']))->values(),
+            ];
 
             return $snapshot;
         });
@@ -86,7 +119,18 @@ final class ProcessController extends Controller
             $call = $calls[$a->call_id] ??= Selection::row('calls', $a->call_id);
             $a->publication = collect((array) $a->publication)->only(['id', 'version', 'created_at']);
 
-            return collect((array) $a)->only(['id', 'user_id', 'name', 'title', 'call_id', 'participation', 'selection', 'publication', 'choice', 'choices'])->put('can_choose', $call->mode === 'DEMO' && in_array($call->status, ['results', 'evaluation']));
+            return collect((array) $a)->only([
+                'id',
+                'user_id',
+                'name',
+                'title',
+                'call_id',
+                'participation',
+                'selection',
+                'publication',
+                'choice',
+                'choices',
+            ])->put('can_choose', $call->mode === 'DEMO' && in_array($call->status, ['results', 'evaluation']));
         })->values();
         unset($v['groups']);
 

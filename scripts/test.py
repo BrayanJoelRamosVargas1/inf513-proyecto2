@@ -3,8 +3,8 @@ import os,shutil,subprocess,sys
 from test_environment import isolated_test_environment
 
 root=Path(__file__).resolve().parents[1]
-# Por defecto conserva el comportamiento histórico (evidence/); FICCT_TEST_OUTPUT_DIR evita reescribir evidencia versionada.
-out=Path(os.environ.get('FICCT_TEST_OUTPUT_DIR',root/'evidence'));out.mkdir(parents=True,exist_ok=True)
+# Por defecto conserva el comportamiento histórico (.local/salidas/); FICCT_TEST_OUTPUT_DIR evita reescribir salidas locales.
+out=Path(os.environ.get('FICCT_TEST_OUTPUT_DIR',root/'.local'/'salidas'));out.mkdir(parents=True,exist_ok=True)
 env=isolated_test_environment(root)
 args=['php','vendor/phpunit/phpunit/phpunit','--colors=never','--log-junit',str(out/'phpunit.xml')]+sys.argv[1:]
 try:

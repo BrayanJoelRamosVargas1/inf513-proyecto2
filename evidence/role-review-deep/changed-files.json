@@ -1,9 +1,0 @@
-[
-  "app/Http/Controllers/PortalController.php",
-  "app/Http/Controllers/Api/ProcessController.php",
-  "app/Http/Controllers/Api/SelectionController.php",
-  "resources/js/portal/deep-roles.test.jsx",
-  "resources/js/portal/main.jsx",
-  "resources/js/portal/processes.jsx",
-  "tests/Feature/DeepRoleTest.php"
-]

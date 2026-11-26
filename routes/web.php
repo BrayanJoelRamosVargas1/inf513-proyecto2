@@ -30,7 +30,15 @@ Route::middleware(['auth', 'throttle:mutations'])->group(function () {
     Route::post('/convocatorias/{id}/ofertas', [PortalController::class, 'saveOffer']);
     Route::post('/ofertas/{id}/postular', [PortalController::class, 'apply']);
     Route::get('/postulaciones/{id}', [PortalController::class, 'application']);
-    Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
+    Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', [
+        'archivo',
+        'enviar',
+        'revision',
+        'habilitacion',
+        'meritos',
+        'nota',
+        'calcular',
+    ]);
     Route::get('/documentos/{id}/detalle', [DocumentController::class, 'show']);
     Route::get('/documentos/{id}/ver', [DocumentController::class, 'preview']);
     Route::get('/documentos/{id}', [DocumentController::class, 'download']);

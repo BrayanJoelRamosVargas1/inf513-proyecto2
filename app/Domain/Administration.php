@@ -63,7 +63,14 @@ final class Administration
             if ($old && $old->version !== $version) {
                 Scores::fail('Permiso modificado: recargue antes de renovar.');
             }
-            $d = ['starts_at' => $start, 'expires_at' => $end, 'revoked_at' => null, 'revoked_by' => null, 'reason' => $reason, 'version' => ($old->version ?? 0) + 1];
+            $d = [
+                'starts_at' => $start,
+                'expires_at' => $end,
+                'revoked_at' => null,
+                'revoked_by' => null,
+                'reason' => $reason,
+                'version' => ($old->version ?? 0) + 1,
+            ];
             if ($old) {
                 $id = $old->id;
                 DB::table('memberships')->where('id', $id)->update($d);
@@ -86,7 +93,12 @@ final class Administration
             if ($m->version !== $version || $m->revoked_at) {
                 Scores::fail('El permiso cambió o ya está revocado.');
             }
-            DB::table('memberships')->where('id', $id)->update(['revoked_at' => now(), 'revoked_by' => $actor->id, 'reason' => $reason, 'version' => $version + 1]);
+            DB::table('memberships')->where('id', $id)->update([
+                'revoked_at' => now(),
+                'revoked_by' => $actor->id,
+                'reason' => $reason,
+                'version' => $version + 1,
+            ]);
             DB::table('users')->where('id', $m->user_id)->increment('security_version');
             Selection::audit($actor, $m->call_id, 'permission.revoked', 'membership:'.$id, $m, ['version' => $version + 1, 'revoked' => true], $reason);
         });

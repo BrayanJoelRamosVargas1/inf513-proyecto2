@@ -37,12 +37,30 @@ final class RoleWorkflowTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->evaluator = User::factory()->create(['role' => 'staff']);
         $this->student = User::factory()->create(['role' => 'student']);
-        $this->call = $this->s->createCall($this->authority, ['title' => 'Convocatoria de recorrido', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintético']);
+        $this->call = $this->s->createCall($this->authority, [
+            'title' => 'Convocatoria de recorrido',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->evaluator, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Tipo de recorrido', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $this->s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Oferta de recorrido', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'Formulario CPD'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintético']);
+        $this->offer = $this->s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Oferta de recorrido',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'Formulario CPD'],
+            'requirements' => ['activo' => 'Estudiante activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintético',
+        ]);
         $this->s->transition($this->authority, $this->call, 'published');
     }
 
@@ -65,7 +83,10 @@ final class RoleWorkflowTest extends TestCase
         $this->get('/convocatorias/'.$this->call)->assertSee('Continuar mi postulación')->assertDontSee('Iniciar postulación');
         $this->get('/postulaciones/'.$id)->assertSee('Faltan 1 documentos obligatorios')->assertSee('disabled', false);
         $this->post('/postulaciones/'.$id.'/enviar')->assertSessionHasErrors('proceso');
-        $this->post('/postulaciones/'.$id.'/archivo', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('cpd.png')])->assertSessionHasNoErrors();
+        $this->post('/postulaciones/'.$id.'/archivo', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image('cpd.png'),
+        ])->assertSessionHasNoErrors();
         $this->post('/postulaciones/'.$id.'/enviar')->assertSessionHasNoErrors();
         $this->assertDatabaseHas('applications', ['id' => $id, 'status' => 'submitted']);
         $this->get('/convocatorias/'.$this->call)->assertSee('Consultar mi postulación')->assertDontSee('Iniciar postulación');
@@ -122,7 +143,10 @@ final class RoleWorkflowTest extends TestCase
         $id = $this->submitted();
         DB::table('memberships')->insert(['user_id' => $this->student->id, 'call_id' => $this->call, 'role' => 'reviewer']);
         $before = DB::table('applications')->find($id);
-        $this->actingAs($this->student)->post('/postulaciones/'.$id.'/revision', ['decisions' => ['doc:cpd' => 'meets'], 'reason' => 'Intento de revisar expediente propio'])->assertForbidden();
+        $this->actingAs($this->student)->post('/postulaciones/'.$id.'/revision', [
+            'decisions' => ['doc:cpd' => 'meets'],
+            'reason' => 'Intento de revisar expediente propio',
+        ])->assertForbidden();
         $this->post('/postulaciones/'.$id.'/habilitacion', ['enabled' => '0', 'reason' => 'Intento de decidir expediente propio'])->assertForbidden();
         $this->post('/postulaciones/'.$id.'/meritos', ['score' => '40', 'reference' => 'CPD-PROPIO'])->assertForbidden();
         $this->assertEquals($before, DB::table('applications')->find($id));
@@ -191,7 +215,14 @@ final class RoleWorkflowTest extends TestCase
     public function test_r12_new_registration_keeps_session_after_redirect_and_can_start_application(): void
     {
         $password = 'Clave-Sintetica-2026!';
-        $this->post('/registro', ['name' => 'Postulante nuevo', 'email' => 'nuevo@example.test', 'password' => $password, 'password_confirmation' => $password, 'faculty' => 'FICCT', 'career' => 'Informatica'])->assertRedirect('/');
+        $this->post('/registro', [
+            'name' => 'Postulante nuevo',
+            'email' => 'nuevo@example.test',
+            'password' => $password,
+            'password_confirmation' => $password,
+            'faculty' => 'FICCT',
+            'career' => 'Informatica',
+        ])->assertRedirect('/');
         $user = User::where('email', 'nuevo@example.test')->firstOrFail();
         $this->get('/')->assertOk()->assertSee('Mi postulación')->assertDontSee('Los permisos cambiaron');
         $this->assertAuthenticatedAs($user);

@@ -24,7 +24,11 @@ final class ApplicationOperations
                 break;
             case 'enviar':$this->service->submit($u, $id);
                 break;
-            case 'revision':$d = $r->validate(['decisions' => 'required|array|min:1', 'decisions.*' => 'required|string', 'reason' => 'required|string|min:10|max:3000']);
+            case 'revision':$d = $r->validate([
+                'decisions' => 'required|array|min:1',
+                'decisions.*' => 'required|string',
+                'reason' => 'required|string|min:10|max:3000',
+            ]);
                 $this->service->review($u, $id, $d['decisions'], $d['reason']);
                 break;
             case 'habilitacion':$d = $r->validate(['enabled' => 'required|boolean', 'reason' => 'required|string|min:10|max:3000']);
@@ -33,7 +37,11 @@ final class ApplicationOperations
             case 'meritos':$d = $r->validate(['score' => 'required|string', 'reference' => 'required|string|max:150']);
                 $this->service->merit($u, $id, $d['score'], $d['reference']);
                 break;
-            case 'nota':$d = $r->validate(['assignment_id' => 'required|integer', 'score' => 'required|string', 'intent' => ['nullable', Rule::in(['draft', 'confirm'])]]);
+            case 'nota':$d = $r->validate([
+                'assignment_id' => 'required|integer',
+                'score' => 'required|string',
+                'intent' => ['nullable', Rule::in(['draft', 'confirm'])],
+            ]);
                 $this->service->grade($u, $id, (int) $d['assignment_id'], $d['score'], ($d['intent'] ?? 'confirm') === 'confirm');
                 break;
             case 'calcular':$this->service->calculate($u, $id);

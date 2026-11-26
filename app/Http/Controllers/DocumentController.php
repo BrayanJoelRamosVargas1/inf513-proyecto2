@@ -37,13 +37,27 @@ final class DocumentController extends Controller
         Access::privateFile($request->user(), Selection::row('applications', $document->application_id));
         $security = app(ApplicantDocuments::class)->status($id);
         if (! $security['download_allowed']) {
-            return view('document', ['document' => $document, 'security' => $security, 'mime' => $document->mime, 'bytes' => 0, 'dimensions' => false, 'smallImage' => false]);
+            return view('document', [
+                'document' => $document,
+                'security' => $security,
+                'mime' => $document->mime,
+                'bytes' => 0,
+                'dimensions' => false,
+                'smallImage' => false,
+            ]);
         }
         [$document, $bytes, $mime] = $this->document($request, $id);
         $dimensions = str_starts_with($mime, 'image/') ? @getimagesizefromstring($bytes) : false;
         $smallImage = $dimensions && ($dimensions[0] < 100 || $dimensions[1] < 100);
 
-        return view('document', ['document' => $document, 'mime' => $mime, 'bytes' => strlen($bytes), 'dimensions' => $dimensions, 'smallImage' => $smallImage, 'security' => $security]);
+        return view('document', [
+            'document' => $document,
+            'mime' => $mime,
+            'bytes' => strlen($bytes),
+            'dimensions' => $dimensions,
+            'smallImage' => $smallImage,
+            'security' => $security,
+        ]);
     }
 
     public function metadata(Request $request, int $id)

@@ -116,9 +116,21 @@ final class DocumentProcessor
                 'state' => $state, 'available_at' => $available, 'lease_token' => null, 'lease_until' => null, 'updated_at' => now(),
             ]);
             $this->event($task, $task->source_id, $task->job_id, $retry ? 'retry_scheduled' : 'finished',
-                ['result' => $result['state'], 'reason' => $result['reason'], 'task_state' => $state, 'available_at' => $available->toIso8601String()]);
+                [
+                    'result' => $result['state'],
+                    'reason' => $result['reason'],
+                    'task_state' => $state,
+                    'available_at' => $available->toIso8601String(),
+                ]);
 
-            return ['task_id' => $task->id, ...DocumentTarget::fromRow($task)->fields(), 'job_id' => $task->job_id, 'state' => $result['state'], 'task_state' => $state, 'reason' => $result['reason']];
+            return [
+                'task_id' => $task->id,
+                ...DocumentTarget::fromRow($task)->fields(),
+                'job_id' => $task->job_id,
+                'state' => $result['state'],
+                'task_state' => $state,
+                'reason' => $result['reason'],
+            ];
         });
     }
 

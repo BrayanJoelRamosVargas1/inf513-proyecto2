@@ -14,7 +14,7 @@ Aplicación web para gestionar convocatorias de auxiliares de docencia y de labo
 | Vitest (React) | 100 pruebas en 20 archivos, sin fallos |
 | Compilación del frontend | `npm run build` correcta |
 
-Estas cifras corresponden a la rama `correcciones-auditoria`. Los recuentos de antecedentes que aparecen en otros documentos están fechados; el historial anterior de este README está en [`docs/HISTORICO_README.md`](docs/HISTORICO_README.md).
+Estas cifras corresponden a la rama `correcciones-auditoria`. La documentación histórica, la evidencia de cierres anteriores y los guiones de entrega se movieron el 26/11/2026 a `ARCHIVO_SISTEMA_FICCT/` (carpeta hermana de `sistema`, fuera del repositorio); sigue disponible en el historial de Git.
 
 ## Requisitos
 
@@ -79,7 +79,7 @@ composer audit
 | `resources/js/portal` | SPA React (pruebas `*.test.jsx` junto al código) |
 | `resources/institutional` | Fuentes institucionales (catálogo, asignaturas, tres PDF) con hash verificado |
 | `database/migrations` | Esquema, restricciones, disparadores de inmutabilidad e índices |
-| `docs` | Documentación; empezar por `docs/ARQUITECTURA.md` y `docs/ESTADO_PROYECTO.md` |
+| `docs` | Documentación vigente; empezar por `docs/ARQUITECTURA.md` |
 
 ## Qué cubre
 
@@ -95,4 +95,4 @@ Registro y sesión; permisos por convocatoria; tipos de auxiliatura configurable
 
 ## Documentación
 
-[`ARQUITECTURA.md`](docs/ARQUITECTURA.md) · [`ESTADO_PROYECTO.md`](docs/ESTADO_PROYECTO.md) · [`MANUAL_Y_DEMO.md`](docs/MANUAL_Y_DEMO.md) · [`CU_Y_RF_CANONICOS.md`](docs/CU_Y_RF_CANONICOS.md) · [`02-TRAZABILIDAD.md`](docs/02-TRAZABILIDAD.md) · [`MATRIZ_NORMATIVA_ACTUAL.md`](docs/MATRIZ_NORMATIVA_ACTUAL.md) · [`INSTALACION_DESDE_ENTREGA.md`](docs/INSTALACION_DESDE_ENTREGA.md) · [`CIERRE_INF513_ACTUAL.md`](docs/CIERRE_INF513_ACTUAL.md)
+[`ARQUITECTURA.md`](docs/ARQUITECTURA.md) · [`MANUAL_Y_DEMO.md`](docs/MANUAL_Y_DEMO.md) · [`CU_Y_RF_CANONICOS.md`](docs/CU_Y_RF_CANONICOS.md) · [`02-TRAZABILIDAD.md`](docs/02-TRAZABILIDAD.md) · [`MATRIZ_NORMATIVA_ACTUAL.md`](docs/MATRIZ_NORMATIVA_ACTUAL.md) · [`SOLICITUDES_INSTITUCIONALES.md`](docs/SOLICITUDES_INSTITUCIONALES.md) · [`RUNBOOK_BD_INCIDENTES.md`](docs/RUNBOOK_BD_INCIDENTES.md) · [`INF513_P2_OPENAPI.json`](docs/INF513_P2_OPENAPI.json)

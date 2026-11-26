@@ -1,2 +1,0 @@
-
-Fatal error: Cannot override final method PHPUnit\Framework\TestCase::result() in C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\operacion-03\runtime\sistema\tests\Feature\ConsolidatedResultsTest.php on line 73

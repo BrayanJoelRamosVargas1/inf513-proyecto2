@@ -3,27 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Access;
-use App\Domain\Administration;
-use App\Domain\Scores;
 use App\Domain\Selection;
 use App\Domain\Workspace;
 use App\Http\Controllers\Api\SessionController;
-use App\Models\User;
-use App\ReadModels\PortalScope;
 use App\Http\Operations\AdministrationOperations;
 use App\Http\Operations\ApplicationOperations;
 use App\Http\Operations\CallOperations;
 use App\Http\Operations\ResultsOperations;
-use App\ReadModels\HomeView;
-use App\ReadModels\CallView;
+use App\Models\User;
 use App\ReadModels\ApplicationView;
+use App\ReadModels\CallView;
+use App\ReadModels\HomeView;
 use App\ReadModels\ResultsView;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -61,7 +56,15 @@ final class PortalController extends Controller
 
     public function register(Request $r)
     {
-        $d = $r->validate(['name' => 'required|string|max:100', 'email' => 'required|email|max:150|unique:users', 'password' => 'required|string|min:12|confirmed', 'faculty' => 'required|string|max:80', 'career' => 'required|string|max:80', 'role' => 'prohibited', 'active' => 'prohibited']);
+        $d = $r->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150|unique:users',
+            'password' => 'required|string|min:12|confirmed',
+            'faculty' => 'required|string|max:80',
+            'career' => 'required|string|max:80',
+            'role' => 'prohibited',
+            'active' => 'prohibited',
+        ]);
         $user = DB::transaction(function () use ($d) {
             $u = new User;
             foreach (['name', 'email', 'password', 'faculty', 'career'] as $key) {
@@ -114,7 +117,6 @@ final class PortalController extends Controller
 
         return back()->with('success', 'Borrador actualizado con nueva versión y auditoría.');
     }
-
 
     public function saveOffer(Request $r, int $id, CallOperations $ops)
     {
@@ -191,9 +193,49 @@ final class PortalController extends Controller
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
         $filePrefix = $call->mode === 'HISTORICAL' ? 'reporte-referencia-'.$id : 'reporte-demo';
-        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get(['applications.id', 'users.name', 'offers.title', 'applications.status', 'applications.eligibility', 'applications.merit', 'applications.exam', 'applications.final', 'applications.selection', 'offers.result_revision', 'offers.needs_publication_review', 'applications.participation', 'offers.held_vacancies']);
-        $headers = ['Postulación', 'Postulante', 'Oferta', 'Expediente', 'Habilitación', 'Mérito /40', 'Examen /60', 'Final /100', 'Selección', 'Revisión', 'Publicación pendiente', 'Participación', 'Vacantes retenidas'];
-        $labels = ['active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'under_review' => 'En revisión: requiere nueva publicación', 'draft' => 'Borrador', 'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo'];
+        $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get([
+            'applications.id',
+            'users.name',
+            'offers.title',
+            'applications.status',
+            'applications.eligibility',
+            'applications.merit',
+            'applications.exam',
+            'applications.final',
+            'applications.selection',
+            'offers.result_revision',
+            'offers.needs_publication_review',
+            'applications.participation',
+            'offers.held_vacancies',
+        ]);
+        $headers = [
+            'Postulación',
+            'Postulante',
+            'Oferta',
+            'Expediente',
+            'Habilitación',
+            'Mérito /40',
+            'Examen /60',
+            'Final /100',
+            'Selección',
+            'Revisión',
+            'Publicación pendiente',
+            'Participación',
+            'Vacantes retenidas',
+        ];
+        $labels = [
+            'active' => 'Activa',
+            'withdrawn' => 'Retirada',
+            'resigned' => 'Renunciada',
+            'under_review' => 'En revisión: requiere nueva publicación',
+            'draft' => 'Borrador',
+            'submitted' => 'Enviada',
+            'pending' => 'Pendiente',
+            'enabled' => 'Habilitado',
+            'disabled' => 'Inhabilitado',
+            'selected' => 'Seleccionado DEMO',
+            'not_selected' => 'Fuera de cupo',
+        ];
         foreach ($rows as $row) {
             $row->needs_publication_review = $row->needs_publication_review ? 'Sí: sin reasignación automática' : 'No';
             foreach (['status', 'eligibility', 'selection', 'participation'] as $field) {
@@ -207,7 +249,10 @@ final class PortalController extends Controller
             $pdf->setPaper('A4', 'landscape');
             $pdf->render();
 
-            return response($pdf->output(), 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'attachment; filename="'.$filePrefix.'.pdf"']);
+            return response($pdf->output(), 200, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="'.$filePrefix.'.pdf"',
+            ]);
         }
         $sheet = new Spreadsheet;
         $page = $sheet->getActiveSheet();
@@ -225,14 +270,27 @@ final class PortalController extends Controller
         }$page->getStyle('A3:M3')->getFont()->setBold(true);
         $page->setAutoFilter('A3:M'.max(3, $rows->count() + 3));
 
-        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), $filePrefix.'.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']);
+        return response()->streamDownload(fn () => (new Xlsx($sheet))->save('php://output'), $filePrefix.'.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 
     public function users(Request $r)
     {
         abort_unless($r->user()->role === 'admin', 403);
 
-        return view('users', ['users' => User::orderBy('id')->get(), 'calls' => DB::table('calls')->get(), 'memberships' => DB::table('memberships')->get(), 'history' => DB::table('audit_events')->whereIn('action', ['permission.granted', 'permission.revoked', 'user.profile_changed', 'assignment.reassigned'])->orderByDesc('id')->limit(100)->get(), 'categories' => DB::table('categories')->get()]);
+        return view('users', [
+            'users' => User::orderBy('id')->get(),
+            'calls' => DB::table('calls')->get(),
+            'memberships' => DB::table('memberships')->get(),
+            'history' => DB::table('audit_events')->whereIn('action', [
+                'permission.granted',
+                'permission.revoked',
+                'user.profile_changed',
+                'assignment.reassigned',
+            ])->orderByDesc('id')->limit(100)->get(),
+            'categories' => DB::table('categories')->get(),
+        ]);
     }
 
     public function saveUser(Request $r, AdministrationOperations $ops)

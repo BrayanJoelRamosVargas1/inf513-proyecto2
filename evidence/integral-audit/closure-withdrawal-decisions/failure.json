@@ -1,9 +1,0 @@
-{
-  "error": "Withdrawal changed dossier",
-  "checks": [
-    {
-      "action": "Solicitar retiro conserva participación activa hasta decisión",
-      "request": 3
-    }
-  ]
-}

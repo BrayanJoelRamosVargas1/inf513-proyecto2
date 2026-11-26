@@ -8,14 +8,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 
 final class SessionController extends Controller
 {
     public static function event(Request $r, string $event, int $status, ?string $resource = null): void
     {
-        DB::table('access_events')->insert(['user_id' => $r->user()?->id, 'event' => $event, 'resource' => $resource, 'ip' => $r->ip(), 'status' => $status, 'created_at' => now()]);
+        DB::table('access_events')->insert([
+            'user_id' => $r->user()?->id,
+            'event' => $event,
+            'resource' => $resource,
+            'ip' => $r->ip(),
+            'status' => $status,
+            'created_at' => now(),
+        ]);
     }
 
     public function csrf(Request $r)
@@ -31,13 +38,19 @@ final class SessionController extends Controller
         if (RateLimiter::tooManyAttempts($attempts, 5)) {
             self::event($r, 'login.locked', 429);
 
-            return response()->json(['message' => 'Demasiados intentos fallidos. Espere unos minutos e intente de nuevo.', 'errors' => ['email' => ['Demasiados intentos fallidos. Espere unos minutos.']]], 429);
+            return response()->json([
+                'message' => 'Demasiados intentos fallidos. Espere unos minutos e intente de nuevo.',
+                'errors' => ['email' => ['Demasiados intentos fallidos. Espere unos minutos.']],
+            ], 429);
         }
         if (! Auth::attempt($d + ['active' => true])) {
             RateLimiter::hit($attempts, 300);
             self::event($r, 'login.failed', 422);
 
-            return response()->json(['message' => 'Credenciales incorrectas o cuenta desactivada.', 'errors' => ['email' => ['No se pudo iniciar sesión.']]], 422);
+            return response()->json([
+                'message' => 'Credenciales incorrectas o cuenta desactivada.',
+                'errors' => ['email' => ['No se pudo iniciar sesión.']],
+            ], 422);
         }
         RateLimiter::clear($attempts);
         $r->session()->regenerate();
@@ -58,7 +71,12 @@ final class SessionController extends Controller
 
     public function me(Request $r)
     {
-        return response()->json(['user' => $r->user()->only(['id', 'name', 'email', 'faculty', 'career', 'role']), 'token' => $r->session()->token(), 'roles' => Workspace::roles($r->user()), 'training_enabled' => config('portal.experience') === 'training']);
+        return response()->json([
+            'user' => $r->user()->only(['id', 'name', 'email', 'faculty', 'career', 'role']),
+            'token' => $r->session()->token(),
+            'roles' => Workspace::roles($r->user()),
+            'training_enabled' => config('portal.experience') === 'training',
+        ]);
     }
 
     public function logout(Request $r)

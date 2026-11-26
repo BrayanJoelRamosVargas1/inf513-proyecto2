@@ -1,6 +1,0 @@
-{
-  "command": "php vendor/bin/pint --test --no-interaction",
-  "tool": "pint",
-  "result": "passed",
-  "exit": 0
-}

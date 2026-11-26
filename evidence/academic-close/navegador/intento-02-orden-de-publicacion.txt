@@ -1,7 +1,0 @@
-Error: /calls/9/transition HTTP 422
-    at assert (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\academic-close\business.cjs:4:34)
-    at submit (C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\academic-close\business.cjs:27:92)
-    at runNextTicks (node:internal/process/task_queues:64:5)
-    at process.processImmediate (node:internal/timers:452:9)
-    at process.callbackTrampoline (node:internal/async_hooks:130:17)
-    at async C:\Users\ElCremosasWee\Documents\ChatGPT\tecnoproyectoCABa\sistema\.local\academic-close\business.cjs:110:108

@@ -1,1 +1,0 @@
-Alias errors differ /asignaciones/1/reasignar {"legacy":{"user_id":["The user id field is required."],"version":["The version field is required."],"reason":["The reason field is required."]},"api":{"user_id":["El campo usuario es obligatorio."],"version":["El campo versión es obligatorio."],"reason":["El campo motivo es obligatorio."]}}

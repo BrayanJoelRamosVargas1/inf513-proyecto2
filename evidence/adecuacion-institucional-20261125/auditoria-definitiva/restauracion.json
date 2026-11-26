@@ -1,9 +1,0 @@
-{
-  "result": "PASS",
-  "restored_tables_identical_to_baseline": 54,
-  "triggers_restored": 18,
-  "new_isolated_database": "ficct_audit_restore_160832",
-  "dump_sha256": "13aad3f0b776e78085abc34454d1303122886863426bc71dc3364552814720d3",
-  "operative_database_modified": false,
-  "private_files_copied": false
-}

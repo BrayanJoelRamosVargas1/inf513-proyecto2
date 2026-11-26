@@ -27,7 +27,15 @@ final class ScanRenewal
         $validHours = (int) config('document_safety.valid_hours');
         $safety = app(DocumentSafety::class);
         $applicantDocuments = app(ApplicantDocuments::class);
-        $report = ['apply' => $apply, 'margin_hours' => $marginHours, 'inspected' => 0, 'renewed' => 0, 'by_reason' => ['expired' => 0, 'expiring' => 0], 'skipped' => [], 'tasks' => []];
+        $report = [
+            'apply' => $apply,
+            'margin_hours' => $marginHours,
+            'inspected' => 0,
+            'renewed' => 0,
+            'by_reason' => ['expired' => 0, 'expiring' => 0],
+            'skipped' => [],
+            'tasks' => [],
+        ];
 
         $applications = DB::table('applications')
             ->join('offers', 'offers.id', '=', 'applications.offer_id')

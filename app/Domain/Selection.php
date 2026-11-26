@@ -50,7 +50,16 @@ final class Selection
 
     public static function audit(User $u, ?int $call, string $action, string $entity, mixed $before = null, mixed $after = null, ?string $reason = null): void
     {
-        DB::table('audit_events')->insert(['user_id' => $u->id, 'call_id' => $call, 'action' => $action, 'entity' => $entity, 'before' => $before === null ? null : json_encode($before), 'after' => $after === null ? null : json_encode($after), 'reason' => $reason, 'created_at' => now()]);
+        DB::table('audit_events')->insert([
+            'user_id' => $u->id,
+            'call_id' => $call,
+            'action' => $action,
+            'entity' => $entity,
+            'before' => $before === null ? null : json_encode($before),
+            'after' => $after === null ? null : json_encode($after),
+            'reason' => $reason,
+            'created_at' => now(),
+        ]);
     }
 
     public static function demo(object $call): void

@@ -14,7 +14,9 @@ final class ResultsPublication
     {
         $offer = Selection::row('offers', $offerId);
         if ($offer->seats === null) {
-            throw ValidationException::withMessages(['seats' => 'Las plazas de esta oferta documental no están especificadas; no se genera clasificación.']);
+            throw ValidationException::withMessages([
+                'seats' => 'Las plazas de esta oferta documental no están especificadas; no se genera clasificación.',
+            ]);
         }
         if (Selection::row('calls', $offer->call_id)->mode === 'HISTORICAL' && DB::table('institutional_call_profiles')->where('call_id', $offer->call_id)->exists()) {
             Scores::fail('La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
@@ -31,7 +33,13 @@ final class ResultsPublication
             $tied = array_values(array_map(fn ($a) => $a->id, array_filter($rank, fn ($a) => bccomp($a->final, $score, 2) === 0)));
         }
 
-        return ['rank' => $rank, 'tied' => $tied, 'seats' => $cut, 'held_vacancies' => $offer->held_vacancies, 'vacancies' => max($offer->held_vacancies, $offer->seats - count($rank))];
+        return [
+            'rank' => $rank,
+            'tied' => $tied,
+            'seats' => $cut,
+            'held_vacancies' => $offer->held_vacancies,
+            'vacancies' => max($offer->held_vacancies, $offer->seats - count($rank)),
+        ];
     }
 
     public function openTie(User $u, int $offerId, array $d): int
@@ -51,8 +59,22 @@ final class ResultsPublication
             if (! $r['tied']) {
                 Scores::fail('No hay empate que afecte el corte de plazas.');
             }
-            $id = DB::table('tie_exams')->insertGetId(['offer_id' => $offerId, 'result_revision' => $o->result_revision, 'status' => 'scheduled', 'participants' => json_encode($r['tied']), 'commission' => json_encode($d['commission']), 'conditions' => $d['conditions'], 'scheduled_at' => $d['scheduled_at'], 'created_at' => now(), 'updated_at' => now()]);
-            Selection::audit($u, $c->id, 'tie.exam_scheduled', 'tie:'.$id, null, ['participants' => $r['tied'], 'conditions' => $d['conditions'], 'commission' => $d['commission']]);
+            $id = DB::table('tie_exams')->insertGetId([
+                'offer_id' => $offerId,
+                'result_revision' => $o->result_revision,
+                'status' => 'scheduled',
+                'participants' => json_encode($r['tied']),
+                'commission' => json_encode($d['commission']),
+                'conditions' => $d['conditions'],
+                'scheduled_at' => $d['scheduled_at'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            Selection::audit($u, $c->id, 'tie.exam_scheduled', 'tie:'.$id, null, [
+                'participants' => $r['tied'],
+                'conditions' => $d['conditions'],
+                'commission' => $d['commission'],
+            ]);
 
             return $id;
         });
@@ -94,7 +116,13 @@ final class ResultsPublication
             if (count($winners) !== max(0, $o->seats - $o->held_vacancies - $above)) {
                 Scores::fail('La decisión debe respetar las plazas en disputa. Si persiste empate, mantenga pendiente y registre el procedimiento institucional.');
             }
-            DB::table('tie_exams')->where('id', $id)->update(['status' => 'resolved', 'results' => json_encode($results), 'winners' => json_encode(array_map('intval', $winners)), 'minutes' => $minutes, 'updated_at' => now()]);
+            DB::table('tie_exams')->where('id', $id)->update([
+                'status' => 'resolved',
+                'results' => json_encode($results),
+                'winners' => json_encode(array_map('intval', $winners)),
+                'minutes' => $minutes,
+                'updated_at' => now(),
+            ]);
             Selection::audit($u, $c->id, 'tie.exam_resolved', 'tie:'.$id, null, ['results' => $results, 'winners' => $winners], $minutes);
         });
     }
@@ -123,9 +151,26 @@ final class ResultsPublication
             if (mb_strlen(trim($d['minutes'] ?? '')) < 20 || mb_strlen(trim($d['conditions'] ?? '')) < 20 || empty($d['commission']) || CarbonImmutable::parse($d['scheduled_at'])->lte(CarbonImmutable::parse($t->scheduled_at))) {
                 Scores::fail('Documente la persistencia, nueva comisión/condiciones y fecha posterior.');
             }
-            DB::table('tie_exams')->where('id', $id)->update(['status' => 'continued', 'results' => json_encode($results), 'minutes' => $d['minutes'], 'updated_at' => now()]);
+            DB::table('tie_exams')->where('id', $id)->update([
+                'status' => 'continued',
+                'results' => json_encode($results),
+                'minutes' => $d['minutes'],
+                'updated_at' => now(),
+            ]);
             // La comisión declara persistencia; el sistema no inventa una fórmula ni elimina aspirantes.
-            $new = DB::table('tie_exams')->insertGetId(['offer_id' => $o->id, 'result_revision' => $o->result_revision, 'round' => $t->round + 1, 'previous_tie_id' => $id, 'status' => 'scheduled', 'participants' => json_encode($participants), 'commission' => json_encode($d['commission']), 'conditions' => $d['conditions'], 'scheduled_at' => $d['scheduled_at'], 'created_at' => now(), 'updated_at' => now()]);
+            $new = DB::table('tie_exams')->insertGetId([
+                'offer_id' => $o->id,
+                'result_revision' => $o->result_revision,
+                'round' => $t->round + 1,
+                'previous_tie_id' => $id,
+                'status' => 'scheduled',
+                'participants' => json_encode($participants),
+                'commission' => json_encode($d['commission']),
+                'conditions' => $d['conditions'],
+                'scheduled_at' => $d['scheduled_at'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             Selection::audit($u, $c->id, 'tie.continued', 'tie:'.$id, ['status' => $t->status], ['next_tie' => $new, 'results' => $results], $d['minutes']);
 
             return $new;
@@ -168,10 +213,29 @@ final class ResultsPublication
                 Scores::fail('La selección excede las plazas.');
             }
             foreach ($r['rank'] as $a) {
-                DB::table('applications')->where('id', $a->id)->update(['selection' => in_array($a->id, $winners) ? 'selected' : 'not_selected', 'updated_at' => now()]);
+                DB::table('applications')->where('id', $a->id)->update([
+                    'selection' => in_array($a->id, $winners) ? 'selected' : 'not_selected',
+                    'updated_at' => now(),
+                ]);
             }
-            $snapshot = ['mode' => 'DEMO', 'offer' => (array) $o, 'ranking' => $this->ranking($offerId)['rank'], 'selected' => $winners, 'approved_at' => now()->toIso8601String()];
-            DB::table('publications')->insert(['offer_id' => $offerId, 'version' => (DB::table('publications')->where('offer_id', $offerId)->max('version') ?? 0) + 1, 'result_revision' => $o->result_revision, 'previous_publication_id' => DB::table('publications')->where('offer_id', $offerId)->orderByDesc('version')->value('id'), 'snapshot' => json_encode($snapshot), 'minutes' => $minutes, 'user_id' => $u->id, 'created_at' => now(), 'updated_at' => now()]);
+            $snapshot = [
+                'mode' => 'DEMO',
+                'offer' => (array) $o,
+                'ranking' => $this->ranking($offerId)['rank'],
+                'selected' => $winners,
+                'approved_at' => now()->toIso8601String(),
+            ];
+            DB::table('publications')->insert([
+                'offer_id' => $offerId,
+                'version' => (DB::table('publications')->where('offer_id', $offerId)->max('version') ?? 0) + 1,
+                'result_revision' => $o->result_revision,
+                'previous_publication_id' => DB::table('publications')->where('offer_id', $offerId)->orderByDesc('version')->value('id'),
+                'snapshot' => json_encode($snapshot),
+                'minutes' => $minutes,
+                'user_id' => $u->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             DB::table('offers')->where('id', $offerId)->update(['needs_publication_review' => false]);
             Selection::audit($u, $c->id, 'result.approved', 'offer:'.$offerId, null, ['selected' => $winners], $minutes);
         });

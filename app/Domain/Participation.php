@@ -7,7 +7,6 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
 /** Flujos técnicos DEMO. Plazos y compatibilidades institucionales no se infieren. */
 final class Participation
@@ -55,8 +54,25 @@ final class Participation
     public static function snapshot(int $id, int $version, string $phase, ?int $actor, ?array $documents = null): void
     {
         $a = Selection::row('applications', $id);
-        $documents ??= DB::table('documents')->where('application_id', $id)->whereNull('amendment_id')->orderByDesc('version')->get()->unique('kind')->values()->map(fn ($d) => ['id' => $d->id, 'kind' => $d->kind, 'version' => $d->version, 'sha256' => $d->sha256])->all();
-        DB::table('dossier_snapshots')->insert(['application_id' => $id, 'version' => $version, 'phase' => $phase, 'snapshot' => json_encode(['documents' => $documents, 'reviews' => DB::table('reviews')->where('application_id', $id)->get()->all(), 'eligibility' => $a->eligibility, 'eligibility_reason' => $a->eligibility_reason]), 'user_id' => $actor, 'created_at' => now()]);
+        $documents ??= DB::table('documents')->where('application_id', $id)->whereNull('amendment_id')->orderByDesc('version')->get()->unique('kind')->values()->map(fn ($d) => [
+            'id' => $d->id,
+            'kind' => $d->kind,
+            'version' => $d->version,
+            'sha256' => $d->sha256,
+        ])->all();
+        DB::table('dossier_snapshots')->insert([
+            'application_id' => $id,
+            'version' => $version,
+            'phase' => $phase,
+            'snapshot' => json_encode([
+                'documents' => $documents,
+                'reviews' => DB::table('reviews')->where('application_id', $id)->get()->all(),
+                'eligibility' => $a->eligibility,
+                'eligibility_reason' => $a->eligibility_reason,
+            ]),
+            'user_id' => $actor,
+            'created_at' => now(),
+        ]);
     }
 
     public function open(User $u, int $app, array $kinds, string $deadline, string $reason, string $evidence): int
@@ -83,9 +99,26 @@ final class Participation
                 }
                 self::snapshot($app, $a->dossier_version, 'pre_amendment_review', $u->id, Selection::json($prior->snapshot)['documents']);
             }
-            $id = DB::table('amendments')->insertGetId(['application_id' => $app, 'base_version' => $a->dossier_version, 'allowed_kinds' => json_encode(array_values(array_unique($kinds))), 'deadline' => $deadline->toIso8601String(), 'opened_by' => $u->id, 'reason' => $reason, 'evidence' => $evidence, 'created_at' => now(), 'updated_at' => now()]);
-            DB::table('applications')->where('id', $app)->update(['eligibility' => 'pending', 'eligibility_reason' => 'Subsanación DEMO pendiente; no constituye habilitación.']);
-            Selection::audit($u, $c->id, 'amendment.opened', 'amendment:'.$id, null, ['kinds' => $kinds, 'deadline' => $deadline->toIso8601String(), 'base_version' => $a->dossier_version], $reason);
+            $id = DB::table('amendments')->insertGetId([
+                'application_id' => $app,
+                'base_version' => $a->dossier_version,
+                'allowed_kinds' => json_encode(array_values(array_unique($kinds))),
+                'deadline' => $deadline->toIso8601String(),
+                'opened_by' => $u->id,
+                'reason' => $reason,
+                'evidence' => $evidence,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            DB::table('applications')->where('id', $app)->update([
+                'eligibility' => 'pending',
+                'eligibility_reason' => 'Subsanación DEMO pendiente; no constituye habilitación.',
+            ]);
+            Selection::audit($u, $c->id, 'amendment.opened', 'amendment:'.$id, null, [
+                'kinds' => $kinds,
+                'deadline' => $deadline->toIso8601String(),
+                'base_version' => $a->dossier_version,
+            ], $reason);
 
             return $id;
         });
@@ -109,9 +142,24 @@ final class Participation
                 }
                 $stored = $file->store('applicant-quarantine', 'local');
                 $version = (DB::table('documents')->where('application_id', $a->id)->where('kind', $kind)->max('version') ?? 0) + 1;
-                $doc = DB::table('documents')->insertGetId(['application_id' => $a->id, 'amendment_id' => $id, 'kind' => $kind, 'version' => $version, 'path' => $stored, 'name' => basename($file->getClientOriginalName()), 'mime' => $file->getMimeType(), 'sha256' => hash_file('sha256', $file->getRealPath()), 'created_at' => now(), 'updated_at' => now()]);
+                $doc = DB::table('documents')->insertGetId([
+                    'application_id' => $a->id,
+                    'amendment_id' => $id,
+                    'kind' => $kind,
+                    'version' => $version,
+                    'path' => $stored,
+                    'name' => basename($file->getClientOriginalName()),
+                    'mime' => $file->getMimeType(),
+                    'sha256' => hash_file('sha256', $file->getRealPath()),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
                 app(DocumentProcessor::class)->enqueue($doc, 'applicant');
-                Selection::audit($u, $c->id, 'amendment.document_uploaded', 'document:'.$doc, null, ['amendment' => $id, 'version' => $version, 'kind' => $kind]);
+                Selection::audit($u, $c->id, 'amendment.document_uploaded', 'document:'.$doc, null, [
+                    'amendment' => $id,
+                    'version' => $version,
+                    'kind' => $kind,
+                ]);
 
                 return $doc;
             });
@@ -172,14 +220,28 @@ final class Participation
                 if ($value === 'not_applicable' && ! Selection::conditionalCriterion($o, $key)) {
                     Scores::fail('Este criterio obligatorio no admite No aplica.');
                 }
-                DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], ['decision' => $value, 'reason' => $reason, 'user_id' => $u->id, 'created_at' => $before->firstWhere('criterion', $key)?->created_at ?? now(), 'updated_at' => now()]);
+                DB::table('reviews')->updateOrInsert(['application_id' => $a->id, 'criterion' => $key], [
+                    'decision' => $value,
+                    'reason' => $reason,
+                    'user_id' => $u->id,
+                    'created_at' => $before->firstWhere('criterion', $key)?->created_at ?? now(),
+                    'updated_at' => now(),
+                ]);
             }
             $enabled = collect($decisions)->every(fn ($value, $key) => Selection::criterionSatisfied($o, $key, $value));
-            DB::table('applications')->where('id', $a->id)->update(['eligibility' => $enabled ? 'enabled' : 'disabled', 'eligibility_reason' => $reason]);
+            DB::table('applications')->where('id', $a->id)->update([
+                'eligibility' => $enabled ? 'enabled' : 'disabled',
+                'eligibility_reason' => $reason,
+            ]);
             DB::table('amendments')->where('id', $id)->update(['status' => 'reviewed', 'updated_at' => now()]);
             $snap = DB::table('dossier_snapshots')->where('application_id', $a->id)->orderByDesc('id')->first();
             self::snapshot($a->id, $a->dossier_version, 'reviewed', $u->id, Selection::json($snap->snapshot)['documents']);
-            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, ['decisions' => $decisions, 'eligibility' => $enabled ? 'enabled' : 'disabled', 'version' => $a->dossier_version, 'document_checks' => $documentChecks], $reason);
+            Selection::audit($u, $c->id, 'amendment.reviewed', 'amendment:'.$id, $before, [
+                'decisions' => $decisions,
+                'eligibility' => $enabled ? 'enabled' : 'disabled',
+                'version' => $a->dossier_version,
+                'document_checks' => $documentChecks,
+            ], $reason);
         });
     }
 
@@ -221,7 +283,15 @@ final class Participation
             if (DB::table('participation_requests')->where('application_id', $id)->where('status', 'pending')->exists()) {
                 Scores::fail('Ya existe una solicitud pendiente.');
             }
-            $request = DB::table('participation_requests')->insertGetId(['application_id' => $id, 'kind' => $kind, 'requester_id' => $u->id, 'reason' => $reason, 'evidence' => $evidence, 'created_at' => now(), 'updated_at' => now()]);
+            $request = DB::table('participation_requests')->insertGetId([
+                'application_id' => $id,
+                'kind' => $kind,
+                'requester_id' => $u->id,
+                'reason' => $reason,
+                'evidence' => $evidence,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
             Selection::audit($u, $c->id, 'participation.requested', 'participation:'.$request, null, ['kind' => $kind], $reason);
 
             return $request;
@@ -248,26 +318,61 @@ final class Participation
                 }
                 $revisions = app(ResultRevisions::class);
                 $before = $revisions->snapshot($o->id);
-                DB::table('applications')->where('id', $a->id)->update(['participation' => $award ? 'resigned' : 'withdrawn', 'selection' => $award ? 'resigned' : 'withdrawn', 'updated_at' => now()]);
+                DB::table('applications')->where('id', $a->id)->update([
+                    'participation' => $award ? 'resigned' : 'withdrawn',
+                    'selection' => $award ? 'resigned' : 'withdrawn',
+                    'updated_at' => now(),
+                ]);
                 foreach (DB::table('amendments')->where('application_id', $a->id)->whereIn('status', ['open', 'submitted'])->get() as $m) {
                     DB::table('amendments')->where('id', $m->id)->update(['status' => 'cancelled', 'updated_at' => now()]);
                     Selection::audit($u, $c->id, 'amendment.cancelled', 'amendment:'.$m->id, ['status' => $m->status], ['participation_request' => $id], $reason);
                 }
                 if ($award) {
                     DB::table('offers')->where('id', $o->id)->increment('held_vacancies');
-                    DB::table('vacancy_events')->insert(['offer_id' => $o->id, 'application_id' => $a->id, 'participation_request_id' => $id, 'publication_id' => $award->id, 'reason' => $reason, 'created_at' => now()]);
+                    DB::table('vacancy_events')->insert([
+                        'offer_id' => $o->id,
+                        'application_id' => $a->id,
+                        'participation_request_id' => $id,
+                        'publication_id' => $award->id,
+                        'reason' => $reason,
+                        'created_at' => now(),
+                    ]);
                 }
                 if (in_array($c->status, ['evaluation', 'results']) || $award) {
                     DB::table('applications')->where('offer_id', $o->id)->where('participation', 'active')->where('eligibility', 'enabled')->update(['selection' => 'under_review']);
                     $after = $revisions->snapshot($o->id);
                     $changes = $revisions->changes($before, $after);
-                    $changes[] = ['application_id' => $a->id, 'old_position' => null, 'new_position' => null, 'old_final' => $a->final, 'new_final' => $a->final, 'participation' => $award ? 'resigned' : 'withdrawn'];
-                    DB::table('result_revisions')->insert(['offer_id' => $o->id, 'revision' => $o->result_revision + 1, 'participation_request_id' => $id, 'before' => json_encode($before), 'after' => json_encode($after), 'changes' => json_encode($changes), 'created_at' => now()]);
-                    DB::table('offers')->where('id', $o->id)->update(['result_revision' => $o->result_revision + 1, 'needs_publication_review' => true]);
+                    $changes[] = [
+                        'application_id' => $a->id,
+                        'old_position' => null,
+                        'new_position' => null,
+                        'old_final' => $a->final,
+                        'new_final' => $a->final,
+                        'participation' => $award ? 'resigned' : 'withdrawn',
+                    ];
+                    DB::table('result_revisions')->insert([
+                        'offer_id' => $o->id,
+                        'revision' => $o->result_revision + 1,
+                        'participation_request_id' => $id,
+                        'before' => json_encode($before),
+                        'after' => json_encode($after),
+                        'changes' => json_encode($changes),
+                        'created_at' => now(),
+                    ]);
+                    DB::table('offers')->where('id', $o->id)->update([
+                        'result_revision' => $o->result_revision + 1,
+                        'needs_publication_review' => true,
+                    ]);
                 }
             }
             DB::table('participation_requests')->where('id', $id)->update(['status' => $approve ? 'approved' : 'rejected', 'updated_at' => now()]);
-            DB::table('participation_decisions')->insert(['participation_request_id' => $id, 'user_id' => $u->id, 'approved' => $approve, 'reason' => $reason, 'created_at' => now()]);
+            DB::table('participation_decisions')->insert([
+                'participation_request_id' => $id,
+                'user_id' => $u->id,
+                'approved' => $approve,
+                'reason' => $reason,
+                'created_at' => now(),
+            ]);
             Selection::audit($u, $c->id, $approve ? 'participation.approved' : 'participation.rejected', 'participation:'.$id, ['status' => 'pending'], ['kind' => $r->kind, 'approved' => $approve], $reason);
         });
     }
@@ -289,8 +394,22 @@ final class Participation
             if ($current !== $version) {
                 Scores::fail('La manifestación cambió; recargue la versión actual.');
             }
-            DB::table('award_choices')->insert(['application_id' => $id, 'publication_id' => $publication, 'version' => $version + 1, 'user_id' => $u->id, 'choice' => $choice, 'reason' => $reason, 'evidence' => $evidence, 'created_at' => now()]);
-            Selection::audit($u, $c->id, 'award.choice_recorded', 'application:'.$id, ['version' => $version], ['publication' => $publication, 'version' => $version + 1, 'choice' => $choice, 'compatibility' => 'PENDIENTE_VALIDACION_INSTITUCIONAL'], $reason);
+            DB::table('award_choices')->insert([
+                'application_id' => $id,
+                'publication_id' => $publication,
+                'version' => $version + 1,
+                'user_id' => $u->id,
+                'choice' => $choice,
+                'reason' => $reason,
+                'evidence' => $evidence,
+                'created_at' => now(),
+            ]);
+            Selection::audit($u, $c->id, 'award.choice_recorded', 'application:'.$id, ['version' => $version], [
+                'publication' => $publication,
+                'version' => $version + 1,
+                'choice' => $choice,
+                'compatibility' => 'PENDIENTE_VALIDACION_INSTITUCIONAL',
+            ], $reason);
         });
     }
 }

@@ -1,9 +1,0 @@
-{
-  "result": "PASS",
-  "tables_checked": 50,
-  "changed_tables": [],
-  "original_private_files_checked": 35,
-  "changed_or_missing_original_files": [],
-  "checked_at": "2026-11-24T12:34:07.231512+00:00",
-  "scope": "Read-only comparison against pre-audit operative baseline; no migrations or restoration performed"
-}

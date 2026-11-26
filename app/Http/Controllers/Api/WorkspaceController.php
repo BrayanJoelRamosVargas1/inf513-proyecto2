@@ -29,11 +29,23 @@ final class WorkspaceController extends Controller
     public function preferences(Request $r)
     {
         if ($r->isMethod('put')) {
-            $d = $r->validate(['theme' => ['required', Rule::in(['ninos', 'jovenes', 'adultos'])], 'mode' => ['required', Rule::in(['dia', 'noche', 'auto'])], 'font' => 'required|integer|in:100,125,150,175,200', 'contrast' => 'required|boolean']);
+            $d = $r->validate([
+                'theme' => ['required', Rule::in(['ninos', 'jovenes', 'adultos'])],
+                'mode' => ['required', Rule::in(['dia', 'noche', 'auto'])],
+                'font' => 'required|integer|in:100,125,150,175,200',
+                'contrast' => 'required|boolean',
+            ]);
             DB::table('portal_preferences')->updateOrInsert(['user_id' => $r->user()->id], $d);
         }
 
-        return response()->json(['preferences' => DB::table('portal_preferences')->where('user_id', $r->user()->id)->first() ?? ['theme' => 'adultos', 'mode' => 'auto', 'font' => 100, 'contrast' => false]]);
+        return response()->json([
+            'preferences' => DB::table('portal_preferences')->where('user_id', $r->user()->id)->first() ?? [
+                'theme' => 'adultos',
+                'mode' => 'auto',
+                'font' => 100,
+                'contrast' => false,
+            ],
+        ]);
     }
 
     public function publicVisit(Request $r)
@@ -64,7 +76,15 @@ final class WorkspaceController extends Controller
 
     public function visit(Request $r)
     {
-        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion|/auditoria)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|revision|evaluaciones|expedientes|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones|entrenamiento)?$~'], 'key' => 'required|uuid']);
+        $d = $r->validate([
+            'path' => [
+                'required',
+                'string',
+                'max:160',
+                'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion|/auditoria)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|revision|evaluaciones|expedientes|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones|entrenamiento)?$~',
+            ],
+            'key' => 'required|uuid',
+        ]);
         $result = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('visit_receipts')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             abort_if($existing && $existing->path !== $d['path'], 409, 'El identificador de visita ya corresponde a otra página.');
@@ -101,7 +121,11 @@ final class WorkspaceController extends Controller
         abort_if($items->currentPage() > $lastPage, 404, 'La página solicitada no existe. Vuelve a la primera página de la búsqueda.');
 
         return response()->json(['calls' => $items, 'offers' => $offers->items(), 'types' => $types->items(),
-            'pagination' => ['page' => $items->currentPage(), 'last_page' => $lastPage, 'total' => $items->total() + $offers->total() + $types->total()]]);
+            'pagination' => [
+                'page' => $items->currentPage(),
+                'last_page' => $lastPage,
+                'total' => $items->total() + $offers->total() + $types->total(),
+            ]]);
     }
 
     public function metrics(Request $r)

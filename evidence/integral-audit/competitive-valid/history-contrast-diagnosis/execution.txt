@@ -1,1 +1,0 @@
-History accessibility {"theme":"ninos","mode":"dia","font":"200","contrast":"0"}: color-contrast

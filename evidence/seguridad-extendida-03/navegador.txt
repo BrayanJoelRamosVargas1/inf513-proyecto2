@@ -1,1 +1,0 @@
-{"result":"PASS_EN_MUESTRA","screens":29,"violations":[],"overflows":[],"security":14,"security_failures":[]}

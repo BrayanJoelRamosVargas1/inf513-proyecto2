@@ -1,1 +1,0 @@
-Login rejected for student: HTTP 500

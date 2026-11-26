@@ -18,7 +18,17 @@ final class CallOperations
 
     public function createCall(Request $r): int
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000', 'parent_id' => 'nullable|exists:calls,id']);
+        $d = $r->validate([
+            'title' => 'required|string|max:150',
+            'opens_at' => 'required|date',
+            'closes_at' => 'required|date',
+            'exam_at' => 'required|date',
+            'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])],
+            'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80',
+            'subject_limit' => 'nullable|integer|min:1|max:100',
+            'source' => 'required|string|max:2000',
+            'parent_id' => 'nullable|exists:calls,id',
+        ]);
 
         $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
 
@@ -33,14 +43,35 @@ final class CallOperations
 
     public function editCall(Request $r, int $id): void
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'opens_at' => 'required|date', 'closes_at' => 'required|date', 'exam_at' => 'required|date', 'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])], 'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80', 'subject_limit' => 'nullable|integer|min:1|max:100', 'source' => 'required|string|max:2000']);
+        $d = $r->validate([
+            'title' => 'required|string|max:150',
+            'opens_at' => 'required|date',
+            'closes_at' => 'required|date',
+            'exam_at' => 'required|date',
+            'scope' => ['required', Rule::in(['UAGRM', 'faculty', 'career'])],
+            'scope_value' => 'nullable|required_unless:scope,UAGRM|string|max:80',
+            'subject_limit' => 'nullable|integer|min:1|max:100',
+            'source' => 'required|string|max:2000',
+        ]);
         $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
         $this->service->editCall($r->user(), $id, $d);
     }
 
     public function saveOffer(Request $r, int $id): void
     {
-        $d = $r->validate(['title' => 'required|string|max:150', 'category_id' => 'required|integer|exists:categories,id', 'seats' => 'required|integer|min:0|max:999', 'modality' => 'required|string|max:40', 'is_subject' => 'nullable|boolean', 'requirement_profile' => ['nullable', Rule::in(['asignatura','sala','laboratorio'])], 'documents' => 'required|string|max:8000', 'requirements' => 'required|string|max:15000', 'weights' => 'required|string|max:3000', 'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])], 'source' => 'required|string|max:2000']);
+        $d = $r->validate([
+            'title' => 'required|string|max:150',
+            'category_id' => 'required|integer|exists:categories,id',
+            'seats' => 'required|integer|min:0|max:999',
+            'modality' => 'required|string|max:40',
+            'is_subject' => 'nullable|boolean',
+            'requirement_profile' => ['nullable', Rule::in(['asignatura', 'sala', 'laboratorio'])],
+            'documents' => 'required|string|max:8000',
+            'requirements' => 'required|string|max:15000',
+            'weights' => 'required|string|max:3000',
+            'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])],
+            'source' => 'required|string|max:2000',
+        ]);
         foreach (['documents', 'requirements', 'weights'] as $key) {
             $d[$key] = $this->pairs($d[$key]);
         }

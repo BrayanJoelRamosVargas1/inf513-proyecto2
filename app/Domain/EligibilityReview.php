@@ -29,8 +29,18 @@ final class EligibilityReview
                     Scores::fail('No aplica requiere un criterio condicional y fundamento documental.');
                 }
                 $before = DB::table('reviews')->where('application_id', $id)->where('criterion', $key)->first();
-                DB::table('reviews')->updateOrInsert(['application_id' => $id, 'criterion' => $key], ['decision' => $decision, 'reason' => $reason, 'user_id' => $u->id, 'updated_at' => now(), 'created_at' => $before?->created_at ?? now()]);
-                Selection::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, ['criterion' => $key, 'decision' => $decision, 'document_checks' => $documentChecks], $reason);
+                DB::table('reviews')->updateOrInsert(['application_id' => $id, 'criterion' => $key], [
+                    'decision' => $decision,
+                    'reason' => $reason,
+                    'user_id' => $u->id,
+                    'updated_at' => now(),
+                    'created_at' => $before?->created_at ?? now(),
+                ]);
+                Selection::audit($u, $call->id, 'review.recorded', 'application:'.$id, $before, [
+                    'criterion' => $key,
+                    'decision' => $decision,
+                    'document_checks' => $documentChecks,
+                ], $reason);
             }
         });
     }
@@ -59,7 +69,10 @@ final class EligibilityReview
             }
             $next = $enable ? 'enabled' : 'disabled';
             DB::table('applications')->where('id', $id)->update(['eligibility' => $next, 'eligibility_reason' => $reason, 'updated_at' => now()]);
-            Selection::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], ['eligibility' => $next, 'document_checks' => $documentChecks], $reason);
+            Selection::audit($u, $call->id, 'eligibility.decided', 'application:'.$id, ['eligibility' => $app->eligibility], [
+                'eligibility' => $next,
+                'document_checks' => $documentChecks,
+            ], $reason);
         });
     }
 
@@ -79,9 +92,18 @@ final class EligibilityReview
             }
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $score = Scores::value($score, Scores::MERIT_MAX);
-            DB::table('applications')->where('id', $id)->update(['merit' => $score, 'cpd_reference' => $reference, 'merit_version' => 1, 'updated_at' => now()]);
+            DB::table('applications')->where('id', $id)->update([
+                'merit' => $score,
+                'cpd_reference' => $reference,
+                'merit_version' => 1,
+                'updated_at' => now(),
+            ]);
             Rectifications::version($id, null, 1, $score, $u->id);
-            Selection::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, ['merit' => $score, 'reference' => $reference, 'document_checks' => $documentChecks]);
+            Selection::audit($u, $c->id, 'merit.recorded', 'application:'.$id, null, [
+                'merit' => $score,
+                'reference' => $reference,
+                'document_checks' => $documentChecks,
+            ]);
         });
     }
 }

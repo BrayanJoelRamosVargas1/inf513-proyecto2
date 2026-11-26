@@ -41,12 +41,31 @@ final class SelectionTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->teacher = User::factory()->create(['role' => 'staff']);
         $this->student = User::factory()->create();
-        $this->call = $this->s->createCall($this->authority, ['title' => 'Fixture DEMO', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'subject_limit' => 4, 'source' => 'Fixture sintético de aceptación']);
+        $this->call = $this->s->createCall($this->authority, [
+            'title' => 'Fixture DEMO',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'subject_limit' => 4,
+            'source' => 'Fixture sintético de aceptación',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->teacher, 'evaluator']] as [$u,$role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Sala DEMO', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $this->s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Sala A', 'seats' => 2, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
+        $this->offer = $this->s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Sala A',
+            'seats' => 2,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'],
+            'requirements' => ['activo' => 'Estudiante activo'],
+            'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture DEMO',
+        ]);
         $this->s->transition($this->authority, $this->call, 'published');
     }
 
@@ -69,7 +88,11 @@ final class SelectionTest extends TestCase
         $id = $this->app($u);
         $this->documents($id, $u);
         $this->s->submit($u, $id);
-        $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Evidencia sintética cotejada en DEMO.');
+        $this->s->review($this->reviewer, $id, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Evidencia sintética cotejada en DEMO.');
         $this->s->eligibility($this->reviewer, $id, true, 'Revisión completa documentada en DEMO.');
         $this->s->merit($this->reviewer, $id, '20.10', 'CPD-FICTICIO-01');
 
@@ -105,8 +128,23 @@ final class SelectionTest extends TestCase
 
     public function test_t01_register_login_and_reject_privilege_escalation(): void
     {
-        $this->post('/registro', ['name' => 'Cuenta Ficticia', 'email' => 'nueva@example.test', 'password' => 'Clave-Larga-1234', 'password_confirmation' => 'Clave-Larga-1234', 'faculty' => 'FICCT', 'career' => 'Sistemas', 'role' => 'admin'])->assertSessionHasErrors('role');
-        $this->post('/registro', ['name' => 'Cuenta Ficticia', 'email' => 'nueva@example.test', 'password' => 'Clave-Larga-1234', 'password_confirmation' => 'Clave-Larga-1234', 'faculty' => 'FICCT', 'career' => 'Sistemas'])->assertRedirect('/');
+        $this->post('/registro', [
+            'name' => 'Cuenta Ficticia',
+            'email' => 'nueva@example.test',
+            'password' => 'Clave-Larga-1234',
+            'password_confirmation' => 'Clave-Larga-1234',
+            'faculty' => 'FICCT',
+            'career' => 'Sistemas',
+            'role' => 'admin',
+        ])->assertSessionHasErrors('role');
+        $this->post('/registro', [
+            'name' => 'Cuenta Ficticia',
+            'email' => 'nueva@example.test',
+            'password' => 'Clave-Larga-1234',
+            'password_confirmation' => 'Clave-Larga-1234',
+            'faculty' => 'FICCT',
+            'career' => 'Sistemas',
+        ])->assertRedirect('/');
         $this->assertDatabaseHas('users', ['email' => 'nueva@example.test', 'role' => 'student']);
         $this->assertTrue(Hash::check('Clave-Larga-1234', User::where('email', 'nueva@example.test')->first()->password));
         $this->post('/salir')->assertRedirect('/login');
@@ -132,7 +170,17 @@ final class SelectionTest extends TestCase
     public function test_t04_seats_are_nonnegative_and_scoped_by_offer(): void
     {
         DB::table('calls')->where('id', $this->call)->update(['status' => 'draft']);
-        $this->actingAs($this->authority)->post('/convocatorias/'.$this->call.'/ofertas', ['title' => 'Inválida', 'category_id' => DB::table('categories')->value('id'), 'seats' => -1, 'modality' => 'Presencial', 'documents' => 'cpd=CPD', 'requirements' => 'activo=Activo', 'weights' => 'Software=100', 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture'])->assertSessionHasErrors('seats');
+        $this->actingAs($this->authority)->post('/convocatorias/'.$this->call.'/ofertas', [
+            'title' => 'Inválida',
+            'category_id' => DB::table('categories')->value('id'),
+            'seats' => -1,
+            'modality' => 'Presencial',
+            'documents' => 'cpd=CPD',
+            'requirements' => 'activo=Activo',
+            'weights' => 'Software=100',
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture',
+        ])->assertSessionHasErrors('seats');
         $this->assertDatabaseCount('offers', 1);
     }
 
@@ -220,7 +268,12 @@ final class SelectionTest extends TestCase
         $this->documents($id);
         $this->s->submit($this->student, $id);
         $this->s->review($this->reviewer, $id, ['activo' => 'observed'], 'Evidencia incompleta, revisar respaldo.');
-        $this->assertDatabaseHas('reviews', ['application_id' => $id, 'criterion' => 'activo', 'decision' => 'observed', 'user_id' => $this->reviewer->id]);
+        $this->assertDatabaseHas('reviews', [
+            'application_id' => $id,
+            'criterion' => 'activo',
+            'decision' => 'observed',
+            'user_id' => $this->reviewer->id,
+        ]);
         $this->rejects(fn () => $this->s->review($this->reviewer, $id, ['activo' => 'not_applicable'], 'No aplica sin fundamento aprobado.'));
     }
 
@@ -264,7 +317,11 @@ final class SelectionTest extends TestCase
 
     public function test_t17_areas_are_defined_per_offer(): void
     {
-        $this->assertSame(['Soporte' => '50.00', 'Redes' => '25.00', 'Software' => '25.00'], Selection::json(Selection::row('offers', $this->offer)->weights));
+        $this->assertSame([
+            'Soporte' => '50.00',
+            'Redes' => '25.00',
+            'Software' => '25.00',
+        ], Selection::json(Selection::row('offers', $this->offer)->weights));
         $this->rejects(fn () => $this->s->assign($this->authority, $this->offer, $this->teacher->id, 'Electrónica'));
     }
 
@@ -374,10 +431,17 @@ final class SelectionTest extends TestCase
         $this->notes($a);
         $this->notes($b);
         $this->rejects(fn () => $this->s->approve($this->authority, $this->offer, 'No se debe aprobar sin examen exclusivo de desempate.'));
-        $id = $this->s->openTie($this->authority, $this->offer, ['commission' => ['Comisión DEMO 1', 'Comisión DEMO 2'], 'conditions' => 'Nuevo examen DEMO exclusivo con decisión documentada.', 'scheduled_at' => now()->subMinute()]);
+        $id = $this->s->openTie($this->authority, $this->offer, [
+            'commission' => ['Comisión DEMO 1', 'Comisión DEMO 2'],
+            'conditions' => 'Nuevo examen DEMO exclusivo con decisión documentada.',
+            'scheduled_at' => now()->subMinute(),
+        ]);
         $this->assertEqualsCanonicalizing([$a, $b], Selection::json(Selection::row('tie_exams', $id)->participants));
         $this->rejects(fn () => $this->s->resolveTie($this->authority, $id, [$a => '80', $b => '70', 999 => '90'], [$a], 'Acta inválida con participante ajeno a los empatados.'));
-        $this->s->resolveTie($this->authority, $id, [$a => '80, resultado DEMO', $b => '70, resultado DEMO'], [$a], 'Acta sintética: comisión resuelve tras nuevo examen.');
+        $this->s->resolveTie($this->authority, $id, [
+            $a => '80, resultado DEMO',
+            $b => '70, resultado DEMO',
+        ], [$a], 'Acta sintética: comisión resuelve tras nuevo examen.');
         $this->s->approve($this->authority, $this->offer, 'Aprobación DEMO con examen exclusivo y acta de comisión.');
         $this->assertDatabaseHas('applications', ['id' => $a, 'selection' => 'selected']);
     }
@@ -481,10 +545,28 @@ final class SelectionTest extends TestCase
     public function test_t_x06_draft_call_and_offer_can_be_edited_with_audit(): void
     {
         $this->rejects(fn () => $this->s->editCall($this->authority, $this->call, ['title' => 'No puede cambiar publicación']));
-        $call = $this->s->createCall($this->authority, ['title' => 'Borrador editable', 'opens_at' => now(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture']);
+        $call = $this->s->createCall($this->authority, [
+            'title' => 'Borrador editable',
+            'opens_at' => now(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture',
+        ]);
         $this->s->editCall($this->authority, $call, ['title' => 'Borrador corregido']);
         $this->assertDatabaseHas('calls', ['id' => $call, 'title' => 'Borrador corregido', 'version' => 2]);
-        $data = ['category_id' => DB::table('categories')->value('id'), 'title' => 'Editable', 'seats' => 1, 'is_subject' => false, 'modality' => 'DEMO', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture'];
+        $data = [
+            'category_id' => DB::table('categories')->value('id'),
+            'title' => 'Editable',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'DEMO',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture',
+        ];
         $offer = $this->s->saveOffer($this->authority, $call, $data);
         $data['seats'] = 3;
         $this->s->saveOffer($this->authority, $call, $data, $offer);
@@ -496,7 +578,11 @@ final class SelectionTest extends TestCase
     public function test_t_x07_admin_cannot_grant_self_authority(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin)->post('/permisos', ['call_id' => $this->call, 'user_id' => $admin->id, 'role' => 'authority'])->assertSessionHasErrors('proceso');
+        $this->actingAs($admin)->post('/permisos', [
+            'call_id' => $this->call,
+            'user_id' => $admin->id,
+            'role' => 'authority',
+        ])->assertSessionHasErrors('proceso');
         $this->assertDatabaseMissing('memberships', ['user_id' => $admin->id, 'role' => 'authority']);
     }
 
@@ -515,7 +601,7 @@ final class SelectionTest extends TestCase
             $book = IOFactory::load($path);
             $cell = $book->getActiveSheet()->getCell('B4');
             $this->assertSame('s', $cell->getDataType());
-            $this->assertSame($this->student->name,$cell->getValue());
+            $this->assertSame($this->student->name, $cell->getValue());
         } finally {
             unlink($path);
         }

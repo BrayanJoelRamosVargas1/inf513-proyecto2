@@ -1,1 +1,0 @@
-{"result": "PASS", "checks": [{"file": "app/Http/Controllers/DocumentController.php", "pass": true}, {"file": "routes/api.php", "pass": true}, {"file": "tests/Feature/DocumentExperienceTest.php", "pass": true}]}

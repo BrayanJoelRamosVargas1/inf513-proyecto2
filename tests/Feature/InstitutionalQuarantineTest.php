@@ -21,9 +21,13 @@ final class InstitutionalQuarantineTest extends TestCase
     use RefreshDatabase;
 
     private User $author;
+
     private User $reviewer;
+
     private int $dossier;
+
     private int $source;
+
     private string $url;
 
     protected function setUp(): void
@@ -33,17 +37,41 @@ final class InstitutionalQuarantineTest extends TestCase
         config(['document_safety.binary' => '', 'document_safety.database' => '']);
         $this->author = User::factory()->create(['role' => 'authority']);
         $this->reviewer = User::factory()->create(['role' => 'authority']);
-        $call = app(Selection::class)->createCall($this->author, ['title' => 'Cuarentena sintética', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(3), 'scope' => 'UAGRM', 'source' => 'Fixture sin valor institucional']);
+        $call = app(Selection::class)->createCall($this->author, [
+            'title' => 'Cuarentena sintética',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(3),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sin valor institucional',
+        ]);
         DB::table('memberships')->insert(['call_id' => $call, 'user_id' => $this->reviewer->id, 'role' => 'authority']);
-        $this->dossier = app(InstitutionalPreparation::class)->create($this->author, ['call_id' => $call, 'reviewer_id' => $this->reviewer->id, 'title' => 'Fixture']);
+        $this->dossier = app(InstitutionalPreparation::class)->create($this->author, [
+            'call_id' => $call,
+            'reviewer_id' => $this->reviewer->id,
+            'title' => 'Fixture',
+        ]);
         $this->url = '/api/v1/institutional/dossiers/'.$this->dossier;
-        $this->source = $this->actingAs($this->author)->post($this->url.'/sources', ['expected_version' => 1, 'reference' => 'MUESTRA', 'gate' => 'G02', 'title' => 'No es normativa real', 'issued_on' => '2026-11-21', 'pages' => '1', 'classification' => 'historical_reference', 'notes' => 'Solo prueba de seguridad.', 'scan_state' => 'clean', 'file' => UploadedFile::fake()->createWithContent('muestra.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf')))], ['Accept' => 'application/json'])->assertCreated()->json('id');
+        $this->source = $this->actingAs($this->author)->post($this->url.'/sources', [
+            'expected_version' => 1,
+            'reference' => 'MUESTRA',
+            'gate' => 'G02',
+            'title' => 'No es normativa real',
+            'issued_on' => '2026-11-21',
+            'pages' => '1',
+            'classification' => 'historical_reference',
+            'notes' => 'Solo prueba de seguridad.',
+            'scan_state' => 'clean',
+            'file' => UploadedFile::fake()->createWithContent('muestra.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf'))),
+        ], ['Accept' => 'application/json'])->assertCreated()->json('id');
     }
 
     private function scanner(string $state): void
     {
-        $this->app->instance(DocumentScanner::class, new class($state) implements DocumentScanner {
+        $this->app->instance(DocumentScanner::class, new class($state) implements DocumentScanner
+        {
             public function __construct(private string $state) {}
+
             public function scan(string $path): array
             {
                 return ['state' => $this->state, 'engine' => 'TEST-ONLY', 'reason' => 'fixture'];
@@ -96,10 +124,22 @@ final class InstitutionalQuarantineTest extends TestCase
         $fields = ['source_id' => $this->source, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()];
         $old = DB::table('institutional_scan_jobs')->insertGetId($fields);
         $new = DB::table('institutional_scan_jobs')->insertGetId($fields);
-        DB::table('institutional_scan_results')->insert(['job_id' => $old, 'state' => 'clean', 'engine' => 'TEST-ONLY', 'reason' => 'fixture', 'finished_at' => now()]);
+        DB::table('institutional_scan_results')->insert([
+            'job_id' => $old,
+            'state' => 'clean',
+            'engine' => 'TEST-ONLY',
+            'reason' => 'fixture',
+            'finished_at' => now(),
+        ]);
         $this->download(423);
         $this->assertSame('pending', app(DocumentSafety::class)->status($this->source)['state']);
-        DB::table('institutional_scan_results')->insert(['job_id' => $new, 'state' => 'blocked', 'engine' => 'TEST-ONLY', 'reason' => 'fixture', 'finished_at' => now()]);
+        DB::table('institutional_scan_results')->insert([
+            'job_id' => $new,
+            'state' => 'blocked',
+            'engine' => 'TEST-ONLY',
+            'reason' => 'fixture',
+            'finished_at' => now(),
+        ]);
         $this->download(423);
         $this->assertSame('blocked', app(DocumentSafety::class)->status($this->source)['state']);
     }
@@ -110,7 +150,9 @@ final class InstitutionalQuarantineTest extends TestCase
         foreach (['institutional_scan_jobs', 'institutional_scan_results'] as $table) {
             foreach (['update', 'delete'] as $operation) {
                 try {
-                    DB::transaction(fn () => $operation === 'delete' ? DB::table($table)->delete() : DB::table($table)->update([$table === 'institutional_scan_jobs' ? 'sha256' : 'state' => 'altered']));
+                    DB::transaction(fn () => $operation === 'delete' ? DB::table($table)->delete() : DB::table($table)->update([
+                        $table === 'institutional_scan_jobs' ? 'sha256' : 'state' => 'altered',
+                    ]));
                     $this->fail('Evidencia de análisis modificada.');
                 } catch (QueryException $e) {
                     $this->assertStringContainsString('append-only', $e->getMessage());
@@ -122,11 +164,14 @@ final class InstitutionalQuarantineTest extends TestCase
     public function test_q06_tampering_during_scan_is_detected_and_temporary_bytes_are_removed(): void
     {
         $source = DB::table('institutional_sources')->find($this->source);
-        $this->app->instance(DocumentScanner::class, new class($source->path) implements DocumentScanner {
+        $this->app->instance(DocumentScanner::class, new class($source->path) implements DocumentScanner
+        {
             public function __construct(private string $original) {}
+
             public function scan(string $path): array
             {
                 Storage::disk('local')->put($this->original, 'Documento alterado durante análisis');
+
                 return ['state' => 'clean', 'engine' => 'TEST-ONLY', 'reason' => 'fixture'];
             }
         });
@@ -164,8 +209,16 @@ final class InstitutionalQuarantineTest extends TestCase
         $this->postJson($this->url.'/submission', ['expected_version' => 2])->assertCreated();
         $this->scanner('error');
         app(DocumentSafety::class)->scan($this->source);
-        $this->actingAs($this->reviewer)->postJson($this->url.'/review', ['expected_version' => 3, 'decision' => 'reviewed', 'reason' => 'No debe completar esta revisión.'])->assertUnprocessable();
-        $this->postJson($this->url.'/review', ['expected_version' => 3, 'decision' => 'observed', 'reason' => 'Fuente bloqueada por análisis pendiente.'])->assertOk();
+        $this->actingAs($this->reviewer)->postJson($this->url.'/review', [
+            'expected_version' => 3,
+            'decision' => 'reviewed',
+            'reason' => 'No debe completar esta revisión.',
+        ])->assertUnprocessable();
+        $this->postJson($this->url.'/review', [
+            'expected_version' => 3,
+            'decision' => 'observed',
+            'reason' => 'Fuente bloqueada por análisis pendiente.',
+        ])->assertOk();
         $this->assertDatabaseCount('institutional_reviews', 1);
     }
 
@@ -218,14 +271,22 @@ final class InstitutionalQuarantineTest extends TestCase
         $this->actingAs($this->reviewer);
         foreach (['missing', 'modified'] as $case) {
             $case === 'missing' ? $disk->delete($row->path) : $disk->put($row->path, 'Bytes alterados');
-            $this->postJson($this->url.'/review', ['expected_version' => 3, 'decision' => 'reviewed', 'reason' => 'No debe completarse con fuentes inválidas.'])->assertConflict();
+            $this->postJson($this->url.'/review', [
+                'expected_version' => 3,
+                'decision' => 'reviewed',
+                'reason' => 'No debe completarse con fuentes inválidas.',
+            ])->assertConflict();
             $this->assertDatabaseCount('institutional_reviews', 0);
             $this->assertDatabaseHas('institutional_dossiers', ['id' => $this->dossier, 'version' => 3, 'status' => 'under_review']);
             $this->assertSame($before, DB::table('institutional_submissions')->get()->toJson());
             $this->assertSame($audit, DB::table('audit_events')->orderBy('id')->get()->toJson());
             $disk->put($row->path, $original);
         }
-        $this->postJson($this->url.'/review', ['expected_version' => 3, 'decision' => 'reviewed', 'reason' => 'Se cotejaron los bytes actuales correctamente.'])->assertOk();
+        $this->postJson($this->url.'/review', [
+            'expected_version' => 3,
+            'decision' => 'reviewed',
+            'reason' => 'Se cotejaron los bytes actuales correctamente.',
+        ])->assertOk();
         $this->assertSame($before, DB::table('institutional_submissions')->get()->toJson());
     }
 
@@ -233,15 +294,29 @@ final class InstitutionalQuarantineTest extends TestCase
     {
         $disk = Storage::disk('local');
         $source = DB::table('institutional_sources')->find($this->source);
-        $proxy = new class($disk, $source) {
+        $proxy = new class($disk, $source)
+        {
             private bool $started = false;
+
             public function __construct(private $disk, private $source) {}
-            public function exists($path) { return $this->disk->exists($path); }
-            public function readStream($path) {
+
+            public function exists($path)
+            {
+                return $this->disk->exists($path);
+            }
+
+            public function readStream($path)
+            {
                 if (! $this->started) {
                     $this->started = true;
-                    DB::table('institutional_scan_jobs')->insert(['source_id' => $this->source->id, 'sha256' => $this->source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+                    DB::table('institutional_scan_jobs')->insert([
+                        'source_id' => $this->source->id,
+                        'sha256' => $this->source->sha256,
+                        'policy_hash' => DocumentSafety::policyHash(),
+                        'created_at' => now(),
+                    ]);
                 }
+
                 return $this->disk->readStream($path);
             }
         };
@@ -265,7 +340,11 @@ final class InstitutionalQuarantineTest extends TestCase
         $this->postJson($this->url.'/submission', ['expected_version' => 2])->assertCreated();
         $before = DB::table('institutional_submissions')->get()->toJson();
         $this->startScanWhileReading();
-        $this->actingAs($this->reviewer)->postJson($this->url.'/review', ['expected_version' => 3, 'decision' => 'reviewed', 'reason' => 'El analizador cambió mientras se leía la fuente.'])->assertUnprocessable();
+        $this->actingAs($this->reviewer)->postJson($this->url.'/review', [
+            'expected_version' => 3,
+            'decision' => 'reviewed',
+            'reason' => 'El analizador cambió mientras se leía la fuente.',
+        ])->assertUnprocessable();
         $this->assertDatabaseCount('institutional_reviews', 0);
         $this->assertSame($before, DB::table('institutional_submissions')->get()->toJson());
     }
@@ -278,7 +357,13 @@ final class InstitutionalQuarantineTest extends TestCase
         $disk = Storage::disk('local');
         $proxy = \Mockery::mock($disk);
         $proxy->shouldReceive('readStream')->with($source->path)->once()->andReturnUsing(function () use ($disk, $source) {
-            DB::table('institutional_scan_jobs')->insert(['source_id' => $source->id, 'sha256' => $source->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+            DB::table('institutional_scan_jobs')->insert([
+                'source_id' => $source->id,
+                'sha256' => $source->sha256,
+                'policy_hash' => DocumentSafety::policyHash(),
+                'created_at' => now(),
+            ]);
+
             return $disk->readStream($source->path);
         });
         Storage::shouldReceive('disk')->with('local')->andReturn($proxy);
