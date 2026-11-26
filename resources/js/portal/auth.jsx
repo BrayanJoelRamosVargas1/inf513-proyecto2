@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { api, csrf } from './api';
+import { api, csrf, isTraining } from './api';
 import { Form, Session } from './shared';
 import { FooterVisitCounter } from './shell';
 
@@ -47,7 +47,7 @@ export function Auth() {
             </li>
           </ol>
         </div>
-        <p className="auth-note">Fuentes institucionales reales y procesos de demostración. Las operaciones DEMO no tienen validez oficial.</p>
+        <p className="auth-note">{isTraining() ? 'Fuentes institucionales reales y procesos de demostración. Las operaciones DEMO no tienen validez oficial.' : 'Selección de auxiliares de docencia y de laboratorio · FICCT / UAGRM.'}</p>
       </section>
       <main className="auth-stage" id="contenido" tabIndex="-1">
         <section
@@ -57,7 +57,7 @@ export function Auth() {
           <p className="eyebrow">Bienvenido al portal</p>
           <h2>{register ? 'Crea tu cuenta' : 'Iniciar sesión'}</h2>
           <p className="auth-intro">
-            {register ? 'Regístrate como postulante para utilizar el entorno de demostración.' : 'Ingresa con tu cuenta para continuar en tu espacio de trabajo.'}
+            {register ? isTraining() ? 'Regístrate como postulante para utilizar el entorno de demostración.' : 'Regístrate como postulante para participar en las convocatorias.' : 'Ingresa con tu cuenta para continuar en tu espacio de trabajo.'}
           </p>
           <Form
             button={register ? 'Crear cuenta de postulante' : 'Entrar al sistema'}

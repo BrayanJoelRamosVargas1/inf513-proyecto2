@@ -105,7 +105,7 @@ it('un filtro sin recepción vigente muestra un estado vacío y conserva el acce
   }));
   expect(screen.getByText('No hay convocatorias que coincidan con este filtro.')).toBeTruthy();
   expect(screen.queryByRole('link', {
-    name: 'Crear convocatoria DEMO'
+    name: 'Crear convocatoria'
   })).toBeNull();
   fireEvent.click(screen.getByRole('button', {
     name: /^Históricas/

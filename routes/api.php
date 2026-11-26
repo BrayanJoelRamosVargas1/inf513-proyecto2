@@ -34,6 +34,7 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
         Route::post('institutional/dossiers/{id}/activation', [InstitutionalController::class, 'activation']);
         Route::get('institutional/sources/{id}/download', [InstitutionalController::class, 'download']);
         Route::post('logout', [SessionController::class, 'logout']);
+        Route::post('me/password', [SessionController::class, 'password'])->middleware('throttle:6,1');
         Route::get('me/navigation', [WorkspaceController::class, 'navigation']);
         Route::match(['get', 'put'], 'me/preferences', [WorkspaceController::class, 'preferences']);
         Route::post('visits', [WorkspaceController::class, 'visit'])->middleware('throttle:60,1');

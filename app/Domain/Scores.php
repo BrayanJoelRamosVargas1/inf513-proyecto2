@@ -6,8 +6,12 @@ use Illuminate\Validation\ValidationException;
 
 final class Scores
 {
-    /** Esquemas de composición que el sistema sabe calcular; PENDING_COMPOSITION no es calculable. */
-    public const CALCULABLE_SCHEMES = ['DEMO_AREAS_100', 'DEMO_COMPONENTS_100'];
+    /**
+     * Esquemas de composición que el sistema sabe calcular; PENDING_COMPOSITION no es calculable.
+     * AREAS_100: áreas cuyos pesos suman 100. COMPONENTS_100: componentes (por ejemplo escrito y práctico) que suman 100.
+     * Los nombres DEMO_* son los de las instalaciones de entrenamiento y se aceptan por compatibilidad.
+     */
+    public const CALCULABLE_SCHEMES = ['AREAS_100', 'COMPONENTS_100', 'DEMO_AREAS_100', 'DEMO_COMPONENTS_100'];
 
     /** Máximos de la escala DEMO: mérito /40 + examen /60 = final /100. */
     public const MERIT_MAX = '40';

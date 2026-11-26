@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Account, TrainingSamples } from './account';
 import { Metrics, Search } from './analytics';
-import { api, csrf, message } from './api';
+import { api, csrf, isTraining, message } from './api';
 import { Application } from './application';
 import { CallAudit } from './audit';
 import { Call } from './call';
@@ -21,7 +21,7 @@ const PAGE_TITLES = [[/^\/convocatorias\/nueva/, 'Nueva convocatoria'], [/^\/con
 
 export function pageTitle(path) {
   const hit = PAGE_TITLES.find(([re]) => re.test(path));
-  return (hit ? hit[1] + ' · ' : 'Inicio · ') + 'FICCT · Proyecto 2';
+  return (hit ? hit[1] + ' · ' : 'Inicio · ') + 'Auxiliares FICCT';
 }
 
 export function FooterVisitCounter({
@@ -67,7 +67,7 @@ export function FooterVisitCounter({
   return <footer className={isPublic ? 'auth-footer' : ''}>
     <span className="footer-legal">
       <span className="footer-brand">FICCT · Grupo 09</span>
-      <span>Proyecto académico · Sin validez institucional</span>
+      <span>{isTraining() ? 'Proyecto académico · Sin validez institucional' : 'Facultad de Ingeniería en Ciencias de la Computación y Telecomunicaciones · UAGRM'}</span>
     </span>
     <span aria-live="polite">{error || `Visitas de esta vista: ${total ?? '…'}`}</span>
   </footer>;
@@ -123,6 +123,22 @@ export function Preferences() {
           </select></label>
       </div>
       <p role="status">{status}</p>
+    </Form>
+    <Form
+      className="password-form"
+      button="Cambiar clave"
+      onSubmit={async (f, form) => {
+        await api.post('/me/password', Object.fromEntries(f));
+        form.reset();
+        set('Clave cambiada. Las demás sesiones se cerraron.');
+      }}
+    >
+      <h3>Cambiar clave</h3>
+      <div className="grid">
+        <label>Clave actual<input name="current_password" type="password" autoComplete="current-password" required /></label>
+        <label>Clave nueva (mínimo 12 caracteres)<input name="password" type="password" autoComplete="new-password" minLength={12} required /></label>
+        <label>Repita la clave nueva<input name="password_confirmation" type="password" autoComplete="new-password" minLength={12} required /></label>
+      </div>
     </Form>
   </details>;
 }
@@ -341,12 +357,10 @@ export function AppShell() {
         </div>
       </header>
       <main className="page-content" id="contenido" tabIndex="-1">
-        <div className="demo-banner">
+        {session.training_enabled && <div className="demo-banner">
           <span className="demo-dot" aria-hidden="true" />
-          <span><strong>
-              {session.training_enabled ? 'Entrenamiento y archivo documental.' : 'Preparación institucional.'}
-            </strong> {session.training_enabled ? 'Los procesos ficticios están identificados como DEMO.' : 'Los procesos oficiales requieren autorización institucional.'}</span>
-        </div>
+          <span><strong>Entrenamiento y archivo documental.</strong> Los procesos ficticios están identificados como DEMO.</span>
+        </div>}
         <Alert text={logoutError} />
         <div className="page-toolbar">
           <nav aria-label="Ruta actual">

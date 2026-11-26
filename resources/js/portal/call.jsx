@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { api, base, label, message } from './api';
+import { api, base, label, message, isOperable } from './api';
 import { DocumentaryCall } from './documentary';
 import { InstitutionalRegister } from './institutional-register';
 import { Alert, Form, Loading, Session, useData } from './shared';
@@ -39,7 +39,7 @@ export function Call() {
     {d.documentary && <DocumentaryCall data={d.documentary} />}
     {d.authority && <section className="card">
       <h2>Control del proceso</h2>
-      {d.call.mode === 'DEMO' && NEXT_STAGE[d.call.status] && <Form
+      {isOperable(d.call) && NEXT_STAGE[d.call.status] && <Form
         button={'Pasar a ' + label(NEXT_STAGE[d.call.status])}
         onSubmit={async () => {
           await api.post('/calls/' + id + '/transition', {

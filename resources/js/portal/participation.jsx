@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { api, label } from './api';
+import { api, label, isOperable } from './api';
 import { Action, evidence, field, reason, select } from './form-kit';
 import { DocumentLink, Form, Loading, Session, useData } from './shared';
 import { Link, useParams } from 'react-router-dom';
@@ -10,10 +10,10 @@ export function Participation() {
   } = useParams();
   const [d, error, reload] = useData('/applications/' + id + '/participation');
   if (!d) return <Loading error={error} />;
-  const operate = d.call.mode === 'DEMO' && ['published', 'closed', 'evaluation', 'results'].includes(d.call.status);
+  const operate = isOperable(d.call) && ['published', 'closed', 'evaluation', 'results'].includes(d.call.status);
   const parse = v => typeof v === 'string' ? JSON.parse(v) : v;
   const docs = parse(d.offer.documents);
-  return <><Link to={'/postulaciones/' + id}>← Expediente</Link><h1>Subsanaciones y participación</h1><button type="button" onClick={reload}>Actualizar estado de archivos</button><p>{d.offer.title} · Versión {d.app.dossier_version} · {label(d.app.participation)}</p><div className="notice">Procedimiento DEMO con plazos explícitos. No constituye normativa institucional confirmada. No se asignan reemplazos automáticamente.</div>{d.canOpen && d.app.participation === 'active' && <Action
+  return <><Link to={'/postulaciones/' + id}>← Expediente</Link><h1>Subsanaciones y participación</h1><button type="button" onClick={reload}>Actualizar estado de archivos</button><p>{d.offer.title} · Versión {d.app.dossier_version} · {label(d.app.participation)}</p><div className="notice">Procedimiento con plazos explícitos fijados por la autoridad de la convocatoria. No se asignan reemplazos automáticamente.</div>{d.canOpen && d.app.participation === 'active' && <Action
       title="Autorizar subsanación"
       endpoint={`/applications/${id}/amendments`}
       fields={[select('kinds', 'Documento autorizado', Object.entries(docs)), field('deadline', 'Vencimiento inclusivo', {
@@ -99,7 +99,7 @@ export function Awards() {
   if (!d) return <Loading error={error} />;
   return <>
     <h1>{d.authorityView ? 'Adjudicaciones de mi ámbito' : 'Mis adjudicaciones'}</h1>
-    <p>Manifestaciones DEMO: aceptar o diferir no certifica compatibilidad ni nombramiento.</p>
+    <p>Aceptar o diferir registra su decisión. El nombramiento lo emite la autoridad competente.</p>
     {d.awards.map(a => <section className="card" key={a.id}>
       <h2>{a.name} · {a.title}</h2>
       <p>Publicación v{a.publication.version} · {label(a.selection)}</p>
@@ -109,7 +109,7 @@ export function Awards() {
       {a.can_choose && a.user_id === session.user.id && a.participation === 'active' && <Action
         title="Registrar manifestación sobre esta publicación"
         endpoint={`/applications/${a.id}/choices`}
-        fields={[select('choice', 'Decisión', [['accept', 'Aceptar para esta DEMO'], ['defer', 'Diferir decisión']]), reason, evidence]}
+        fields={[select('choice', 'Decisión', [['accept', 'Aceptar la plaza'], ['defer', 'Diferir decisión']]), reason, evidence]}
         data={{
           publication_id: a.publication.id,
           version: a.choice?.version ?? 0

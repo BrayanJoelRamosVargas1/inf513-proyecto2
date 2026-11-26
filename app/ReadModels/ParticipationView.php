@@ -30,7 +30,7 @@ final class ParticipationView
         $award = Participation::award($app);
 
         $call = Selection::row('calls', $offer->call_id);
-        $canOpen = ($authority || $reviewer) && ! $owner && $call->mode === 'DEMO' && in_array($call->status, ['published', 'closed']) && $app->status === 'submitted' && in_array($app->eligibility, ['pending', 'disabled']) && ! $amendments->whereIn('status', ['open', 'submitted'])->count() && DB::table('reviews')->where('application_id', $id)->whereIn('decision', ['observed', 'fails'])->exists();
+        $canOpen = ($authority || $reviewer) && ! $owner && Selection::isOperable($call) && in_array($call->status, ['published', 'closed']) && $app->status === 'submitted' && in_array($app->eligibility, ['pending', 'disabled']) && ! $amendments->whereIn('status', ['open', 'submitted'])->count() && DB::table('reviews')->where('application_id', $id)->whereIn('decision', ['observed', 'fails'])->exists();
 
         return compact('call', 'canOpen', 'app', 'offer', 'owner', 'authority', 'reviewer', 'amendments', 'snapshots', 'requests', 'decisions', 'documents', 'award');
     }

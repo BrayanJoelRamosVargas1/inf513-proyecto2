@@ -25,7 +25,7 @@ final class ConsolidatedResultsController extends Controller
     {
         $data = $read->read($request->user(), $id);
         $tables = $this->tables($data);
-        $filePrefix = $data['call']->mode === 'HISTORICAL' ? 'consolidado-referencia-' : 'consolidado-demo-';
+        $filePrefix = Selection::reportPrefix($data['call'], 'consolidado');
         Access::transaction($request->user(), function () use ($request, $id, $format, $data) {
             Access::require($request->user(), $id, ['authority']);
             Selection::audit($request->user(), $id, 'consolidation.exported', 'call:'.$id, null,
@@ -45,7 +45,7 @@ final class ConsolidatedResultsController extends Controller
         foreach ($tables as $title => $table) {
             $sheet = new Worksheet($book, $title);
             $book->addSheet($sheet);
-            $sheet->setCellValueExplicit('A1', ($data['call']->mode === 'HISTORICAL' ? 'Reporte interno de referencia histórica' : 'DEMO · Sin validez institucional').' · '.$data['call']->title, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit('A1', Selection::reportNotice($data['call']).' · '.$data['call']->title, DataType::TYPE_STRING);
             $sheet->fromArray($table['headers'], null, 'A3');
             foreach ($table['rows'] as $i => $row) {
                 foreach ($row as $j => $value) {

@@ -192,7 +192,11 @@ final class PortalController extends Controller
     {
         Access::require($r->user(), $id, ['authority']);
         $call = Selection::row('calls', $id);
-        $filePrefix = $call->mode === 'HISTORICAL' ? 'reporte-referencia-'.$id : 'reporte-demo';
+        $filePrefix = match ($call->mode) {
+            'HISTORICAL' => 'reporte-referencia-'.$id,
+            'OFICIAL' => 'reporte-'.$id,
+            default => 'reporte-demo',
+        };
         $rows = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->join('users', 'users.id', '=', 'applications.user_id')->where('offers.call_id', $id)->orderBy('offers.id')->orderByDesc('applications.final')->get([
             'applications.id',
             'users.name',
@@ -256,7 +260,7 @@ final class PortalController extends Controller
         }
         $sheet = new Spreadsheet;
         $page = $sheet->getActiveSheet();
-        $page->setCellValue('A1', $call->mode === 'HISTORICAL' ? 'Referencia histórica · Reporte interno, sin aprobación institucional' : 'DEMO ACADÉMICA · Sin validez institucional');
+        $page->setCellValue('A1', Selection::reportNotice($call));
         $page->setCellValueExplicit('A2', $call->title, DataType::TYPE_STRING);
         $page->fromArray($headers, null, 'A3');
         foreach ($rows as $i => $row) {

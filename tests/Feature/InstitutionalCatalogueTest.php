@@ -477,13 +477,11 @@ final class InstitutionalCatalogueTest extends TestCase
         $this->actingAs($owner)->get('/api/v1/applications/'.$draft.'/receipt')->assertStatus(422);
     }
 
-    public function test_institutional_mode_rejects_mixed_database_and_training_creation(): void
+    public function test_institutional_mode_rejects_a_database_mixed_with_training_data(): void
     {
         [$reviewer,$call,$application,$doc,$input,$student] = $this->cpdFixture();
         config(['portal.experience' => 'institutional']);
         $this->actingAs($student)->getJson('/api/v1/me')->assertStatus(503);
-        $this->expectException(HttpException::class);
-        app(Selection::class)->createCall(User::factory()->create(['role' => 'authority']), []);
     }
 
     public function test_legacy_historical_export_does_not_label_real_sources_as_fictitious(): void

@@ -62,16 +62,47 @@ final class Selection
         ]);
     }
 
-    public static function demo(object $call): void
+    /** Modo de las convocatorias con las que opera esta instalación: DEMO en entrenamiento, OFICIAL en la instalación institucional. */
+    public static function operationalMode(): string
     {
-        if (config('portal.experience') !== 'training' || $call->mode !== 'DEMO') {
-            Scores::fail('Operación oficial o histórica bloqueada. Requiere validación institucional.');
+        return config('portal.experience') === 'institutional' ? 'OFICIAL' : 'DEMO';
+    }
+
+    /** La convocatoria pertenece al modo operativo de la instalación (las históricas son solo de consulta). */
+    public static function isOperable(object $call): bool
+    {
+        return $call->mode === self::operationalMode();
+    }
+
+    /** Leyenda de los reportes según el modo de la convocatoria. */
+    public static function reportNotice(object $call): string
+    {
+        return match ($call->mode) {
+            'HISTORICAL' => 'Referencia histórica · Reporte interno, sin aprobación institucional; no es una resolución oficial.',
+            'OFICIAL' => 'Reporte del sistema de selección de auxiliares. Los resultados rigen cuando la autoridad competente los aprueba por resolución; este documento no la reemplaza.',
+            default => 'DEMO · Datos sintéticos · Sin validez institucional ni nombramiento.',
+        };
+    }
+
+    public static function reportPrefix(object $call, string $base): string
+    {
+        return match ($call->mode) {
+            'HISTORICAL' => $base.'-referencia-',
+            'OFICIAL' => $base.'-',
+            default => $base.'-demo-',
+        };
+    }
+
+    public static function assertOperable(object $call): void
+    {
+        if (! self::isOperable($call)) {
+            Scores::fail('Esta convocatoria es de otro modo (histórica o de otra instalación) y solo admite consulta.');
         }
     }
 
     public static function receiving(object $call): void
     {
-        self::demo($call);
+        self::assertOperable($call);
         if (! Workspace::receiving($call)) {
             Scores::fail('La recepción no está abierta. El instante exacto de cierre es inclusivo en DEMO.');
         }

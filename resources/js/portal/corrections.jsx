@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { api, label } from './api';
+import { api, label, isOperable } from './api';
 import { Action, Field, evidence, reason, select } from './form-kit';
 import { Form, Loading, Session, useData } from './shared';
 import { Link, useParams } from 'react-router-dom';
@@ -45,7 +45,7 @@ export function Corrections() {
   } = useContext(Session);
   const [d, error, reload] = useData('/applications/' + id + '/corrections');
   if (!d) return <Loading error={error} />;
-  const operate = d.call.mode === 'DEMO' && ['evaluation', 'results'].includes(d.call.status) && d.app.participation === 'active';
+  const operate = isOperable(d.call) && ['evaluation', 'results'].includes(d.call.status) && d.app.participation === 'active';
   const options = [...((d.authority || d.reviewer) && d.app.merit !== null ? [['', 'Méritos /40']] : []), ...d.grades.filter(g => g.status !== 'draft').map(g => [g.id, `Examen #${g.id} · ${g.score}/100`])];
   return <>
     <Link to={'/postulaciones/' + id}>← Expediente</Link>

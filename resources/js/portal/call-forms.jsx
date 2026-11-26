@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { label } from './api';
+import { label, isOperable } from './api';
 import { Action, field, localDate, opts, reason, select } from './form-kit';
 import { Loading, Session, useData } from './shared';
 import { UserDirectory } from './user-directory';
@@ -48,7 +48,7 @@ const callFields = c => [field('title', 'Nombre', {
   value: c?.exam_place,
   required: false,
   maxLength: 200
-}), field('source', 'Fuente o decisión DEMO', {
+}), field('source', 'Fuente o decisión', {
   value: c?.source,
   type: 'textarea'
 })];
@@ -60,7 +60,7 @@ export function CreateCall() {
   } = useContext(Session);
   if (session.user.role !== 'authority') return <p>No tienes permiso para crear convocatorias.</p>;
   return <>
-    <h1>Crear convocatoria DEMO</h1>
+    <h1>Crear convocatoria</h1>
     <p>Los requisitos y fechas se congelan al publicar.</p>
     <Action
       title="Borrador de convocatoria"
@@ -80,8 +80,8 @@ export function CallConfiguration() {
   } = useParams();
   const [d, error, reload] = useData('/calls/' + id + '/configuration');
   if (!d) return <Loading error={error} />;
-  const draft = d.call.mode === 'DEMO' && d.call.status === 'draft';
-  const assign = d.call.mode === 'DEMO' && ['draft', 'published', 'closed', 'evaluation'].includes(d.call.status);
+  const draft = isOperable(d.call) && d.call.status === 'draft';
+  const assign = isOperable(d.call) && ['draft', 'published', 'closed', 'evaluation'].includes(d.call.status);
   const offerFields = o => [field('title', 'Nombre de la oferta', {
     value: o?.title
   }), select('category_id', 'Tipo de auxiliatura', opts(d.categories), o?.category_id), field('seats', 'Número de plazas', {
@@ -123,7 +123,7 @@ export function CallConfiguration() {
     step: '0.01',
     required: false,
     value: o?.approval_threshold
-  }), select('scheme', 'Composición DEMO', [['DEMO_AREAS_100', 'Áreas sobre 100'], ['DEMO_COMPONENTS_100', 'Componentes sobre 100'], ['PENDING_COMPOSITION', 'Composición pendiente']], o?.scheme), field('source', 'Fuente o decisión de configuración', {
+  }), select('scheme', 'Composición del examen', [['AREAS_100', 'Áreas sobre 100'], ['COMPONENTS_100', 'Componentes sobre 100'], ['PENDING_COMPOSITION', 'Composición pendiente'], ...(o?.scheme?.startsWith('DEMO_') ? [[o.scheme, 'Composición de entrenamiento (' + o.scheme + ')']] : [])], o?.scheme), field('source', 'Fuente o decisión de configuración', {
     type: 'textarea',
     value: o?.source ?? 'Configuración sintética sin validez institucional.'
   })];

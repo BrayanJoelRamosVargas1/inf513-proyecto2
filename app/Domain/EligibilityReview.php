@@ -15,7 +15,7 @@ final class EligibilityReview
             Access::require($u, $call->id, ['reviewer']);
             abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::legacyReview($id);
-            Selection::demo($call);
+            Selection::assertOperable($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('La revisión no está abierta.');
             }
@@ -52,7 +52,7 @@ final class EligibilityReview
             Access::require($u, $call->id, ['reviewer']);
             abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::legacyReview($id);
-            Selection::demo($call);
+            Selection::assertOperable($call);
             if ($app->status !== 'submitted' || $app->eligibility !== 'pending' || ! in_array($call->status, ['published', 'closed'])) {
                 Scores::fail('Decisión de habilitación no disponible.');
             }
@@ -83,7 +83,7 @@ final class EligibilityReview
             Access::require($u, $c->id, ['reviewer']);
             abort_if($app->user_id === $u->id, 403, 'No puede revisar ni habilitar su propia postulación.');
             Participation::noAmendment($id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if (! in_array($c->status, ['published', 'closed', 'evaluation']) || $app->status !== 'submitted' || $app->merit !== null) {
                 Scores::fail('El mérito confirmado requiere rectificación documentada; esta operación es solo registro inicial.');
             }

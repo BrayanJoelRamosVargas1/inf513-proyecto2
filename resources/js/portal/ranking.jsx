@@ -1,5 +1,5 @@
 import React from 'react';
-import { base, label } from './api';
+import { base, label, isOperable } from './api';
 import { Action, field } from './form-kit';
 import { ResultHistory } from './result-history';
 import { Loading, useData } from './shared';
@@ -11,7 +11,7 @@ export function Ranking() {
   } = useParams();
   const [d, error, reload] = useData('/offers/' + id + '/ranking');
   if (!d) return <Loading error={error} />;
-  const operate = d.call.mode === 'DEMO' && ['evaluation', 'results'].includes(d.call.status);
+  const operate = isOperable(d.call) && ['evaluation', 'results'].includes(d.call.status);
   const tied = d.ranking?.tied?.length > 0;
   const resolved = d.ties.some(t => t.status === 'resolved');
   const parse = v => typeof v === 'string' ? JSON.parse(v) : v;
@@ -97,13 +97,13 @@ export function Ranking() {
         />
       </> : <p>Acta: {t.minutes ?? 'Pendiente'}</p>}
     </section>)}{operate && d.ranking && (!tied || resolved) && (d.publications.length === 0 || d.offer.needs_publication_review) && <Action
-      title="Aprobar selección DEMO"
+      title="Aprobar selección"
       endpoint={`/offers/${id}/publications`}
       fields={[field('minutes', 'Acta y motivo de aprobación', {
         type: 'textarea',
         minLength: 20
       })]}
-      button="Aprobar publicación DEMO"
+      button="Aprobar publicación"
       after={reload}
     />}<ResultHistory
       publications={d.publications}

@@ -99,7 +99,7 @@ it('permite consultar la publicación anterior, el impacto y su antiguo desempat
   expect(screen.getByText('<script>contenido histórico literal</script>')).toBeVisible();
   expect(document.querySelector('main script,section script')).toBeNull();
   expect(screen.queryByRole('button', {
-    name: 'Aprobar publicación DEMO'
+    name: 'Aprobar publicación'
   })).not.toBeInTheDocument();
   expect(document.querySelector('form')).toBeNull();
 });
@@ -165,7 +165,7 @@ it('describe una ronda continuada sin presentarla como pendiente cuando la sigui
   expect(screen.getByText('Resuelto · Segunda ronda terminada')).toBeVisible();
   expect(screen.queryByText(/Nueva ronda pendiente/)).not.toBeInTheDocument();
   expect(screen.queryByRole('button', {
-    name: 'Aprobar publicación DEMO'
+    name: 'Aprobar publicación'
   })).not.toBeInTheDocument();
   expect(screen.queryByRole('heading', {
     name: 'Persiste el empate: nueva ronda'

@@ -11,13 +11,12 @@ final class CallLifecycle
 {
     public function createCall(User $u, array $d): int
     {
-        abort_unless(config('portal.experience') === 'training', 422, 'Las operaciones de entrenamiento requieren una instalación separada.');
         abort_unless($u->active && $u->role === 'authority', 403);
 
         return Access::transaction($u, function () use ($u, $d) {
             abort_unless($u->role === 'authority', 403);
             $id = DB::table('calls')->insertGetId(array_merge($d, [
-                'mode' => 'DEMO',
+                'mode' => Selection::operationalMode(),
                 'status' => 'draft',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -36,7 +35,7 @@ final class CallLifecycle
         Access::transaction($u, function () use ($u, $callId, $d) {
             $call = Selection::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
-            Selection::demo($call);
+            Selection::assertOperable($call);
             if ($call->status !== 'draft') {
                 Scores::fail('Solo se edita el borrador. Una convocatoria publicada requiere nueva versión vinculada.');
             }
@@ -54,7 +53,7 @@ final class CallLifecycle
         return Access::transaction($u, function () use ($u, $callId, $d, $offerId) {
             $call = Selection::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
-            Selection::demo($call);
+            Selection::assertOperable($call);
             if ($call->status !== 'draft') {
                 Scores::fail('La configuración publicada está congelada. Cree una nueva convocatoria/version vinculada.');
             }
@@ -89,6 +88,10 @@ final class CallLifecycle
                 DB::table('offers')->where('id', $offerId)->update($d + ['version' => $before->version + 1, 'updated_at' => now()]);
                 $id = $offerId;
             } else {
+                // Al crear una oferta sin nota mínima se propone la configurada para la instalación; la autoridad puede ajustarla antes de publicar.
+                if (($d['approval_threshold'] ?? null) === null && config('portal.approval_threshold_default') !== null) {
+                    $d['approval_threshold'] = config('portal.approval_threshold_default');
+                }
                 $id = DB::table('offers')->insertGetId($d + ['call_id' => $callId, 'created_at' => now(), 'updated_at' => now()]);
             }
             Selection::audit($u, $callId, $before ? 'offer.edited' : 'offer.created', 'offer:'.$id, $before, $d);
@@ -102,7 +105,7 @@ final class CallLifecycle
         Access::transaction($u, function () use ($u, $callId, $next) {
             $call = Selection::row('calls', $callId, true);
             Access::require($u, $callId, ['authority']);
-            Selection::demo($call);
+            Selection::assertOperable($call);
             $allowed = [
                 'draft' => 'published',
                 'published' => 'closed',

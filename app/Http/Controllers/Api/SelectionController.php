@@ -93,7 +93,7 @@ final class SelectionController extends Controller
             if (in_array($workspace, ['own', 'reviewer'])) {
                 $item->pending_action = null;
                 $amendment = $amendments->get($item->id);
-                if ($item->participation === 'active' && $item->call_mode === 'DEMO' && config('portal.experience') === 'training') {
+                if ($item->participation === 'active' && $item->call_mode === Selection::operationalMode()) {
                     if ($workspace === 'own' && $item->status === 'draft' && Workspace::receiving((object) ['mode' => $item->call_mode, 'status' => $item->call_status, 'opens_at' => $item->opens_at, 'closes_at' => $item->closes_at])) {
                         $item->pending_action = 'complete_draft';
                     } elseif ($item->status === 'submitted' && in_array($item->call_status, ['published', 'closed', 'evaluation', 'results'])) {
@@ -138,7 +138,7 @@ final class SelectionController extends Controller
         }
         $offer = $v['offer'];
         $criteria = array_merge(array_combine(array_map(fn ($key) => 'doc:'.$key, array_keys(Selection::json($offer->documents))), array_values(Selection::json($offer->documents))), Selection::json($offer->requirements));
-        $active = $app->participation === 'active' && $v['call']->mode === 'DEMO';
+        $active = $app->participation === 'active' && Selection::isOperable($v['call']);
         $frozen = DB::table('publications')->where('offer_id', $offer->id)->exists() || DB::table('tie_exams')->where('offer_id', $offer->id)->exists();
         $confirmedAreas = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')
             ->where('grades.application_id', $id)->whereIn('grades.status', ['confirmed', 'corrected'])->pluck('assignments.area')->all();

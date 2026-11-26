@@ -9,6 +9,7 @@ use App\Http\Controllers\PortalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 
 final class SessionController extends Controller
@@ -27,7 +28,7 @@ final class SessionController extends Controller
 
     public function csrf(Request $r)
     {
-        return response()->json(['token' => $r->session()->token()]);
+        return response()->json(['token' => $r->session()->token(), 'operational_mode' => Selection::operationalMode()]);
     }
 
     public function login(Request $r)
@@ -76,7 +77,35 @@ final class SessionController extends Controller
             'token' => $r->session()->token(),
             'roles' => Workspace::roles($r->user()),
             'training_enabled' => config('portal.experience') === 'training',
+            'operational_mode' => Selection::operationalMode(),
         ]);
+    }
+
+    /** Cambio de clave por la propia persona: exige la clave actual y cierra las demás sesiones. */
+    public function password(Request $r)
+    {
+        $d = $r->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:12|max:100|confirmed|different:current_password',
+        ]);
+        $user = $r->user();
+        if (! Hash::check($d['current_password'], $user->password)) {
+            self::event($r, 'password.rejected', 422);
+
+            return response()->json([
+                'message' => 'La clave actual no es correcta.',
+                'errors' => ['current_password' => ['La clave actual no es correcta.']],
+            ], 422);
+        }
+        DB::transaction(function () use ($user, $d) {
+            $user->forceFill(['password' => $d['password'], 'security_version' => $user->security_version + 1])->save();
+            Selection::audit($user, null, 'user.password_changed', 'user:'.$user->id);
+        });
+        $r->session()->regenerate();
+        $r->session()->put('security_version', $user->security_version);
+        self::event($r, 'password.changed', 204);
+
+        return response()->noContent();
     }
 
     public function logout(Request $r)

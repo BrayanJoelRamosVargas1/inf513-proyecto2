@@ -15,7 +15,7 @@ final class Evaluation
             $c = Selection::row('calls', $o->call_id, true);
             $o = Selection::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if (! in_array($c->status, ['draft', 'published', 'closed', 'evaluation'])) {
                 Scores::fail('La evaluación está cerrada.');
             }
@@ -44,7 +44,7 @@ final class Evaluation
             $as = Selection::row('assignments', $assignmentId);
             Access::require($u, $c->id, ['evaluator']);
             abort_if($a->user_id === $u->id, 403, 'No puede calificar su propia postulación.');
-            Selection::demo($c);
+            Selection::assertOperable($c);
             abort_unless($as->user_id === $u->id && $as->offer_id === $o->id, 403);
             if ($a->eligibility !== 'enabled' || $c->status !== 'evaluation') {
                 Scores::fail('Solo habilitados en evaluación abierta.');
@@ -82,7 +82,7 @@ final class Evaluation
             [$a,$o,$c] = Selection::lockedApplication($g->application_id);
             $g = Selection::row('grades', $gradeId, true);
             Access::require($u, $c->id, ['authority']);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ($g->status === 'draft') {
                 Scores::fail('El borrador solo puede completarlo su evaluador asignado.');
             }
@@ -116,7 +116,7 @@ final class Evaluation
             Access::require($u, $c->id, ['authority']);
             abort_if($a->user_id === $u->id, 403, 'No puede calcular su propia postulación.');
             Access::assertNotApplicant($u, $c->id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ($a->eligibility !== 'enabled' || $c->status !== 'evaluation' || $a->merit === null) {
                 Scores::fail('Requiere habilitación, mérito y etapa de evaluación.');
             }

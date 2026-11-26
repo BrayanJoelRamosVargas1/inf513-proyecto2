@@ -69,7 +69,7 @@ final class CallOperations
             'documents' => 'required|string|max:8000',
             'requirements' => 'required|string|max:15000',
             'weights' => 'required|string|max:3000',
-            'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])],
+            'scheme' => ['required', Rule::in([...Scores::CALCULABLE_SCHEMES, 'PENDING_COMPOSITION'])],
             'source' => 'required|string|max:2000',
             'theory_hours' => 'nullable|integer|min:0|max:200',
             'practice_hours' => 'nullable|integer|min:0|max:200',

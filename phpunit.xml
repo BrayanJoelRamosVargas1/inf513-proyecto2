@@ -20,6 +20,8 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="FICCT_EXPERIENCE" value="training"/>
+        <env name="FICCT_NOTA_MINIMA" value=""/>
         <env name="DB_CONNECTION" value="pgsql"/>
         <env name="DB_DATABASE" value="ficct_test"/>
         <env name="FICCT_ACCESS_FILE" value="storage/framework/testing/ACCESOS_DEMO.txt"/>

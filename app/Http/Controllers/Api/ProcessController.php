@@ -130,7 +130,7 @@ final class ProcessController extends Controller
                 'publication',
                 'choice',
                 'choices',
-            ])->put('can_choose', $call->mode === 'DEMO' && in_array($call->status, ['results', 'evaluation']));
+            ])->put('can_choose', Selection::isOperable($call) && in_array($call->status, ['results', 'evaluation']));
         })->values();
         unset($v['groups']);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api, base, csrf } from './api';
+import { api, base, csrf, setOperationalMode } from './api';
 import { Auth } from './auth';
 import { Alert, ErrorBoundary, Session } from './shared';
 import { AppShell } from './shell';
@@ -15,6 +15,7 @@ function Root() {
   useEffect(() => {
     csrf().then(() => api.get('/me')).then(r => {
       api.defaults.headers.common['X-CSRF-TOKEN'] = r.data.token;
+      setOperationalMode(r.data.operational_mode);
       setSession(r.data);
     }).catch(e => {
       if (!e.response || e.response.status >= 500) setBootError('No se pudo conectar con el servidor. Compruebe su conexión e intente de nuevo en unos minutos.');

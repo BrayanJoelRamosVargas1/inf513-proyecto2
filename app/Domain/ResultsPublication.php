@@ -59,7 +59,7 @@ final class ResultsPublication
             $o = Selection::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
             Access::assertNotApplicant($u, $c->id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists() || DB::table('tie_exams')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('No se puede abrir otro desempate en este estado.');
             }
@@ -99,7 +99,7 @@ final class ResultsPublication
             $t = Selection::row('tie_exams', $id, true);
             Access::require($u, $c->id, ['authority']);
             Access::assertNotApplicant($u, $c->id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision) {
                 Scores::fail('El nuevo examen no está pendiente.');
             }
@@ -144,7 +144,7 @@ final class ResultsPublication
             $c = Selection::row('calls', $o->call_id, true);
             Access::require($u, $c->id, ['authority']);
             Access::assertNotApplicant($u, $c->id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ($t->status !== 'scheduled' || ! in_array($c->status, ['evaluation', 'results']) || $t->result_revision !== $o->result_revision || now()->lt($t->scheduled_at)) {
                 Scores::fail('La ronda no admite continuidad en este estado.');
             }
@@ -194,12 +194,12 @@ final class ResultsPublication
             $o = Selection::row('offers', $offerId, true);
             Access::require($u, $c->id, ['authority']);
             Access::assertNotApplicant($u, $c->id);
-            Selection::demo($c);
+            Selection::assertOperable($c);
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('La oferta no admite otra aprobación silenciosa.');
             }
             if (mb_strlen(trim($minutes)) < 10) {
-                Scores::fail('Se requiere acta de aprobación DEMO.');
+                Scores::fail('Se requiere el acta de aprobación (mínimo 10 caracteres).');
             }
             if (DB::table('correction_requests')->join('applications', 'applications.id', '=', 'correction_requests.application_id')->where('applications.offer_id', $offerId)->where('correction_requests.status', 'pending')->exists()) {
                 Scores::fail('Resuelva las rectificaciones pendientes.');
@@ -228,7 +228,7 @@ final class ResultsPublication
                 ]);
             }
             $snapshot = [
-                'mode' => 'DEMO',
+                'mode' => Selection::operationalMode(),
                 'offer' => (array) $o,
                 'ranking' => $this->ranking($offerId)['rank'],
                 'selected' => $winners,
@@ -246,7 +246,15 @@ final class ResultsPublication
                 'updated_at' => now(),
             ]);
             DB::table('offers')->where('id', $offerId)->update(['needs_publication_review' => false]);
-            Selection::audit($u, $c->id, 'result.approved', 'offer:'.$offerId, null, ['selected' => $winners], $minutes);
+            // Plazo reglamentario de 48 h entre el examen y la publicación: se registra y se avisa, pero no bloquea la publicación.
+            $lastGrade = DB::table('grades')->join('applications', 'applications.id', '=', 'grades.application_id')
+                ->where('applications.offer_id', $offerId)->whereIn('grades.status', ['confirmed', 'corrected'])->max('grades.updated_at');
+            $hours = $lastGrade ? (int) CarbonImmutable::parse($lastGrade)->diffInHours(now()) : null;
+            Selection::audit($u, $c->id, 'result.approved', 'offer:'.$offerId, null, [
+                'selected' => $winners,
+                'hours_since_last_grade' => $hours,
+                'deadline_48h' => $hours === null ? null : ($hours <= 48 ? 'met' : 'exceeded'),
+            ], $minutes);
         });
     }
 }

@@ -128,7 +128,7 @@ final class Administration
             $c = Selection::row('calls', $o->call_id, true);
             Access::require($actor, $c->id, ['authority']);
             $this->reason($reason);
-            if ($c->mode !== 'DEMO' || ! in_array($c->status, ['draft', 'published', 'closed', 'evaluation'])) {
+            if (! Selection::isOperable($c) || ! in_array($c->status, ['draft', 'published', 'closed', 'evaluation'])) {
                 Scores::fail('Reasignación cerrada.');
             }
             if ($a->version !== $version || $a->user_id === $user) {

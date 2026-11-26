@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Session, useData, Loading } from './shared';
-import { label } from './api';
+import { label, isOperable } from './api';
 export const workspaces = {
   own: {
     title: 'Mis postulaciones',
@@ -123,7 +123,7 @@ export function Calls({
   const [d, error] = useData('/calls');
   const [filter, setFilter] = useState('all');
   if (!d) return <Loading error={error} />;
-  const receiving = c => c.mode === 'DEMO' && c.status === 'published' && Date.now() >= Date.parse(c.opens_at) && Date.now() <= Date.parse(c.closes_at);
+  const receiving = c => isOperable(c) && c.status === 'published' && Date.now() >= Date.parse(c.opens_at) && Date.now() <= Date.parse(c.closes_at);
   const calls = session.user.role === 'student' ? [...d.calls].sort((a, b) => Number(receiving(b)) - Number(receiving(a))) : d.calls;
   const visible = calls.filter(c => filter === 'all' || (filter === 'open' ? receiving(c) : c.mode === 'HISTORICAL'));
   return <section className="calls-section">
@@ -133,7 +133,7 @@ export function Calls({
         <h1>Convocatorias</h1>
         <p>Encuentra las fechas y requisitos de cada proceso. Las referencias históricas se conservan para consulta.</p>
       </div>
-      {session.user.role === 'authority' && <Link className="button" to="/convocatorias/nueva">Crear convocatoria DEMO</Link>}
+      {session.user.role === 'authority' && <Link className="button" to="/convocatorias/nueva">Crear convocatoria</Link>}
     </div>}
     {!embedded && <div className="filter-tabs" role="group" aria-label="Filtrar convocatorias">
       {[['all', 'Todas'], ['open', 'Recepción vigente'], ['historical', 'Históricas']].map(([value, text]) => {
@@ -159,7 +159,7 @@ export function Calls({
           <span className="badge">{c.status === 'published' ? receiving(c) ? 'Recepción vigente' : 'Recepción fuera de plazo' : label(c.status)} · {c.mode}</span>
         </div>
         <p className="eyebrow">
-          {c.mode === 'HISTORICAL' ? 'Referencia histórica' : 'Proceso de demostración'}
+          {c.mode === 'HISTORICAL' ? 'Referencia histórica' : c.mode === 'DEMO' ? 'Proceso de demostración' : 'Convocatoria oficial'}
         </p>
         <h2><Link to={'/convocatorias/' + c.id}>{c.title}</Link></h2>
         <dl className="call-dates">

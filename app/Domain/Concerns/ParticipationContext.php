@@ -13,7 +13,7 @@ trait ParticipationContext
         $a = Selection::row('applications', $id);
         $o = Selection::row('offers', $a->offer_id);
         $c = Selection::row('calls', $o->call_id, true);
-        if ($c->mode !== 'DEMO' || ! in_array($c->status, ['published', 'closed', 'evaluation', 'results'])) {
+        if (! Selection::isOperable($c) || ! in_array($c->status, ['published', 'closed', 'evaluation', 'results'])) {
             Scores::fail('Procedimiento disponible solo en convocatorias DEMO no archivadas.');
         }
 

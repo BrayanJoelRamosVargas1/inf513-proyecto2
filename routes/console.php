@@ -7,3 +7,4 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::command('ficct:scan-renew --apply')->hourly()->withoutOverlapping();
 Schedule::command('ficct:scan-worker --max-jobs=200 --max-seconds=240')->everyFiveMinutes()->withoutOverlapping();
 Schedule::command('ficct:scan-maintain --apply')->hourly()->withoutOverlapping();
+Schedule::command('ficct:telemetry-prune --apply')->dailyAt('03:30')->withoutOverlapping();

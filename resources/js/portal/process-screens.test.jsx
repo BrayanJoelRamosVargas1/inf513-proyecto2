@@ -287,7 +287,7 @@ describe('CreateCall', () => {
       role: 'authority'
     }, <CreateCall />, '/convocatorias/nueva', '/convocatorias/nueva');
     expect(screen.getByRole('heading', {
-      name: 'Crear convocatoria DEMO'
+      name: 'Crear convocatoria'
     })).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText('Nombre'), {
       target: {

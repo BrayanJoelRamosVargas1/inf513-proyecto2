@@ -40,7 +40,7 @@ final class ScanRenewal
         $applications = DB::table('applications')
             ->join('offers', 'offers.id', '=', 'applications.offer_id')
             ->join('calls', 'calls.id', '=', 'offers.call_id')
-            ->where('calls.mode', 'DEMO')->whereIn('calls.status', self::CALL_STATUSES)
+            ->where('calls.mode', Selection::operationalMode())->whereIn('calls.status', self::CALL_STATUSES)
             ->where('applications.status', 'submitted')->where('applications.participation', 'active')
             ->orderBy('applications.id')->pluck('applications.id');
 

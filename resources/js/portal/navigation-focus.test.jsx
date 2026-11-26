@@ -62,7 +62,7 @@ describe('Foco y título al navegar (F-21)', () => {
         <AppShell />
       </Session.Provider>
     </MemoryRouter>);
-    await waitFor(() => expect(document.title).toBe('Mi cuenta · FICCT · Proyecto 2'));
+    await waitFor(() => expect(document.title).toBe('Mi cuenta · Auxiliares FICCT'));
     const main = document.getElementById('contenido');
     expect(main).toHaveAttribute('tabindex', '-1');
     expect(document.activeElement).not.toBe(main);
@@ -106,7 +106,7 @@ describe('Foco y título al navegar (F-21)', () => {
       name: /Materiales/
     }));
     await waitFor(() => expect(document.activeElement).toBe(document.getElementById('contenido')));
-    expect(document.title).toBe('Materiales de entrenamiento · FICCT · Proyecto 2');
+    expect(document.title).toBe('Materiales de entrenamiento · Auxiliares FICCT');
   });
 });
 

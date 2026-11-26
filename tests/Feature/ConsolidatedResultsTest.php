@@ -176,6 +176,19 @@ final class ConsolidatedResultsTest extends TestCase
         $this->assertDatabaseCount('publications', 1);
     }
 
+    public function test_approval_records_the_48_hour_deadline_without_blocking_the_publication(): void
+    {
+        $this->evaluate();
+        $this->confirmScore($this->application);
+        DB::table('grades')->update(['updated_at' => now()->subHours(60)]);
+        $this->s->approve($this->authority, $this->offer, 'Publicación fuera del plazo de 48 horas.');
+        $audit = DB::table('audit_events')->where('action', 'result.approved')->latest('id')->first();
+        $after = json_decode($audit->after, true);
+        $this->assertSame('exceeded', $after['deadline_48h']);
+        $this->assertGreaterThanOrEqual(60, $after['hours_since_last_grade']);
+        $this->assertDatabaseCount('publications', 1);
+    }
+
     public function test_c06_renunciation_separates_published_selection_from_active_award(): void
     {
         $this->evaluate();

@@ -30,7 +30,7 @@ final class Rectifications
             $o = Selection::row('offers', $a->offer_id);
             $c = Selection::row('calls', $o->call_id, true);
             Access::assertNotApplicant($u, $c->id);
-            if ($c->mode !== 'DEMO' || ! in_array($c->status, ['evaluation', 'results'])) {
+            if (! Selection::isOperable($c) || ! in_array($c->status, ['evaluation', 'results'])) {
                 Scores::fail('Rectificación disponible únicamente en evaluación o resultados DEMO.');
             }
             if (mb_strlen(trim($reason)) < 10 || mb_strlen(trim($evidence)) < 10) {
@@ -93,7 +93,7 @@ final class Rectifications
             $r = Selection::row('correction_requests', $id, true);
             Access::require($u, $c->id, ['authority']);
             abort_if($a->user_id === $u->id, 403, 'No puede decidir una rectificación de su propia postulación.');
-            if ($c->mode !== 'DEMO' || ! in_array($c->status, ['evaluation', 'results'])) {
+            if (! Selection::isOperable($c) || ! in_array($c->status, ['evaluation', 'results'])) {
                 Scores::fail('Etapa cerrada o convocatoria histórica.');
             }
             if ($r->requester_id === $u->id) {

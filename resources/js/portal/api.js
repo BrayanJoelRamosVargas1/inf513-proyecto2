@@ -10,11 +10,23 @@ export const api = axios.create({
   }
 });
 
+// Modo de las convocatorias con las que opera la instalación: DEMO (entrenamiento) u OFICIAL (instalación institucional).
+let operationalMode = 'DEMO';
+
+export const setOperationalMode = mode => {
+  operationalMode = mode || 'DEMO';
+};
+
+export const isTraining = () => operationalMode === 'DEMO';
+
+export const isOperable = call => call?.mode === operationalMode;
+
 export async function csrf() {
   const {
     data
   } = await api.get('/csrf');
   api.defaults.headers.common['X-CSRF-TOKEN'] = data.token;
+  setOperationalMode(data.operational_mode);
 }
 
 export function message(error) {
@@ -50,7 +62,7 @@ export const labels = {
   active: 'Activa',
   withdrawn: 'Retirada',
   resigned: 'Renunciada',
-  selected: 'Seleccionado DEMO',
+  selected: 'Seleccionado',
   not_selected: 'Fuera de cupo',
   under_review: 'Resultados en revisión',
   meets: 'Cumple',
@@ -79,7 +91,7 @@ Object.assign(labels, {
   superseded: 'Ronda conservada',
   withdrawal: 'Retiro de postulación',
   renunciation: 'Renuncia a plaza',
-  accept: 'Aceptación DEMO',
+  accept: 'Aceptación',
   defer: 'Decisión diferida',
   pre_amendment_review: 'Revisión anterior a la subsanación',
   faculty: 'Facultad',
