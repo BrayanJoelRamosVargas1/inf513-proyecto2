@@ -66,7 +66,7 @@ Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · 
 | F-15 | Hecho | Pruebas nuevas de `useData`, `uuid`, títulos, `Awards`, `Corrections`, `CreateCall`, `CpdRecord` y `Preferences` (`process-screens.test.jsx`, `navigation-focus.test.jsx`). `ResultHistory` ya se ejercita en `ranking-history.test.jsx` y la pantalla `Call` en `call-readonly.test.jsx`. No se añadió axe a `npm test`. |
 | F-16 | Hecho | `ScoresTest` y pruebas de los reportes de la API. |
 | F-17 | Hecho (documentado) | `scripts/README.md` lista los requisitos externos. Las guardas de aislamiento faltantes en `academic_business.cjs` no se tocaron. |
-| F-18 | Hecho | README reescrito con cifras reales; el anterior está en `docs/HISTORICO_README.md`. |
+| F-18 | Hecho | README reescrito con cifras reales; el anterior está en `ARCHIVO_SISTEMA_FICCT/docs_historicos/HISTORICO_README.md`. |
 | F-19 | Hecho | `/entrenamiento` registra su visita. |
 | F-20 | Hecho | `uuid` sin contexto seguro, alerta accesible en lugar de `window.alert`, error de conexión visible. |
 | F-21 | Hecho | Título por ruta, foco al contenido al navegar (no en la carga inicial) y `scope="col"` en cabeceras React y Blade. No se añadieron `caption` a las tablas Blade. |

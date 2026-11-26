@@ -72,7 +72,7 @@ composer audit
 
 | Ruta | Contenido |
 |---|---|
-| `app/Domain` | Reglas del proceso. `Selection` es una fachada que delega en `CallLifecycle`, `ApplicationIntake`, `EligibilityReview`, `Evaluation` y `ResultsPublication`; además `Scores`, `Access`, `Participation`, `Rectifications`, `ResultRevisions`, `DocumentSafety`, `ScanRenewal` |
+| `app/Domain` | Reglas del proceso. `Selection` es una fachada que delega en `CallLifecycle`, `ApplicationIntake`, `EligibilityReview`, `Evaluation` y `ResultsPublication`; además `Scores`, `Access`, `Participation` (fachada de `Amendments`, `ParticipationRequests` y `AwardChoices`), `Rectifications`, `ResultRevisions`, `DocumentSafety`, `ScanRenewal` |
 | `app/Http/Operations` | Casos de uso compartidos por Blade y API (una clase por área) |
 | `app/ReadModels` | Lecturas que arman las pantallas y la API |
 | `app/Console/Commands` | Comandos `ficct:*` |

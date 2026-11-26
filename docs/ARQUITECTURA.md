@@ -1,3 +1,5 @@
+> **Estructura actual (26/11/2026).** `Selection` y `Participation` son fachadas estables: delegan en `CallLifecycle`, `ApplicationIntake`, `EligibilityReview`, `Evaluation`, `ResultsPublication` y en `Amendments`, `ParticipationRequests`, `AwardChoices`. Los controladores Blade y la API comparten los casos de uso de `app/Http/Operations` y las lecturas de `app/ReadModels`. El frontend (`resources/js/portal`) se divide por pantalla: `auth`, `shell`, `call`, `application`, `sandbox`, `call-forms`, `ranking`, `corrections`, `participation` y `form-kit` (campos y acciones comunes); `main.jsx` solo arranca la aplicación. Las secciones siguientes describen el diseño original y pueden citar archivos con otro nombre.
+
 # Arquitectura del sistema existente
 
 La interfaz académica actual es una SPA React servida en `/p2`, que consume la API REST de Laravel 12 mediante Axios. PostgreSQL mantiene la persistencia y las restricciones. Las vistas Blade se conservan como interfaz complementaria. Node se utiliza para compilar y probar el frontend; no ejecuta las reglas académicas ni decide permisos. Los apartados de extensiones conservan la evolución histórica de la aplicación.

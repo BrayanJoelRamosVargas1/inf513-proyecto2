@@ -1,3 +1,5 @@
+> Nota 26/11/2026: las rutas `evidence/` que se citan en este documento se archivaron en `ARCHIVO_SISTEMA_FICCT/evidencia/` (carpeta hermana de `sistema`, fuera del repositorio).
+
 # Trazabilidad vigente (contrato canónico preservado)
 
 **Continuación funcional — 15/11/2026:** 136 pruebas / 585 aserciones. El XML vigente se indica en `evidence/current-validation.json`; los XML anteriores se conservan sin cambios. RF-02/RF-03/RF-28/RF-29 incluyen nuevas referencias D01–D08 y C01–C09. PASS_BASE_DEMO_0_3 sigue siendo cobertura de base DEMO, no cierre institucional.
