@@ -48,7 +48,7 @@ La comprobación de datos se realizó en la base local operativa del proyecto, m
 
 | Bloque | Datos del PDF | Representación actual |
 |---|---|---|
-| Docencia por asignatura, pp. 1–3 | 49 asignaturas, aunque la numeración impresa llega a 53 con saltos. Modalidades presencial/virtual; máximo 4 asignaturas. | **0/49 ofertas históricas por asignatura cargadas.** Las materias ficticias DEMO no se cuentan como ofertas de este documento. El límite configurable de cuatro asignaturas sí existe en el motor. |
+| Docencia por asignatura, pp. 1–3 | 49 asignaturas, aunque la numeración impresa llega a 53 con saltos. Modalidades presencial/virtual; máximo 4 asignaturas. | **En el corte de este documento, 0/49 ofertas históricas por asignatura cargadas (superado el 25/11/2026: la importación documental carga 49 asignaturas de la convocatoria 01 y 17 de la 02, con 66 relaciones y plazas sin especificar, porque el PDF no las da).** Las materias ficticias DEMO no se cuentan como ofertas de este documento. El límite configurable de cuatro asignaturas sí existe en el motor. |
 | Admisión por materia, p. 1 | Antigüedad de un año/dos semestres, materia aprobada ≥51 en periodo regular, 80 % del nivel y niveles inferiores, reprobación específica, PPA ≥51, además de generales. | Motor de revisión disponible; catálogo de criterios históricos incompleto y sin conexión automática a datos académicos institucionales. |
 | Documentos, pp. 1–2 | Carta a Vicedecano con sigla/nombre, CPD, CI, histórico y certificado de autonomía; presentación física foliada en folder amarillo. | Tipos básicos de documentos disponibles, originales digitales/versiones y revisión privada. El envío digital no se declara sustituto autorizado del trámite físico. |
 | Fechas docencia, p. 2 | Cierre 30/01/2026 15:30; examen 2–3/02; resultados 5/02; asignación de horarios 9/02. | Cierre histórico correcto; no calendario independiente íntegro por modalidad ni plazos de publicación/horarios estructurados. |
@@ -112,7 +112,7 @@ El servidor sigue gobernando los permisos; los accesos rápidos no conceden priv
 
 La compilación actual y el runtime local se sincronizan mediante el mecanismo existente con respaldo de archivos y huellas. Se conservaron el tarball previo y el commit GitHub autorizado como antecedentes; el frontend nuevo no se presenta como publicado en Tecnoweb ni cubierto automáticamente por la aceptación de aquel tarball.
 
-Resultados de esta intervención: 306 pruebas PHP / 1.973 aserciones aprobadas en `ficct_test`, separado de la base operativa; 65 React aprobadas; compilación aprobada. La revisión visual y preservación final se registran en el recibo `frontend-review.json` de la carpeta privada de evidencia de esta intervención.
+Resultados de esta intervención (cifras de ese corte; las vigentes están en el README): 306 pruebas PHP / 1.973 aserciones aprobadas en `ficct_test`, separado de la base operativa; 65 React aprobadas; compilación aprobada. La revisión visual y preservación final se registran en el recibo `frontend-review.json` de la carpeta privada de evidencia de esta intervención.
 
 La autorización institucional y la vigencia de todas las disposiciones no se certifican mediante este contraste del corpus. Se conserva NO_GO_INSTITUCIONAL. No se alteraron servidor remoto, GitHub ni la base remota.
 

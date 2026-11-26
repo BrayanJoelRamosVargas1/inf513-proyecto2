@@ -359,7 +359,7 @@ CU: CU8. RF: RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## D-22 · páginas 12
 
@@ -373,7 +373,7 @@ CU: CU8. RF: RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## D-23 · páginas 13
 
@@ -905,7 +905,7 @@ CU: CU8. RF: RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## L-21 · páginas 25
 
@@ -919,7 +919,7 @@ CU: CU8. RF: RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## L-22 · páginas 25
 
@@ -933,7 +933,7 @@ CU: CU2, CU8. RF: RF-06, RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## L-23 · páginas 25, 26
 
@@ -947,7 +947,7 @@ CU: CU8. RF: RF-29.
 
 Verificación: tests/Feature/InstitutionalCatalogueTest.php::test_external_approval_cannot_be_claimed_without_an_original_source
 
-Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento.
+Dependencia/límite: Competencias, umbral final, actos originales, plazos operativos y autorización institucional pendientes. Registrar un acto no implementa el nombramiento. El sistema solo permite registrar el acto como evidencia interna (InstitutionalRegister::record); no calcula, controla ni alerta este plazo o período.
 
 ## L-24 · páginas 26
 

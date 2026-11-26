@@ -1,4 +1,8 @@
-## Cierre local del 24/11/2026 (lectura vigente)
+## Estado tras la auditoría general del 25/11/2026
+
+La auditoría de `documentos_tecno/AUDITORIA_GENERAL_20261125.md` se corrigió en la rama local `correcciones-auditoria` (respaldo previo en `respaldo-pre-correcciones`). Resultado: 397 pruebas PHP / 2281 aserciones y 80 pruebas React sin fallos; detalle de cada hallazgo, lo corregido y lo diferido en `CORRECCIONES_AUDITORIA_20261125.md`; decisiones que requieren respuesta de la cátedra o de la institución en `DECISIONES_PENDIENTES_20261125.md`. Esta intervención no se ha publicado en GitHub ni en Tecnoweb. Las secciones siguientes son antecedentes fechados.
+
+## Cierre local del 24/11/2026 (lectura anterior)
 
 La aplicación principal es React `/p2` y API Laravel; Blade permanece como compatibilidad probada, con los mismos servicios académicos. La matriz de 123 operaciones conserva todos los identificadores: 95 verificadas localmente y 28 equivalencias justificadas. Esto acredita escenarios representativos, permisos y contratos técnicos; no todos los payloads posibles ni autorización institucional.
 

@@ -79,4 +79,4 @@ Sin renumerar ni reescribir los 8 CU/RF canónicos. Contraste de originales here
 
 Resultado de ejecución 0.3: 102 pruebas / 311 aserciones, cero fallos. Distribución: 38 de selección + 31 de gobernanza + 32 de participación + 1 adicional. Las 70 de 0.2 siguen aprobando. Concurrencia: once carreras entre procesos, separadas del conteo PHPUnit. Alcances y limitaciones completos en DEMO_0_3_CAMBIOS_Y_VALIDACION.md.
 
-Continuación 25/11/2026: 341 pruebas PHP / 2112 aserciones y 70 React. Las cifras de los apartados históricos anteriores se conservan como historia, no como conteo actual.
+Continuación 25/11/2026: 341 pruebas PHP / 2112 aserciones y 70 React. Tras las correcciones de la auditoría general (rama `correcciones-auditoria`): 397 pruebas PHP / 2281 aserciones y 80 React; ver `docs/CORRECCIONES_AUDITORIA_20261125.md`. Las citas `Selection.php:línea` de las matrices anteriores se refieren al archivo previo a la separación en `CallLifecycle`, `ApplicationIntake`, `EligibilityReview`, `Evaluation` y `ResultsPublication`. Las cifras de los apartados históricos anteriores se conservan como historia, no como conteo actual.

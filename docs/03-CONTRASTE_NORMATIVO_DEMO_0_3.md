@@ -4,7 +4,7 @@
 
 Fecha de consulta: 10/11/2026. No se modifican los ocho CU ni RF-01..RF-30. Se distingue evidencia heredada, fuentes consultadas ahora y decisiones técnicas. Este informe no confirma vigencia normativa ni sustituye la revisión institucional.
 
-## Disponibilidad real
+## Disponibilidad real (antecedente del 10/11/2026, superado: ver el encabezado)
 
 La revisión anterior dejó inventario, hashes y localizadores de cuatro PDF y tres fotografías. En esta continuación se comprobó que **no están disponibles** `../material_v2/FICCT_GRUPO09/fuentes/` ni el ZIP original en la ruta de Descargas comunicada inicialmente. El ZIP de código 0.2 no incluye esas fuentes. No se declara haber reabierto los originales en esta ejecución ni haber comparado sus bytes con los hashes.
 
@@ -50,4 +50,4 @@ El apartado siguiente conserva el estado inicial como antecedente. Su `NOT_VERIF
 
 Recuperar los cuatro PDF y tres fotografías originales y comprobar sus hashes; revisar texto íntegro y vigencia; confirmar plazos, responsables, recursos, reaperturas posteriores a evaluación, efectos de renunciar, aceptación, compatibilidades y eventual cobertura de vacantes. Las decisiones técnicas DEMO quedan localizadas para sustituirlas por reglas institucionales confirmadas, conservando los históricos.
 
-**Contraste directo de originales: NOT_VERIFIED.** La implementación puede probar sus garantías técnicas; ello no convierte sus procedimientos en reglamentación oficial.
+**Contraste directo de originales: NOT_VERIFIED en el corte del 10/11/2026; superado el 25/11/2026**, cuando los originales (hashes verificados) se leyeron directamente: OCR local de las 29 páginas de la resolución y revisión visual de las páginas críticas. Resultado en `documentos_tecno/AUDITORIA_20261125_anexos/ANEXO_C_resolucion_vicerrectoral.md`; no cambia los límites institucionales. La implementación puede probar sus garantías técnicas; ello no convierte sus procedimientos en reglamentación oficial.

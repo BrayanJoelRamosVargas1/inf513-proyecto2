@@ -53,5 +53,7 @@ tarballs futuros. Si se cambia el archivo de entrega, debe conservarse la eviden
 anterior y aceptar el nuevo hash. La matriz de requisitos académicos y el plan de
 respaldo/reversión remota están en `CIERRE_INF513_ACTUAL.md`.
 
+Nota 25/11/2026: `evidence/release-acceptance/installation.json` del repositorio pertenece al paquete del 23/11 (hash `a55faf3f…`); un paquete nuevo necesita su propia aceptación.
+
 La aceptación local no autoriza publicación, entrega en plataforma ni concursos
 oficiales. Se conserva `NO_GO_INSTITUCIONAL`.

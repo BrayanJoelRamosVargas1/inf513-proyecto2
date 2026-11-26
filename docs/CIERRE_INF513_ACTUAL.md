@@ -32,6 +32,8 @@ La aceptación de ese nuevo hash se registra fuera del paquete en
 archivo acredita su instalación independiente. Se deja fuera para evitar un
 hash circular, no se atribuye automáticamente el ensayo anterior al paquete nuevo.
 
+> Nota 25/11/2026: el `evidence/release-acceptance/installation.json` que contiene este repositorio es el del paquete del 23/11 (hash `a55faf3f…`, 391 archivos). La aceptación del hash `77f717a9…` consta en la auditoría integral externa, fuera de este repositorio. Ese paquete ya no representa el árbol actual: hay que regenerarlo y aceptarlo de nuevo.
+
 Comprobación remota nueva, solo lectura: Tecnoweb responde HTTP 200 con cabecera
 PHP 8.4.28; PostgreSQL 18.6 mantiene 41 tablas/9 triggers en `ficct_p2`. FTP
 rechaza conexión y SSH rechaza las credenciales guardadas. No se pudieron
@@ -125,7 +127,7 @@ La matriz visual de la fase anterior conserva sus resultados y límites en [REDI
 | GitHub público | Repositorio existente `BrayanJoelRamosVargas1/inf513-proyecto2` | Actualizar al código revisado; no se inventa contribución grupal |
 | Tecnoweb y PostgreSQL asignado | Hay evidencias históricas de publicación académica | Preinstalación, actualización autorizada y recorrido remoto nuevos |
 | Tarball de entrega | Se prepara desde las fuentes actuales, con manifiesto y revisión de secretos | No prueba por sí solo instalación independiente o entrega en plataforma |
-| Presentación antes de las 20:00 del último día de clases | Consigna conservada | Confirmar fecha concreta y entregar en plataforma; no realizado |
+| Presentación antes de las 20:00 del último día de clases | Consigna P2 conservada, pero no está entre los PDF de `documentos_tecno`; el enunciado del Proyecto 1 allí provisto fija el cierre a las 15:00 del 20/11/2026. Son plazos distintos: confirmar el vigente con la cátedra | Confirmar fecha concreta y entregar en plataforma; no realizado |
 
 ## Tarball actual y actualización controlada
 
