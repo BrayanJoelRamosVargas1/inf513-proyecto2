@@ -4,7 +4,7 @@ Informe de origen: `documentos_tecno/AUDITORIA_GENERAL_20261125.md` y anexos A�
 
 **Verificación final:** PHPUnit 401 pruebas / 2297 aserciones sin fallos (solo sobre `ficct_test`); Vitest 100 pruebas en 20 archivos; `npm run build` correcto.
 
-Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · **Sin cambio** = decisión consciente · **Diferido** = requiere decisión o trabajo aparte (ver `DECISIONES_PENDIENTES_20261125.md`).
+Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · **Sin cambio** = decisión consciente · **Diferido** = requiere decisión o trabajo aparte (ver `DECISIONES_ADOPTADAS_20261126.md`).
 
 ## Anexo A — backend
 

@@ -1,14 +1,8 @@
-# Manual de uso y presentación — DEMO 0.3
+# Manual de uso
 
-Actualizado el 18/11/2026. Aplicación local: http://127.0.0.1:8116. El iniciador del equipo es `ABRIR_DEMO_FICCT_VALIDADA.ps1`, en la carpeta del proyecto. Las credenciales ficticias se guardan de forma privada en `sistema/.local/operacion-03/runtime/sistema/.local/ACCESOS_DEMO.txt`. No son cuentas de personas reales.
+Aplicación web en `/p2`. En la instalación real (`FICCT_EXPERIENCE=institutional`) no hay cuentas de ejemplo: la administración crea las cuentas de la autoridad, de las personas revisoras y de las evaluadoras, y los postulantes se registran solos. El modo entrenamiento (`training`), con escenarios de práctica y cuentas ficticias en `.local/ACCESOS_DEMO.txt`, se instala aparte y se describe en el README.
 
-## Escenarios para presentar
-
-- **Práctica guiada · Postulación y revisión documental:** recepción abierta; Carla tiene un expediente enviado con seis PDF A4 de muestra para el revisor; Bruno tiene un borrador vacío para practicar la carga. Un estudiante nuevo puede postular a esa oferta. Los plazos se indican en pantalla.
-- **Práctica guiada · Evaluación con expediente PDF:** Andrea está habilitada, con respaldo de mérito 20.00 de ejemplo. El evaluador tiene Software asignado para registrar su nota. La autoridad puede calcular y publicar después de su confirmación.
-- Los escenarios anteriores se conservan. Algunos contienen imágenes pequeñas usadas como pruebas técnicas: no son documentación oficial. La pantalla Revisar archivo indica formato, tamaño y dimensiones antes de abrir o descargar.
-
-Las prácticas se agregan una sola vez mediante `php artisan ficct:demo-documental` en entorno local. Volver a ejecutarlo no renueva plazos ni reemplaza expedientes. No ejecutar seeds, reinicios ni restauraciones para abrir la demostración.
+Para desplegar, ver `DESPLIEGUE.md`. Las reglas y su fundamento, en `DECISIONES_ADOPTADAS_20261126.md`.
 
 ## Qué hace cada perfil
 
@@ -28,17 +22,19 @@ En **Qué puedo hacer** el postulante y el revisor encuentran seis PDF de ejempl
 
 En el expediente, **Revisar archivo** muestra nombre original, versión, formato, tamaño y dimensiones cuando es imagen. **Abrir original** lo presenta en otra pestaña; **Descargar original** devuelve los mismos bytes cargados y el tipo correcto. El sistema comprueba el hash antes de entregar el archivo. No convierte un PDF en una imagen pequeña. Solo propietario y revisor autorizado pueden acceder; autoridad, administrador y evaluador no obtienen esos archivos por defecto.
 
-## Cómo presentar en orden
+## Recorrido de una convocatoria
 
-1. Administrador: mostrar los permisos separados por convocatoria.
-2. Bruno o estudiante nuevo: cargar PDF de muestra y confirmar envío; mostrar que un borrador incompleto no se envía.
-3. Revisor: abrir el expediente de Carla del escenario documental, consultar un PDF y registrar revisión.
-4. Evaluador: abrir el escenario de evaluación, registrar y confirmar Software sobre 100.
-5. Autoridad: calcular mérito + examen, revisar ranking y aprobar publicación DEMO; descargar consolidado PDF/Excel.
-6. Andrea: consultar el resultado de su propia postulación.
+1. Administración: crea las cuentas y asigna a cada persona su función en la convocatoria.
+2. Autoridad: crea el borrador, define ofertas, plazas, pesos del examen y nota mínima; asigna evaluadores y publica.
+3. Postulante: carga los documentos y confirma el envío dentro del plazo de recepción.
+4. Revisor: revisa cada documento y criterio, habilita o inhabilita y registra los méritos del CPD.
+5. Autoridad: cierra la recepción y abre la evaluación.
+6. Evaluador: registra y confirma la nota de las áreas asignadas.
+7. Autoridad: calcula, resuelve empates con la comisión, aprueba la publicación con el acta y descarga el consolidado PDF/Excel.
+8. Postulante: consulta su resultado; puede manifestar aceptación, retiro o renuncia.
 
 ## Procedimientos adicionales y límites
 
-Subsanaciones, retiros, renuncias, manifestaciones sobre adjudicaciones y rectificaciones están implementados como procedimientos DEMO con versiones y decisiones separadas. No representan validación institucional de plazos, compatibilidades o autoridades formales. Una renuncia no selecciona reemplazantes; una rectificación no sustituye automáticamente una publicación histórica. En convocatorias archivadas se consulta el historial, sin ofrecer operaciones cerradas.
+Subsanaciones, retiros, renuncias, manifestaciones sobre adjudicaciones y rectificaciones están implementados con versiones y decisiones separadas; los plazos los fija la autoridad de la convocatoria. Una renuncia no selecciona reemplazantes; una rectificación no sustituye automáticamente una publicación histórica. En convocatorias archivadas se consulta el historial, sin ofrecer operaciones cerradas.
 
-No se emiten nombramientos, certificados CPD, documentos de identidad ni firmas. El umbral aprobatorio y las ambigüedades de rúbricas y composición siguen sujetos a aclaración institucional. La aprobación de pruebas técnicas no significa cumplimiento normativo integral.
+No se emiten nombramientos, certificados CPD, documentos de identidad ni firmas. La nota mínima de aprobación se propone en 51 puntos y cada oferta la puede ajustar. Los resultados rigen cuando la autoridad competente los aprueba por resolución.

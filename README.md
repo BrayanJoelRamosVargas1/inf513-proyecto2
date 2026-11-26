@@ -3,15 +3,16 @@
 Aplicación web para gestionar convocatorias de auxiliares de docencia y de laboratorio: postulación, revisión documental, habilitación, méritos, examen, ranking, desempates, publicación de resultados, participación (subsanaciones, renuncias) y auditoría.
 
 - **Servidor:** Laravel 12 (PHP 8.3) con PostgreSQL 15. Reglas del proceso en `app/Domain`.
-- **Interfaz principal:** React 19 en `/p2`, que consume la API `/api/v1` con la sesión web y CSRF. Se conserva en paralelo la interfaz Blade (`/`), con los mismos servicios de dominio.
-- **Estado:** demostración técnica. **NO_GO_INSTITUCIONAL**: no está autorizada para concursos reales; varias reglas dependen de decisiones institucionales (ver más abajo).
+- **Interfaz:** React 19 en `/p2`, que consume la API `/api/v1` con la sesión web y CSRF. En la instalación real es la única interfaz; las vistas Blade (`/`) quedan para el modo entrenamiento.
+- **Dos modos de instalación**, según `FICCT_EXPERIENCE`: `institutional` (instalación real, convocatorias OFICIAL, sin datos de ejemplo) y `training` (entrenamiento con datos sintéticos DEMO, en otra base y otro servidor). Para desplegar la real, ver [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md).
+- **Reglas:** las decisiones adoptadas para la operación (nota mínima, plazos, roles) y su fundamento en la resolución y las convocatorias están en [`docs/DECISIONES_ADOPTADAS_20261126.md`](docs/DECISIONES_ADOPTADAS_20261126.md).
 
-## Estado verificado (25/11/2026, tras las correcciones de la auditoría)
+## Estado verificado (26/11/2026)
 
 | Control | Resultado |
 |---|---|
-| PHPUnit sobre `ficct_test` | 401 pruebas / 2297 aserciones, sin fallos |
-| Vitest (React) | 100 pruebas en 20 archivos, sin fallos |
+| PHPUnit sobre `ficct_test` | 414 pruebas / 2352 aserciones, sin fallos |
+| Vitest (React) | 103 pruebas en 21 archivos, sin fallos |
 | Compilación del frontend | `npm run build` correcta |
 
 Estas cifras corresponden a la rama `correcciones-auditoria`. La documentación histórica, la evidencia de cierres anteriores y los guiones de entrega se movieron el 26/11/2026 a `ARCHIVO_SISTEMA_FICCT/` (carpeta hermana de `sistema`, fuera del repositorio); sigue disponible en el historial de Git.
@@ -20,7 +21,9 @@ Estas cifras corresponden a la rama `correcciones-auditoria`. La documentación 
 
 PHP 8.3 con BCMath, PDO PostgreSQL, mbstring, gd, zip, dom, fileinfo, intl y openssl; Composer 2; PostgreSQL 15 (binarios); Python 3; Node 20 o superior y npm.
 
-## Instalación local
+## Instalación local de entrenamiento
+
+Es el modo `training` (cuentas y datos ficticios). Para una instalación real siga [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md).
 
 ```powershell
 composer install --no-interaction
@@ -49,7 +52,7 @@ Los trabajos de análisis de documentos y renovación de vigencia se programan e
 
 ### Producción
 
-Usar `.env.production.example` como guía: `APP_ENV=production`, `APP_DEBUG=false`, HTTPS (activa HSTS), `TRUSTED_PROXIES` si hay proxy inverso, `SESSION_SECURE_COOKIE`, ClamAV real (`FICCT_CLAMSCAN_BINARY`) y zona horaria de base `DB_TIMEZONE=America/La_Paz`. El servidor de desarrollo de PHP y el usuario del clúster local no son configuración de producción.
+Guía completa en [`docs/DESPLIEGUE.md`](docs/DESPLIEGUE.md); `php artisan ficct:verificar-instalacion` comprueba que la instalación esté lista. Usar `.env.production.example` como guía: `APP_ENV=production`, `APP_DEBUG=false`, HTTPS (activa HSTS), `TRUSTED_PROXIES` si hay proxy inverso, `SESSION_SECURE_COOKIE`, ClamAV real (`FICCT_CLAMSCAN_BINARY`) y zona horaria de base `DB_TIMEZONE=America/La_Paz`. El servidor de desarrollo de PHP y el usuario del clúster local no son configuración de producción.
 
 ## Pruebas
 
@@ -83,16 +86,14 @@ composer audit
 
 ## Qué cubre
 
-Registro y sesión; permisos por convocatoria; tipos de auxiliatura configurables; borrador, publicación, cierre, evaluación, resultados y archivo con reglas de transición; ofertas, plazas y pesos; postulación múltiple con límite por convocatoria; documentos privados con versiones, análisis antivirus y validez de 24 h; checklist de requisitos; habilitación; méritos del CPD (registro manual, máximo 40); examen ponderado (máximo 60) con dos decimales y un único redondeo HALF_UP; ranking con desempate por nuevo examen y acta; aprobación y publicación versionada; rectificaciones con revisión de resultados; subsanaciones, retiros y renuncias con vacantes retenidas; auditoría inmutable; reportes PDF y XLSX; registro institucional documental.
+Registro y sesión (con cambio de clave); permisos por convocatoria; tipos de auxiliatura configurables; borrador, publicación, cierre, evaluación, resultados y archivo con reglas de transición; ofertas, plazas y pesos; postulación múltiple con límite por convocatoria; documentos privados con versiones, análisis antivirus y validez de 24 h; checklist de requisitos; habilitación; méritos del CPD (registro manual, máximo 40); examen ponderado (máximo 60) con dos decimales y un único redondeo HALF_UP; ranking con desempate por nuevo examen y acta; aprobación y publicación versionada; rectificaciones con revisión de resultados; subsanaciones, retiros y renuncias con vacantes retenidas; auditoría inmutable; reportes PDF y XLSX; registro institucional documental.
 
-## Límites y decisiones pendientes
+## Alcance y límites
 
-- No hay nota mínima final: la Resolución 021/2023 habla de "puntaje de aprobación" sin dar cifra; el sistema no inventa un umbral.
-- No se controlan los plazos de 48 h, 24 h y 15 días de la resolución ni se modela el nombramiento, la carga horaria, el período académico ni el lugar de la convocatoria.
-- No existe el procedimiento de convocatoria desierta/vacante con límite de dos convocatorias consecutivas.
-- El enunciado entregado como Proyecto #1 (sistema por correo electrónico) es otro sistema; este repositorio corresponde al P2.
-- Detalle y estado de cada hallazgo de la auditoría: [`docs/CORRECCIONES_AUDITORIA_20261125.md`](docs/CORRECCIONES_AUDITORIA_20261125.md). Decisiones que requieren respuesta institucional o de la cátedra: [`docs/DECISIONES_PENDIENTES_20261125.md`](docs/DECISIONES_PENDIENTES_20261125.md).
+- El sistema cubre la **selección**: convocatoria, postulación, revisión, habilitación, méritos, examen, ranking, resultados y auditoría. El nombramiento, los certificados, el CPD, el envío de correos y el cruce de horarios quedan fuera y los hace la autoridad con los reportes y el acta que el sistema produce.
+- La **nota mínima de aprobación** se propone en 51 puntos (`FICCT_NOTA_MINIMA`, ajustable por oferta); los plazos de 48 h, 24 h y 15 días se registran y avisan, no bloquean. El fundamento de cada decisión está en [`docs/DECISIONES_ADOPTADAS_20261126.md`](docs/DECISIONES_ADOPTADAS_20261126.md).
+- Estado de cada hallazgo de la auditoría: [`docs/CORRECCIONES_AUDITORIA_20261125.md`](docs/CORRECCIONES_AUDITORIA_20261125.md).
 
 ## Documentación
 
-[`ARQUITECTURA.md`](docs/ARQUITECTURA.md) · [`MANUAL_Y_DEMO.md`](docs/MANUAL_Y_DEMO.md) · [`CU_Y_RF_CANONICOS.md`](docs/CU_Y_RF_CANONICOS.md) · [`02-TRAZABILIDAD.md`](docs/02-TRAZABILIDAD.md) · [`MATRIZ_NORMATIVA_ACTUAL.md`](docs/MATRIZ_NORMATIVA_ACTUAL.md) · [`SOLICITUDES_INSTITUCIONALES.md`](docs/SOLICITUDES_INSTITUCIONALES.md) · [`RUNBOOK_BD_INCIDENTES.md`](docs/RUNBOOK_BD_INCIDENTES.md) · [`INF513_P2_OPENAPI.json`](docs/INF513_P2_OPENAPI.json)
+[`ARQUITECTURA.md`](docs/ARQUITECTURA.md) · [`DESPLIEGUE.md`](docs/DESPLIEGUE.md) · [`MANUAL_DE_USO.md`](docs/MANUAL_DE_USO.md) · [`DECISIONES_ADOPTADAS_20261126.md`](docs/DECISIONES_ADOPTADAS_20261126.md) · [`CU_Y_RF_CANONICOS.md`](docs/CU_Y_RF_CANONICOS.md) · [`02-TRAZABILIDAD.md`](docs/02-TRAZABILIDAD.md) · [`MATRIZ_NORMATIVA_ACTUAL.md`](docs/MATRIZ_NORMATIVA_ACTUAL.md) · [`SOLICITUDES_INSTITUCIONALES.md`](docs/SOLICITUDES_INSTITUCIONALES.md) · [`RUNBOOK_BD_INCIDENTES.md`](docs/RUNBOOK_BD_INCIDENTES.md) · [`INF513_P2_OPENAPI.json`](docs/INF513_P2_OPENAPI.json)
