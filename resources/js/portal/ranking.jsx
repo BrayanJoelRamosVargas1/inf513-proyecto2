@@ -47,6 +47,7 @@ export function Ranking() {
         </table>
       </div>
       <p>El orden visual de notas iguales no resuelve un empate.</p>
+      {d.ranking.approval_threshold != null && <p>Nota mínima final de aprobación: {d.ranking.approval_threshold}. {d.ranking.below_threshold?.length ? `${d.ranking.below_threshold.length} postulación(es) habilitada(s) no la alcanzan y quedan fuera de la selección.` : 'Todas las postulaciones habilitadas la alcanzan.'}</p>}
       <p>Vacantes totales: {d.ranking.vacancies} · Retenidas: {d.ranking.held_vacancies} · Por insuficiencia: {d.ranking.vacancies - d.ranking.held_vacancies}</p>
     </section>}{operate && tied && !resolved && d.ties.length === 0 && <Action
       title="Convocar examen exclusivo de desempate"

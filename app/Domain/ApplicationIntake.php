@@ -26,7 +26,7 @@ final class ApplicationIntake
                 Scores::fail('Ya tiene una postulación a esta oferta.');
             }
             // Misma regla que muestra la interfaz (Workspace::applicationBlock): ámbito y límite de asignaturas.
-            $subjects = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->where('offers.call_id', $call->id)->where('offers.is_subject', true)->count();
+            $subjects = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('applications.user_id', $u->id)->where('offers.call_id', $call->id)->where('offers.is_subject', true)->where('applications.participation', 'active')->count();
             if (($block = Workspace::applicationBlock($u, $call, $o, $subjects)) !== null) {
                 Scores::fail($block);
             }

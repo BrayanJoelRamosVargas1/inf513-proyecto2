@@ -2,7 +2,7 @@
 
 Informe de origen: `documentos_tecno/AUDITORIA_GENERAL_20261125.md` y anexos A–F. Todo el trabajo está en la rama local `correcciones-auditoria`; el respaldo previo está en `respaldo-pre-correcciones`. No se publicó nada en GitHub ni en Tecnoweb, y no se tocó la base `ficct_demo` ni la instancia 8116.
 
-**Verificación final:** PHPUnit 397 pruebas / 2281 aserciones sin fallos (solo sobre `ficct_test`); Vitest 100 pruebas en 20 archivos; `npm run build` correcto.
+**Verificación final:** PHPUnit 401 pruebas / 2297 aserciones sin fallos (solo sobre `ficct_test`); Vitest 100 pruebas en 20 archivos; `npm run build` correcto.
 
 Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · **Sin cambio** = decisión consciente · **Diferido** = requiere decisión o trabajo aparte (ver `DECISIONES_PENDIENTES_20261125.md`).
 
@@ -37,7 +37,7 @@ Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · 
 | B-25 | Hecho | Bloqueo por cuenta y dirección en el login: 5 fallos en 300 s, se limpia al entrar bien. |
 | B-26 | Hecho | Limitadores `mutations` y `uploads`, y límite al token CSRF. |
 | B-27 | Hecho | `Participation::review` conserva `created_at`. |
-| B-28 | Diferido | Si las postulaciones retiradas cuentan para el límite de asignaturas lo decide la institución. |
+| B-28 | Hecho (criterio provisional) | El límite de asignaturas cuenta solo postulaciones con participación activa: una retirada o renunciada libera cupo. La resolución no lo define; si la institución decide otra cosa se cambia en tres lugares (`ApplicationIntake`, `SelectionController`, `CallView`). |
 | B-29 | Hecho | `Scores` acepta áreas con clave numérica. |
 | B-30 | Hecho | Constantes de puntaje centralizadas en `Scores`. |
 | B-31 | Sin cambio | El propio anexo lo marca como posiblemente deseado en la DEMO: `DemoJourney` y las pruebas abren y resuelven desempates de inmediato. Exigir fecha futura necesita un hito de referencia definido. |
@@ -96,3 +96,10 @@ No se implementó (ver decisiones pendientes): nota mínima final, plazos de 48 
 ## Paquete de entrega
 
 El tar `2026-2_INF513-P2_grupo09sa.tar.gz` ya no representa el árbol (42 archivos distintos, 37 ausentes). No se regeneró: hacerlo es una entrega, y el plazo del enunciado ya venció. `MANIFIESTO_SHA256.json` se regenera con el estado actual del repositorio.
+
+## Limpieza y refactor del 26/11/2026
+
+- **Archivo fuera del proyecto:** `ARCHIVO_SISTEMA_FICCT/` (carpeta hermana de `sistema`) guarda `documentos_tecno`, 49 documentos históricos, la carpeta `evidence` (1643 archivos), 50 guiones de entrega y el manifiesto anterior. En `docs/` quedan 12 documentos vigentes y en `scripts/` los guiones de desarrollo, cuyas salidas van a `.local/salidas/`.
+- **Frontend:** `main.jsx` (165 líneas con filas de hasta 7000 caracteres) se dividió en `auth`, `shell`, `call`, `application` y `sandbox`; `processes.jsx` en `form-kit`, `call-forms`, `ranking`, `corrections` y `participation`. Todo el código y las pruebas quedaron con formato multilínea. El bundle compilado pesa lo mismo, y las 100 pruebas pasan.
+- **PHP:** los arrays largos se repartieron en líneas y se aplicó Pint (finales de línea LF, imports sin uso). 401 pruebas pasan.
+- **Funciones nuevas, todas opcionales y vacías por defecto (no se inventó ningún valor institucional):** período académico, lugar de recepción y lugar del examen en la convocatoria (Res. 021/2023, Art. 8); horas teóricas y prácticas y **nota mínima final de aprobación** en la oferta (Arts. 19-20). Con la nota mínima vacía no se excluye a nadie; con ella, quien no la alcanza queda fuera del ranking, de las plazas y de la selección.

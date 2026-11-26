@@ -31,7 +31,7 @@ final class SelectionController extends Controller
         $evaluator = Access::has($r->user(), $id, ['evaluator']);
         $offers = DB::table('offers')->where('call_id', $id)->when($evaluator && ! $authority && ! $reviewer && $r->user()->role !== 'student', fn ($q) => $q->whereIn('id', DB::table('assignments')->where('user_id', $r->user()->id)->select('offer_id')))->get();
         $own = DB::table('applications')->where('user_id', $r->user()->id)->whereIn('offer_id', $offers->pluck('id'))->get()->keyBy('offer_id');
-        $subjects = $own->whereIn('offer_id', $offers->where('is_subject', true)->pluck('id'))->count();
+        $subjects = $own->whereIn('offer_id', $offers->where('is_subject', true)->pluck('id'))->where('participation', 'active')->count();
         foreach ($offers as $offer) {
             foreach (['documents', 'requirements', 'weights'] as $key) {
                 $offer->$key = Selection::json($offer->$key);

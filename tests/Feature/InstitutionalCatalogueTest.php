@@ -517,8 +517,8 @@ final class InstitutionalCatalogueTest extends TestCase
             'scheme' => 'PENDING_COMPOSITION',
             'source' => 'Convocatoria original de referencia',
         ]);
-        $this->actingAs($this->authority())->getJson('/api/v1/offers/'.$offer.'/ranking')->assertOk()->assertJsonPath('ranking',null)->assertJsonPath('documentary_reference',true)->assertJsonPath('warning','La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
-        $this->assertSame(20,DB::table('offers')->where('id',$offer)->value('seats'));
+        $this->actingAs($this->authority())->getJson('/api/v1/offers/'.$offer.'/ranking')->assertOk()->assertJsonPath('ranking', null)->assertJsonPath('documentary_reference', true)->assertJsonPath('warning', 'La fuente histórica contiene ofertas, no resultados oficiales incorporados. No se infieren ganadores, cobertura ni vacantes.');
+        $this->assertSame(20, DB::table('offers')->where('id', $offer)->value('seats'));
         $this->get('/ofertas/'.$offer.'/resultados')->assertOk()->assertDontSee('plazas sin cubrir por insuficiencia');
     }
 }

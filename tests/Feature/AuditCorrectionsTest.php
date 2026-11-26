@@ -490,4 +490,82 @@ final class AuditCorrectionsTest extends TestCase
             'key' => (string) Str::uuid(),
         ])->assertSuccessful();
     }
+
+    public function test_b28_a_withdrawn_application_no_longer_counts_toward_the_subject_limit(): void
+    {
+        $call = $this->newCall();
+        DB::table('calls')->where('id', $call)->update(['subject_limit' => 1]);
+        $first = $this->offer($call, ['is_subject' => true]);
+        $second = $this->offer($call, ['is_subject' => true]);
+        $this->s->transition($this->authority, $call, 'published');
+        $application = $this->s->apply($this->student, $first);
+        $this->rejects(fn () => $this->s->apply($this->student, $second), 'límite');
+        DB::table('applications')->where('id', $application)->update(['participation' => 'withdrawn']);
+        $this->assertGreaterThan(0, $this->s->apply($this->student, $second));
+    }
+
+    private function finalScoreApplication(int $offer, string $final): int
+    {
+        return DB::table('applications')->insertGetId([
+            'offer_id' => $offer,
+            'user_id' => User::factory()->create()->id,
+            'status' => 'submitted',
+            'participation' => 'active',
+            'eligibility' => 'enabled',
+            'merit' => '20.00',
+            'exam' => '30.00',
+            'final' => $final,
+            'snapshot' => '{}',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    public function test_r347_approval_threshold_is_optional_and_excludes_only_when_configured(): void
+    {
+        $high = $this->finalScoreApplication($this->offer, '80.00');
+        $middle = $this->finalScoreApplication($this->offer, '50.00');
+        $low = $this->finalScoreApplication($this->offer, '40.00');
+        $open = $this->s->ranking($this->offer);
+        $this->assertNull($open['approval_threshold']);
+        $this->assertSame([$high, $middle, $low], array_map(fn ($a) => $a->id, $open['rank']));
+        $this->assertSame([], $open['below_threshold']);
+
+        DB::table('offers')->where('id', $this->offer)->update(['approval_threshold' => '50.00']);
+        $limited = $this->s->ranking($this->offer);
+        $this->assertSame([$high, $middle], array_map(fn ($a) => $a->id, $limited['rank']));
+        $this->assertSame([$low], array_map(fn ($a) => $a->id, $limited['below_threshold']));
+        $this->assertSame(0, $limited['vacancies']);
+
+        DB::table('offers')->where('id', $this->offer)->update(['approval_threshold' => '60.00']);
+        $strict = $this->s->ranking($this->offer);
+        $this->assertSame([$high], array_map(fn ($a) => $a->id, $strict['rank']));
+        $this->assertSame([$middle, $low], array_map(fn ($a) => $a->id, $strict['below_threshold']));
+        $this->assertSame(1, $strict['vacancies']);
+    }
+
+    public function test_r347_approval_threshold_must_stay_between_0_and_100(): void
+    {
+        $this->expectException(QueryException::class);
+        DB::table('offers')->where('id', $this->offer)->update(['approval_threshold' => '100.01']);
+    }
+
+    public function test_r310_call_logistics_are_optional_and_stored(): void
+    {
+        $call = $this->s->createCall($this->authority, [
+            'title' => 'Con logística',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético',
+            'academic_period' => '1/2026',
+            'reception_place' => 'Vicedecanato FICCT',
+            'exam_place' => 'Aula 101',
+        ]);
+        $row = DB::table('calls')->where('id', $call)->first();
+        $this->assertSame('1/2026', $row->academic_period);
+        $this->assertSame('Aula 101', $row->exam_place);
+        $this->assertNull(DB::table('calls')->where('id', $this->call)->value('academic_period'));
+    }
 }

@@ -26,6 +26,13 @@ final class ResultsPublication
             Scores::fail('Hay revisiones o resultados pendientes en esta oferta.');
         }
         $rank = $all->where('eligibility', 'enabled')->sort(fn ($a, $b) => bccomp($b->final, $a->final, 2) ?: $a->id <=> $b->id)->values()->all();
+        // Nota mínima de aprobación (opcional): quien no la alcanza queda fuera de la clasificación y de las plazas.
+        $below = [];
+        if ($offer->approval_threshold !== null) {
+            $threshold = (string) $offer->approval_threshold;
+            $below = array_values(array_filter($rank, fn ($a) => bccomp($a->final, $threshold, 2) < 0));
+            $rank = array_values(array_filter($rank, fn ($a) => bccomp($a->final, $threshold, 2) >= 0));
+        }
         $tied = [];
         $cut = $offer->seats - $offer->held_vacancies;
         if ($cut > 0 && count($rank) > $cut && bccomp($rank[$cut - 1]->final, $rank[$cut]->final, 2) === 0) {
@@ -35,6 +42,8 @@ final class ResultsPublication
 
         return [
             'rank' => $rank,
+            'below_threshold' => $below,
+            'approval_threshold' => $offer->approval_threshold,
             'tied' => $tied,
             'seats' => $cut,
             'held_vacancies' => $offer->held_vacancies,
@@ -212,7 +221,7 @@ final class ResultsPublication
             if (count($winners) > $o->seats - $o->held_vacancies) {
                 Scores::fail('La selección excede las plazas.');
             }
-            foreach ($r['rank'] as $a) {
+            foreach (array_merge($r['rank'], $r['below_threshold']) as $a) {
                 DB::table('applications')->where('id', $a->id)->update([
                     'selection' => in_array($a->id, $winners) ? 'selected' : 'not_selected',
                     'updated_at' => now(),

@@ -36,6 +36,18 @@ const callFields = c => [field('title', 'Nombre', {
   min: 1,
   max: 100,
   required: false
+}), field('academic_period', 'Período académico', {
+  value: c?.academic_period,
+  required: false,
+  maxLength: 60
+}), field('reception_place', 'Lugar de recepción', {
+  value: c?.reception_place,
+  required: false,
+  maxLength: 200
+}), field('exam_place', 'Lugar del examen', {
+  value: c?.exam_place,
+  required: false,
+  maxLength: 200
 }), field('source', 'Fuente o decisión DEMO', {
   value: c?.source,
   type: 'textarea'
@@ -92,6 +104,25 @@ export function CallConfiguration() {
   }), field('weights', 'Pesos: una fila área=porcentaje', {
     type: 'textarea',
     value: o ? pairs(o.weights) : 'Software=100'
+  }), field('theory_hours', 'Horas teóricas (opcional)', {
+    type: 'number',
+    min: 0,
+    max: 200,
+    required: false,
+    value: o?.theory_hours
+  }), field('practice_hours', 'Horas prácticas (opcional)', {
+    type: 'number',
+    min: 0,
+    max: 200,
+    required: false,
+    value: o?.practice_hours
+  }), field('approval_threshold', 'Nota mínima final de aprobación (opcional; vacío = sin mínimo)', {
+    type: 'number',
+    min: 0,
+    max: 100,
+    step: '0.01',
+    required: false,
+    value: o?.approval_threshold
   }), select('scheme', 'Composición DEMO', [['DEMO_AREAS_100', 'Áreas sobre 100'], ['DEMO_COMPONENTS_100', 'Componentes sobre 100'], ['PENDING_COMPOSITION', 'Composición pendiente']], o?.scheme), field('source', 'Fuente o decisión de configuración', {
     type: 'textarea',
     value: o?.source ?? 'Configuración sintética sin validez institucional.'

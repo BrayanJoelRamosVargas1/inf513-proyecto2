@@ -30,6 +30,11 @@ export function Call() {
     <h1>{d.call.title}</h1>
     <p>{label(d.call.status)} · {d.call.mode}</p>
     <p>{d.call.source}</p>
+    {(d.call.academic_period || d.call.reception_place || d.call.exam_place) && <ul>
+      {d.call.academic_period && <li>Período académico: {d.call.academic_period}</li>}
+      {d.call.reception_place && <li>Recepción: {d.call.reception_place}</li>}
+      {d.call.exam_place && <li>Examen: {d.call.exam_place}</li>}
+    </ul>}
     <Alert text={err} />
     {d.documentary && <DocumentaryCall data={d.documentary} />}
     {d.authority && <section className="card">

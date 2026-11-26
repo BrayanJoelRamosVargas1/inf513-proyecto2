@@ -30,7 +30,7 @@ final class CallOperations
             'parent_id' => 'nullable|exists:calls,id',
         ]);
 
-        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
+        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40', 'academic_period' => 'nullable|string|max:60', 'reception_place' => 'nullable|string|max:200', 'exam_place' => 'nullable|string|max:200']);
 
         return $this->service->createCall($r->user(), $d);
     }
@@ -53,7 +53,7 @@ final class CallOperations
             'subject_limit' => 'nullable|integer|min:1|max:100',
             'source' => 'required|string|max:2000',
         ]);
-        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40']);
+        $d += $r->validate(['management_year' => 'nullable|integer|digits:4', 'call_number' => 'nullable|string|max:40', 'academic_period' => 'nullable|string|max:60', 'reception_place' => 'nullable|string|max:200', 'exam_place' => 'nullable|string|max:200']);
         $this->service->editCall($r->user(), $id, $d);
     }
 
@@ -71,6 +71,10 @@ final class CallOperations
             'weights' => 'required|string|max:3000',
             'scheme' => ['required', Rule::in(['DEMO_AREAS_100', 'DEMO_COMPONENTS_100', 'PENDING_COMPOSITION'])],
             'source' => 'required|string|max:2000',
+            'theory_hours' => 'nullable|integer|min:0|max:200',
+            'practice_hours' => 'nullable|integer|min:0|max:200',
+            // Nota mínima final de aprobación: vacía mientras la institución no confirme la cifra (Res. 021/2023, Arts. 19-20).
+            'approval_threshold' => 'nullable|numeric|decimal:0,2|min:0|max:100',
         ]);
         foreach (['documents', 'requirements', 'weights'] as $key) {
             $d[$key] = $this->pairs($d[$key]);

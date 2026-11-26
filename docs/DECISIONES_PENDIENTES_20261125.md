@@ -16,14 +16,14 @@ Cada punto de esta lista **no se implementó porque falta un dato o una decisió
 
 | Tema | Pregunta | Referencia |
 |---|---|---|
-| Nota mínima final | La resolución habla de "puntaje de aprobación" sin cifra. ¿Cuál es? Hoy todo habilitado con nota entra al ranking. | R3-47, SOL-06 |
+| Nota mínima final | La resolución habla de "puntaje de aprobación" sin cifra. ¿Cuál es? El sistema ya permite configurarla por oferta (campo opcional, vacío por defecto); falta que la institución confirme el valor. | R3-47, SOL-06 |
 | Plazos | Control y alerta de 48 h (publicar el promedio), 24 h (informe de la comisión), 48 h (acreditar veedores) y 15 días (nombramiento en laboratorio): ¿bloquean o solo avisan? | R3-18, R3-22, R3-24, R3-29 |
-| Contenido de la convocatoria | Carga horaria (ht/hp), período académico y lugar de recepción y examen: ¿campos obligatorios? ¿en qué formato? | R3-10, R3-40 |
+| Contenido de la convocatoria | Los campos ya existen y son opcionales (horas teóricas y prácticas, período, lugares). Falta decidir si son obligatorios para publicar y en qué formato. | R3-10, R3-40 |
 | Convocatoria desierta o vacante | Contador de dos convocatorias consecutivas, acta y opciones (elegir entre aprobados, entre presentados o invitar con excepción ante DICAA). La opción "diferir" actual no tiene base en la resolución. | R3-26 a R3-28 |
 | Aprobación del HCF o Decano | ¿Hay que registrar el número de resolución u oficio para publicar y para designar? | R3-11, R3-24 |
 | Reparto del examen | ¿Se fuerza escrito 60 / práctico 40 en docencia y práctico 60 / teórico 40 en laboratorio, o se mantiene editable con aviso? Las áreas de laboratorio de la convocatoria (soporte, redes, software) no coinciden con la composición de la resolución. | R3-20, R3-43 |
 | Incompatibilidades | ¿Una segunda plaza remunerada impide adjudicar? ¿Se controla el límite de 80 h/mes y el cruce de horarios? | R3-33, R3-49, SOL-18 |
-| Retirados y límite | ¿Las postulaciones retiradas o renunciadas cuentan para el límite de 4 asignaturas? | B-28 |
+| Retirados y límite | Provisional: las retiradas o renunciadas no cuentan para el límite de asignaturas. ¿La institución lo confirma? | B-28 |
 | Titulación en mora | El perfil "sala" omite la condición de titulación en mora del Art. 7(e). ¿Se agrega? | R3-06, SOL-20 |
 | Comisión y veedores | Composición mínima validada (terna, dos docentes invitados) y plazo de acreditación. La "terna" de laboratorio es ambigua en el texto. | R3-17, R3-18, R3-42 |
 | Catálogo de laboratorios | Laboratorios autorizados por unidad y modalidad (servicio social o académico). | R3-37, R3-38 |
