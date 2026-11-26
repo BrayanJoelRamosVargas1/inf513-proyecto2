@@ -1,9 +1,13 @@
-import React,{useEffect,useState,createContext} from 'react';
+import React,{useEffect,useRef,useState,createContext} from 'react';
 import {api,base,message} from './api';
 export const Session=createContext(null);
 export class ErrorBoundary extends React.Component {state={error:false};static getDerivedStateFromError(){return {error:true};}render(){return this.state.error?<main><h1>No se pudo mostrar esta pantalla</h1><a href={`${base}/p2`}>Volver al inicio</a></main>:this.props.children;}}
 export function Alert({text}) {return text?<div role="alert" className="alert">{text}</div>:null;}
-export function useData(path){const [data,set]=useState(null),[error,err]=useState(''),[version,bump]=useState(0);useEffect(()=>{let alive=true;set(null);err('');api.get(path).then(r=>{if(alive)set(r.data);}).catch(e=>{if(alive)err(message(e));});return()=>{alive=false;};},[path,version]);return [data,error,()=>bump(x=>x+1)];}
+/* F-11: al recargar la misma pantalla se conservan los datos previos (el foco, el desplazamiento y los mensajes no se pierden);
+   solo se vacían al cambiar de ruta de datos. Si la recarga falla se muestra el error, como antes. */
+export function useData(path){const [data,set]=useState(null),[error,err]=useState(''),[version,bump]=useState(0),loaded=useRef(null);useEffect(()=>{let alive=true;if(loaded.current!==path){set(null);loaded.current=path;}err('');api.get(path).then(r=>{if(alive)set(r.data);}).catch(e=>{if(alive){set(null);err(message(e));}});return()=>{alive=false;};},[path,version]);return [data,error,()=>bump(x=>x+1)];}
+/* F-20: crypto.randomUUID solo existe en contextos seguros; getRandomValues funciona también en HTTP. */
+export function uuid(){const c=globalThis.crypto;if(c?.randomUUID)return c.randomUUID();const b=c.getRandomValues(new Uint8Array(16));b[6]=b[6]&15|64;b[8]=b[8]&63|128;const h=[...b].map(x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);}
 export function Loading({error}){return error?<Alert text={error}/>:<p role="status">Cargando información…</p>;}
 export function Form({children,onSubmit,button='Guardar',className=''}){const [error,set]=useState(''),[busy,lock]=useState(false);return <form className={className} onSubmit={async e=>{e.preventDefault();if(busy)return;const el=e.currentTarget;set('');lock(true);try{await onSubmit(new FormData(el),el);}catch(err){set(message(err));}finally{lock(false);}}}><Alert text={error}/>{children}<button disabled={busy}>{busy?'Procesando…':button}</button></form>;}
 

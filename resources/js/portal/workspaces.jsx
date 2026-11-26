@@ -24,7 +24,7 @@ export function AppTable({items,workspace}){
   const own=workspace==='own';
   const correctionActions={correct_documents:'Subsanar documentos',review_amendment:'Revisar subsanación',close_expired_amendment:'Resolver plazo vencido'};
   return <div className="table-wrap" role="region" aria-label={workspaces[workspace]?.title||'Expedientes visibles'} tabIndex="0">
-    {items.length?<table><thead><tr><th>Expediente</th>{!own&&<th>Postulante</th>}<th>Oferta y convocatoria</th><th>Estado</th><th>Habilitación</th>{workspace==='evaluator'&&<th>Mis áreas</th>}<th>Acción</th></tr></thead>
+    {items.length?<table><thead><tr><th scope="col">Expediente</th>{!own&&<th scope="col">Postulante</th>}<th scope="col">Oferta y convocatoria</th><th scope="col">Estado</th><th scope="col">Habilitación</th>{workspace==='evaluator'&&<th scope="col">Mis áreas</th>}<th scope="col">Acción</th></tr></thead>
       <tbody>{items.map(a=><tr key={a.id}>
         <td data-label="Expediente">#{a.id}</td>{!own&&<td data-label="Postulante">{a.name}</td>}<td data-label="Oferta">{a.title}{a.call_title&&<small className="workspace-call">{a.call_title}</small>}</td>
         <td data-label="Estado">{label(a.status)} · {label(a.participation??'active')}</td><td data-label="Habilitación">{label(a.eligibility)}</td>

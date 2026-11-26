@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Process;
 use Tests\TestCase;
 
@@ -77,8 +78,13 @@ final class SecuritySurfaceTest extends TestCase
 
     public function test_s09_cached_routes_keep_identifier_validation_in_a_fresh_process(): void
     {
-        $cache = $this->app->getCachedRoutesPath();
-        $previous = is_file($cache) ? file_get_contents($cache) : null;
+        // F-05: no se toca bootstrap/cache: la caché de esta prueba se escribe en un archivo temporal propio.
+        File::ensureDirectoryExists(storage_path('framework/testing'));
+        // Laravel interpreta como relativa a la raíz toda ruta que no empiece por / o \ (también en Windows).
+        $relative = 'storage/framework/testing/routes-s09-'.uniqid().'.php';
+        $cache = base_path($relative);
+        $original = $_ENV['APP_ROUTES_CACHE'] ?? null;
+        $_ENV['APP_ROUTES_CACHE'] = $_SERVER['APP_ROUTES_CACHE'] = $relative;
         try {
             Artisan::call('route:cache');
             $code = <<<'PHP'
@@ -95,14 +101,15 @@ foreach (['abc', str_repeat('9', 60)] as $value) {
 }
 echo json_encode($out);
 PHP;
-            $process = new Process([PHP_BINARY, '-r', $code], base_path());
+            $process = new Process([PHP_BINARY, '-r', $code], base_path(), ['APP_ROUTES_CACHE' => $relative]);
             $this->assertSame(0, $process->run(), $process->getErrorOutput());
             $this->assertSame(['valid' => 1, 404, 404], json_decode($process->getOutput(), true));
         } finally {
-            if ($previous === null) {
-                Artisan::call('route:clear');
+            @unlink($cache);
+            if ($original === null) {
+                unset($_ENV['APP_ROUTES_CACHE'], $_SERVER['APP_ROUTES_CACHE']);
             } else {
-                file_put_contents($cache, $previous);
+                $_ENV['APP_ROUTES_CACHE'] = $_SERVER['APP_ROUTES_CACHE'] = $original;
             }
         }
     }

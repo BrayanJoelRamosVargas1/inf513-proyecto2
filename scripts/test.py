@@ -1,12 +1,16 @@
 from pathlib import Path
-import os,subprocess,sys
+import os,shutil,subprocess,sys
 from test_environment import isolated_test_environment
 
 root=Path(__file__).resolve().parents[1]
-(root/'evidence').mkdir(exist_ok=True)
+# Por defecto conserva el comportamiento histórico (evidence/); FICCT_TEST_OUTPUT_DIR evita reescribir evidencia versionada.
+out=Path(os.environ.get('FICCT_TEST_OUTPUT_DIR',root/'evidence'));out.mkdir(parents=True,exist_ok=True)
 env=isolated_test_environment(root)
-args=['php','vendor/phpunit/phpunit/phpunit','--colors=never','--log-junit','evidence/phpunit.xml']+sys.argv[1:]
-run=subprocess.run(args,cwd=root,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace')
-(root/'evidence/tests.txt').write_text(run.stdout+run.stderr,encoding='utf-8')
+args=['php','vendor/phpunit/phpunit/phpunit','--colors=never','--log-junit',str(out/'phpunit.xml')]+sys.argv[1:]
+try:
+    run=subprocess.run(args,cwd=root,env=env,capture_output=True,text=True,encoding='utf-8',errors='replace')
+finally:
+    shutil.rmtree((root/Path(env['APP_CONFIG_CACHE'])).parent,ignore_errors=True)  # F-06: no dejar una carpeta por ejecución
+(out/'tests.txt').write_text(run.stdout+run.stderr,encoding='utf-8')
 print(run.stdout+run.stderr)
 sys.exit(run.returncode)

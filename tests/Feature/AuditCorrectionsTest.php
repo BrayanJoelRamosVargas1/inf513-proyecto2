@@ -389,4 +389,28 @@ final class AuditCorrectionsTest extends TestCase
         }
         $this->assertSame('archived', DB::table('calls')->where('id', $this->call)->value('status'));
     }
+
+    public function test_f16_api_reports_are_real_files_and_only_for_the_authority(): void
+    {
+        $this->submitted();
+        $pdf = $this->actingAs($this->authority)->get('/api/v1/calls/'.$this->call.'/reports/pdf')->assertOk()->assertHeader('Content-Type', 'application/pdf');
+        $this->assertStringStartsWith('%PDF', $pdf->getContent());
+        $xlsx = $this->actingAs($this->authority)->get('/api/v1/calls/'.$this->call.'/reports/xlsx')->assertOk();
+        $this->assertStringStartsWith('PK', $xlsx->streamedContent());
+        foreach (['pdf', 'xlsx'] as $format) {
+            $this->actingAs($this->student)->get('/api/v1/calls/'.$this->call.'/reports/'.$format)->assertForbidden();
+            $this->actingAs($this->reviewer)->get('/api/v1/calls/'.$this->call.'/reports/'.$format)->assertForbidden();
+        }
+        $this->actingAs($this->authority)->get('/api/v1/calls/'.$this->call.'/reports/csv')->assertNotFound();
+    }
+
+    public function test_f16_api_reports_require_a_session(): void
+    {
+        $this->get('/api/v1/calls/'.$this->call.'/reports/pdf')->assertRedirect('/login');
+    }
+
+    public function test_f19_training_screen_visit_is_recorded(): void
+    {
+        $this->actingAs($this->student)->postJson('/api/v1/visits', ['path' => '/entrenamiento', 'key' => (string) \Illuminate\Support\Str::uuid()])->assertSuccessful();
+    }
 }

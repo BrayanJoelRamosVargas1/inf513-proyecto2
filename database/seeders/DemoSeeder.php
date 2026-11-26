@@ -20,11 +20,12 @@ final class DemoSeeder extends Seeder
 
             return;
         }
-        File::ensureDirectoryExists(base_path('.local'));
+        $accessFile = base_path(config('portal.access_file'));
+        File::ensureDirectoryExists(dirname($accessFile));
         // B-32: todo o nada. Si falla a mitad no queda una base parcial que la siguiente ejecución dé por existente.
         $credentials = DB::transaction(fn () => $this->seed());
-        File::put(base_path('.local/ACCESOS_DEMO.txt'), "CUENTAS LOCALES FICTICIAS. NO PUBLICAR.\n".implode("\n", $credentials)."\n");
-        $this->command?->info('DEMO creada sin datos reales. Accesos aleatorios: .local/ACCESOS_DEMO.txt (archivo privado).');
+        File::put($accessFile, "CUENTAS LOCALES FICTICIAS. NO PUBLICAR.\n".implode("\n", $credentials)."\n");
+        $this->command?->info('DEMO creada sin datos reales. Accesos aleatorios: '.config('portal.access_file').' (archivo privado).');
     }
 
     /** @return list<string> credenciales ficticias generadas, para guardarlas solo si la siembra se confirma */

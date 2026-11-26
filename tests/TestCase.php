@@ -12,8 +12,12 @@ abstract class TestCase extends BaseTestCase
     public function createApplication()
     {
         $app = parent::createApplication();
-        if (config('database.connections.'.config('database.default').'.database') !== 'ficct_test') {
-            throw new \RuntimeException('Las pruebas requieren una base separada llamada ficct_test. Use python scripts/test.py');
+        $connection = config('database.connections.'.config('database.default'));
+        if (($connection['database'] ?? null) !== 'ficct_test') {
+            throw new \RuntimeException('Las pruebas requieren una base separada llamada ficct_test (phpunit.xml la fija). Use python scripts/test.py');
+        }
+        if (! in_array($connection['host'] ?? null, ['127.0.0.1', 'localhost', '::1'], true)) {
+            throw new \RuntimeException('Las pruebas solo pueden ejecutarse contra una base PostgreSQL local.');
         }
 
         return $app;

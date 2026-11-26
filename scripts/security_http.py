@@ -1,8 +1,9 @@
 """Pruebas HTTP contra la DEMO local real, con CSRF y sesión habilitados."""
+import os
 from pathlib import Path
 import urllib.request,urllib.error,http.cookiejar,urllib.parse,re,json
 root=Path(__file__).resolve().parents[1]
-base='http://127.0.0.1:8099'
+base=os.environ.get('FICCT_BASE_URL','http://127.0.0.1:8099')  # F-09: elegir otra instancia sin editar el script
 cookies=http.cookiejar.CookieJar();client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
 checks=[]
 def request(path,data=None):

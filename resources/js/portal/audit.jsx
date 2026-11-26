@@ -33,7 +33,7 @@ export function CallAudit(){
     <p>Operaciones de esta convocatoria con responsable, motivo y valores conservados. Este historial es de consulta y no permite modificar sus registros.</p>
     <section className="card">
       <div className="table-wrap" role="region" aria-label="Eventos de auditoría" tabIndex="0">
-        <table><thead><tr><th>Evento y fecha</th><th>Responsable</th><th>Operación</th><th>Evidencia</th></tr></thead>
+        <table><thead><tr><th scope="col">Evento y fecha</th><th scope="col">Responsable</th><th scope="col">Operación</th><th scope="col">Evidencia</th></tr></thead>
           <tbody>{events.data.map(event=><tr key={event.id}>
             <td>#{event.id}<br/>{new Date(event.created_at).toLocaleString('es-BO',{timeZone:'America/La_Paz'})}</td>
             <td>Cuenta #{event.user_id??'No registrada'}</td>

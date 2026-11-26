@@ -1,10 +1,11 @@
 """Recorrido de lectura HTTP con CSRF real; no modifica permisos ni calificaciones."""
+import os
 from pathlib import Path
 import urllib.request,urllib.parse,http.cookiejar,re,json,io
 from pypdf import PdfReader
 from openpyxl import load_workbook
 root=Path(__file__).resolve().parents[1]
-base='http://127.0.0.1:8099'
+base=os.environ.get('FICCT_BASE_URL','http://127.0.0.1:8099')  # F-09: elegir otra instancia sin editar el script
 client=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 def request(path,data=None):
     result=client.open(urllib.request.Request(base+path,data=urllib.parse.urlencode(data).encode() if data is not None else None),timeout=30)

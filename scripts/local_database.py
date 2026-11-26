@@ -36,6 +36,10 @@ for name in ['ficct_demo', 'ficct_test']:
 envpath=root/'.env'
 text=envpath.read_text(encoding='utf-8') if envpath.exists() else (root/'.env.example').read_text(encoding='utf-8')
 import re
+if envpath.exists() and os.environ.get('FICCT_FORCE_ENV')!='1':
+    current=dict(re.findall(r'^(DB_PORT|DB_DATABASE)=(.*)$',text,re.M))
+    if current.get('DB_PORT','').strip() not in ('',port) or current.get('DB_DATABASE','').strip() not in ('','ficct_demo','laravel'):
+        raise SystemExit('El .env existente apunta a otra base o puerto ('+str(current)+'). No se modifica: es posible que sea la instancia operativa. Defina FICCT_FORCE_ENV=1 solo si es intencional.')
 values={'APP_NAME':'"Auxiliares FICCT"','APP_ENV':'local','APP_DEBUG':'false','APP_URL':'http://127.0.0.1:8099','DB_CONNECTION':'pgsql','DB_HOST':'127.0.0.1','DB_PORT':port,'DB_DATABASE':'ficct_demo','DB_USERNAME':config['user'],'DB_PASSWORD':config['password'],'SESSION_DRIVER':'file','CACHE_STORE':'file','QUEUE_CONNECTION':'sync'}
 for key,value in values.items():
     text=re.sub(r'^#?\s*'+key+r'=.*$',key+'='+value,text,flags=re.M) if re.search(r'^#?\s*'+key+'=',text,re.M) else text+'\n'+key+'='+value
