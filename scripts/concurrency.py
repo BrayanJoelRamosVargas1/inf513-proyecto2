@@ -2,8 +2,12 @@ from pathlib import Path
 import os,subprocess,json,time
 root=Path(__file__).resolve().parents[1]
 env=dict(os.environ,APP_ENV='testing',DB_DATABASE='ficct_test',DB_CONNECTION='pgsql',BCRYPT_ROUNDS='4')
+import atexit,shutil,tempfile
+race_storage=Path(tempfile.mkdtemp(prefix='ficct-race-storage-'))  # F-08: archivos subidos fuera del storage real
+for _p in ['app/private','framework/views','framework/cache/data','framework/sessions','logs']:(race_storage/_p).mkdir(parents=True,exist_ok=True)
+env['LARAVEL_STORAGE_PATH']=str(race_storage);atexit.register(shutil.rmtree,race_storage,True)
 work=Path(os.environ.get('FICCT_RACE_DIR',root/'.local'));work.mkdir(parents=True,exist_ok=True)
-outdir=Path(os.environ.get('FICCT_EVIDENCE_DIR',root/'evidence'));outdir.mkdir(parents=True,exist_ok=True)
+outdir=Path(os.environ.get('FICCT_EVIDENCE_DIR',root/'.local'/'salidas'));outdir.mkdir(parents=True,exist_ok=True)
 scenario=work/'race.json';scenario.write_text('{}',encoding='utf-8')
 base=['php','scripts/concurrency_worker.php',str(scenario)]
 setup=subprocess.run(base+['setup'],cwd=root,env=env,capture_output=True,text=True,encoding='utf-8')

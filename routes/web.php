@@ -11,7 +11,7 @@ Route::get('/login', [PortalController::class, 'loginForm'])->name('login');
 Route::post('/login', [PortalController::class, 'login'])->middleware('throttle:6,1');
 Route::get('/registro', [PortalController::class, 'registerForm']);
 Route::post('/registro', [PortalController::class, 'register'])->middleware('throttle:6,1');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'throttle:mutations'])->group(function () {
     Route::get('/convocatorias/{id}/consolidado', [ConsolidatedResultsController::class, 'show']);
     Route::get('/convocatorias/{id}/consolidado/{format}', [ConsolidatedResultsController::class, 'export'])->whereIn('format', ['pdf', 'xlsx']);
     Route::get('/adjudicaciones', [ParticipationController::class, 'awards']);
@@ -30,7 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/convocatorias/{id}/ofertas', [PortalController::class, 'saveOffer']);
     Route::post('/ofertas/{id}/postular', [PortalController::class, 'apply']);
     Route::get('/postulaciones/{id}', [PortalController::class, 'application']);
-    Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', ['archivo', 'enviar', 'revision', 'habilitacion', 'meritos', 'nota', 'calcular']);
+    Route::post('/postulaciones/{id}/{action}', [PortalController::class, 'action'])->whereIn('action', [
+        'archivo',
+        'enviar',
+        'revision',
+        'habilitacion',
+        'meritos',
+        'nota',
+        'calcular',
+    ]);
     Route::get('/documentos/{id}/detalle', [DocumentController::class, 'show']);
     Route::get('/documentos/{id}/ver', [DocumentController::class, 'preview']);
     Route::get('/documentos/{id}', [DocumentController::class, 'download']);

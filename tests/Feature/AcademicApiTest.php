@@ -36,23 +36,47 @@ final class AcademicApiTest extends TestCase
         $this->authority = User::factory()->create(['role' => 'authority']);
         $this->evaluator = User::factory()->create(['role' => 'staff']);
         $s = app(Selection::class);
-        $this->call = $s->createCall($this->authority, ['title' => 'Convocatoria REST de prueba', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintético de API']);
+        $this->call = $s->createCall($this->authority, [
+            'title' => 'Convocatoria REST de prueba',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético de API',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->evaluator, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Software API', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Oferta REST', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintético de API']);
+        $this->offer = $s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Oferta REST',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintético de API',
+        ]);
         $s->assign($this->authority, $this->offer, $this->evaluator->id, 'Software');
         $s->transition($this->authority, $this->call, 'published');
     }
 
     public function test_a01_api_login_logout_and_failed_access_are_logged_without_passwords(): void
     {
-        $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'incorrecta'])->assertUnprocessable()->assertJsonPath('message', 'Credenciales incorrectas o cuenta desactivada.');
+        $this->postJson('/api/v1/login', [
+            'email' => $this->student->email,
+            'password' => 'incorrecta',
+        ])->assertUnprocessable()->assertJsonPath('message', 'Credenciales incorrectas o cuenta desactivada.');
         $this->assertDatabaseHas('access_events', ['event' => 'login.failed', 'user_id' => null, 'ip' => '127.0.0.1']);
         $this->student->password = 'Clave-Sintetica-2026!';
         $this->student->save();
-        $this->postJson('/api/v1/login', ['email' => $this->student->email, 'password' => 'Clave-Sintetica-2026!'])->assertOk()->assertJsonPath('user.id', $this->student->id);
+        $this->postJson('/api/v1/login', [
+            'email' => $this->student->email,
+            'password' => 'Clave-Sintetica-2026!',
+        ])->assertOk()->assertJsonPath('user.id', $this->student->id);
         $this->getJson('/api/v1/me')->assertOk();
         $this->assertDatabaseHas('access_events', ['event' => 'login.success', 'user_id' => $this->student->id]);
         $this->postJson('/api/v1/logout')->assertNoContent();
@@ -79,19 +103,31 @@ final class AcademicApiTest extends TestCase
     {
         $id = $this->actingAs($this->student)->postJson('/api/v1/offers/'.$this->offer.'/applications')->assertCreated()->json('id');
         $this->postJson('/api/v1/applications/'.$id.'/enviar')->assertUnprocessable();
-        $this->post('/api/v1/applications/'.$id.'/archivo', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('cpd.png')], ['Accept' => 'application/json'])->assertOk();
+        $this->post('/api/v1/applications/'.$id.'/archivo', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image('cpd.png'),
+        ], ['Accept' => 'application/json'])->assertOk();
         $this->scanApplicantFixtures();
         $this->postJson('/api/v1/applications/'.$id.'/enviar')->assertOk();
         $r = $this->getJson('/api/v1/applications/'.$id)->assertOk()->assertJsonPath('can_upload', false);
         $this->assertArrayNotHasKey('path', $r->json('documents.0'));
-        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$id.'/revision', ['decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'], 'reason' => 'Evidencia sintética cotejada'])->assertOk();
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$id.'/revision', [
+            'decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'],
+            'reason' => 'Evidencia sintética cotejada',
+        ])->assertOk();
         $this->postJson('/api/v1/applications/'.$id.'/habilitacion', ['enabled' => '1', 'reason' => 'Motivo reservado del revisor'])->assertOk();
         $this->postJson('/api/v1/applications/'.$id.'/meritos', ['score' => '20', 'reference' => 'CPD-DEMO'])->assertOk();
-        $this->actingAs($this->evaluator)->getJson('/api/v1/applications/'.$id)->assertOk()->assertJsonPath('documents', [])->assertJsonPath('criteria', [])->assertJsonMissing(['eligibility_reason' => 'Motivo reservado del revisor']);
+        $this->actingAs($this->evaluator)->getJson('/api/v1/applications/'.$id)->assertOk()->assertJsonPath('documents', [])->assertJsonPath('criteria', [])->assertJsonMissing([
+            'eligibility_reason' => 'Motivo reservado del revisor',
+        ]);
         $this->actingAs($this->authority)->postJson('/api/v1/calls/'.$this->call.'/transition', ['status' => 'closed'])->assertOk();
         $this->postJson('/api/v1/calls/'.$this->call.'/transition', ['status' => 'evaluation'])->assertOk();
         $assignment = DB::table('assignments')->value('id');
-        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$id.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertOk();
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$id.'/nota', [
+            'assignment_id' => $assignment,
+            'score' => '80',
+            'intent' => 'confirm',
+        ])->assertOk();
         $this->actingAs($this->authority)->postJson('/api/v1/applications/'.$id.'/calcular')->assertOk();
         $this->assertDatabaseHas('applications', ['id' => $id, 'final' => '68.00']);
     }
@@ -118,7 +154,12 @@ final class AcademicApiTest extends TestCase
     {
         foreach (['ninos', 'jovenes', 'adultos'] as $theme) {
             foreach (['dia', 'noche', 'auto'] as $mode) {
-                $this->actingAs($this->student)->putJson('/api/v1/me/preferences', ['theme' => $theme, 'mode' => $mode, 'font' => 150, 'contrast' => true])->assertOk()->assertJsonPath('preferences.theme', $theme)->assertJsonPath('preferences.mode', $mode);
+                $this->actingAs($this->student)->putJson('/api/v1/me/preferences', [
+                    'theme' => $theme,
+                    'mode' => $mode,
+                    'font' => 150,
+                    'contrast' => true,
+                ])->assertOk()->assertJsonPath('preferences.theme', $theme)->assertJsonPath('preferences.mode', $mode);
             }
         }
         $this->putJson('/api/v1/me/preferences', ['theme' => 'otro', 'mode' => 'noche', 'font' => 999, 'contrast' => true])->assertUnprocessable();
@@ -160,7 +201,14 @@ final class AcademicApiTest extends TestCase
         $this->postJson('/api/v1/sandbox/plans', $plan)->assertJsonPath('id', $id);
         $this->assertSame('10.00', number_format((float) DB::table('sandbox_installments')->where('plan_id', $id)->sum('amount'), 2, '.', ''));
         $part = DB::table('sandbox_installments')->first();
-        $d = ['method_id' => $method, 'installment_id' => $part->id, 'amount' => $part->amount, 'outcome' => 'paid', 'confirmed' => true, 'key' => (string) Str::uuid()];
+        $d = [
+            'method_id' => $method,
+            'installment_id' => $part->id,
+            'amount' => $part->amount,
+            'outcome' => 'paid',
+            'confirmed' => true,
+            'key' => (string) Str::uuid(),
+        ];
         $this->postJson('/api/v1/sandbox/payments', $d)->assertCreated();
         $this->postJson('/api/v1/sandbox/payments', array_replace($d, ['key' => (string) Str::uuid()]))->assertConflict();
         $this->assertDatabaseCount('sandbox_payments', 1);
@@ -196,13 +244,31 @@ final class AcademicApiTest extends TestCase
 
     public function test_a14_configuration_api_enforces_authority_and_keeps_published_offer_frozen(): void
     {
-        $data = ['title' => 'Nueva convocatoria API', 'opens_at' => now()->subHour()->toDateTimeString(), 'closes_at' => now()->addDay()->toDateTimeString(), 'exam_at' => now()->addDays(2)->toDateTimeString(), 'scope' => 'UAGRM', 'source' => 'Configuración sintética verificada'];
+        $data = [
+            'title' => 'Nueva convocatoria API',
+            'opens_at' => now()->subHour()->toDateTimeString(),
+            'closes_at' => now()->addDay()->toDateTimeString(),
+            'exam_at' => now()->addDays(2)->toDateTimeString(),
+            'scope' => 'UAGRM',
+            'source' => 'Configuración sintética verificada',
+        ];
         $this->actingAs($this->student)->postJson('/api/v1/calls', $data)->assertForbidden();
         $id = $this->actingAs($this->authority)->postJson('/api/v1/calls', $data)->assertCreated()->json('id');
         $this->assertIsInt($id);
         $data['title'] = 'Borrador editado por API';
         $this->postJson('/api/v1/calls/'.$id.'/configuration', $data)->assertOk();
-        $offer = ['title' => 'Oferta API nueva', 'category_id' => DB::table('categories')->value('id'), 'seats' => 1, 'modality' => 'Presencial', 'is_subject' => false, 'documents' => 'cpd=CPD', 'requirements' => 'activo=Activo', 'weights' => 'Software=100', 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fuente sintética de API'];
+        $offer = [
+            'title' => 'Oferta API nueva',
+            'category_id' => DB::table('categories')->value('id'),
+            'seats' => 1,
+            'modality' => 'Presencial',
+            'is_subject' => false,
+            'documents' => 'cpd=CPD',
+            'requirements' => 'activo=Activo',
+            'weights' => 'Software=100',
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fuente sintética de API',
+        ];
         $this->postJson('/api/v1/calls/'.$id.'/offers', $offer)->assertCreated();
         $this->getJson('/api/v1/calls/'.$id.'/configuration')->assertOk()->assertJsonPath('call.title', $data['title'])->assertJsonCount(1, 'offers');
         $this->postJson('/api/v1/calls/'.$id.'/transition', ['status' => 'published'])->assertOk();
@@ -216,10 +282,36 @@ final class AcademicApiTest extends TestCase
         $this->actingAs($this->authority)->getJson('/api/v1/management')->assertForbidden();
         $this->actingAs($admin)->getJson('/api/v1/management')->assertOk()->assertJsonMissingPath('users.0.password');
         $this->postJson('/api/v1/categories', ['name' => 'Tipo REST nuevo', 'regime' => 'laboratorio', 'active' => true])->assertCreated();
-        $data = ['name' => 'Postulante API actualizado', 'email' => $this->student->email, 'faculty' => 'FICCT', 'career' => 'Informática', 'role' => 'student', 'active' => true, 'version' => $this->student->fresh()->profile_version, 'reason' => 'Cambio sintético autorizado'];
+        $data = [
+            'name' => 'Postulante API actualizado',
+            'email' => $this->student->email,
+            'faculty' => 'FICCT',
+            'career' => 'Informática',
+            'role' => 'student',
+            'active' => true,
+            'version' => $this->student->fresh()->profile_version,
+            'reason' => 'Cambio sintético autorizado',
+        ];
         $this->postJson('/api/v1/users/'.$this->student->id.'/profile', $data)->assertOk();
         $this->postJson('/api/v1/users/'.$this->student->id.'/profile', $data)->assertUnprocessable();
         $this->assertDatabaseHas('users', ['id' => $this->student->id, 'name' => $data['name']]);
+    }
+
+    public function test_a06b_search_ignores_accents_and_case(): void
+    {
+        DB::table('calls')->where('id', $this->call)->update(['title' => 'Convocatoria de Programación']);
+        $this->actingAs($this->authority)->getJson('/api/v1/search?q=programacion')->assertOk()->assertJsonCount(1, 'calls.data');
+        $this->getJson('/api/v1/search?q=PROGRAMACIÓN')->assertOk()->assertJsonCount(1, 'calls.data');
+    }
+
+    public function test_a06c_long_file_name_is_rejected_with_a_clear_message_instead_of_a_server_error(): void
+    {
+        $id = $this->actingAs($this->student)->postJson('/api/v1/offers/'.$this->offer.'/applications')->assertCreated()->json('id');
+        $this->post('/api/v1/applications/'.$id.'/archivo', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image(str_repeat('a', 300).'.png'),
+        ], ['Accept' => 'application/json'])->assertUnprocessable()->assertJsonFragment(['message' => 'El nombre del archivo es demasiado largo (máximo 150 caracteres). Renombre el archivo e inténtelo de nuevo.']);
+        $this->assertDatabaseCount('documents', 0);
     }
 
     public function test_a16_amendment_adapter_versions_documents_and_rejects_foreign_owner(): void
@@ -230,15 +322,29 @@ final class AcademicApiTest extends TestCase
         $this->scanApplicantFixtures();
         $s->submit($this->student, $id);
         $s->review($this->reviewer, $id, ['doc:cpd' => 'observed', 'activo' => 'meets'], 'CPD observado en prueba sintética');
-        $data = ['kinds' => ['cpd'], 'deadline' => now()->addHours(2)->toDateTimeString(), 'reason' => 'Subsanación DEMO autorizada', 'evidence' => 'Acta sintética para la prueba'];
+        $data = [
+            'kinds' => ['cpd'],
+            'deadline' => now()->addHours(2)->toDateTimeString(),
+            'reason' => 'Subsanación DEMO autorizada',
+            'evidence' => 'Acta sintética para la prueba',
+        ];
         $this->actingAs($this->student)->postJson('/api/v1/applications/'.$id.'/amendments', $data)->assertForbidden();
         $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$id.'/amendments', $data)->assertCreated();
         $window = DB::table('amendments')->value('id');
-        $this->actingAs(User::factory()->create())->post('/api/v1/amendments/'.$window.'/documents', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('ajeno.png')], ['Accept' => 'application/json'])->assertForbidden();
-        $this->actingAs($this->student)->post('/api/v1/amendments/'.$window.'/documents', ['kind' => 'cpd', 'file' => UploadedFile::fake()->image('corregido.png')], ['Accept' => 'application/json'])->assertOk();
+        $this->actingAs(User::factory()->create())->post('/api/v1/amendments/'.$window.'/documents', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image('ajeno.png'),
+        ], ['Accept' => 'application/json'])->assertForbidden();
+        $this->actingAs($this->student)->post('/api/v1/amendments/'.$window.'/documents', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image('corregido.png'),
+        ], ['Accept' => 'application/json'])->assertOk();
         $this->scanApplicantFixtures();
         $this->postJson('/api/v1/amendments/'.$window.'/submission')->assertOk();
-        $this->actingAs($this->reviewer)->postJson('/api/v1/amendments/'.$window.'/review', ['decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'], 'reason' => 'Nueva revisión completa sintética'])->assertOk();
+        $this->actingAs($this->reviewer)->postJson('/api/v1/amendments/'.$window.'/review', [
+            'decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'],
+            'reason' => 'Nueva revisión completa sintética',
+        ])->assertOk();
         $response = $this->getJson('/api/v1/applications/'.$id.'/participation')->assertOk()->assertJsonPath('app.dossier_version', 2)->assertJsonCount(2, 'documents');
         $this->assertArrayNotHasKey('path', $response->json('documents.0'));
         $this->assertArrayNotHasKey('reviews', $response->json('snapshots.0.snapshot'));
@@ -277,11 +383,24 @@ final class AcademicApiTest extends TestCase
         $this->postJson('/api/v1/offers/'.$this->offer.'/publications', ['minutes' => 'Acta sintética de aprobación de resultados'])->assertOk();
         $publication = DB::table('publications')->first();
         $this->actingAs($this->student)->getJson('/api/v1/awards')->assertOk()->assertJsonCount(1, 'awards')->assertJsonMissingPath('awards.0.publication.snapshot');
-        $this->postJson('/api/v1/applications/'.$id.'/choices', ['publication_id' => $publication->id, 'version' => 0, 'choice' => 'accept', 'reason' => 'Manifestación DEMO del interesado', 'evidence' => 'Referencia sintética de la manifestación'])->assertOk();
-        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$id.'/corrections', ['score' => '21', 'reason' => 'Error material de transcripción', 'evidence' => 'CPD sintético con valor cotejado'])->assertCreated();
+        $this->postJson('/api/v1/applications/'.$id.'/choices', [
+            'publication_id' => $publication->id,
+            'version' => 0,
+            'choice' => 'accept',
+            'reason' => 'Manifestación DEMO del interesado',
+            'evidence' => 'Referencia sintética de la manifestación',
+        ])->assertOk();
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$id.'/corrections', [
+            'score' => '21',
+            'reason' => 'Error material de transcripción',
+            'evidence' => 'CPD sintético con valor cotejado',
+        ])->assertCreated();
         $request = DB::table('correction_requests')->value('id');
         $this->getJson('/api/v1/applications/'.$id.'/corrections')->assertOk()->assertJsonCount(1, 'requests');
-        $this->actingAs($this->authority)->postJson('/api/v1/corrections/'.$request.'/decision', ['approved' => true, 'reason' => 'Aprobación independiente con respaldo'])->assertOk();
+        $this->actingAs($this->authority)->postJson('/api/v1/corrections/'.$request.'/decision', [
+            'approved' => true,
+            'reason' => 'Aprobación independiente con respaldo',
+        ])->assertOk();
         $this->assertEquals($publication, DB::table('publications')->first());
         $this->assertDatabaseHas('offers', ['id' => $this->offer, 'needs_publication_review' => true]);
         $this->assertDatabaseCount('publications', 1);
@@ -293,9 +412,27 @@ final class AcademicApiTest extends TestCase
     {
         $s = app(Selection::class);
         $category = DB::table('categories')->insertGetId(['name' => 'Tipo con paginación', 'regime' => 'docencia', 'active' => true]);
-        $call = $s->createCall($this->authority, ['title' => 'Listado de ofertas de prueba', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintético de búsqueda']);
+        $call = $s->createCall($this->authority, [
+            'title' => 'Listado de ofertas de prueba',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético de búsqueda',
+        ]);
         for ($i = 1; $i <= 12; $i++) {
-            $s->saveOffer($this->authority, $call, ['category_id' => $category, 'title' => 'Asignatura de prueba '.$i, 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Configuración sintética']);
+            $s->saveOffer($this->authority, $call, [
+                'category_id' => $category,
+                'title' => 'Asignatura de prueba '.$i,
+                'seats' => 1,
+                'is_subject' => false,
+                'modality' => 'Presencial',
+                'documents' => ['cpd' => 'CPD'],
+                'requirements' => ['activo' => 'Activo'],
+                'weights' => ['Software' => '100'],
+                'scheme' => 'DEMO_AREAS_100',
+                'source' => 'Configuración sintética',
+            ]);
         }
         $s->transition($this->authority, $call, 'published');
         $first = $this->actingAs($this->student)->getJson('/api/v1/search?q=paginaci%C3%B3n')->assertOk()->assertJsonCount(10, 'offers')->assertJsonCount(1, 'types')->assertJsonPath('pagination.last_page', 2)->assertJsonPath('pagination.total', 13);
@@ -307,9 +444,31 @@ final class AcademicApiTest extends TestCase
     public function test_a20_reviewer_in_one_call_cannot_search_unassigned_offers_in_another(): void
     {
         $s = app(Selection::class);
-        $category = DB::table('categories')->insertGetId(['name' => 'Tipo reservado de otra responsabilidad', 'regime' => 'docencia', 'active' => true]);
-        $call = $s->createCall($this->authority, ['title' => 'Otra convocatoria autorizada parcialmente', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture de permisos combinados']);
-        $s->saveOffer($this->authority, $call, ['category_id' => $category, 'title' => 'Oferta sin asignación para este actor', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Configuración sintética']);
+        $category = DB::table('categories')->insertGetId([
+            'name' => 'Tipo reservado de otra responsabilidad',
+            'regime' => 'docencia',
+            'active' => true,
+        ]);
+        $call = $s->createCall($this->authority, [
+            'title' => 'Otra convocatoria autorizada parcialmente',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture de permisos combinados',
+        ]);
+        $s->saveOffer($this->authority, $call, [
+            'category_id' => $category,
+            'title' => 'Oferta sin asignación para este actor',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Configuración sintética',
+        ]);
         DB::table('memberships')->insert(['user_id' => $this->reviewer->id, 'call_id' => $call, 'role' => 'evaluator']);
         $s->transition($this->authority, $call, 'published');
         $this->actingAs($this->reviewer)->getJson('/api/v1/search?q=Tipo%20reservado')->assertOk()->assertJsonCount(0, 'offers')->assertJsonCount(0, 'types');
@@ -333,8 +492,20 @@ final class AcademicApiTest extends TestCase
 
     public function test_a22_telemetry_retention_is_dry_run_first_and_preserves_domain_audit(): void
     {
-        $old = DB::table('access_events')->insertGetId(['user_id' => $this->student->id, 'event' => 'login.success', 'ip' => '127.0.0.1', 'status' => 200, 'created_at' => now()->subDays(100)]);
-        $recent = DB::table('access_events')->insertGetId(['user_id' => $this->student->id, 'event' => 'login.success', 'ip' => '127.0.0.1', 'status' => 200, 'created_at' => now()]);
+        $old = DB::table('access_events')->insertGetId([
+            'user_id' => $this->student->id,
+            'event' => 'login.success',
+            'ip' => '127.0.0.1',
+            'status' => 200,
+            'created_at' => now()->subDays(100),
+        ]);
+        $recent = DB::table('access_events')->insertGetId([
+            'user_id' => $this->student->id,
+            'event' => 'login.success',
+            'ip' => '127.0.0.1',
+            'status' => 200,
+            'created_at' => now(),
+        ]);
         $audit = DB::table('audit_events')->count();
         $this->artisan('ficct:telemetry-prune')->assertSuccessful();
         $this->assertDatabaseHas('access_events', ['id' => $old]);
@@ -348,8 +519,19 @@ final class AcademicApiTest extends TestCase
     {
         $this->actingAs($this->student);
         $method = $this->postJson('/api/v1/sandbox/methods', ['label' => 'Método de práctica A'])->json('id');
-        $this->postJson('/api/v1/sandbox/plans', ['total' => '10.00', 'count' => 3, 'description' => 'Plan de práctica', 'key' => (string) Str::uuid()])->assertCreated();
-        $this->postJson('/api/v1/sandbox/payments', ['method_id' => $method, 'amount' => '2.25', 'outcome' => 'paid', 'confirmed' => true, 'key' => (string) Str::uuid()])->assertCreated();
+        $this->postJson('/api/v1/sandbox/plans', [
+            'total' => '10.00',
+            'count' => 3,
+            'description' => 'Plan de práctica',
+            'key' => (string) Str::uuid(),
+        ])->assertCreated();
+        $this->postJson('/api/v1/sandbox/payments', [
+            'method_id' => $method,
+            'amount' => '2.25',
+            'outcome' => 'paid',
+            'confirmed' => true,
+            'key' => (string) Str::uuid(),
+        ])->assertCreated();
         $this->getJson('/api/v1/sandbox')->assertJsonPath('summary.paid', '2.25')->assertJsonPath('summary.pending_installments', '10.00')->assertJsonPath('summary.failed', '0.00');
         $report = $this->get('/api/v1/sandbox/report')->assertOk()->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
         $this->assertStringContainsString('2.25', $report->streamedContent());

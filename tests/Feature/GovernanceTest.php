@@ -43,12 +43,31 @@ final class GovernanceTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->teacher = User::factory()->create(['role' => 'staff']);
         $this->student = User::factory()->create();
-        $this->call = $this->s->createCall($this->authority, ['title' => 'Fixture DEMO', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'subject_limit' => 4, 'source' => 'Fixture sintético de aceptación']);
+        $this->call = $this->s->createCall($this->authority, [
+            'title' => 'Fixture DEMO',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'subject_limit' => 4,
+            'source' => 'Fixture sintético de aceptación',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->teacher, 'evaluator']] as [$u,$role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Sala DEMO', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $this->s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Sala A', 'seats' => 2, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'], 'requirements' => ['activo' => 'Estudiante activo'], 'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture DEMO']);
+        $this->offer = $this->s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Sala A',
+            'seats' => 2,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'Formulario CPD', 'ci' => 'Identidad sintética'],
+            'requirements' => ['activo' => 'Estudiante activo'],
+            'weights' => ['Soporte' => '50', 'Redes' => '25', 'Software' => '25'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture DEMO',
+        ]);
         $this->s->transition($this->authority, $this->call, 'published');
     }
 
@@ -71,7 +90,11 @@ final class GovernanceTest extends TestCase
         $id = $this->app($u);
         $this->documents($id, $u);
         $this->s->submit($u, $id);
-        $this->s->review($this->reviewer, $id, ['doc:cpd' => 'meets', 'doc:ci' => 'meets', 'activo' => 'meets'], 'Evidencia sintética cotejada en DEMO.');
+        $this->s->review($this->reviewer, $id, [
+            'doc:cpd' => 'meets',
+            'doc:ci' => 'meets',
+            'activo' => 'meets',
+        ], 'Evidencia sintética cotejada en DEMO.');
         $this->s->eligibility($this->reviewer, $id, true, 'Revisión completa documentada en DEMO.');
         $this->s->merit($this->reviewer, $id, '20.10', 'CPD-FICTICIO-01');
 
@@ -140,7 +163,11 @@ final class GovernanceTest extends TestCase
 
     public function test_g02_unauthorized_grant_is_forbidden(): void
     {
-        $this->actingAs($this->student)->post('/permisos', ['call_id' => $this->call, 'user_id' => $this->student->id, 'role' => 'authority'])->assertForbidden();
+        $this->actingAs($this->student)->post('/permisos', [
+            'call_id' => $this->call,
+            'user_id' => $this->student->id,
+            'role' => 'authority',
+        ])->assertForbidden();
     }
 
     public function test_g03_revoke_invalidates_existing_session(): void
@@ -166,7 +193,13 @@ final class GovernanceTest extends TestCase
 
     public function test_g06_independent_call_scope(): void
     {
-        $other = $this->s->createCall($this->authority, ['title' => 'Otra DEMO', 'scope' => 'UAGRM', 'opens_at' => now(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2)]);
+        $other = $this->s->createCall($this->authority, [
+            'title' => 'Otra DEMO',
+            'scope' => 'UAGRM',
+            'opens_at' => now(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+        ]);
         $this->assertFalse(Access::has($this->teacher, $other, ['evaluator']));
         $this->assertTrue(Access::has($this->teacher, $this->call, ['evaluator']));
     }
@@ -227,7 +260,14 @@ final class GovernanceTest extends TestCase
         $id = $this->publishedResult();
         $request = $this->requestMerit($id);
         $this->approveRequest($request);
-        $this->assertDatabaseHas('applications', ['id' => $id, 'merit' => '25.25', 'exam' => '48.00', 'final' => '73.25', 'merit_version' => 2, 'selection' => 'under_review']);
+        $this->assertDatabaseHas('applications', [
+            'id' => $id,
+            'merit' => '25.25',
+            'exam' => '48.00',
+            'final' => '73.25',
+            'merit_version' => 2,
+            'selection' => 'under_review',
+        ]);
         $this->assertDatabaseHas('offers', ['id' => $this->offer, 'result_revision' => 1, 'needs_publication_review' => true]);
     }
 
@@ -249,7 +289,11 @@ final class GovernanceTest extends TestCase
         $this->assertDatabaseHas('score_versions', ['grade_id' => $g->id, 'version' => 1, 'score' => $g->score]);
         $this->assertDatabaseHas('score_versions', ['grade_id' => $g->id, 'version' => 2, 'score' => '90.00']);
         $this->assertDatabaseHas('grades', ['id' => $g->id, 'user_id' => $this->teacher->id, 'version' => 2]);
-        $this->assertDatabaseHas('correction_requests', ['id' => $r, 'original_evaluator_id' => $this->teacher->id, 'decided_by' => $this->authority->id]);
+        $this->assertDatabaseHas('correction_requests', [
+            'id' => $r,
+            'original_evaluator_id' => $this->teacher->id,
+            'decided_by' => $this->authority->id,
+        ]);
     }
 
     public function test_g15_reason_and_evidence_required(): void
@@ -387,10 +431,18 @@ final class GovernanceTest extends TestCase
     {
         $id = $this->publishedResult();
         $grade = DB::table('grades')->where('application_id', $id)->first();
-        $this->actingAs($this->teacher)->post('/postulaciones/'.$id.'/rectificaciones', ['grade_id' => $grade->id, 'score' => '90', 'reason' => 'Rectificación sintética por error verificado.', 'evidence' => 'ACTA-SINTETICA-HTTP-01'])->assertSessionHasNoErrors()->assertRedirect();
+        $this->actingAs($this->teacher)->post('/postulaciones/'.$id.'/rectificaciones', [
+            'grade_id' => $grade->id,
+            'score' => '90',
+            'reason' => 'Rectificación sintética por error verificado.',
+            'evidence' => 'ACTA-SINTETICA-HTTP-01',
+        ])->assertSessionHasNoErrors()->assertRedirect();
         $request = DB::table('correction_requests')->value('id');
         $this->actingAs($this->authority)->get('/rectificaciones')->assertOk()->assertSee('1 pendientes');
-        $this->post('/rectificaciones/'.$request.'/decision', ['approved' => '1', 'reason' => 'Decisión administrativa técnica de prueba.'])->assertSessionHasNoErrors()->assertRedirect();
+        $this->post('/rectificaciones/'.$request.'/decision', [
+            'approved' => '1',
+            'reason' => 'Decisión administrativa técnica de prueba.',
+        ])->assertSessionHasNoErrors()->assertRedirect();
         $this->assertDatabaseHas('correction_requests', ['id' => $request, 'status' => 'approved']);
         $this->actingAs($this->student)->get('/rectificaciones')->assertForbidden();
         $this->get('/login')->assertOk();
@@ -406,13 +458,21 @@ final class GovernanceTest extends TestCase
         $this->evaluation();
         $this->notes($a);
         $this->notes($b);
-        $tie = $this->s->openTie($this->authority, $this->offer, ['commission' => ['Comisión DEMO'], 'conditions' => 'Condiciones sintéticas por comisión.', 'scheduled_at' => now()->subHour()]);
+        $tie = $this->s->openTie($this->authority, $this->offer, [
+            'commission' => ['Comisión DEMO'],
+            'conditions' => 'Condiciones sintéticas por comisión.',
+            'scheduled_at' => now()->subHour(),
+        ]);
         $this->s->resolveTie($this->authority, $tie, [$a => 'Acta decide', $b => 'Acta decide'], [$a], 'Acta sintética del examen original.');
         $this->s->approve($this->authority, $this->offer, 'Acta sintética de publicación original.');
         $this->approveRequest($this->requestMerit($a, '21.10'));
         $this->approveRequest($this->requestMerit($b, '21.10'));
         $this->rejects(fn () => $this->s->approve($this->authority, $this->offer, 'No puede reutilizar acta de otro ranking.'));
-        $next = $this->s->openTie($this->authority, $this->offer, ['commission' => ['Comisión DEMO'], 'conditions' => 'Condiciones sintéticas para nueva revisión.', 'scheduled_at' => now()->subHour()]);
+        $next = $this->s->openTie($this->authority, $this->offer, [
+            'commission' => ['Comisión DEMO'],
+            'conditions' => 'Condiciones sintéticas para nueva revisión.',
+            'scheduled_at' => now()->subHour(),
+        ]);
         $this->assertDatabaseHas('tie_exams', ['id' => $next, 'result_revision' => 2]);
         $this->assertDatabaseHas('tie_exams', ['id' => $tie, 'result_revision' => 0, 'status' => 'resolved']);
         $this->assertDatabaseCount('publications', 1);
@@ -434,13 +494,23 @@ final class GovernanceTest extends TestCase
         $this->evaluation();
         $this->notes($a);
         $this->notes($b);
-        $conditions = ['commission' => ['Comisión DEMO'], 'conditions' => 'Condiciones sintéticas definidas por comisión.', 'scheduled_at' => now()->subHours(2)];
+        $conditions = [
+            'commission' => ['Comisión DEMO'],
+            'conditions' => 'Condiciones sintéticas definidas por comisión.',
+            'scheduled_at' => now()->subHours(2),
+        ];
         $one = $this->s->openTie($this->authority, $this->offer, $conditions);
-        $two = $this->s->continueTie($this->authority, $one, [$a => 'Persiste empate según acta', $b => 'Persiste empate según acta'], array_merge($conditions, ['scheduled_at' => now()->subHour(), 'minutes' => 'Acta sintética: persiste el empate.']));
+        $two = $this->s->continueTie($this->authority, $one, [
+            $a => 'Persiste empate según acta',
+            $b => 'Persiste empate según acta',
+        ], array_merge($conditions, ['scheduled_at' => now()->subHour(), 'minutes' => 'Acta sintética: persiste el empate.']));
         $this->assertDatabaseHas('tie_exams', ['id' => $one, 'status' => 'continued', 'winners' => null]);
         $this->assertDatabaseHas('tie_exams', ['id' => $two, 'previous_tie_id' => $one, 'round' => 2, 'status' => 'scheduled']);
         $this->rejects(fn () => $this->s->approve($this->authority, $this->offer, 'Acta bloqueada hasta concluir nuevo examen.'));
-        $this->s->resolveTie($this->authority, $two, [$a => 'Resultado registrado por comisión', $b => 'Resultado registrado por comisión'], [$b], 'Acta sintética resuelve segunda ronda.');
+        $this->s->resolveTie($this->authority, $two, [
+            $a => 'Resultado registrado por comisión',
+            $b => 'Resultado registrado por comisión',
+        ], [$b], 'Acta sintética resuelve segunda ronda.');
         $this->s->approve($this->authority, $this->offer, 'Acta sintética aprueba luego de nueva ronda.');
         $this->assertDatabaseHas('applications', ['id' => $b, 'selection' => 'selected']);
     }

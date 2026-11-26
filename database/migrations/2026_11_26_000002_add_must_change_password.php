@@ -1,0 +1,24 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+/**
+ * Quien crea una cuenta (administración o consola) conoce su clave inicial. La persona debe cambiarla en su primer ingreso
+ * para que nadie más pueda actuar a su nombre.
+ */
+return new class extends Migration
+{
+    public function up(): void
+    {
+        if (! Schema::hasColumn('users', 'must_change_password')) {
+            Schema::table('users', fn (Blueprint $table) => $table->boolean('must_change_password')->default(false));
+        }
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', fn (Blueprint $table) => $table->dropColumn('must_change_password'));
+    }
+};

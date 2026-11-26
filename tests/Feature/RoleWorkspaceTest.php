@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 final class RoleWorkspaceTest extends TestCase
@@ -36,12 +35,30 @@ final class RoleWorkspaceTest extends TestCase
         $this->authority = User::factory()->create(['role' => 'authority']);
         $this->evaluator = User::factory()->create(['role' => 'staff']);
         $s = app(Selection::class);
-        $this->call = $s->createCall($this->authority, ['title' => 'Convocatoria REST de prueba', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintético de API']);
+        $this->call = $s->createCall($this->authority, [
+            'title' => 'Convocatoria REST de prueba',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético de API',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->evaluator, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Software API', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Oferta REST', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintético de API']);
+        $this->offer = $s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Oferta REST',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintético de API',
+        ]);
         $s->assign($this->authority, $this->offer, $this->evaluator->id, 'Software');
         $s->transition($this->authority, $this->call, 'published');
     }
@@ -53,12 +70,18 @@ final class RoleWorkspaceTest extends TestCase
         $s->upload($this->student, $id, 'cpd', UploadedFile::fake()->image('cpd.png'));
         $this->scanApplicantFixtures();
         $s->submit($this->student, $id);
+
         return $id;
     }
 
     public function test_w01_each_responsibility_has_its_database_menu_and_revocation_removes_it(): void
     {
-        foreach ([[$this->student, '/postulaciones', '/revision'], [$this->reviewer, '/revision', '/evaluaciones'], [$this->evaluator, '/evaluaciones', '/revision'], [$this->authority, '/expedientes', '/administracion']] as [$user, $own, $other]) {
+        foreach ([
+            [$this->student, '/postulaciones', '/revision'],
+            [$this->reviewer, '/revision', '/evaluaciones'],
+            [$this->evaluator, '/evaluaciones', '/revision'],
+            [$this->authority, '/expedientes', '/administracion'],
+        ] as [$user, $own, $other]) {
             $this->actingAs($user)->getJson('/api/v1/me/navigation')->assertOk()->assertJsonFragment(['path' => $own])->assertJsonMissing(['path' => $other]);
         }
         $this->actingAs($this->reviewer)->getJson('/api/v1/me/navigation')->assertJsonMissing(['path' => '/simulacion']);

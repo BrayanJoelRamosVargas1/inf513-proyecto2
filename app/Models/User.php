@@ -16,6 +16,25 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * En la instalación real no se admiten correos de dominios reservados para pruebas (.test, .invalid, .localhost):
+     * son los de las cuentas de entrenamiento y no pertenecen a una persona.
+     *
+     * @return list<string>
+     */
+    public static function reservedEmailRules(): array
+    {
+        return config('portal.experience') === 'institutional' ? ['not_regex:/\.(test|invalid|localhost)$/i'] : [];
+    }
+
+    /** Cédula o registro: mayúsculas, sin espacios ni puntos, para que no se repitan por formato. */
+    public static function normalizeIdentifier(mixed $value): ?string
+    {
+        $value = preg_replace('/[^0-9A-Z]+/', '', mb_strtoupper(trim((string) $value)));
+
+        return $value === '' ? null : $value;
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

@@ -1,2 +1,13 @@
-# Preserve validated archive bytes across server platforms.
+# Preservar los bytes exactos: MANIFIESTO_SHA256.json y las verificaciones
+# comparan hashes, y los PDF/binarios no deben convertirse a CRLF ni a LF.
 * -text
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore

@@ -23,7 +23,10 @@ final class SubpathLinksTest extends TestCase
         $request = $this->mountedRequest();
         $this->assertSame('/curso/grupo/proyecto2', $request->getBaseUrl());
         $html = '<a href="/ayuda">Ayuda</a><form action="/salir"></form><link href="/portal.css"><a href="/curso/grupo/proyecto2/p2">React</a><a href="//example.net/">Externo</a><a href="https://example.net/">Externo</a>';
-        $response = (new SubpathLinks)->handle($request, fn () => new Response($html, 200, ['Content-Type' => 'text/html', 'Content-Length' => strlen($html)]));
+        $response = (new SubpathLinks)->handle($request, fn () => new Response($html, 200, [
+            'Content-Type' => 'text/html',
+            'Content-Length' => strlen($html),
+        ]));
         $this->assertStringContainsString('href="/curso/grupo/proyecto2/ayuda"', $response->getContent());
         $this->assertStringContainsString('action="/curso/grupo/proyecto2/salir"', $response->getContent());
         $this->assertStringContainsString('href="/curso/grupo/proyecto2/portal.css"', $response->getContent());

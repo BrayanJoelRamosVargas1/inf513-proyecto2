@@ -34,6 +34,11 @@ final class SecureResponse
         if ($request->user() && ! $request->user()->active) {
             abort(403, 'Cuenta desactivada.');
         }
+        // Primer ingreso de una cuenta creada por otra persona: solo puede cambiar su clave o salir.
+        if ($request->user()?->must_change_password && config('portal.experience') === 'institutional'
+            && $request->is('api/*') && ! $request->is('api/v1/me', 'api/v1/me/password', 'api/v1/logout', 'api/v1/csrf')) {
+            return self::secure(response()->json(['message' => 'Debe cambiar la clave inicial antes de continuar.', 'code' => 'password_change_required'], 403));
+        }
 
         $response = $next($request);
         $marker = '<!--ficct:legacy-visit-count-->';
@@ -67,6 +72,10 @@ final class SecureResponse
         $response->headers->set('Referrer-Policy', 'same-origin');
         $response->headers->set('Content-Security-Policy', "default-src 'self'; style-src 'self'; img-src 'self' data:; script-src ".(request()->is('p2', 'p2/*') ? "'self'" : "'none'")."; object-src 'none'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'");
         $response->headers->set('Cache-Control', 'no-store, private');
+        $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
+        if (request()->isSecure()) {
+            $response->headers->set('Strict-Transport-Security', 'max-age=31536000');
+        }
 
         return $response;
     }

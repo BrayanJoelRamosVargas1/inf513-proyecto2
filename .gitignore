@@ -23,7 +23,6 @@ yarn-error.log
 /.zed
 /.local
 /.env.testing
-/evidence/private
 /storage/app/private/*
 /storage/logs/*.log
 /database/*.sqlite*

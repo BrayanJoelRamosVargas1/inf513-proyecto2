@@ -24,7 +24,14 @@ final class ConfigurationCompletionTest extends TestCase
 
     private function fields(): array
     {
-        return ['title' => 'Identificación explícita DEMO', 'opens_at' => now()->subDay()->toDateTimeString(), 'closes_at' => now()->addDay()->toDateTimeString(), 'exam_at' => now()->addDays(2)->toDateTimeString(), 'scope' => 'UAGRM', 'source' => 'Datos sintéticos sin validez institucional'];
+        return [
+            'title' => 'Identificación explícita DEMO',
+            'opens_at' => now()->subDay()->toDateTimeString(),
+            'closes_at' => now()->addDay()->toDateTimeString(),
+            'exam_at' => now()->addDays(2)->toDateTimeString(),
+            'scope' => 'UAGRM',
+            'source' => 'Datos sintéticos sin validez institucional',
+        ];
     }
 
     protected function setUp(): void
@@ -38,12 +45,28 @@ final class ConfigurationCompletionTest extends TestCase
 
     private function offer(int $call): int
     {
-        return app(Selection::class)->saveOffer($this->authority, $call, ['category_id' => $this->category, 'title' => 'Oferta de prueba', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD sintético'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Soporte' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Configuración de prueba']);
+        return app(Selection::class)->saveOffer($this->authority, $call, [
+            'category_id' => $this->category,
+            'title' => 'Oferta de prueba',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD sintético'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Soporte' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Configuración de prueba',
+        ]);
     }
 
     public function test_d01_call_creation_stores_explicit_year_and_number_and_faculty_scope(): void
     {
-        $this->actingAs($this->authority)->post('/convocatorias', array_merge($this->fields(), ['management_year' => '2026', 'call_number' => '01', 'scope' => 'faculty', 'scope_value' => 'FICCT']))->assertSessionHasNoErrors()->assertRedirect();
+        $this->actingAs($this->authority)->post('/convocatorias', array_merge($this->fields(), [
+            'management_year' => '2026',
+            'call_number' => '01',
+            'scope' => 'faculty',
+            'scope_value' => 'FICCT',
+        ]))->assertSessionHasNoErrors()->assertRedirect();
         $this->assertDatabaseHas('calls', ['management_year' => 2026, 'call_number' => '01', 'scope' => 'faculty', 'scope_value' => 'FICCT']);
     }
 
@@ -73,7 +96,12 @@ final class ConfigurationCompletionTest extends TestCase
     public function test_d05_only_admin_can_update_category(): void
     {
         foreach ([$this->authority, User::factory()->create()] as $u) {
-            $this->actingAs($u)->post('/categorias/'.$this->category.'/editar', ['name' => 'Otro', 'regime' => 'docencia', 'active' => '0', 'reason' => 'Intento sintético no autorizado'])->assertForbidden();
+            $this->actingAs($u)->post('/categorias/'.$this->category.'/editar', [
+                'name' => 'Otro',
+                'regime' => 'docencia',
+                'active' => '0',
+                'reason' => 'Intento sintético no autorizado',
+            ])->assertForbidden();
         }
         $this->assertDatabaseHas('categories', ['id' => $this->category, 'name' => 'Tipo original DEMO', 'active' => true]);
     }
@@ -107,9 +135,19 @@ final class ConfigurationCompletionTest extends TestCase
 
     public function test_d08_category_change_requires_reason_and_cannot_mutate_other_columns(): void
     {
-        $this->actingAs($this->admin)->post('/categorias/'.$this->category.'/editar', ['name' => 'Tipo original DEMO', 'regime' => 'docencia', 'active' => '0', 'reason' => 'corto'])->assertSessionHasErrors('reason');
+        $this->actingAs($this->admin)->post('/categorias/'.$this->category.'/editar', [
+            'name' => 'Tipo original DEMO',
+            'regime' => 'docencia',
+            'active' => '0',
+            'reason' => 'corto',
+        ])->assertSessionHasErrors('reason');
         $this->assertDatabaseHas('categories', ['id' => $this->category, 'active' => true]);
-        app(Administration::class)->editCategory($this->admin, $this->category, ['name' => 'Tipo original DEMO', 'regime' => 'docencia', 'active' => false, 'id' => 999], 'Motivo sintético suficientemente largo.');
+        app(Administration::class)->editCategory($this->admin, $this->category, [
+            'name' => 'Tipo original DEMO',
+            'regime' => 'docencia',
+            'active' => false,
+            'id' => 999,
+        ], 'Motivo sintético suficientemente largo.');
         $this->assertDatabaseHas('categories', ['id' => $this->category, 'active' => false]);
         $this->assertDatabaseMissing('categories', ['id' => 999]);
     }

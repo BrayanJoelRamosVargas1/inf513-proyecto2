@@ -1,3 +1,5 @@
+> Nota 26/11/2026: las rutas `evidence/` que se citan en este documento se archivaron en `ARCHIVO_SISTEMA_FICCT/evidencia/` (carpeta hermana de `sistema`, fuera del repositorio).
+
 # Procesador documental supervisado — FICCT/UAGRM
 
 Fecha: 22 de noviembre de 2026. Ampliación local de la preparación institucional. Se conserva NO_GO_INSTITUCIONAL y el contrato de 8 CU / 30 RF. No se despliega este refuerzo en el sitio académico remoto.

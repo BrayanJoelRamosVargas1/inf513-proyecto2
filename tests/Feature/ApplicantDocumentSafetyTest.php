@@ -48,12 +48,30 @@ final class ApplicantDocumentSafetyTest extends TestCase
         $this->reviewer = User::factory()->create(['role' => 'staff']);
         $this->evaluator = User::factory()->create(['role' => 'staff']);
         $s = app(Selection::class);
-        $this->call = $s->createCall($this->authority, ['title' => 'Documentos legibles', 'opens_at' => now()->subDay(), 'closes_at' => now()->addDay(), 'exam_at' => now()->addDays(2), 'scope' => 'UAGRM', 'source' => 'Fixture sintético']);
+        $this->call = $s->createCall($this->authority, [
+            'title' => 'Documentos legibles',
+            'opens_at' => now()->subDay(),
+            'closes_at' => now()->addDay(),
+            'exam_at' => now()->addDays(2),
+            'scope' => 'UAGRM',
+            'source' => 'Fixture sintético',
+        ]);
         foreach ([[$this->reviewer, 'reviewer'], [$this->evaluator, 'evaluator']] as [$u, $role]) {
             DB::table('memberships')->insert(['user_id' => $u->id, 'call_id' => $this->call, 'role' => $role]);
         }
         $category = DB::table('categories')->insertGetId(['name' => 'Tipo documental', 'regime' => 'docencia', 'active' => true]);
-        $this->offer = $s->saveOffer($this->authority, $this->call, ['category_id' => $category, 'title' => 'Oferta documental', 'seats' => 1, 'is_subject' => false, 'modality' => 'Presencial', 'documents' => ['cpd' => 'CPD'], 'requirements' => ['activo' => 'Activo'], 'weights' => ['Software' => '100'], 'scheme' => 'DEMO_AREAS_100', 'source' => 'Fixture sintético']);
+        $this->offer = $s->saveOffer($this->authority, $this->call, [
+            'category_id' => $category,
+            'title' => 'Oferta documental',
+            'seats' => 1,
+            'is_subject' => false,
+            'modality' => 'Presencial',
+            'documents' => ['cpd' => 'CPD'],
+            'requirements' => ['activo' => 'Activo'],
+            'weights' => ['Software' => '100'],
+            'scheme' => 'DEMO_AREAS_100',
+            'source' => 'Fixture sintético',
+        ]);
         $s->transition($this->authority, $this->call, 'published');
         $this->application = $s->apply($this->student, $this->offer);
         $this->document = $s->upload($this->student, $this->application, 'cpd', new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'respaldo.pdf', 'application/pdf', null, true));
@@ -91,7 +109,10 @@ final class ApplicantDocumentSafetyTest extends TestCase
 
     private function reviewResponse(int $expected = 422): void
     {
-        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/revision', ['decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'], 'reason' => 'Revisión de un expediente sintético completo.'])->assertStatus($expected);
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/revision', [
+            'decisions' => ['doc:cpd' => 'meets', 'activo' => 'meets'],
+            'reason' => 'Revisión de un expediente sintético completo.',
+        ])->assertStatus($expected);
     }
 
     public function test_d01_student_can_submit_pending_but_cannot_download_or_approve(): void
@@ -109,6 +130,8 @@ final class ApplicantDocumentSafetyTest extends TestCase
     public function test_d02_clean_scan_allows_exact_original_only_for_owner_and_scoped_reviewer(): void
     {
         $this->assertSame('clean', $this->runScan()['state']);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/documents/'.$this->document)->assertForbidden(); // borrador: solo el postulante
+        $this->submit();
         foreach ([$this->student, $this->reviewer] as $u) {
             $r = $this->actingAs($u)->getJson('/api/v1/documents/'.$this->document)->assertOk();
             $this->assertSame(file_get_contents(resource_path('demo-documents/cpd.pdf')), $r->getContent());
@@ -116,7 +139,6 @@ final class ApplicantDocumentSafetyTest extends TestCase
         foreach ([$this->authority, $this->evaluator, User::factory()->create(['role' => 'admin']), User::factory()->create()] as $u) {
             $this->actingAs($u)->getJson('/api/v1/documents/'.$this->document)->assertForbidden();
         }
-        $this->submit();
         $this->reviewResponse(200);
         app(Selection::class)->eligibility($this->reviewer, $this->application, true, 'Documentación sintética comprobada.');
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);
@@ -218,7 +240,11 @@ final class ApplicantDocumentSafetyTest extends TestCase
 
     public function test_d10_foreign_upload_and_forged_scan_state_cannot_release_a_document(): void
     {
-        $data = ['kind' => 'cpd', 'file' => new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'muestra.pdf', null, null, true), 'scan_state' => 'clean'];
+        $data = [
+            'kind' => 'cpd',
+            'file' => new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'muestra.pdf', null, null, true),
+            'scan_state' => 'clean',
+        ];
         $this->actingAs(User::factory()->create())->post('/api/v1/applications/'.$this->application.'/archivo', $data, ['Accept' => 'application/json'])->assertForbidden();
         $this->actingAs($this->student)->post('/api/v1/applications/'.$this->application.'/archivo', $data, ['Accept' => 'application/json'])->assertOk();
         $new = DB::table('documents')->max('id');
@@ -234,7 +260,16 @@ final class ApplicantDocumentSafetyTest extends TestCase
         $s = app(InstitutionalPreparation::class);
         $d = $s->create($this->authority, ['call_id' => $this->call, 'reviewer_id' => $r->id, 'title' => 'Fuente sintética']);
         DB::select("SELECT setval(pg_get_serial_sequence('institutional_sources', 'id'), ?, false)", [$this->document]);
-        $source = $s->source($this->authority, $d, ['expected_version' => 1, 'reference' => 'MUESTRA', 'gate' => 'G02', 'title' => 'Sin valor normativo', 'issued_on' => '2026-11-22', 'pages' => '1', 'classification' => 'historical_reference', 'notes' => 'Fuente sintética.'], new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'fuente.pdf', null, null, true));
+        $source = $s->source($this->authority, $d, [
+            'expected_version' => 1,
+            'reference' => 'MUESTRA',
+            'gate' => 'G02',
+            'title' => 'Sin valor normativo',
+            'issued_on' => '2026-11-22',
+            'pages' => '1',
+            'classification' => 'historical_reference',
+            'notes' => 'Fuente sintética.',
+        ], new UploadedFile(resource_path('demo-documents/cpd.pdf'), 'fuente.pdf', null, null, true));
         $this->assertEquals($source, $this->document);
         $this->scanner();
         app(DocumentSafety::class)->scan($this->document, 'applicant');
@@ -263,7 +298,12 @@ final class ApplicantDocumentSafetyTest extends TestCase
     {
         $this->runScan();
         $doc = DB::table('documents')->find($this->document);
-        $old = DB::table('institutional_scan_jobs')->insertGetId(['document_id' => $doc->id, 'sha256' => $doc->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]);
+        $old = DB::table('institutional_scan_jobs')->insertGetId([
+            'document_id' => $doc->id,
+            'sha256' => $doc->sha256,
+            'policy_hash' => DocumentSafety::policyHash(),
+            'created_at' => now(),
+        ]);
         $this->travel(301)->seconds();
         $this->scanner();
         app(DocumentSafety::class)->scan($doc->id, 'applicant');
@@ -294,7 +334,11 @@ final class ApplicantDocumentSafetyTest extends TestCase
     {
         $doc = DB::table('documents')->find($this->document);
         try {
-            DB::transaction(fn () => DB::table('institutional_scan_jobs')->insert(['sha256' => $doc->sha256, 'policy_hash' => DocumentSafety::policyHash(), 'created_at' => now()]));
+            DB::transaction(fn () => DB::table('institutional_scan_jobs')->insert([
+                'sha256' => $doc->sha256,
+                'policy_hash' => DocumentSafety::policyHash(),
+                'created_at' => now(),
+            ]));
             $this->fail('Targetless scan accepted');
         } catch (QueryException $e) {
             $this->assertStringContainsString('one_target', $e->getMessage());
@@ -305,7 +349,17 @@ final class ApplicantDocumentSafetyTest extends TestCase
     public function test_d16_legacy_document_without_scan_is_blocked_and_can_be_explicitly_enqueued(): void
     {
         Storage::disk('local')->put('legacy/muestra.pdf', file_get_contents(resource_path('demo-documents/cpd.pdf')));
-        $id = DB::table('documents')->insertGetId(['application_id' => $this->application, 'kind' => 'cpd', 'version' => 2, 'path' => 'legacy/muestra.pdf', 'name' => 'anterior.pdf', 'mime' => 'application/pdf', 'sha256' => hash_file('sha256', resource_path('demo-documents/cpd.pdf')), 'created_at' => now(), 'updated_at' => now()]);
+        $id = DB::table('documents')->insertGetId([
+            'application_id' => $this->application,
+            'kind' => 'cpd',
+            'version' => 2,
+            'path' => 'legacy/muestra.pdf',
+            'name' => 'anterior.pdf',
+            'mime' => 'application/pdf',
+            'sha256' => hash_file('sha256', resource_path('demo-documents/cpd.pdf')),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         $this->actingAs($this->student)->get('/documentos/'.$id)->assertStatus(423);
         $task = app(DocumentProcessor::class)->enqueue($id, 'applicant');
         $this->scanner();
@@ -386,7 +440,11 @@ final class ApplicantDocumentSafetyTest extends TestCase
     {
         $assignment = $this->enabledForEvaluation();
         app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
-        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus(422);
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', [
+            'assignment_id' => $assignment,
+            'score' => '80',
+            'intent' => 'confirm',
+        ])->assertStatus(422);
         $this->assertDatabaseCount('grades', 0);
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);
     }
@@ -408,14 +466,25 @@ final class ApplicantDocumentSafetyTest extends TestCase
         $this->submit();
         $this->reviewResponse(200);
         app(DocumentProcessor::class)->enqueue($this->document, 'applicant');
-        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/habilitacion', ['enabled' => '1', 'reason' => 'Habilitación solicitada en la prueba.'])->assertStatus(422);
+        $this->actingAs($this->reviewer)->postJson('/api/v1/applications/'.$this->application.'/habilitacion', [
+            'enabled' => '1',
+            'reason' => 'Habilitación solicitada en la prueba.',
+        ])->assertStatus(422);
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'pending']);
         $this->assertDatabaseHas('reviews', ['application_id' => $this->application, 'criterion' => 'doc:cpd', 'decision' => 'meets']);
     }
 
     public static function unavailableValidation(): array
     {
-        return array_combine(['pending', 'blocked', 'error', 'expired', 'policy', 'missing', 'tampered'], array_map(fn ($state) => [$state], ['pending', 'blocked', 'error', 'expired', 'policy', 'missing', 'tampered']));
+        return array_combine([
+            'pending',
+            'blocked',
+            'error',
+            'expired',
+            'policy',
+            'missing',
+            'tampered',
+        ], array_map(fn ($state) => [$state], ['pending', 'blocked', 'error', 'expired', 'policy', 'missing', 'tampered']));
     }
 
     #[DataProvider('unavailableValidation')]
@@ -439,7 +508,11 @@ final class ApplicantDocumentSafetyTest extends TestCase
             $state === 'missing' ? Storage::disk('local')->delete($path) : Storage::disk('local')->put($path, 'alteración sintética');
         }
         $code = in_array($state, ['missing', 'tampered']) ? 409 : 422;
-        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus($code);
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', [
+            'assignment_id' => $assignment,
+            'score' => '80',
+            'intent' => 'confirm',
+        ])->assertStatus($code);
         $this->actingAs($this->authority)->postJson('/api/v1/applications/'.$this->application.'/calcular')->assertStatus($code)->assertJsonPath('message', $state === 'missing' ? 'La fuente no está disponible para comprobar su integridad.' : ($state === 'tampered' ? 'La fuente no coincide con su huella registrada.' : 'Documento en cuarentena: falta un análisis válido antes de aprobarlo.'));
         $this->assertEquals($before, DB::table('applications')->find($this->application));
         $this->assertSame($history, DB::table('grades')->get()->toJson());
@@ -559,7 +632,11 @@ final class ApplicantDocumentSafetyTest extends TestCase
             }
         };
         Storage::shouldReceive('disk')->with('local')->andReturn($proxy);
-        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', ['assignment_id' => $assignment, 'score' => '80', 'intent' => 'confirm'])->assertStatus(422)->assertJsonPath('message', 'El análisis cambió durante la revisión.');
+        $this->actingAs($this->evaluator)->postJson('/api/v1/applications/'.$this->application.'/nota', [
+            'assignment_id' => $assignment,
+            'score' => '80',
+            'intent' => 'confirm',
+        ])->assertStatus(422)->assertJsonPath('message', 'El análisis cambió durante la revisión.');
         $this->assertDatabaseCount('grades', 0);
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);
     }

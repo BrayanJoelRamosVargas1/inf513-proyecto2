@@ -6,6 +6,20 @@ use Illuminate\Validation\ValidationException;
 
 final class Scores
 {
+    /**
+     * Esquemas de composición que el sistema sabe calcular; PENDING_COMPOSITION no es calculable.
+     * AREAS_100: áreas cuyos pesos suman 100. COMPONENTS_100: componentes (por ejemplo escrito y práctico) que suman 100.
+     * Los nombres DEMO_* son los de las instalaciones de entrenamiento y se aceptan por compatibilidad.
+     */
+    public const CALCULABLE_SCHEMES = ['AREAS_100', 'COMPONENTS_100', 'DEMO_AREAS_100', 'DEMO_COMPONENTS_100'];
+
+    /** Máximos de la escala DEMO: mérito /40 + examen /60 = final /100. */
+    public const MERIT_MAX = '40';
+
+    public const EXAM_MAX = '60';
+
+    public const EXAM_FACTOR = '0.6';
+
     public static function value(mixed $value, string $max = '100'): string
     {
         if (! is_string($value) && ! is_int($value)) {
@@ -31,7 +45,8 @@ final class Scores
         }
         $total = '0';
         foreach ($weights as $area => $weight) {
-            if (! is_string($area) || ! preg_match('/^[\pL\pN _-]{1,70}$/u', $area)) {
+            // PHP convierte la clave "1" en entero al construir el arreglo: se acepta y se valida como texto.
+            if ((! is_string($area) && ! is_int($area)) || ! preg_match('/^[\pL\pN _-]{1,70}$/u', (string) $area)) {
                 self::fail('Nombre de área inválido.');
             }
             $weight = self::value($weight);
@@ -59,7 +74,7 @@ final class Scores
             $sum = bcadd($sum, bcmul(self::value($notes[$area]), $weight, 8), 8);
         }
 
-        return self::round(bcmul(bcdiv($sum, '100', 8), '0.6', 8));
+        return self::round(bcmul(bcdiv($sum, '100', 8), self::EXAM_FACTOR, 8));
     }
 
     public static function fail(string $message): never

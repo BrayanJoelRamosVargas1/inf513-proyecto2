@@ -29,11 +29,23 @@ final class WorkspaceController extends Controller
     public function preferences(Request $r)
     {
         if ($r->isMethod('put')) {
-            $d = $r->validate(['theme' => ['required', Rule::in(['ninos', 'jovenes', 'adultos'])], 'mode' => ['required', Rule::in(['dia', 'noche', 'auto'])], 'font' => 'required|integer|in:100,125,150,175,200', 'contrast' => 'required|boolean']);
+            $d = $r->validate([
+                'theme' => ['required', Rule::in(['ninos', 'jovenes', 'adultos'])],
+                'mode' => ['required', Rule::in(['dia', 'noche', 'auto'])],
+                'font' => 'required|integer|in:100,125,150,175,200',
+                'contrast' => 'required|boolean',
+            ]);
             DB::table('portal_preferences')->updateOrInsert(['user_id' => $r->user()->id], $d);
         }
 
-        return response()->json(['preferences' => DB::table('portal_preferences')->where('user_id', $r->user()->id)->first() ?? ['theme' => 'adultos', 'mode' => 'auto', 'font' => 100, 'contrast' => false]]);
+        return response()->json([
+            'preferences' => DB::table('portal_preferences')->where('user_id', $r->user()->id)->first() ?? [
+                'theme' => 'adultos',
+                'mode' => 'auto',
+                'font' => 100,
+                'contrast' => false,
+            ],
+        ]);
     }
 
     public function publicVisit(Request $r)
@@ -64,7 +76,15 @@ final class WorkspaceController extends Controller
 
     public function visit(Request $r)
     {
-        $d = $r->validate(['path' => ['required', 'string', 'max:160', 'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion|/auditoria)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|revision|evaluaciones|expedientes|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones)?$~'], 'key' => 'required|uuid']);
+        $d = $r->validate([
+            'path' => [
+                'required',
+                'string',
+                'max:160',
+                'regex:~^/(?:institucional(?:/[1-9][0-9]*)?|convocatorias(?:/nueva|/[1-9][0-9]*(?:/configuracion|/auditoria)?)?|postulaciones(?:/[1-9][0-9]*(?:/rectificaciones|/participacion)?)?|ofertas/[1-9][0-9]*/resultados|revision|evaluaciones|expedientes|estadisticas|simulacion|cuenta|buscar|administracion|adjudicaciones|entrenamiento)?$~',
+            ],
+            'key' => 'required|uuid',
+        ]);
         $result = Access::transaction($r->user(), function () use ($r, $d) {
             $existing = DB::table('visit_receipts')->where('user_id', $r->user()->id)->where('key', $d['key'])->first();
             abort_if($existing && $existing->path !== $d['path'], 409, 'El identificador de visita ya corresponde a otra página.');
@@ -81,12 +101,23 @@ final class WorkspaceController extends Controller
         return response()->json(['path' => $d['path'], 'total' => $result]);
     }
 
+    /** Minúsculas y sin tildes, para que «programacion» encuentre «Programación» sin extensiones de PostgreSQL. */
+    private static function fold(string $text): string
+    {
+        return strtr(mb_strtolower($text), ['á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ü' => 'u', 'ñ' => 'n']);
+    }
+
+    private static function foldSql(string $column): string
+    {
+        return "lower(translate({$column}, 'áéíóúüñÁÉÍÓÚÜÑ', 'aeiouunaeiouun'))";
+    }
+
     public function search(Request $r)
     {
         $d = $r->validate(['q' => 'required|string|min:2|max:80', 'page' => 'nullable|integer|min:1|max:1000']);
-        $term = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $d['q']).'%';
+        $term = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], self::fold($d['q'])).'%';
         $calls = PortalScope::calls($r->user());
-        $items = $calls->where('title', 'ilike', $term)->orderByDesc('id')->paginate(10, ['id', 'title', 'status']);
+        $items = $calls->whereRaw(self::foldSql('title').' like ?', [$term])->orderByDesc('id')->paginate(10, ['id', 'title', 'status']);
         $visibleOffers = DB::table('offers')->whereIn('call_id', PortalScope::calls($r->user())->select('id'));
         if (! in_array($r->user()->role, ['student', 'admin'])) {
             $memberships = fn (array $roles) => Access::effective(DB::table('memberships')->where('user_id', $r->user()->id)->whereIn('role', $roles))->select('call_id');
@@ -94,14 +125,18 @@ final class WorkspaceController extends Controller
                 ->orWhere(fn ($s) => $s->whereIn('call_id', $memberships(['evaluator']))->whereIn('id', DB::table('assignments')->where('user_id', $r->user()->id)->select('offer_id')))
                 ->orWhereIn('id', DB::table('applications')->where('user_id', $r->user()->id)->select('offer_id')));
         }
-        $offers = (clone $visibleOffers)->where(fn ($q) => $q->where('title', 'ilike', $term)->orWhereIn('category_id', DB::table('categories')->where('name', 'ilike', $term)->select('id')))->orderBy('id')->paginate(10, ['id', 'title', 'call_id']);
-        $types = DB::table('categories')->where('name', 'ilike', $term)
+        $offers = (clone $visibleOffers)->where(fn ($q) => $q->whereRaw(self::foldSql('title').' like ?', [$term])->orWhereIn('category_id', DB::table('categories')->whereRaw(self::foldSql('name').' like ?', [$term])->select('id')))->orderBy('id')->paginate(10, ['id', 'title', 'call_id']);
+        $types = DB::table('categories')->whereRaw(self::foldSql('name').' like ?', [$term])
             ->whereIn('id', (clone $visibleOffers)->select('category_id'))->orderBy('id')->paginate(10, ['id', 'name']);
         $lastPage = max($items->lastPage(), $offers->lastPage(), $types->lastPage());
         abort_if($items->currentPage() > $lastPage, 404, 'La página solicitada no existe. Vuelve a la primera página de la búsqueda.');
 
         return response()->json(['calls' => $items, 'offers' => $offers->items(), 'types' => $types->items(),
-            'pagination' => ['page' => $items->currentPage(), 'last_page' => $lastPage, 'total' => $items->total() + $offers->total() + $types->total()]]);
+            'pagination' => [
+                'page' => $items->currentPage(),
+                'last_page' => $lastPage,
+                'total' => $items->total() + $offers->total() + $types->total(),
+            ]]);
     }
 
     public function metrics(Request $r)

@@ -1,8 +1,0 @@
-{
-  "resultado": "PASS",
-  "CSharp_compilado": true,
-  "PowerShell_parse": "PASS",
-  "Python_archivos_sintacticamente_validos": 3,
-  "ejecutable_sha256": "be1393d8e526692d0362f3600efca952128bcb31502f3ab088ad20e0f9ec8fa0",
-  "SCM_instalacion": "NOT_VERIFIED"
-}

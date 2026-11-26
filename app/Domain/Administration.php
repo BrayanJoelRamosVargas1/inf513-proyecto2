@@ -38,6 +38,19 @@ final class Administration
             $allowed['security_version'] = $target->security_version + 1;
             $allowed['updated_at'] = now();
             DB::table('users')->where('id', $id)->update($allowed);
+            if (isset($allowed['role']) && $allowed['role'] !== $target->role) {
+                // Un permiso por convocatoria no sobrevive a un cambio de perfil: se concede de nuevo si corresponde.
+                $revoked = DB::table('memberships')->where('user_id', $id)->whereNull('revoked_at')->get();
+                foreach ($revoked as $membership) {
+                    DB::table('memberships')->where('id', $membership->id)->update([
+                        'revoked_at' => now(),
+                        'revoked_by' => $actor->id,
+                        'reason' => 'Cambio de perfil: '.$reason,
+                        'version' => $membership->version + 1,
+                    ]);
+                    Selection::audit($actor, $membership->call_id, 'permission.revoked', 'membership:'.$membership->id, $membership, ['revoked' => true, 'origin' => 'cambio de perfil'], $reason);
+                }
+            }
             $before = array_intersect_key((array) $target, array_flip(['name', 'email', 'role', 'active', 'faculty', 'career', 'profile_version']));
             Selection::audit($actor, null, 'user.profile_changed', 'user:'.$id, $before, array_diff_key($allowed, ['security_version' => 1]), $reason);
         });
@@ -49,18 +62,39 @@ final class Administration
             abort_unless($actor->role === 'admin' && $actor->id !== $user, 403);
             $this->reason($reason);
             Selection::row('calls', $call, true);
-            Selection::row('users', $user, true);
+            $target = Selection::row('users', $user, true);
             if (! in_array($role, ['reviewer', 'evaluator', 'authority'])) {
                 Scores::fail('Permiso inválido.');
             }
+            if (! $target->active) {
+                Scores::fail('La cuenta está desactivada; actívela antes de concederle permisos.');
+            }
+            if ($target->role === 'admin') {
+                Scores::fail('La administración técnica no recibe funciones académicas: separe la cuenta técnica de la académica.');
+            }
+            // Separación de funciones: quien aprueba y publica los resultados no es quien revisa ni quien califica en la misma convocatoria.
+            $conflicts = $role === 'authority' ? ['reviewer', 'evaluator'] : ['authority'];
+            if (DB::table('memberships')->where('call_id', $call)->where('user_id', $user)->whereIn('role', $conflicts)->whereNull('revoked_at')->exists()) {
+                Scores::fail('Separación de funciones: en una misma convocatoria la autoridad no puede ser también revisora ni evaluadora. Use otra cuenta para esa función.');
+            }
             if ($start && $end && strtotime($start) >= strtotime($end)) {
                 Scores::fail('El vencimiento debe ser posterior al inicio.');
+            }
+            if (DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $call)->where('applications.user_id', $user)->where('applications.participation', 'active')->exists()) {
+                Scores::fail('La persona postula en esta convocatoria; no puede recibir permisos de gestión sobre ella (conflicto de interés).');
             }
             $old = DB::table('memberships')->where(['call_id' => $call, 'user_id' => $user, 'role' => $role])->first();
             if ($old && $old->version !== $version) {
                 Scores::fail('Permiso modificado: recargue antes de renovar.');
             }
-            $d = ['starts_at' => $start, 'expires_at' => $end, 'revoked_at' => null, 'revoked_by' => null, 'reason' => $reason, 'version' => ($old->version ?? 0) + 1];
+            $d = [
+                'starts_at' => $start,
+                'expires_at' => $end,
+                'revoked_at' => null,
+                'revoked_by' => null,
+                'reason' => $reason,
+                'version' => ($old->version ?? 0) + 1,
+            ];
             if ($old) {
                 $id = $old->id;
                 DB::table('memberships')->where('id', $id)->update($d);
@@ -83,7 +117,12 @@ final class Administration
             if ($m->version !== $version || $m->revoked_at) {
                 Scores::fail('El permiso cambió o ya está revocado.');
             }
-            DB::table('memberships')->where('id', $id)->update(['revoked_at' => now(), 'revoked_by' => $actor->id, 'reason' => $reason, 'version' => $version + 1]);
+            DB::table('memberships')->where('id', $id)->update([
+                'revoked_at' => now(),
+                'revoked_by' => $actor->id,
+                'reason' => $reason,
+                'version' => $version + 1,
+            ]);
             DB::table('users')->where('id', $m->user_id)->increment('security_version');
             Selection::audit($actor, $m->call_id, 'permission.revoked', 'membership:'.$id, $m, ['version' => $version + 1, 'revoked' => true], $reason);
         });
@@ -113,7 +152,7 @@ final class Administration
             $c = Selection::row('calls', $o->call_id, true);
             Access::require($actor, $c->id, ['authority']);
             $this->reason($reason);
-            if ($c->mode !== 'DEMO' || ! in_array($c->status, ['draft', 'published', 'closed', 'evaluation'])) {
+            if (! Selection::isOperable($c) || ! in_array($c->status, ['draft', 'published', 'closed', 'evaluation'])) {
                 Scores::fail('Reasignación cerrada.');
             }
             if ($a->version !== $version || $a->user_id === $user) {
