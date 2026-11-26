@@ -93,6 +93,7 @@ export function Preferences() {
     onToggle={e => setExpanded(e.currentTarget.open)}
   >
     <summary>Apariencia y accesibilidad</summary>
+    <div className="preferences-panel">
     <Form
       button="Aplicar preferencias"
       onSubmit={async f => {
@@ -141,6 +142,7 @@ export function Preferences() {
         <label>Repita la clave nueva<input name="password_confirmation" type="password" autoComplete="new-password" minLength={12} required /></label>
       </div>
     </Form>
+    </div>
   </details>;
 }
 

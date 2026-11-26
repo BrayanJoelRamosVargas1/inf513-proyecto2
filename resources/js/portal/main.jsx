@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { api, base, csrf, setOperationalMode } from './api';
 import { Auth } from './auth';
 import { Alert, ErrorBoundary, Session } from './shared';
@@ -13,6 +13,10 @@ function Root() {
   const [session, setSession] = useState(null),
     [loading, setLoading] = useState(true),
     [bootError, setBootError] = useState('');
+  const hadSession = useRef(false);
+  useEffect(() => {
+    hadSession.current = Boolean(session);
+  }, [session]);
   useEffect(() => {
     csrf().then(() => api.get('/me')).then(r => {
       api.defaults.headers.common['X-CSRF-TOKEN'] = r.data.token;
@@ -23,8 +27,9 @@ function Root() {
     }).finally(() => setLoading(false));
     const interceptor = api.interceptors.response.use(r => r, e => {
       if (e.response?.status === 401 || e.response?.status === 419) {
+        if (hadSession.current) setBootError('Su sesión terminó. Ingrese de nuevo para continuar.');
+        hadSession.current = false;
         setSession(null);
-        setBootError('Su sesión terminó. Ingrese de nuevo para continuar.');
       }
       return Promise.reject(e);
     });

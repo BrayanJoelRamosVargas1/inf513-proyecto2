@@ -180,7 +180,7 @@ final class SelectionController extends Controller
                 'version',
                 'created_at',
             ])->put('security', app(ApplicantDocuments::class)->status($doc->id)))->values(),
-            'reviews' => $v['reviews']->values(), 'grades' => $v['grades'], 'assignments' => $v['assignments'],
+            'reviews' => $v['reviews']->values()->map(fn ($review) => collect((array) $review)->except('user_id')->all()), 'grades' => $v['grades'], 'assignments' => $v['assignments'],
             'can_view_corrections' => $canCorrect,
             'can_enable' => $canReview && $v['documentValidation']['ready'] && $allCriteriaMet,
             'document_validation' => $v['documentValidation'],

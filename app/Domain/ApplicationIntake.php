@@ -66,6 +66,9 @@ final class ApplicationIntake
                     Scores::fail('Documento no solicitado por esta oferta.');
                 }
                 validator(['file' => $file], ['file' => 'required|file|max:5120|mimes:pdf,jpg,jpeg,png|extensions:pdf,jpg,jpeg,png'])->validate();
+                if (mb_strlen(basename($file->getClientOriginalName())) > 150) {
+                    Scores::fail('El nombre del archivo es demasiado largo (máximo 150 caracteres). Renombre el archivo e inténtelo de nuevo.');
+                }
                 $mime = $file->getMimeType();
                 if (! in_array($mime, ['application/pdf', 'image/png', 'image/jpeg'])) {
                     Scores::fail('Tipo de archivo no permitido.');

@@ -297,6 +297,23 @@ final class AcademicApiTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $this->student->id, 'name' => $data['name']]);
     }
 
+    public function test_a06b_search_ignores_accents_and_case(): void
+    {
+        DB::table('calls')->where('id', $this->call)->update(['title' => 'Convocatoria de Programación']);
+        $this->actingAs($this->authority)->getJson('/api/v1/search?q=programacion')->assertOk()->assertJsonCount(1, 'calls.data');
+        $this->getJson('/api/v1/search?q=PROGRAMACIÓN')->assertOk()->assertJsonCount(1, 'calls.data');
+    }
+
+    public function test_a06c_long_file_name_is_rejected_with_a_clear_message_instead_of_a_server_error(): void
+    {
+        $id = $this->actingAs($this->student)->postJson('/api/v1/offers/'.$this->offer.'/applications')->assertCreated()->json('id');
+        $this->post('/api/v1/applications/'.$id.'/archivo', [
+            'kind' => 'cpd',
+            'file' => UploadedFile::fake()->image(str_repeat('a', 300).'.png'),
+        ], ['Accept' => 'application/json'])->assertUnprocessable()->assertJsonFragment(['message' => 'El nombre del archivo es demasiado largo (máximo 150 caracteres). Renombre el archivo e inténtelo de nuevo.']);
+        $this->assertDatabaseCount('documents', 0);
+    }
+
     public function test_a16_amendment_adapter_versions_documents_and_rejects_foreign_owner(): void
     {
         $s = app(Selection::class);
