@@ -5,7 +5,7 @@ namespace App\Domain;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-/** Procedimiento técnico DEMO; no sustituye una resolución institucional. */
+/** Procedimiento técnico; no sustituye una resolución institucional. */
 final class Rectifications
 {
     public static function version(int $app, ?int $grade, int $version, string $score, ?int $actor, ?int $request = null): void
@@ -31,7 +31,7 @@ final class Rectifications
             $c = Selection::row('calls', $o->call_id, true);
             Access::assertNotApplicant($u, $c->id);
             if (! Selection::isOperable($c) || ! in_array($c->status, ['evaluation', 'results'])) {
-                Scores::fail('Rectificación disponible únicamente en evaluación o resultados DEMO.');
+                Scores::fail('Rectificación disponible únicamente en evaluación o resultados.');
             }
             if (mb_strlen(trim($reason)) < 10 || mb_strlen(trim($evidence)) < 10) {
                 Scores::fail('Motivo y referencia de evidencia obligatorios (mínimo 10 caracteres).');
@@ -97,7 +97,7 @@ final class Rectifications
                 Scores::fail('Etapa cerrada o convocatoria histórica.');
             }
             if ($r->requester_id === $u->id) {
-                Scores::fail('La decisión requiere una autoridad distinta del solicitante (control técnico DEMO).');
+                Scores::fail('La decisión requiere una autoridad distinta del solicitante (control de doble autoridad).');
             }
             if ($r->status !== 'pending' || mb_strlen(trim($reason)) < 10) {
                 Scores::fail('Solicitud ya decidida o justificación insuficiente.');

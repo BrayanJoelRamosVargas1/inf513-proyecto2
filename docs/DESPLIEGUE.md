@@ -38,6 +38,10 @@ La clave inicial del administrador se muestra una sola vez en pantalla: anótela
 
 El servidor web debe apuntar a `public/` y reenviar todo lo que no sea un archivo a `index.php`.
 
+**Límites de subida.** La pantalla acepta documentos de hasta 5 MB (fuentes institucionales hasta 15 MB). Configure `upload_max_filesize=16M` y `post_max_size=20M` en `php.ini` y `client_max_body_size 20m;` en Nginx (o `LimitRequestBody` en Apache); con los valores por defecto (2 MB / 1 MB) los PDF escaneados fallarían aunque la pantalla diga que caben. `ficct:verificar-instalacion` lo advierte.
+
+**Red compartida.** Los laboratorios y el Wi-Fi del campus salen por pocas direcciones IP. El límite de ingreso por IP es amplio (60 por minuto) y el control fino es por cuenta (5 fallos en 5 minutos). Detrás de un proxy, defina `TRUSTED_PROXIES` o todos los usuarios compartirán la IP del proxy.
+
 ## Planificador (obligatorio)
 
 El análisis antivirus de cada documento caduca a las 24 h; sin planificador los expedientes enviados dejan de ser válidos.
@@ -60,7 +64,9 @@ Los roles y lo que cada uno puede hacer están en `DECISIONES_ADOPTADAS_20261126
 
 - **Verificación:** `php artisan ficct:verificar-instalacion` antes de abrir y después de cada actualización. Devuelve error si falta algo obligatorio.
 - **Olvido de clave:** `php artisan ficct:restablecer-clave correo@…` (la administración entrega la clave nueva en persona).
-- **Respaldo:** `pg_dump` en formato custom y copia de `storage/app/private`; ver `RUNBOOK_BD_INCIDENTES.md`. Una copia de la base sin los documentos no es un respaldo completo.
+- **Respaldo (diario):** `pg_dump -Fc -f respaldo_AAAAMMDD.dump <base>` y copia de `storage/app/private` con `rsync -a` o `robocopy /MIR`. Guarde ambas en otro equipo y cifradas. Sin la carpeta `storage/app/private` los documentos de los expedientes no se pueden abrir: una copia solo de la base no sirve. Ensaye la restauración en una base aparte antes del primer concurso (`RUNBOOK_BD_INCIDENTES.md`).
+- **Tareas detenidas:** si el planificador deja de ejecutar tareas tras un reinicio, `php artisan schedule:clear-cache`.
+- **Comandos destructivos:** en producción `migrate:fresh`, `db:wipe` y `migrate:rollback` están bloqueados por el sistema.
 - **Actualización:** respaldar, `git pull`, `composer install --no-dev`, `npm ci && npm run build`, `php artisan migrate --force`, `config:cache`, `route:cache`, verificar.
 - **Registros:** `storage/logs` (rotación diaria con `LOG_STACK=daily`). No publicar mensajes de error ni contenidos de expedientes.
 

@@ -22,6 +22,7 @@ final class AdministrationOperations
     {
         abort_unless($r->user()->role === 'admin', 403);
         $r->merge([
+            'email' => mb_strtolower(trim((string) $r->input('email'))),
             'document_number' => User::normalizeIdentifier($r->input('document_number')),
             'student_code' => User::normalizeIdentifier($r->input('student_code')),
         ]);
@@ -29,7 +30,7 @@ final class AdministrationOperations
             'document_number' => ['nullable', 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'document_number')],
             'student_code' => ['nullable', 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'student_code')],
             'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users|max:150',
+            'email' => ['required', 'email', 'max:150', ...User::reservedEmailRules(), Rule::unique('users', 'email')],
             'password' => 'required|string|min:12',
             'role' => ['required', Rule::in(['student', 'staff', 'authority'])],
             'faculty' => 'required|string|max:80',
@@ -99,7 +100,7 @@ final class AdministrationOperations
         $service = app(Administration::class);
         $d = $r->validate([
             'name' => 'required|string|max:100',
-            'email' => ['required', 'email', 'max:150', Rule::unique('users')->ignore($id)],
+            'email' => ['required', 'email', 'max:150', ...User::reservedEmailRules(), Rule::unique('users')->ignore($id)],
             'role' => ['required', Rule::in(['admin', 'authority', 'staff', 'student'])],
             'faculty' => 'required|string|max:80',
             'career' => 'required|string|max:80',

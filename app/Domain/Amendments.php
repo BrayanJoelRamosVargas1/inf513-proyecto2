@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-/** Subsanaciones versionadas del expediente (DEMO): abrir ventana, cargar, enviar, revisar y vencer. */
+/** Subsanaciones versionadas del expediente: abrir ventana, cargar, enviar, revisar y vencer. */
 final class Amendments
 {
     use ParticipationContext;
@@ -25,7 +25,7 @@ final class Amendments
             $this->evidence($reason, $evidence);
             $deadline = CarbonImmutable::parse($deadline, config('app.timezone'));
             if ($a->status !== 'submitted' || ! in_array($a->eligibility, ['pending', 'disabled']) || ! in_array($c->status, ['published', 'closed']) || $deadline->lte(now())) {
-                Scores::fail('Requiere expediente observado/no habilitado, antes de evaluar y un plazo futuro explícito DEMO.');
+                Scores::fail('Requiere expediente observado/no habilitado, antes de evaluar y un plazo futuro explícito.');
             }
             $observed = DB::table('reviews')->where('application_id', $app)->whereIn('decision', ['observed', 'fails'])->exists();
             if (! $observed || ! $kinds || array_diff($kinds, array_keys(Selection::json($o->documents)))) {
@@ -51,7 +51,7 @@ final class Amendments
             ]);
             DB::table('applications')->where('id', $app)->update([
                 'eligibility' => 'pending',
-                'eligibility_reason' => 'Subsanación DEMO pendiente; no constituye habilitación.',
+                'eligibility_reason' => 'Subsanación pendiente; no constituye habilitación.',
             ]);
             Selection::audit($u, $c->id, 'amendment.opened', 'amendment:'.$id, null, [
                 'kinds' => $kinds,

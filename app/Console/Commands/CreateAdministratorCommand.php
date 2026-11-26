@@ -23,7 +23,7 @@ final class CreateAdministratorCommand extends Command
     public function handle(): int
     {
         $data = [
-            'email' => (string) $this->argument('email'),
+            'email' => mb_strtolower(trim((string) $this->argument('email'))),
             'name' => (string) ($this->option('nombre') ?: $this->ask('Nombre completo')),
         ];
         $validator = Validator::make($data, ['email' => 'required|email|max:150|unique:users', 'name' => 'required|string|max:100']);

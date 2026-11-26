@@ -59,14 +59,16 @@ final class PortalController extends Controller
     {
         // La instalación real exige identificar a la persona; el entrenamiento los deja opcionales.
         $identity = config('portal.experience') === 'institutional' ? 'required' : 'nullable';
+        // El correo no distingue mayúsculas: se guarda y se compara en minúsculas.
+        $r->merge(['email' => mb_strtolower(trim((string) $r->input('email')))]);
         $r->merge([
             'document_number' => User::normalizeIdentifier($r->input('document_number')),
             'student_code' => User::normalizeIdentifier($r->input('student_code')),
         ]);
         $d = $r->validate([
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:150|unique:users',
-            'password' => 'required|string|min:12|confirmed',
+            'email' => ['required', 'email', 'max:150', ...User::reservedEmailRules(), Rule::unique('users', 'email')],
+            'password' => 'required|string|min:12|max:100|confirmed',
             'faculty' => 'required|string|max:80',
             'career' => 'required|string|max:80',
             'document_number' => [$identity, 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'document_number')],
@@ -251,7 +253,7 @@ final class PortalController extends Controller
             'pending' => 'Pendiente',
             'enabled' => 'Habilitado',
             'disabled' => 'Inhabilitado',
-            'selected' => 'Seleccionado DEMO',
+            'selected' => Selection::operationalMode() === 'DEMO' ? 'Seleccionado DEMO' : 'Seleccionado',
             'not_selected' => 'Fuera de cupo',
         ];
         foreach ($rows as $row) {

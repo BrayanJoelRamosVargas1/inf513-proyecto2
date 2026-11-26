@@ -6,6 +6,7 @@ use App\Domain\Commission;
 use App\Domain\Selection;
 use App\Domain\Vacancies;
 use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -219,6 +220,41 @@ final class OfficialRulesTest extends TestCase
             ->assertStatus(422)->assertJsonValidationErrors(['document_number']);
         $this->postJson('/api/v1/register', ['email' => 'dos@ficct.example', 'document_number' => '7654321', 'student_code' => '219000111'] + $base)
             ->assertStatus(422)->assertJsonValidationErrors(['student_code']);
+    }
+
+    public function test_a_reserved_test_email_cannot_register_nor_take_the_installation_down(): void
+    {
+        $base = ['name' => 'Persona Test', 'password' => 'clave-muy-larga-123', 'password_confirmation' => 'clave-muy-larga-123', 'faculty' => 'FICCT', 'career' => 'Sistemas', 'document_number' => '9876543', 'student_code' => '219555111'];
+        $this->postJson('/api/v1/register', ['email' => 'alguien@prueba.test'] + $base)->assertStatus(422)->assertJsonValidationErrors(['email']);
+        $this->getJson('/api/v1/csrf')->assertOk();
+    }
+
+    public function test_the_email_does_not_distinguish_case_for_registration_or_login(): void
+    {
+        $base = ['name' => 'Juan Pérez', 'password' => 'clave-muy-larga-123', 'password_confirmation' => 'clave-muy-larga-123', 'faculty' => 'FICCT', 'career' => 'Sistemas'];
+        $this->postJson('/api/v1/register', ['email' => 'Juan.Perez@Ficct.Example', 'document_number' => '1111111', 'student_code' => '219000001'] + $base)->assertCreated();
+        $this->assertSame('juan.perez@ficct.example', User::where('document_number', '1111111')->value('email'));
+        $this->postJson('/api/v1/logout')->assertNoContent();
+        $this->postJson('/api/v1/register', ['email' => 'JUAN.PEREZ@ficct.example', 'document_number' => '2222222', 'student_code' => '219000002'] + $base)->assertStatus(422)->assertJsonValidationErrors(['email']);
+        $this->postJson('/api/v1/login', ['email' => 'JUAN.Perez@FICCT.example', 'password' => 'clave-muy-larga-123'])->assertOk();
+    }
+
+    public function test_labels_have_no_demo_wording_in_the_real_installation(): void
+    {
+        $label = app('view')->shared('label');
+        $this->assertSame('Seleccionado', $label('selected'));
+        $this->assertSame('Aceptación', $label('accept'));
+        config(['portal.experience' => 'training']);
+        $this->assertSame('Seleccionado DEMO', app('view')->shared('label')('selected'));
+    }
+
+    public function test_scheduled_tasks_do_not_keep_a_day_long_lock_after_a_restart(): void
+    {
+        $events = collect(app(Schedule::class)->events())->filter(fn ($e) => str_contains($e->command, 'ficct:'));
+        $this->assertGreaterThanOrEqual(4, $events->count());
+        foreach ($events as $event) {
+            $this->assertSame(10, $event->expiresAt, $event->command);
+        }
     }
 
     public function test_unfilled_seats_are_counted_and_carried_to_the_next_call_until_the_limit(): void

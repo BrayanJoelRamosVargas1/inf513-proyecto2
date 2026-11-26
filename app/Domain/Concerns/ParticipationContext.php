@@ -14,7 +14,7 @@ trait ParticipationContext
         $o = Selection::row('offers', $a->offer_id);
         $c = Selection::row('calls', $o->call_id, true);
         if (! Selection::isOperable($c) || ! in_array($c->status, ['published', 'closed', 'evaluation', 'results'])) {
-            Scores::fail('Procedimiento disponible solo en convocatorias DEMO no archivadas.');
+            Scores::fail('Procedimiento disponible solo en convocatorias vigentes (no archivadas).');
         }
 
         return [Selection::row('applications', $id, true), Selection::row('offers', $o->id, true), $c];

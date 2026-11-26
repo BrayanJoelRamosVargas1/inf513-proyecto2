@@ -67,7 +67,7 @@ export function FooterVisitCounter({
   }, [path, isPublic, visitId]);
   return <footer className={isPublic ? 'auth-footer' : ''}>
     <span className="footer-legal">
-      <span className="footer-brand">FICCT · Grupo 09</span>
+      <span className="footer-brand">{isTraining() ? 'FICCT · Grupo 09' : 'FICCT · UAGRM'}</span>
       <span>{isTraining() ? 'Proyecto académico · Sin validez institucional' : 'Facultad de Ingeniería en Ciencias de la Computación y Telecomunicaciones · UAGRM'}</span>
     </span>
     <span aria-live="polite">{error || `Visitas de esta vista: ${total ?? '…'}`}</span>
@@ -278,7 +278,7 @@ export function AppShell() {
       <div className="sidebar-footer">
         <strong>FICCT · UAGRM</strong>
         <p>Selección de auxiliares</p>
-        <p>Proyecto académico · Grupo 09</p>
+        {isTraining() && <p>Proyecto académico · Grupo 09</p>}
       </div>
     </aside>
     <div className="shell">

@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
-/** Fachada de los flujos técnicos DEMO de participación. Plazos y compatibilidades institucionales no se infieren. */
+/** Fachada de los flujos técnicos de participación. Plazos y compatibilidades institucionales no se infieren. */
 final class Participation
 {
     public static function active(object $a): void

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Domain\ClamAvScanner;
 use App\Domain\DocumentScanner;
+use App\Domain\Selection;
 use App\Domain\Workspace;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // migrate:fresh, db:wipe y migrate:rollback no se pueden ejecutar contra la base real.
+        DB::prohibitDestructiveCommands($this->app->isProduction());
         // B-26: limites generosos que frenan abusos y bucles sin afectar el uso normal ni las lecturas.
         RateLimiter::for('mutations', fn (Request $r) => in_array($r->method(), ['GET', 'HEAD', 'OPTIONS'], true)
             ? Limit::none()
@@ -49,9 +52,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('label', static fn ($s) => [
             'draft' => 'Borrador', 'published' => 'Recepción publicada', 'closed' => 'Recepción cerrada', 'evaluation' => 'Evaluación', 'results' => 'Resultados', 'archived' => 'Archivada',
-            'active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'withdrawal' => 'Retiro de postulación', 'renunciation' => 'Renuncia a plaza', 'open' => 'Ventana abierta', 'reviewed' => 'Revisada', 'expired' => 'Vencida', 'cancelled' => 'Cancelada por retiro/renuncia', 'accept' => 'Aceptación DEMO', 'defer' => 'Decisión diferida', 'baseline_at_migration' => 'Estado conocido al migrar', 'pre_amendment_review' => 'Revisión anterior a subsanar',
+            'active' => 'Activa', 'withdrawn' => 'Retirada', 'resigned' => 'Renunciada', 'withdrawal' => 'Retiro de postulación', 'renunciation' => 'Renuncia a plaza', 'open' => 'Ventana abierta', 'reviewed' => 'Revisada', 'expired' => 'Vencida', 'cancelled' => 'Cancelada por retiro/renuncia', 'accept' => Selection::operationalMode() === 'DEMO' ? 'Aceptación DEMO' : 'Aceptación', 'defer' => 'Decisión diferida', 'baseline_at_migration' => 'Estado conocido al migrar', 'pre_amendment_review' => 'Revisión anterior a subsanar',
             'under_review' => 'En revisión: requiere nueva publicación', 'continued' => 'Empate persistente: nueva ronda', 'approved' => 'Aprobada', 'rejected' => 'Rechazada',
-            'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => 'Seleccionado DEMO', 'not_selected' => 'Fuera de cupo',
+            'submitted' => 'Enviada', 'pending' => 'Pendiente', 'enabled' => 'Habilitado', 'disabled' => 'Inhabilitado', 'selected' => Selection::operationalMode() === 'DEMO' ? 'Seleccionado DEMO' : 'Seleccionado', 'not_selected' => 'Fuera de cupo',
             'meets' => 'Cumple', 'fails' => 'No cumple', 'observed' => 'Observado', 'not_applicable' => 'No aplica', 'confirmed' => 'Confirmada', 'corrected' => 'Rectificada', 'scheduled' => 'Examen programado', 'resolved' => 'Resuelto con acta',
             'student' => 'Postulante', 'staff' => 'Personal / docente', 'admin' => 'Administrador técnico', 'authority' => 'Autoridad', 'reviewer' => 'Revisor', 'evaluator' => 'Evaluador',
         ][$s] ?? $s);

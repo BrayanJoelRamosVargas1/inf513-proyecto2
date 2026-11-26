@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { api, base } from './api';
+import { api, base, isTraining } from './api';
 import { useData, Loading, Form } from './shared';
 const status = s => ({
   draft: 'Borrador de preparación',
@@ -19,8 +19,8 @@ export function InstitutionalIndex() {
   if (!d) return <Loading error={error} />;
   const selected = d.calls.find(c => String(c.id) === call);
   return <>
-    <h1>Preparación institucional</h1>
-    <p className="notice">Este espacio conserva fuentes y revisiones técnicas. No abre concursos oficiales ni acredita autoridades o estudiantes. La convocatoria vinculada conserva su modo y sus datos.</p>
+    <h1>{isTraining() ? 'Preparación institucional' : 'Respaldos documentales'}</h1>
+    <p className="notice">{isTraining() ? 'Este espacio conserva fuentes y revisiones técnicas. No abre concursos oficiales ni acredita autoridades o estudiantes. La convocatoria vinculada conserva su modo y sus datos.' : 'Este espacio conserva los documentos de respaldo de cada convocatoria (resoluciones, actas, formularios) con su huella y su análisis antivirus, y su revisión por una segunda persona.'}</p>
     <section className="card">
       <h2>Nuevo expediente de preparación</h2>
       <Form
@@ -61,14 +61,14 @@ export function InstitutionalDossier() {
     <Link to="/institucional">Volver a preparación institucional</Link>
     <h1>{d.dossier.title}</h1>
     <p>{status(d.dossier.status)} · versión {expected_version}</p>
-    <div className="notice"><strong>No habilitado para concursos reales.</strong> {d.readiness.notice}</div>
-    <section className="card">
+    {isTraining() && <div className="notice"><strong>No habilitado para concursos reales.</strong> {d.readiness.notice}</div>}
+    {isTraining() && <section className="card">
       <h2>Condiciones de habilitación pendientes</h2>
       <ul>
         {d.readiness.gates.map(g => <li key={g.id}>{g.id} · {g.name}: <strong>{status(g.state)}</strong></li>)}
       </ul>
       <p>Incluso con diez condiciones documentadas, la carga de archivos y una revisión técnica no sustituyen aprobación institucional ni las capacidades aún pendientes del motor oficial.</p>
-    </section>
+    </section>}
     {d.can_edit && <section className="card">
       <h2>Conservar una fuente o nueva versión</h2>
       <Form

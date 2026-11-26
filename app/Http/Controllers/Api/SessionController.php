@@ -33,6 +33,7 @@ final class SessionController extends Controller
 
     public function login(Request $r)
     {
+        $r->merge(['email' => mb_strtolower(trim((string) $r->input('email')))]);
         $d = $r->validate(['email' => 'required|email', 'password' => 'required|string']);
         // B-25: además del límite por IP de la ruta, un límite por cuenta y origen frena la adivinación de claves.
         $attempts = 'login:'.mb_strtolower($d['email']).'|'.$r->ip();

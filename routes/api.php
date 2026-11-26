@@ -23,8 +23,8 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
     ])->whereIn('key', ['resolucion', 'convocatoria-01', 'convocatoria-02']);
     Route::post('visits/public', [WorkspaceController::class, 'publicVisit'])->middleware('throttle:30,1,public-visits:');
     Route::get('csrf', [SessionController::class, 'csrf'])->middleware('throttle:60,1');
-    Route::post('login', [SessionController::class, 'login'])->middleware('throttle:6,1');
-    Route::post('register', [SessionController::class, 'register'])->middleware('throttle:6,1');
+    Route::post('login', [SessionController::class, 'login'])->middleware('throttle:60,1');
+    Route::post('register', [SessionController::class, 'register'])->middleware('throttle:30,1');
     Route::middleware(['auth', 'throttle:mutations'])->group(function () {
         Route::get('me', [SessionController::class, 'me']);
         Route::get('institutional/dossiers', [InstitutionalController::class, 'index']);

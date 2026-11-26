@@ -119,7 +119,7 @@ final class Selection
     {
         self::assertOperable($call);
         if (! Workspace::receiving($call)) {
-            Scores::fail('La recepción no está abierta. El instante exacto de cierre es inclusivo en DEMO.');
+            Scores::fail('La recepción no está abierta. El instante exacto de cierre es inclusivo.');
         }
     }
 

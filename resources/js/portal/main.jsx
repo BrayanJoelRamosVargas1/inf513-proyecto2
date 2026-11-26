@@ -22,7 +22,10 @@ function Root() {
       if (!e.response || e.response.status >= 500) setBootError('No se pudo conectar con el servidor. Compruebe su conexión e intente de nuevo en unos minutos.');
     }).finally(() => setLoading(false));
     const interceptor = api.interceptors.response.use(r => r, e => {
-      if (e.response?.status === 401) setSession(null);
+      if (e.response?.status === 401 || e.response?.status === 419) {
+        setSession(null);
+        setBootError('Su sesión terminó. Ingrese de nuevo para continuar.');
+      }
       return Promise.reject(e);
     });
     return () => api.interceptors.response.eject(interceptor);

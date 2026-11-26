@@ -27,6 +27,15 @@ export function ForcedPassword() {
           <label>Clave nueva<input name="password" type="password" autoComplete="new-password" minLength={12} required /></label>
           <label>Repita la clave nueva<input name="password_confirmation" type="password" autoComplete="new-password" minLength={12} required /></label>
         </Form>
+        <p>Si no conoce su clave inicial, pida a la administración que la restablezca.</p>
+        <button
+          type="button"
+          className="secondary"
+          onClick={async () => {
+            await api.post('/logout').catch(() => {});
+            setSession(null);
+          }}
+        >Salir</button>
       </section>
     </div>
   </main>;
