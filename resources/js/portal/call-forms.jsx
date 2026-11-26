@@ -197,7 +197,17 @@ export function Management() {
       }), field('password', 'Contraseña inicial (la persona debe cambiarla al ingresar)', {
         type: 'password',
         minLength: 12
-      }), select('role', 'Perfil', roles), field('faculty', 'Facultad'), field('career', 'Carrera')]}
+      }), select('role', 'Perfil', roles), field('faculty', 'Facultad'), field('career', 'Carrera'), {
+        ...field('document_number', 'Cédula de identidad', {
+          maxLength: 20
+        }),
+        required: false
+      }, {
+        ...field('student_code', 'Registro universitario', {
+          maxLength: 20
+        }),
+        required: false
+      }]}
     />
     <Action
       title="Asignar responsabilidad"

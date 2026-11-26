@@ -38,11 +38,16 @@ final class AwardChoices
                 'evidence' => $evidence,
                 'created_at' => now(),
             ]);
+            // Una persona puede quedar seleccionada en varias ofertas: se deja constancia para que la autoridad verifique la carga horaria.
+            $others = DB::table('award_choices as c')->join('applications as a', 'a.id', '=', 'c.application_id')
+                ->where('a.user_id', $u->id)->where('a.id', '!=', $id)->where('a.participation', 'active')->where('c.choice', 'accept')
+                ->whereRaw('c.version = (select max(x.version) from award_choices x where x.application_id = c.application_id and x.publication_id = c.publication_id)')->count();
             Selection::audit($u, $c->id, 'award.choice_recorded', 'application:'.$id, ['version' => $version], [
                 'publication' => $publication,
                 'version' => $version + 1,
                 'choice' => $choice,
                 'compatibility' => 'PENDIENTE_VALIDACION_INSTITUCIONAL',
+                'other_accepted_awards' => $choice === 'accept' ? $others : 0,
             ], $reason);
         });
     }

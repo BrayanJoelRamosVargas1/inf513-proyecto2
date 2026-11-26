@@ -20,6 +20,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    /** Cédula o registro: mayúsculas, sin espacios ni puntos, para que no se repitan por formato. */
+    public static function normalizeIdentifier(mixed $value): ?string
+    {
+        $value = preg_replace('/[^0-9A-Z]+/', '', mb_strtoupper(trim((string) $value)));
+
+        return $value === '' ? null : $value;
+    }
+
     protected $fillable = [
         'name',
         'email',

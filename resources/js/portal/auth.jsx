@@ -74,6 +74,8 @@ export function Auth() {
               <label>Nombre completo<input name="name" required maxLength="100" autoComplete="name" /></label>
               <label>Facultad<input name="faculty" required maxLength="80" /></label>
               <label>Carrera<input name="career" required maxLength="80" /></label>
+              <label>Cédula de identidad<input name="document_number" required={!isTraining()} maxLength="20" autoComplete="off" placeholder="Como figura en su cédula" /></label>
+              <label>Registro universitario<input name="student_code" required={!isTraining()} maxLength="20" autoComplete="off" /></label>
             </>}
             <label>Correo electrónico<input
                 type="email"

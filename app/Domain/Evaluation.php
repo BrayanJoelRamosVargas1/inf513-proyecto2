@@ -3,6 +3,7 @@
 namespace App\Domain;
 
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 
 /** Evaluación: asignación de responsables, notas, rectificación de nota y cálculo del resultado. Reglas y bloqueos idénticos a los de Selection, que expone la misma API. */
@@ -24,6 +25,9 @@ final class Evaluation
             }
             abort_if($teacher === $u->id, 403, 'Quien asigna las áreas no puede asignarse a sí mismo como evaluador.');
             Access::require(User::findOrFail($teacher), $c->id, ['evaluator']);
+            if (Selection::operationalMode() === 'OFICIAL' && ! Commission::isMember($c->id, $offerId, $teacher)) {
+                Scores::fail('Solo quien integra la comisión evaluadora de esta oferta puede ser asignado como evaluador. Regístrelo primero en la comisión.');
+            }
             if (DB::table('assignments')->where('offer_id', $offerId)->where('area', $area)->exists()) {
                 Scores::fail('Ya existe responsable. La reasignación requiere procedimiento documentado; no se promedian docentes automáticamente.');
             }
@@ -49,6 +53,9 @@ final class Evaluation
             abort_unless($as->user_id === $u->id && $as->offer_id === $o->id, 403);
             if ($a->eligibility !== 'enabled' || $c->status !== 'evaluation') {
                 Scores::fail('Solo habilitados en evaluación abierta.');
+            }
+            if (Selection::operationalMode() === 'OFICIAL' && now()->lt($c->exam_at)) {
+                Scores::fail('Las notas se registran desde la toma del examen ('.CarbonImmutable::parse($c->exam_at)->setTimezone(config('app.timezone'))->format('d/m/Y H:i').').');
             }
             if (DB::table('publications')->where('offer_id', $o->id)->exists() || DB::table('tie_exams')->where('offer_id', $o->id)->exists()) {
                 Scores::fail('La evaluación está congelada por publicación o desempate.');

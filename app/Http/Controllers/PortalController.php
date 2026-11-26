@@ -19,6 +19,7 @@ use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -56,19 +57,32 @@ final class PortalController extends Controller
 
     public function register(Request $r)
     {
+        // La instalación real exige identificar a la persona; el entrenamiento los deja opcionales.
+        $identity = config('portal.experience') === 'institutional' ? 'required' : 'nullable';
+        $r->merge([
+            'document_number' => User::normalizeIdentifier($r->input('document_number')),
+            'student_code' => User::normalizeIdentifier($r->input('student_code')),
+        ]);
         $d = $r->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:150|unique:users',
             'password' => 'required|string|min:12|confirmed',
             'faculty' => 'required|string|max:80',
             'career' => 'required|string|max:80',
+            'document_number' => [$identity, 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'document_number')],
+            'student_code' => [$identity, 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'student_code')],
             'role' => 'prohibited',
             'active' => 'prohibited',
+        ], [
+            'document_number.unique' => 'Ya existe una cuenta con esa cédula de identidad.',
+            'student_code.unique' => 'Ya existe una cuenta con ese registro universitario.',
+            'document_number.regex' => 'La cédula solo lleva letras y números (5 a 20 caracteres; se ignoran espacios, puntos y guiones).',
+            'student_code.regex' => 'El registro universitario solo lleva letras y números (5 a 20 caracteres; se ignoran espacios, puntos y guiones).',
         ]);
         $user = DB::transaction(function () use ($d) {
             $u = new User;
-            foreach (['name', 'email', 'password', 'faculty', 'career'] as $key) {
-                $u->$key = $d[$key];
+            foreach (['name', 'email', 'password', 'faculty', 'career', 'document_number', 'student_code'] as $key) {
+                $u->$key = $d[$key] ?? null;
             }$u->role = 'student';
             $u->save();
             Selection::audit($u, null, 'user.registered', 'user:'.$u->id);

@@ -50,7 +50,7 @@ final class CallLifecycle
 
     public function saveOffer(User $u, int $callId, array $d, ?int $offerId = null): int
     {
-        if (! isset($d['seats']) || filter_var($d['seats'], FILTER_VALIDATE_INT) === false || (int) $d['seats'] < 0) {
+        if (! isset($d['seats']) || filter_var($d['seats'], FILTER_VALIDATE_INT) === false || (int) $d['seats'] < (Selection::operationalMode() === 'OFICIAL' ? 1 : 0)) {
             Scores::fail('Indique una cantidad válida de plazas para una oferta operativa.');
         }
 
@@ -135,6 +135,9 @@ final class CallLifecycle
                 Scores::fail('Resuelva subsanaciones y solicitudes de participación antes de cerrar la etapa.');
             }
             if ($next === 'evaluation') {
+                if (Selection::operationalMode() === 'OFICIAL') {
+                    Commission::assertComplete($callId);
+                }
                 $pending = DB::table('applications')->join('offers', 'offers.id', '=', 'applications.offer_id')->where('offers.call_id', $callId)->where('applications.status', 'submitted')->where('applications.participation', 'active')->where('applications.eligibility', 'pending')->count();
                 if ($pending > 0) {
                     Scores::fail('Hay '.$pending.' postulación(es) enviada(s) sin revisar. Revíselas y habilítelas o inhabilítelas antes de abrir la evaluación: después ya no se pueden revisar.');
@@ -147,6 +150,9 @@ final class CallLifecycle
                 $offers = DB::table('offers')->where('call_id', $callId)->get();
                 if ($offers->isEmpty()) {
                     Scores::fail('Agregue al menos una oferta.');
+                }
+                if (Selection::operationalMode() === 'OFICIAL' && ! Selection::hasAct($callId, ['aprobacion'])) {
+                    Scores::fail('La convocatoria se publica previa aprobación del Honorable Consejo Facultativo (Art. 9). Registre ese acto en el registro institucional (tipo «aprobación») antes de publicar.');
                 }
                 foreach ($offers as $o) {
                     if (Selection::operationalMode() === 'OFICIAL' && empty($o->requirement_profile)) {

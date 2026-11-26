@@ -82,6 +82,13 @@ final class Selection
         return ['commission_registered' => $has('commission'), 'act_registered' => $has('act')];
     }
 
+    /** Existe un acto institucional registrado de alguno de esos tipos (por ejemplo la aprobación del HCF o su resolución). */
+    public static function hasAct(int $callId, array $types): bool
+    {
+        return DB::table('institutional_register')->where('call_id', $callId)->where('kind', 'act')
+            ->whereIn(DB::raw("payload->>'act_type'"), $types)->exists();
+    }
+
     /** Leyenda de los reportes según el modo de la convocatoria. */
     public static function reportNotice(object $call): string
     {

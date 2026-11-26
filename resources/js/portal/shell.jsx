@@ -4,6 +4,7 @@ import { Metrics, Search } from './analytics';
 import { api, csrf, isTraining, message } from './api';
 import { Application } from './application';
 import { CallAudit } from './audit';
+import { CallCommission, CallVacancies } from './commission';
 import { Call } from './call';
 import { InstitutionalDossier, InstitutionalIndex } from './institutional';
 import { CallConfiguration, CreateCall, Management } from './call-forms';
@@ -17,7 +18,7 @@ import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 /* F-14: orden de etapas de una convocatoria; el servidor lo valida (Selection::transition), la interfaz solo ofrece el siguiente paso. */
 /* F-21: el título del documento cambia con la pantalla, para que lectores de pantalla y pestañas distingan dónde está la persona. */
-const PAGE_TITLES = [[/^\/convocatorias\/nueva/, 'Nueva convocatoria'], [/^\/convocatorias\/\d+\/auditoria/, 'Auditoría de la convocatoria'], [/^\/convocatorias\/\d+\/configuracion/, 'Configuración de la convocatoria'], [/^\/convocatorias\/\d+/, 'Convocatoria'], [/^\/convocatorias/, 'Convocatorias'], [/^\/postulaciones\/\d+\/rectificaciones/, 'Rectificaciones'], [/^\/postulaciones\/\d+\/participacion/, 'Participación'], [/^\/postulaciones\/\d+/, 'Postulación'], [/^\/postulaciones/, 'Postulaciones'], [/^\/ofertas\/\d+\/resultados/, 'Resultados de la oferta'], [/^\/revision/, 'Revisión'], [/^\/evaluacion/, 'Evaluación'], [/^\/expedientes/, 'Expedientes'], [/^\/estadisticas/, 'Estadísticas'], [/^\/simulacion/, 'Simulación de pagos'], [/^\/cuenta/, 'Mi cuenta'], [/^\/buscar/, 'Búsqueda'], [/^\/administracion/, 'Administración'], [/^\/adjudicaciones/, 'Adjudicaciones'], [/^\/entrenamiento/, 'Materiales de entrenamiento'], [/^\/institucional/, 'Registro institucional']];
+const PAGE_TITLES = [[/^\/convocatorias\/nueva/, 'Nueva convocatoria'], [/^\/convocatorias\/\d+\/auditoria/, 'Auditoría de la convocatoria'], [/^\/convocatorias\/\d+\/configuracion/, 'Configuración de la convocatoria'], [/^\/convocatorias\/\d+\/comision/, 'Comisión evaluadora'], [/^\/convocatorias\/\d+\/plazas/, 'Plazas sin cubrir'], [/^\/convocatorias\/\d+/, 'Convocatoria'], [/^\/convocatorias/, 'Convocatorias'], [/^\/postulaciones\/\d+\/rectificaciones/, 'Rectificaciones'], [/^\/postulaciones\/\d+\/participacion/, 'Participación'], [/^\/postulaciones\/\d+/, 'Postulación'], [/^\/postulaciones/, 'Postulaciones'], [/^\/ofertas\/\d+\/resultados/, 'Resultados de la oferta'], [/^\/revision/, 'Revisión'], [/^\/evaluacion/, 'Evaluación'], [/^\/expedientes/, 'Expedientes'], [/^\/estadisticas/, 'Estadísticas'], [/^\/simulacion/, 'Simulación de pagos'], [/^\/cuenta/, 'Mi cuenta'], [/^\/buscar/, 'Búsqueda'], [/^\/administracion/, 'Administración'], [/^\/adjudicaciones/, 'Adjudicaciones'], [/^\/entrenamiento/, 'Materiales de entrenamiento'], [/^\/institucional/, 'Registro institucional']];
 
 export function pageTitle(path) {
   const hit = PAGE_TITLES.find(([re]) => re.test(path));
@@ -394,6 +395,8 @@ export function AppShell() {
           <Route path="/adjudicaciones" element={<Awards />} />
           <Route path="/convocatorias/:id/auditoria" element={<CallAudit />} />
           <Route path="/convocatorias/:id/configuracion" element={<CallConfiguration />} />
+          <Route path="/convocatorias/:id/comision" element={<CallCommission />} />
+          <Route path="/convocatorias/:id/plazas" element={<CallVacancies />} />
           <Route path="/convocatorias/nueva" element={<CreateCall />} />
           <Route path="/ofertas/:id/resultados" element={<Ranking />} />
           <Route path="/postulaciones/:id/rectificaciones" element={<Corrections />} />

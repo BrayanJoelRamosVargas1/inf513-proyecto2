@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Domain\Commission;
 use App\Domain\Selection;
 use App\Http\Operations\AdministrationOperations;
 use App\Models\User;
@@ -73,12 +74,44 @@ final class OfficialModeTest extends TestCase
         return $id;
     }
 
+    /** Acto institucional del registro: la aprobación de la convocatoria o la resolución de resultados. */
+    private function registerAct(int $call, string $type): void
+    {
+        DB::table('institutional_register')->insert([
+            'call_id' => $call, 'kind' => 'act', 'reference' => strtoupper($type).'-'.random_int(100, 999), 'record_scope' => 'call', 'version' => 1,
+            'payload' => json_encode(['act_type' => $type, 'modality' => 'sala', 'notes' => 'Acto de prueba registrado.']),
+            'recorded_by' => $this->authority->id, 'created_at' => now(),
+        ]);
+    }
+
+    /** Composición mínima del perfil «sala»: encargado, director de carrera y dos docentes invitados. */
+    private function completeCommission(int $call, User $encargado): void
+    {
+        $commission = app(Commission::class);
+        $commission->add($this->authority, $call, ['cargo' => 'encargado_laboratorio', 'user_id' => $encargado->id, 'designation_reference' => 'RES-DEC-01']);
+        $commission->add($this->authority, $call, ['cargo' => 'director_carrera', 'user_id' => $this->authority->id, 'designation_reference' => 'RES-DEC-01']);
+        foreach ([1, 2] as $n) {
+            $commission->add($this->authority, $call, ['cargo' => 'docente_invitado', 'user_id' => User::factory()->create(['role' => 'staff'])->id, 'designation_reference' => 'RES-DEC-0'.$n]);
+        }
+    }
+
+    private function expectApprovalToNeedTheResolution(int $call, int $offer): void
+    {
+        try {
+            $this->s->approve($this->authority, $offer, 'Acta de la comisión con la lista de seleccionados.');
+            $this->fail('La aprobación debía exigir la resolución del Consejo Facultativo.');
+        } catch (ValidationException $e) {
+            $this->assertStringContainsString('resolución del Honorable Consejo Facultativo', implode(' ', array_merge(...array_values($e->errors()))));
+        }
+    }
+
     public function test_calls_are_created_and_published_as_official(): void
     {
         $call = $this->newCall();
         $this->assertSame('OFICIAL', DB::table('calls')->where('id', $call)->value('mode'));
         $this->assertSame('OFICIAL', Selection::operationalMode());
         $this->newOffer($call);
+        $this->registerAct($call, 'aprobacion');
         $this->s->transition($this->authority, $call, 'published');
         $this->assertSame('published', DB::table('calls')->where('id', $call)->value('status'));
     }
@@ -87,6 +120,7 @@ final class OfficialModeTest extends TestCase
     {
         $call = $this->newCall();
         $this->newOffer($call, [], false);
+        $this->registerAct($call, 'aprobacion');
         $this->expectException(ValidationException::class);
         $this->s->transition($this->authority, $call, 'published');
     }
@@ -202,7 +236,9 @@ final class OfficialModeTest extends TestCase
             DB::table('memberships')->insert(['call_id' => $call, 'user_id' => $u->id, 'role' => $role]);
         }
         $offer = $this->newOffer($call, ['seats' => 2, 'documents' => ['cpd' => 'Formulario CPD'], 'weights' => ['Soporte' => '100']]);
+        $this->registerAct($call, 'aprobacion');
         $this->s->transition($this->authority, $call, 'published');
+        $this->completeCommission($call, $teacher);
         $this->s->assign($this->authority, $offer, $teacher->id, 'Soporte');
         $assignment = DB::table('assignments')->where('offer_id', $offer)->value('id');
 
@@ -220,6 +256,7 @@ final class OfficialModeTest extends TestCase
         }
         $this->s->transition($this->authority, $call, 'closed');
         $this->s->transition($this->authority, $call, 'evaluation');
+        DB::table('calls')->where('id', $call)->update(['exam_at' => now()->subHour()]); // las notas se registran desde la toma del examen
         foreach ($applications as $score => $id) {
             $this->s->grade($teacher, $id, $assignment, $score);
             $this->s->calculate($this->authority, $id);
@@ -230,6 +267,8 @@ final class OfficialModeTest extends TestCase
         $this->assertSame([$applications['30']], array_map(fn ($a) => $a->id, $ranking['below_threshold']));
         $this->assertSame(1, $ranking['vacancies']);
 
+        $this->expectApprovalToNeedTheResolution($call, $offer);
+        $this->registerAct($call, 'resolucion');
         $this->s->approve($this->authority, $offer, 'Acta de la comisión con la lista de seleccionados.');
         $this->assertSame('selected', DB::table('applications')->where('id', $applications['90'])->value('selection'));
         $this->assertSame('not_selected', DB::table('applications')->where('id', $applications['30'])->value('selection'));

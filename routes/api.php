@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CommissionController;
 use App\Http\Controllers\Api\InstitutionalController;
 use App\Http\Controllers\Api\InstitutionalRegisterController;
 use App\Http\Controllers\Api\ProcessController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Api\ReferenceController;
 use App\Http\Controllers\Api\SandboxController;
 use App\Http\Controllers\Api\SelectionController;
 use App\Http\Controllers\Api\SessionController;
+use App\Http\Controllers\Api\VacancyController;
 use App\Http\Controllers\Api\WorkspaceController;
 use App\Http\Controllers\ConsolidatedResultsController;
 use App\Http\Controllers\DocumentController;
@@ -48,6 +50,11 @@ Route::prefix('api/v1')->middleware('web')->group(function () {
             InstitutionalRegisterController::class,
             'store',
         ])->middleware('throttle:20,1');
+        Route::get('calls/{id}/vacancies', [VacancyController::class, 'index']);
+        Route::post('calls/{id}/carry-over', [VacancyController::class, 'carryOver'])->middleware('throttle:10,1');
+        Route::get('calls/{id}/commission', [CommissionController::class, 'index']);
+        Route::post('calls/{id}/commission', [CommissionController::class, 'store'])->middleware('throttle:30,1');
+        Route::post('commission-members/{id}/revocation', [CommissionController::class, 'revoke']);
         Route::post('calls/{id}/transition', [SelectionController::class, 'transition']);
         Route::get('applications', [SelectionController::class, 'applications']);
         Route::get('applications/{id}', [SelectionController::class, 'application']);

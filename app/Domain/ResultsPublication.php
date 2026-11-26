@@ -198,6 +198,12 @@ final class ResultsPublication
             if ((! in_array($c->status, ['evaluation', 'results']) || ($c->status === 'results' && ! $o->needs_publication_review)) || DB::table('publications')->where('offer_id', $offerId)->where('result_revision', $o->result_revision)->exists()) {
                 Scores::fail('La oferta no admite otra aprobación silenciosa.');
             }
+            if (Selection::operationalMode() === 'OFICIAL') {
+                Commission::assertComplete($c->id);
+                if (! Selection::hasAct($c->id, ['resolucion'])) {
+                    Scores::fail('Los resultados se aprueban por resolución del Honorable Consejo Facultativo o del Decano (Docencia, Art. 19; Laboratorio, Art. 18). Registre esa resolución en el registro institucional (tipo «resolución») antes de aprobar.');
+                }
+            }
             if (mb_strlen(trim($minutes)) < 10) {
                 Scores::fail('Se requiere el acta de aprobación (mínimo 10 caracteres).');
             }

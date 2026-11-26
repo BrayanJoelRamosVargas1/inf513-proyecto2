@@ -23,6 +23,7 @@ export function Application() {
     </p>
     <h1>{d.offer.title}</h1>
     <p>Expediente #{id} · {d.student.name} · {label(a.status)} · {label(a.eligibility)}</p>
+    {d.student.document_number && <p>Cédula {d.student.document_number}{d.student.student_code ? ` · Registro ${d.student.student_code}` : ''}{d.reviewer ? ' · Contraste estos datos con la cédula y el histórico del expediente.' : ''}</p>}
     <p>{label(a.participation)}</p>
     <DocumentValidation validation={d.document_validation} />
     {(d.owner || d.authority) && <div className="grid">

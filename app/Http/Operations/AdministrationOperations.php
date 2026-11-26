@@ -21,7 +21,13 @@ final class AdministrationOperations
     public function saveUser(Request $r): void
     {
         abort_unless($r->user()->role === 'admin', 403);
+        $r->merge([
+            'document_number' => User::normalizeIdentifier($r->input('document_number')),
+            'student_code' => User::normalizeIdentifier($r->input('student_code')),
+        ]);
         $d = $r->validate([
+            'document_number' => ['nullable', 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'document_number')],
+            'student_code' => ['nullable', 'string', 'regex:/^[0-9A-Z]{5,20}$/', Rule::unique('users', 'student_code')],
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users|max:150',
             'password' => 'required|string|min:12',

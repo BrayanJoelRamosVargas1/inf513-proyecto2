@@ -165,7 +165,7 @@ final class SelectionController extends Controller
                 ])];
         }
 
-        return response()->json(['cpd_context' => $cpd, 'application' => $data, 'student' => ['name' => $v['student']->name], 'offer' => [
+        return response()->json(['cpd_context' => $cpd, 'application' => $data, 'student' => ['name' => $v['student']->name] + ($v['reviewer'] || $v['owner'] ? ['document_number' => $v['student']->document_number, 'student_code' => $v['student']->student_code] : []), 'offer' => [
             'id' => $offer->id,
             'title' => $offer->title,
             'documents' => Selection::json($offer->documents),

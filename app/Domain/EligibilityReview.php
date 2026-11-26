@@ -92,6 +92,11 @@ final class EligibilityReview
             }
             $documentChecks = app(ApplicantDocuments::class)->assertEffective($id);
             $score = Scores::value($score, Scores::MERIT_MAX);
+            // Si ya se registró el puntaje del formulario CPD de este expediente, el mérito debe ser exactamente ese.
+            $recorded = DB::table('institutional_register')->where('call_id', $c->id)->where('kind', 'cpd')->where('record_scope', 'application:'.$id)->orderByDesc('id')->first();
+            if ($recorded && bccomp((string) (Selection::json($recorded->payload)['score'] ?? '0'), $score, 2) !== 0) {
+                Scores::fail('El mérito debe coincidir con el puntaje del formulario CPD registrado ('.Selection::json($recorded->payload)['score'].').');
+            }
             DB::table('applications')->where('id', $id)->update([
                 'merit' => $score,
                 'cpd_reference' => $reference,

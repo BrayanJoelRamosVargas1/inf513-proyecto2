@@ -52,6 +52,12 @@ export function Call() {
         <Link to={`/convocatorias/${id}/configuracion`}>Configurar convocatoria y responsables →</Link>
       </p>
       <p>
+        <Link to={`/convocatorias/${id}/comision`}>Comisión evaluadora y veedores →</Link>
+      </p>
+      <p>
+        <Link to={`/convocatorias/${id}/plazas`}>Plazas sin cubrir y nueva convocatoria →</Link>
+      </p>
+      <p>
         <Link to={`/convocatorias/${id}/auditoria`}>Consultar historial del proceso →</Link>
       </p>
       <p><a href={`${base}/api/v1/calls/${id}/reports/pdf`}>Descargar consolidado PDF</a> · <a href={`${base}/api/v1/calls/${id}/reports/xlsx`}>Descargar consolidado Excel</a></p>
