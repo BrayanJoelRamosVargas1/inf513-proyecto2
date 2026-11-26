@@ -254,6 +254,7 @@ final class ResultsPublication
                 'selected' => $winners,
                 'hours_since_last_grade' => $hours,
                 'deadline_48h' => $hours === null ? null : ($hours <= 48 ? 'met' : 'exceeded'),
+                'institutional_evidence' => Selection::institutionalEvidence($c->id),
             ], $minutes);
         });
     }

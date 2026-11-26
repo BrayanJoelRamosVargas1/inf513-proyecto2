@@ -38,6 +38,19 @@ final class Administration
             $allowed['security_version'] = $target->security_version + 1;
             $allowed['updated_at'] = now();
             DB::table('users')->where('id', $id)->update($allowed);
+            if (isset($allowed['role']) && $allowed['role'] !== $target->role) {
+                // Un permiso por convocatoria no sobrevive a un cambio de perfil: se concede de nuevo si corresponde.
+                $revoked = DB::table('memberships')->where('user_id', $id)->whereNull('revoked_at')->get();
+                foreach ($revoked as $membership) {
+                    DB::table('memberships')->where('id', $membership->id)->update([
+                        'revoked_at' => now(),
+                        'revoked_by' => $actor->id,
+                        'reason' => 'Cambio de perfil: '.$reason,
+                        'version' => $membership->version + 1,
+                    ]);
+                    Selection::audit($actor, $membership->call_id, 'permission.revoked', 'membership:'.$membership->id, $membership, ['revoked' => true, 'origin' => 'cambio de perfil'], $reason);
+                }
+            }
             $before = array_intersect_key((array) $target, array_flip(['name', 'email', 'role', 'active', 'faculty', 'career', 'profile_version']));
             Selection::audit($actor, null, 'user.profile_changed', 'user:'.$id, $before, array_diff_key($allowed, ['security_version' => 1]), $reason);
         });
@@ -49,9 +62,20 @@ final class Administration
             abort_unless($actor->role === 'admin' && $actor->id !== $user, 403);
             $this->reason($reason);
             Selection::row('calls', $call, true);
-            Selection::row('users', $user, true);
+            $target = Selection::row('users', $user, true);
             if (! in_array($role, ['reviewer', 'evaluator', 'authority'])) {
                 Scores::fail('Permiso inválido.');
+            }
+            if (! $target->active) {
+                Scores::fail('La cuenta está desactivada; actívela antes de concederle permisos.');
+            }
+            if ($target->role === 'admin') {
+                Scores::fail('La administración técnica no recibe funciones académicas: separe la cuenta técnica de la académica.');
+            }
+            // Separación de funciones: quien aprueba y publica los resultados no es quien revisa ni quien califica en la misma convocatoria.
+            $conflicts = $role === 'authority' ? ['reviewer', 'evaluator'] : ['authority'];
+            if (DB::table('memberships')->where('call_id', $call)->where('user_id', $user)->whereIn('role', $conflicts)->whereNull('revoked_at')->exists()) {
+                Scores::fail('Separación de funciones: en una misma convocatoria la autoridad no puede ser también revisora ni evaluadora. Use otra cuenta para esa función.');
             }
             if ($start && $end && strtotime($start) >= strtotime($end)) {
                 Scores::fail('El vencimiento debe ser posterior al inicio.');

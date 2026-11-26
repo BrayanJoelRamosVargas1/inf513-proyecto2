@@ -194,7 +194,7 @@ export function Management() {
       after={reload}
       fields={[field('name', 'Nombre'), field('email', 'Correo', {
         type: 'email'
-      }), field('password', 'Contraseña temporal', {
+      }), field('password', 'Contraseña inicial (la persona debe cambiarla al ingresar)', {
         type: 'password',
         minLength: 12
       }), select('role', 'Perfil', roles), field('faculty', 'Facultad'), field('career', 'Carrera')]}
@@ -269,6 +269,19 @@ export function Management() {
           after={reload}
         />}
       </details>)}
+    </section>
+    <section>
+      <h2>Historial de administración</h2>
+      <p>Últimos 100 actos sobre cuentas, permisos y tipos de auxiliatura.</p>
+      <table>
+        <caption>Historial de administración</caption>
+        <thead><tr><th scope="col">Fecha</th><th scope="col">Acto</th><th scope="col">Sobre</th><th scope="col">Realizado por</th><th scope="col">Motivo</th></tr></thead>
+        <tbody>
+          {(d.history ?? []).map(h => <tr key={h.id}><td>{new Date(h.created_at).toLocaleString('es-BO', {
+              timeZone: 'America/La_Paz'
+            })}</td><td>{h.action}</td><td>{h.entity}{h.call_id ? ' · convocatoria #' + h.call_id : ''}</td><td>{h.actor}</td><td>{h.reason}</td></tr>)}
+        </tbody>
+      </table>
     </section>
     <Action
       title="Crear tipo de auxiliatura"

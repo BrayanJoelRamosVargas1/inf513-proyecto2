@@ -19,7 +19,8 @@ final class ApplicationIntake
             $o = Selection::row('offers', $offerId);
             $call = Selection::row('calls', $o->call_id, true);
             Selection::receiving($call);
-            if (Access::has($u, $call->id, ['authority', 'reviewer', 'evaluator'])) {
+            if (Access::has($u, $call->id, ['authority', 'reviewer', 'evaluator'])
+                || DB::table('memberships')->where('call_id', $call->id)->where('user_id', $u->id)->whereNull('revoked_at')->exists()) {
                 Scores::fail('Tiene un permiso de gestión en esta convocatoria; no puede postular en ella.');
             }
             if (DB::table('applications')->where('offer_id', $offerId)->where('user_id', $u->id)->exists()) {

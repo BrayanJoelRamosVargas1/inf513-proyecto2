@@ -127,8 +127,11 @@ final class SelectionController extends Controller
         $v = app(ApplicationView::class)->data($r, $id);
         $app = $v['app'];
         $data = collect((array) $app)->only(['id', 'offer_id', 'user_id', 'status', 'eligibility', 'participation', 'selection', 'dossier_version']);
-        if ($v['owner'] || $v['authority']) {
+        if ($v['authority']) {
             $data = $data->merge(collect((array) $app)->only(['merit', 'exam', 'final']));
+        } elseif ($v['owner']) {
+            // La nota final es un acto de la autoridad: el postulante la ve solo cuando se aprobó la publicación.
+            $data = $data->merge(collect((array) $app)->only($v['published'] ? ['merit', 'exam', 'final'] : ['merit']));
         }
         if ($v['owner'] || $v['authority'] || $v['reviewer']) {
             $data->put('eligibility_reason', $app->eligibility_reason);

@@ -85,6 +85,8 @@ final class DocumentExperienceTest extends TestCase
 
     public function test_e02_all_file_routes_require_owner_or_scoped_reviewer(): void
     {
+        // El revisor solo accede a expedientes que el postulante ya confirmó.
+        DB::table('applications')->where('id', $this->application)->update(['status' => 'submitted']);
         foreach ([$this->authority, $this->evaluator, User::factory()->create(['role' => 'admin']), User::factory()->create()] as $u) {
             foreach (['', '/ver', '/detalle'] as $suffix) {
                 $this->actingAs($u)->get('/documentos/'.$this->document.$suffix)->assertForbidden();
@@ -290,6 +292,8 @@ final class DocumentExperienceTest extends TestCase
 
     public function test_e17_api_reviewer_download_is_the_uploaded_original_with_safe_metadata(): void
     {
+        // El revisor solo accede a expedientes que el postulante ya confirmó.
+        DB::table('applications')->where('id', $this->application)->update(['status' => 'submitted']);
         $original = file_get_contents(resource_path('demo-documents/cpd.pdf'));
         $this->actingAs($this->reviewer)->get('/api/v1/documents/'.$this->document.'/download')
             ->assertOk()->assertHeader('Content-Type', 'application/pdf')->assertDownload('respaldo.pdf')->assertContent($original);
@@ -312,6 +316,8 @@ final class DocumentExperienceTest extends TestCase
 
     public function test_e19_api_metadata_and_download_check_pending_tampered_and_missing_bytes(): void
     {
+        // El revisor solo accede a expedientes que el postulante ya confirmó.
+        DB::table('applications')->where('id', $this->application)->update(['status' => 'submitted']);
         $this->actingAs($this->reviewer);
         $doc = DB::table('documents')->find($this->document);
         Storage::disk('local')->put($doc->path, 'Archivo alterado');
@@ -331,6 +337,8 @@ final class DocumentExperienceTest extends TestCase
         $id = app(Selection::class)->upload($this->student, $this->application, 'cpd', UploadedFile::fake()->image('original.png', 1, 1));
         $this->scanApplicantFixtures();
         $doc = DB::table('documents')->find($id);
+        // El revisor solo accede a expedientes que el postulante ya confirmó.
+        DB::table('applications')->where('id', $this->application)->update(['status' => 'submitted']);
         $this->actingAs($this->reviewer)->getJson('/api/v1/documents/'.$id.'/metadata')->assertOk()
             ->assertJsonPath('width', 1)->assertJsonPath('height', 1)->assertJsonPath('small_image', true);
         $this->get('/api/v1/documents/'.$id.'/download')->assertOk()->assertHeader('Content-Type', 'image/png')->assertContent(Storage::disk('local')->get($doc->path));

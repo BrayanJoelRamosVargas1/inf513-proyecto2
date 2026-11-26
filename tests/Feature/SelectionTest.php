@@ -258,6 +258,8 @@ final class SelectionTest extends TestCase
         $doc = DB::table('documents')->first();
         $outsider = User::factory()->create(['role' => 'staff']);
         $this->actingAs($outsider)->get('/documentos/'.$doc->id)->assertForbidden();
+        $this->actingAs($this->reviewer)->get('/documentos/'.$doc->id)->assertForbidden(); // borrador: solo el postulante
+        DB::table('applications')->where('id', $id)->update(['status' => 'submitted']);
         $this->actingAs($this->reviewer)->get('/documentos/'.$doc->id)->assertOk()->assertDownload();
         $this->actingAs($this->authority)->get('/documentos/'.$doc->id)->assertForbidden();
     }

@@ -15,6 +15,9 @@ final class CallLifecycle
 
         return Access::transaction($u, function () use ($u, $d) {
             abort_unless($u->role === 'authority', 403);
+            if (! empty($d['parent_id'])) {
+                abort_unless(Access::has($u, (int) $d['parent_id'], ['authority']), 403, 'Solo puede vincular una convocatoria en la que usted es autoridad.');
+            }
             $id = DB::table('calls')->insertGetId(array_merge($d, [
                 'mode' => Selection::operationalMode(),
                 'status' => 'draft',
@@ -22,7 +25,8 @@ final class CallLifecycle
                 'updated_at' => now(),
             ]));
             if ($u->role === 'authority') {
-                DB::table('memberships')->insert(['call_id' => $id, 'user_id' => $u->id, 'role' => 'authority']);
+                $membership = DB::table('memberships')->insertGetId(['call_id' => $id, 'user_id' => $u->id, 'role' => 'authority']);
+                Selection::audit($u, $id, 'permission.granted', 'membership:'.$membership, null, ['user_id' => $u->id, 'role' => 'authority', 'origin' => 'creación de la convocatoria']);
             }
             Selection::audit($u, $id, 'call.created', 'call:'.$id, null, $d);
 
@@ -72,7 +76,18 @@ final class CallLifecycle
                 $d['requirements'] = $profile['requirements'] + $d['requirements'];
                 $d['documents'] = $profile['documents'] + $d['documents'];
             }
-            $d['weights'] = json_encode(Scores::weights($d['weights']));
+            $weights = Scores::weights($d['weights']);
+            // Arts. 16 (docencia) y 15 (laboratorio): el examen de competencia se compone de dos pruebas con reparto fijo.
+            $fixed = ['asignatura' => ['Escrito' => 60, 'Práctico' => 40], 'laboratorio' => ['Práctico' => 60, 'Teórico' => 40]][$d['requirement_profile'] ?? ''] ?? null;
+            if ($fixed !== null) {
+                $given = array_map(fn ($w) => (float) $w, $weights);
+                ksort($given);
+                ksort($fixed);
+                if ($given != array_map('floatval', $fixed)) {
+                    Scores::fail('En el perfil «'.$d['requirement_profile'].'» el examen se compone de '.implode(' y ', array_map(fn ($k, $v) => $k.' '.$v.'%', array_keys($fixed), $fixed)).' (Resolución 021/2023).');
+                }
+            }
+            $d['weights'] = json_encode($weights);
             foreach (['documents', 'requirements'] as $key) {
                 if (! $d[$key]) {
                     Scores::fail('Defina documentos y requisitos.');
@@ -134,6 +149,9 @@ final class CallLifecycle
                     Scores::fail('Agregue al menos una oferta.');
                 }
                 foreach ($offers as $o) {
+                    if (Selection::operationalMode() === 'OFICIAL' && empty($o->requirement_profile)) {
+                        Scores::fail('La oferta «'.$o->title.'» necesita el perfil de requisitos (asignatura, sala o laboratorio) para cargar los requisitos y documentos de la convocatoria.');
+                    }
                     if (! in_array($o->scheme, Scores::CALCULABLE_SCHEMES) || $o->rounding !== 'HALF_UP_FINAL') {
                         Scores::fail('La oferta «'.$o->title.'» tiene una composición de nota pendiente o no calculable. Defina el esquema antes de publicar: una oferta publicada no puede editarse.');
                     }
@@ -154,7 +172,9 @@ final class CallLifecycle
                 }
             }
             DB::table('calls')->where('id', $callId)->update(['status' => $next, 'updated_at' => now()]);
-            Selection::audit($u, $callId, 'call.transition', 'call:'.$callId, ['status' => $call->status], ['status' => $next]);
+            // Avisos, no bloqueos: queda constancia de si al abrir la evaluación ya estaban registradas la comisión y la aprobación de la convocatoria.
+            $after = ['status' => $next] + ($next === 'evaluation' ? ['institutional_evidence' => Selection::institutionalEvidence($callId)] : []);
+            Selection::audit($u, $callId, 'call.transition', 'call:'.$callId, ['status' => $call->status], $after);
         });
     }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { api, base, csrf, setOperationalMode } from './api';
 import { Auth } from './auth';
 import { Alert, ErrorBoundary, Session } from './shared';
+import { ForcedPassword } from './password';
 import { AppShell } from './shell';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -30,7 +31,7 @@ function Root() {
     session,
     setSession
   }}>
-    {loading ? <main><p role="status">Comprobando sesión…</p></main> : session ? <AppShell /> : <><Alert text={bootError} /><Auth /></>}
+    {loading ? <main><p role="status">Comprobando sesión…</p></main> : session ? session.must_change_password ? <ForcedPassword /> : <AppShell /> : <><Alert text={bootError} /><Auth /></>}
   </Session.Provider>;
 }
 

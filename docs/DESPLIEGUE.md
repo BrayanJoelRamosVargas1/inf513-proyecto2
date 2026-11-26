@@ -50,7 +50,7 @@ En Windows, una tarea del Programador de tareas cada minuto con `php artisan sch
 
 ## Primeros pasos con el sistema abierto
 
-1. La administración crea las cuentas de la autoridad, de las personas revisoras y de las evaluadoras (Administración → Usuarios). Los postulantes se registran solos.
+1. La administración crea las cuentas de la autoridad, de las personas revisoras y de las evaluadoras (Administración → Usuarios). Los postulantes se registran solos. Cada cuenta creada por la administración (o por consola) obliga a cambiar la clave inicial en el primer ingreso, de modo que nadie más pueda actuar a nombre de esa persona. La autoridad y quienes revisan o evalúan en una misma convocatoria deben ser cuentas distintas (separación de funciones).
 2. La autoridad crea la convocatoria (borrador), define ofertas, plazas, pesos del examen y nota mínima, asigna revisores y evaluadores y publica.
 3. Los resultados se aprueban oferta por oferta con el acta; los reportes PDF/XLSX salen de la convocatoria.
 

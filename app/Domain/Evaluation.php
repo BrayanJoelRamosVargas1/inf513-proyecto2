@@ -22,6 +22,7 @@ final class Evaluation
             if (! array_key_exists($area, Selection::json($o->weights))) {
                 Scores::fail('Área ajena al esquema.');
             }
+            abort_if($teacher === $u->id, 403, 'Quien asigna las áreas no puede asignarse a sí mismo como evaluador.');
             Access::require(User::findOrFail($teacher), $c->id, ['evaluator']);
             if (DB::table('assignments')->where('offer_id', $offerId)->where('area', $area)->exists()) {
                 Scores::fail('Ya existe responsable. La reasignación requiere procedimiento documentado; no se promedian docentes automáticamente.');

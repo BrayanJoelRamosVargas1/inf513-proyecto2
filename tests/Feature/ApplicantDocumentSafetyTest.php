@@ -130,6 +130,8 @@ final class ApplicantDocumentSafetyTest extends TestCase
     public function test_d02_clean_scan_allows_exact_original_only_for_owner_and_scoped_reviewer(): void
     {
         $this->assertSame('clean', $this->runScan()['state']);
+        $this->actingAs($this->reviewer)->getJson('/api/v1/documents/'.$this->document)->assertForbidden(); // borrador: solo el postulante
+        $this->submit();
         foreach ([$this->student, $this->reviewer] as $u) {
             $r = $this->actingAs($u)->getJson('/api/v1/documents/'.$this->document)->assertOk();
             $this->assertSame(file_get_contents(resource_path('demo-documents/cpd.pdf')), $r->getContent());
@@ -137,7 +139,6 @@ final class ApplicantDocumentSafetyTest extends TestCase
         foreach ([$this->authority, $this->evaluator, User::factory()->create(['role' => 'admin']), User::factory()->create()] as $u) {
             $this->actingAs($u)->getJson('/api/v1/documents/'.$this->document)->assertForbidden();
         }
-        $this->submit();
         $this->reviewResponse(200);
         app(Selection::class)->eligibility($this->reviewer, $this->application, true, 'Documentación sintética comprobada.');
         $this->assertDatabaseHas('applications', ['id' => $this->application, 'eligibility' => 'enabled']);

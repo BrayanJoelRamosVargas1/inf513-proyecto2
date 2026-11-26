@@ -42,6 +42,7 @@ final class CreateAdministratorCommand extends Command
                 'email' => $data['email'],
                 'password' => $password,
                 'role' => 'admin',
+                'must_change_password' => true,
                 'faculty' => (string) $this->option('facultad'),
                 'career' => (string) $this->option('carrera'),
             ])->save();

@@ -10,8 +10,8 @@ final class Selection
 {
     public static function conditionalCriterion(object $offer, string $key): bool
     {
-        // Article 7(e) only concerns students who have completed the curriculum.
-        return ($offer->requirement_profile ?? null) === 'asignatura' && $key === 'graduacion_mora';
+        // Art. 7(e) del reglamento de docencia y Art. 6 del de laboratorio: la titulación en mora solo concierne a quien ya terminó el plan de estudios.
+        return in_array($offer->requirement_profile ?? null, ['asignatura', 'sala', 'laboratorio'], true) && $key === 'graduacion_mora';
     }
 
     public static function criterionSatisfied(object $offer, string $key, ?string $decision): bool
@@ -72,6 +72,14 @@ final class Selection
     public static function isOperable(object $call): bool
     {
         return $call->mode === self::operationalMode();
+    }
+
+    /** Qué respaldos institucionales se registraron para la convocatoria: comisión evaluadora y actos (aprobación del HCF o del Decano). */
+    public static function institutionalEvidence(int $callId): array
+    {
+        $has = fn (string $kind) => DB::table('institutional_register')->where('call_id', $callId)->where('kind', $kind)->exists();
+
+        return ['commission_registered' => $has('commission'), 'act_registered' => $has('act')];
     }
 
     /** Leyenda de los reportes según el modo de la convocatoria. */

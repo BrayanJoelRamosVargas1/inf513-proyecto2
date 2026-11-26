@@ -11,8 +11,8 @@ Aplicación web para gestionar convocatorias de auxiliares de docencia y de labo
 
 | Control | Resultado |
 |---|---|
-| PHPUnit sobre `ficct_test` | 414 pruebas / 2352 aserciones, sin fallos |
-| Vitest (React) | 103 pruebas en 21 archivos, sin fallos |
+| PHPUnit sobre `ficct_test` | 427 pruebas / 2400 aserciones, sin fallos |
+| Vitest (React) | 104 pruebas en 22 archivos, sin fallos |
 | Compilación del frontend | `npm run build` correcta |
 
 Estas cifras corresponden a la rama `correcciones-auditoria`. La documentación histórica, la evidencia de cierres anteriores y los guiones de entrega se movieron el 26/11/2026 a `ARCHIVO_SISTEMA_FICCT/` (carpeta hermana de `sistema`, fuera del repositorio); sigue disponible en el historial de Git.

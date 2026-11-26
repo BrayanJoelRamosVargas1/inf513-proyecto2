@@ -34,7 +34,10 @@ final class AdministrationOperations
             $u = new User;
             foreach ($d as $key => $v) {
                 $u->$key = $v;
-            }$u->save();
+            }
+            // La clave inicial la conoce quien crea la cuenta: la persona debe cambiarla en su primer ingreso.
+            $u->must_change_password = true;
+            $u->save();
             Selection::audit($r->user(), null, 'user.created', 'user:'.$u->id, null, ['role' => $u->role]);
         });
     }

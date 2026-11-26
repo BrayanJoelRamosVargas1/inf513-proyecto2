@@ -61,6 +61,7 @@ final class Access
     public static function privateFile(User $user, $app): void
     {
         $offer = DB::table('offers')->find($app->offer_id);
-        abort_unless($user->active && ($app->user_id === $user->id || self::has($user, $offer->call_id, ['reviewer'])), 403);
+        // El revisor solo ve los archivos de un expediente que la persona ya confirmó; un borrador es solo del postulante.
+        abort_unless($user->active && ($app->user_id === $user->id || ($app->status === 'submitted' && self::has($user, $offer->call_id, ['reviewer']))), 403);
     }
 }

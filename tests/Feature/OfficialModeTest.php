@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Domain\Selection;
+use App\Http\Operations\AdministrationOperations;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -47,11 +49,11 @@ final class OfficialModeTest extends TestCase
         ]);
     }
 
-    private function newOffer(int $call, array $override = []): int
+    private function newOffer(int $call, array $override = [], bool $withProfile = true): int
     {
         $category = DB::table('categories')->insertGetId(['name' => 'Docencia '.random_int(1, 99999), 'regime' => 'docencia', 'active' => true]);
 
-        return $this->s->saveOffer($this->authority, $call, $override + [
+        $id = $this->s->saveOffer($this->authority, $call, $override + [
             'category_id' => $category,
             'title' => 'Oferta '.random_int(1, 99999),
             'seats' => 2,
@@ -63,6 +65,12 @@ final class OfficialModeTest extends TestCase
             'scheme' => 'AREAS_100',
             'source' => 'Convocatoria 01/2026',
         ]);
+        // En la instalación real toda oferta publicada declara su perfil de requisitos.
+        if ($withProfile) {
+            DB::table('offers')->where('id', $id)->update(['requirement_profile' => 'sala']);
+        }
+
+        return $id;
     }
 
     public function test_calls_are_created_and_published_as_official(): void
@@ -73,6 +81,34 @@ final class OfficialModeTest extends TestCase
         $this->newOffer($call);
         $this->s->transition($this->authority, $call, 'published');
         $this->assertSame('published', DB::table('calls')->where('id', $call)->value('status'));
+    }
+
+    public function test_an_official_offer_cannot_be_published_without_a_requirements_profile(): void
+    {
+        $call = $this->newCall();
+        $this->newOffer($call, [], false);
+        $this->expectException(ValidationException::class);
+        $this->s->transition($this->authority, $call, 'published');
+    }
+
+    public function test_accounts_created_by_administration_must_change_the_initial_password(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $request = Request::create('/api/v1/users', 'POST', [
+            'name' => 'Vicedecano FICCT', 'email' => 'vicedecano@ficct.example', 'password' => 'clave-inicial-muy-larga',
+            'role' => 'authority', 'faculty' => 'FICCT', 'career' => 'Dirección',
+        ]);
+        $request->setUserResolver(fn () => $admin);
+        app(AdministrationOperations::class)->saveUser($request);
+        $user = User::where('email', 'vicedecano@ficct.example')->firstOrFail();
+        $this->assertTrue((bool) $user->must_change_password);
+
+        $this->actingAs($user)->getJson('/api/v1/me')->assertOk()->assertJsonPath('must_change_password', true);
+        $this->actingAs($user)->getJson('/api/v1/calls')->assertForbidden()->assertJsonPath('code', 'password_change_required');
+        $this->actingAs($user)->postJson('/api/v1/me/password', [
+            'current_password' => 'clave-inicial-muy-larga', 'password' => 'clave-propia-muy-larga-1', 'password_confirmation' => 'clave-propia-muy-larga-1',
+        ])->assertNoContent();
+        $this->actingAs($user->fresh())->getJson('/api/v1/calls')->assertOk();
     }
 
     public function test_training_installation_keeps_demo_calls(): void

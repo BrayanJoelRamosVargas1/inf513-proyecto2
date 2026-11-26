@@ -25,7 +25,7 @@ final class ResetPasswordCommand extends Command
         }
         $password = Str::password(20, symbols: false);
         DB::transaction(function () use ($user, $password) {
-            $user->forceFill(['password' => $password, 'security_version' => $user->security_version + 1])->save();
+            $user->forceFill(['password' => $password, 'must_change_password' => true, 'security_version' => $user->security_version + 1])->save();
             Selection::audit($user, null, 'user.password_reset', 'user:'.$user->id, null, ['origin' => 'consola']);
         });
         $this->info("Clave restablecida para {$user->email}. Se cerraron sus sesiones.");

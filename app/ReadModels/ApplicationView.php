@@ -29,7 +29,19 @@ final class ApplicationView
         $documents = ($owner || $reviewer) ? DB::table('documents')->where('application_id', $id)->orderByDesc('version')->get() : collect();
         $reviews = ($owner || $reviewer || $authority) ? DB::table('reviews')->where('application_id', $id)->get()->keyBy('criterion') : collect();
         $assignments = Access::has($u, $call->id, ['evaluator']) ? DB::table('assignments')->where('offer_id', $offer->id)->where('user_id', $u->id)->get() : collect();
-        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)->when(! $owner && ! $authority, fn ($q) => $q->whereIn('grades.assignment_id', $assignments->pluck('id')))->select('grades.*', 'assignments.area')->get();
+        // El postulante conoce sus notas solo cuando la autoridad aprobó la publicación de la oferta, y sin saber qué evaluador las puso.
+        $published = DB::table('publications')->where('offer_id', $offer->id)->exists();
+        $grades = DB::table('grades')->join('assignments', 'assignments.id', '=', 'grades.assignment_id')->where('grades.application_id', $id)
+            ->when(! $owner && ! $authority, fn ($q) => $q->whereIn('grades.assignment_id', $assignments->pluck('id')))
+            ->when($owner && ! $authority && ! $reviewer, fn ($q) => $published ? $q->whereIn('grades.status', ['confirmed', 'corrected']) : $q->whereRaw('false'))
+            ->select('grades.*', 'assignments.area')->get();
+        if ($owner && ! $authority) {
+            $grades = $grades->map(function ($grade) {
+                unset($grade->user_id);
+
+                return $grade;
+            });
+        }
 
         $hasAmendmentHistory = DB::table('amendments')->where('application_id', $id)->exists();
         $pendingAmendment = DB::table('amendments')->where('application_id', $id)->whereIn('status', ['open', 'submitted'])->exists();
@@ -38,6 +50,6 @@ final class ApplicationView
 
         $documentValidation = app(ApplicantDocuments::class)->readiness($id);
 
-        return compact('documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority');
+        return compact('published', 'documentValidation', 'hasAmendmentHistory', 'pendingAmendment', 'effectiveDocuments', 'app', 'offer', 'call', 'student', 'documents', 'reviews', 'assignments', 'grades', 'owner', 'reviewer', 'authority');
     }
 }

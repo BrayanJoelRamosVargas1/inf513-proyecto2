@@ -34,6 +34,11 @@ final class SecureResponse
         if ($request->user() && ! $request->user()->active) {
             abort(403, 'Cuenta desactivada.');
         }
+        // Primer ingreso de una cuenta creada por otra persona: solo puede cambiar su clave o salir.
+        if ($request->user()?->must_change_password && config('portal.experience') === 'institutional'
+            && $request->is('api/*') && ! $request->is('api/v1/me', 'api/v1/me/password', 'api/v1/logout', 'api/v1/csrf')) {
+            return self::secure(response()->json(['message' => 'Debe cambiar la clave inicial antes de continuar.', 'code' => 'password_change_required'], 403));
+        }
 
         $response = $next($request);
         $marker = '<!--ficct:legacy-visit-count-->';

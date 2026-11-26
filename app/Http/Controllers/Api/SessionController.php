@@ -78,6 +78,7 @@ final class SessionController extends Controller
             'roles' => Workspace::roles($r->user()),
             'training_enabled' => config('portal.experience') === 'training',
             'operational_mode' => Selection::operationalMode(),
+            'must_change_password' => (bool) $r->user()->must_change_password,
         ]);
     }
 
@@ -98,7 +99,7 @@ final class SessionController extends Controller
             ], 422);
         }
         DB::transaction(function () use ($user, $d) {
-            $user->forceFill(['password' => $d['password'], 'security_version' => $user->security_version + 1])->save();
+            $user->forceFill(['password' => $d['password'], 'must_change_password' => false, 'security_version' => $user->security_version + 1])->save();
             Selection::audit($user, null, 'user.password_changed', 'user:'.$user->id);
         });
         $r->session()->regenerate();

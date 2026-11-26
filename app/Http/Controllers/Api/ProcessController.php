@@ -39,6 +39,10 @@ final class ProcessController extends Controller
             'calls' => DB::table('calls')->orderByDesc('id')->get(['id', 'title']),
             'memberships' => DB::table('memberships')->orderBy('id')->get(),
             'categories' => DB::table('categories')->get(),
+            // Historial de los actos de administración (cuentas, permisos y tipos), para que la propia administración sea auditable.
+            'history' => DB::table('audit_events')->join('users', 'users.id', '=', 'audit_events.user_id')
+                ->where(fn ($q) => $q->where('audit_events.action', 'like', 'user.%')->orWhere('audit_events.action', 'like', 'permission.%')->orWhere('audit_events.action', 'like', 'category.%'))
+                ->orderByDesc('audit_events.id')->limit(100)->get(['audit_events.id', 'audit_events.action', 'audit_events.entity', 'audit_events.call_id', 'audit_events.reason', 'audit_events.created_at', 'users.name as actor']),
         ]);
     }
 

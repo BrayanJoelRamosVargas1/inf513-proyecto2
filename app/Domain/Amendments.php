@@ -18,7 +18,7 @@ final class Amendments
     {
         return Access::transaction($u, function () use ($u, $app, $kinds, $deadline, $reason, $evidence) {
             [$a,$o,$c] = $this->context($app);
-            Access::require($u, $c->id, ['reviewer', 'authority']);
+            Access::require($u, $c->id, ['reviewer']);
             abort_if($a->user_id === $u->id, 403);
             Participation::active($a);
             Participation::noAmendment($app);
@@ -189,7 +189,7 @@ final class Amendments
         Access::transaction($u, function () use ($u, $id, $reason) {
             $m = Selection::row('amendments', $id);
             [$a,$o,$c] = $this->context($m->application_id);
-            Access::require($u, $c->id, ['reviewer', 'authority']);
+            Access::require($u, $c->id, ['reviewer']);
             abort_if($a->user_id === $u->id, 403, 'No puede decidir sobre su propia subsanación.');
             if ($m->status !== 'open' || now()->lte($m->deadline) || mb_strlen(trim($reason)) < 10) {
                 Scores::fail('Solo una ventana vencida y no enviada puede cerrarse por vencimiento.');
