@@ -3,6 +3,8 @@ const fs=require('fs'),path=require('path'),crypto=require('crypto'),{spawnSync}
 const {chromium}=require(process.env.FICCT_PLAYWRIGHT_MODULE||'playwright');
 const s=JSON.parse(fs.readFileSync(process.argv[2],'utf8')),checks=[],requests=[],errors=[];
 const assert=(v,m)=>{if(!v)throw Error(m)};
+// F-17: igual que los demás guiones de navegador, solo corre contra una copia aislada (puerto local y base ficct_applicants_*).
+if(!/^http:\/\/127\.0\.0\.1:81(19|20|21)$/.test(s.base)||!String(s.scan_env?.DB_DATABASE||'').startsWith('ficct_applicants_'))throw Error('Isolated copy required');
 const record=(method,url,r)=>requests.push({method,route:url.replace(/\d+/g,':id'),status:r.status()});
 (async()=>{
  const browser=await chromium.launch({headless:true,...(s.chromium?{executablePath:s.chromium}:{})});let page;const sessions={};

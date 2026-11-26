@@ -2,7 +2,7 @@
 
 Informe de origen: `documentos_tecno/AUDITORIA_GENERAL_20261125.md` y anexos A–F. Todo el trabajo está en la rama local `correcciones-auditoria`; el respaldo previo está en `respaldo-pre-correcciones`. No se publicó nada en GitHub ni en Tecnoweb, y no se tocó la base `ficct_demo` ni la instancia 8116.
 
-**Verificación final:** PHPUnit 397 pruebas / 2281 aserciones sin fallos (solo sobre `ficct_test`); Vitest 80 pruebas en 18 archivos; `npm run build` correcto.
+**Verificación final:** PHPUnit 397 pruebas / 2281 aserciones sin fallos (solo sobre `ficct_test`); Vitest 100 pruebas en 20 archivos; `npm run build` correcto.
 
 Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · **Sin cambio** = decisión consciente · **Diferido** = requiere decisión o trabajo aparte (ver `DECISIONES_PENDIENTES_20261125.md`).
 
@@ -26,10 +26,10 @@ Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · 
 | B-14 | Hecho | Backend versionado en commits locales por tema. |
 | B-15 | Hecho | `tests/Feature/AuditCorrectionsTest.php` cubre B-01 a B-05 y las demás correcciones. |
 | B-16 | Sin cambio | Renombrar una migración ya aplicada rompería instalaciones existentes; el orden por nombre completo es correcto. |
-| B-17 | Diferido | Doble trigger de inmutabilidad: retirarlo exige migración y revisión de la protección. |
+| B-17 | Diferido | Doble trigger de inmutabilidad en `documents`: no es un defecto funcional y retirar uno exige una migración que toca la protección de inmutabilidad; no se arriesgó. |
 | B-18 | Sin cambio | `config/ficct.php` y `DocumentSafety::scan` los usan las pruebas. |
 | B-19 | Hecho | Variables de sesión, proxies y zona horaria añadidas a `.env.example` y `.env.production.example`. |
-| B-20 | Diferido | Declarar `ext-pdo_pgsql` requiere regenerar `composer.lock`; el intento quedó colgado por red y se revirtió. |
+| B-20 | Hecho | `ext-pdo_pgsql` declarado en `composer.json` y en la sección `platform` de `composer.lock`; el `content-hash` se recalculó con el algoritmo de Composer (comprobado antes contra el hash vigente) y `composer validate` no reporta el lock desactualizado. |
 | B-21 | Hecho | Migración `2026_11_25_000003_add_domain_value_checks` (CHECK `NOT VALID`; `calls.mode` admite OFICIAL). |
 | B-22 | Diferido | Unificar idiomas de rutas rompe contratos públicos. |
 | B-23 | Hecho | `InstitutionalRegister::csvCell` neutraliza `= + - @`, tabulador y retorno. |
@@ -40,9 +40,9 @@ Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · 
 | B-28 | Diferido | Si las postulaciones retiradas cuentan para el límite de asignaturas lo decide la institución. |
 | B-29 | Hecho | `Scores` acepta áreas con clave numérica. |
 | B-30 | Hecho | Constantes de puntaje centralizadas en `Scores`. |
-| B-31 | Diferido | Validar la fecha del desempate necesita un hito de referencia definido. |
+| B-31 | Sin cambio | El propio anexo lo marca como posiblemente deseado en la DEMO: `DemoJourney` y las pruebas abren y resuelven desempates de inmediato. Exigir fecha futura necesita un hito de referencia definido. |
 | B-32 | Hecho | `DemoSeeder` atómico; el archivo de accesos se escribe tras confirmar. |
-| B-33 | Diferido | Consultas por petición en los middleware: optimización sin urgencia. |
+| B-33 | Sin cambio | Memoizar `Access::has` por petición arriesga permisos obsoletos dentro de una misma petición y entre pruebas; el costo medido no lo justifica. |
 | B-34 | Hecho | `InstitutionalController::download` devuelve 415 en lugar de fallar. |
 | R-1 a R-7 | Hecho | Clases de operación (`app/Http/Operations`), modelos de lectura (`app/ReadModels`), `Selection` como fachada de cinco clases, `ResultRevisions`, `DocumentProcessor` dividido (358 → 219 líneas), 11 comandos en `app/Console/Commands`. |
 
@@ -63,14 +63,14 @@ Leyenda: **Hecho** = corregido y probado · **Parcial** = corregido en parte · 
 | F-12 | Diferido | Mantener Blade y React en paralelo es decisión de arquitectura; se reduce la duplicación con `Operations` y `ReadModels`. |
 | F-13 | Hecho | Mismo cambio que B-06. |
 | F-14 | Hecho | Orden de etapas en una constante. |
-| F-15 | Parcial | Se añadieron pruebas de `useData`, `uuid` y títulos. Faltan pantallas grandes (adjudicaciones, creación de convocatoria, preferencias, historial, convocatoria). |
+| F-15 | Hecho | Pruebas nuevas de `useData`, `uuid`, títulos, `Awards`, `Corrections`, `CreateCall`, `CpdRecord` y `Preferences` (`process-screens.test.jsx`, `navigation-focus.test.jsx`). `ResultHistory` ya se ejercita en `ranking-history.test.jsx` y la pantalla `Call` en `call-readonly.test.jsx`. No se añadió axe a `npm test`. |
 | F-16 | Hecho | `ScoresTest` y pruebas de los reportes de la API. |
 | F-17 | Hecho (documentado) | `scripts/README.md` lista los requisitos externos. Las guardas de aislamiento faltantes en `academic_business.cjs` no se tocaron. |
 | F-18 | Hecho | README reescrito con cifras reales; el anterior está en `docs/HISTORICO_README.md`. |
 | F-19 | Hecho | `/entrenamiento` registra su visita. |
 | F-20 | Hecho | `uuid` sin contexto seguro, alerta accesible en lugar de `window.alert`, error de conexión visible. |
-| F-21 | Parcial | Título por ruta y `scope="col"` en cabeceras React. Faltan gestión de foco al navegar y las tablas Blade. |
-| F-22 | Diferido | Quitar `tailwindcss`, `@tailwindcss/vite` y `concurrently` obliga a regenerar `package-lock.json` (dependencia de red). |
+| F-21 | Hecho | Título por ruta, foco al contenido al navegar (no en la carga inicial) y `scope="col"` en cabeceras React y Blade. No se añadieron `caption` a las tablas Blade. |
+| F-22 | Hecho | Quitados `tailwindcss`, `@tailwindcss/vite` y `concurrently` (38 paquetes) con `npm uninstall --offline`, y el script `composer dev` que dependía de `concurrently`. Build y pruebas siguen en verde. |
 | F-23 | Hecho (parcial) | Directorios huérfanos de pruebas limpiados; las cifras de siembra en pruebas se dejan como están. |
 | F-24 | Parcial | Archivos residuales borrados; `.env` local no se tocó. |
 | F-25 | Sin cambio | Se conservan los bytes exactos (`* -text`); unificar finales de línea sería un commit masivo aparte. |

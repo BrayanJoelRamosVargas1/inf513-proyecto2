@@ -11,7 +11,7 @@ Aplicación web para gestionar convocatorias de auxiliares de docencia y de labo
 | Control | Resultado |
 |---|---|
 | PHPUnit sobre `ficct_test` | 397 pruebas / 2281 aserciones, sin fallos |
-| Vitest (React) | 80 pruebas en 18 archivos, sin fallos |
+| Vitest (React) | 100 pruebas en 20 archivos, sin fallos |
 | Compilación del frontend | `npm run build` correcta |
 
 Estas cifras corresponden a la rama `correcciones-auditoria`. Los recuentos de antecedentes que aparecen en otros documentos están fechados; el historial anterior de este README está en [`docs/HISTORICO_README.md`](docs/HISTORICO_README.md).

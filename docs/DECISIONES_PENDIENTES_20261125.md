@@ -37,14 +37,12 @@ Cada punto de esta lista **no se implementó porque falta un dato o una decisió
 | Tema | Opciones |
 |---|---|
 | Blade y React en paralelo (F-12) | Mantener ambos, o retirar Blade cuando la SPA cubra todo. |
-| Dependencias sin uso (F-22) | Quitar `tailwindcss`, `@tailwindcss/vite` y `concurrently` y regenerar `package-lock.json` con red. |
-| `ext-pdo_pgsql` en `composer.json` (B-20) | Añadirlo y regenerar `composer.lock` con red. |
 | Doble trigger de inmutabilidad en `documents` (B-17) | Retirar uno con una migración revisada. |
 | Mensaje de correo ya registrado (B-24) | Mantener el aviso o responder igual en todos los casos. |
 | Desempate en el pasado (B-31) | Definir con qué hito se compara la fecha programada. |
 | Seeders (D §3.3) | Unificar la fecha de examen de la convocatoria 01 y los requisitos de sala y laboratorio entre `DemoSeeder` e `InstitutionalReferenceSeeder`. |
-| Pruebas React pendientes (F-15) | Adjudicaciones, creación de convocatoria, preferencias, historial y detalle de convocatoria. |
-| Accesibilidad pendiente (F-21) | Gestión de foco al navegar y `caption`/`scope` en tablas Blade. |
+| Accesibilidad | Añadir `caption` a las tablas Blade y una prueba axe a `npm test`. |
+| Desempate con fecha pasada (B-31) y memoización de permisos (B-33) | Se dejaron como están; ver `CORRECCIONES_AUDITORIA_20261125.md`. |
 
 ## D. Cosas que solo se pueden comprobar fuera de este equipo
 
